@@ -528,8 +528,6 @@ def route_api_browse_documents():
             docs = get(path(endpoint, qs))
             for doc in docs:
                 element = {}
-                if "type" in doc["_source"]:
-                    element["type"] = doc["_source"]["type"]
                 if "obj" in doc["_source"]:
                     if "id" in doc["_source"]["obj"]:
                         element["id"] = doc["_source"]["obj"]["id"]
@@ -541,9 +539,6 @@ def route_api_browse_documents():
                         element["funding_entity"] = doc["_source"]["obj"]["funding_entity"]
                     if "permalink" in doc["_source"]["obj"]:
                         element["url"] = doc["_source"]["obj"]["permalink"]
-                    if "type" in doc["_source"]:
-                        if element["type"] == "facebook" and "id" in doc["_source"]["obj"]:
-                            element["url"] = "https://facebook.com/ads/library/?id=" + element["id"]
                     if "ad_creation_time" in doc["_source"]["obj"]:
                         element["created_on"] = doc["_source"]["obj"]["ad_creation_time"]
                     if "created" in doc["_source"]["obj"]:

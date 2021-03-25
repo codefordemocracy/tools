@@ -77,6 +77,7 @@
     <template v-if="store.state.loaded">
       <div class="bg-white p-2 border mt-2 position-relative" v-for="result in store.state.results">
         <a class="btn btn-xs btn-light doclink" :href="ROOTURL + '/traverse/?entity=tweeter&term=@'+result.user_screen_name" target="_blank" v-if="store.state.search.documents == 'tweets'">View in Traverse Tool</a>
+        <a class="btn btn-xs btn-light doclink" :href="'https://facebook.com/ads/library/?id=' + result.id" target="_blank" v-if="store.state.search.documents == 'ads' && store.state.search.group == 'facebook'">View in Facebook Ads Library</a>
         <pre class="mb-0">{{result | prettify}}</pre>
       </div>
       <div class="bg-white p-2 border mt-2" v-if="_.isEmpty(store.state.results) && !store.state.error">
