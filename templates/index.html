@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}{% endblock %}Explore | Code for Democracy</title>
+    <link rel="stylesheet" href="//assets.codefordemocracy.org/css/style.css" />
+    <link rel="stylesheet" href="[[ url_for('static', filename='css/vue-multiselect.css') ]]" />
+    <link rel="stylesheet" href="[[ url_for('static', filename='css/app.css') ]]" />
+    <link rel="icon" type="image/png" href="//assets.codefordemocracy.org/img/favicon.png" />
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-142391396-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-142391396-2');
+    </script>
+
+  </head>
+  <body>
+
+    <div id="navbar">
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="[[ url_for('route_home') ]]">Explore</a>
+        <button class="navbar-toggler" type="button" @click="open = !open">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" :class="open ? 'show' : ''">
+          <div class="navbar-nav">
+            <div class="dropdown-divider mx-n2 d-lg-none"></div>
+            <a class="nav-item nav-link [[ 'active' if request.url_rule.endpoint == 'route_graph' ]]" href="[[ url_for('route_graph') ]]">Graph</a>
+            <a class="nav-item nav-link [[ 'active' if request.url_rule.endpoint == 'route_traverse' ]]" href="[[ url_for('route_traverse') ]]">Traverse</a>
+            <a class="nav-item nav-link [[ 'active' if request.url_rule.endpoint == 'route_browse' ]]" href="[[ url_for('route_browse') ]]">Browse</a>
+            <a class="nav-item nav-link [[ 'active' if request.url_rule.endpoint == 'route_inspect' ]]" href="[[ url_for('route_inspect') ]]">Inspect</a>
+          </div>
+          <div class="navbar-nav ml-auto">
+            <div class="dropdown-divider mx-n2 d-lg-none"></div>
+            <a class="nav-item nav-link" href="https://docs.codefordemocracy.org/data/explore/" target="_blank">Documentation</a>
+            <a class="nav-item nav-link" href="https://api.codefordemocracy.org" target="_blank">API</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div id="app">
+      {% block app %}{% endblock %}
+    </div>
+
+    <script src="//cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+    <script src="//cdn.jsdelivr.net/npm/vuex@3.6.0"></script>
+    <script src="//unpkg.com/vue-router@3.5.1"></script>
+    <script src="//unpkg.com/vuejs-datepicker@1.6.2"></script>
+    <script src="//unpkg.com/vue-multiselect@2.1.0"></script>
+    <script src="//unpkg.com/axios@0.21.1"></script>
+    <script src="//unpkg.com/@popperjs/core@2.9.1"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/file-saver@2.0.2/dist/FileSaver.min.js"></script>
+    <script src="//cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="[[ url_for('static', filename='js/components/toggle.js') ]]"></script>
+    <script src="[[ url_for('static', filename='js/components/typeahead.js') ]]"></script>
+    <script src="[[ url_for('static', filename='js/components/modal.js') ]]"></script>
+    <script src="[[ url_for('static', filename='js/components/datatable.js') ]]"></script>
+    <script src="[[ url_for('static', filename='js/components/plot.js') ]]"></script>
+    <script src="[[ url_for('static', filename='js/components/dropdown.js') ]]"></script>
+    <script src="[[ url_for('static', filename='js/filters.js') ]]"></script>
+    <script src="[[ url_for('static', filename='js/app.js') ]]"></script>
+
+    {% block scripts %}{% endblock %}
+
+  </body>
+</html>

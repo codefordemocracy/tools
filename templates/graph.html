@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+{% block title %}Graph | {% endblock %}
+
+{% block app %}
+
+<div id="sidebar" class="border-right p-2 bg-white d-flex flex-column" v-cloak>
+  {% include "/graph/partials/sidebar.html" %}
+  <p class="mt-auto pt-5 mb-0">Your use of this site is subject to our <a href="https://codefordemocracy.org/legal/#privacy" class="text-gray" target="_blank"><u>Privacy Policy</u></a> and <a href="https://codefordemocracy.org/legal/#terms" class="text-gray" target="_blank"><u>Terms of Service</u></a>.</p>
+</div>
+<div id="main-sidebar" :class="{'bg-light': store.state.elements.length == 0}" v-cloak>
+  <div v-if="store.state.elements.length == 0 && !(store.state.loading && !store.state.loaded)" class="text-center" id="emptystate">
+    <p class="lead mb-0">Your graph is currently empty!</p>
+    <p class="text-muted">(Use the sidebar to add elements.)</p>
+  </div>
+  <network></network>
+</div>
+<div id="box" class="bg-white border-bottom" v-if="store.state.elements.length > 0" v-cloak>
+  {% include "/graph/partials/box.html" %}
+</div>
+<div id="router"></div>
+<div id="loading" v-if="store.state.loading && !store.state.loaded" class="d-flex justify-content-center align-items-center text-uppercase font-weight-light" v-cloak>Loading<span class="blink">...</span></div>
+{% include "/graph/partials/modals.html" %}
+
+{% endblock %}
+{% block scripts %}
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/cytoscape/3.3.1/cytoscape.min.js"></script>
+<script src="[[ url_for('static', filename='js/graph/network.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/graph/stat.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/graph/box.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/graph.js') ]]"></script>
+
+{% endblock %}

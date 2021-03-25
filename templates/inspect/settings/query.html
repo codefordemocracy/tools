@@ -1,0 +1,30 @@
+<h6 class="section-heading mb-1">Query</h6>
+<p>Use this tab to grab data to plot. You can get specific nodes and edges from our graph or use raw JSON.</p>
+<form @submit.prevent="submit()">
+  <div class="form-group">
+    <label class="label">Source:</label>
+    <multiselect v-model="settings.query.source" track-by="value" label="label" :options="options.query.source" :searchable="false" :allow-empty="false"></multiselect>
+  </div>
+  <!-- Graph UUID -->
+  <div class="form-group" v-if="format('source') == 'uuid'">
+    <label class="label">Node UUIDs:</label>
+    <textarea class="form-control form-control-xs" rows=3 v-model="settings.query.nodes"></textarea>
+  </div>
+  <div class="form-group" v-if="format('source') == 'uuid'">
+    <label class="label">Edge UUIDs:</label>
+    <textarea class="form-control form-control-xs" rows=3 v-model="settings.query.edges"></textarea>
+  </div>
+  <!-- Configuration String -->
+  <div class="form-group" v-if="format('source') == 'config'">
+    <label class="label">Configuration String:</label>
+    <textarea class="form-control form-control-xs" rows=6 v-model="settings.query.string"></textarea>
+  </div>
+  <!-- Raw JSON -->
+  <div class="form-group" v-if="format('source') == 'json'">
+    <label class="label">JSON:</label>
+    <textarea class="form-control form-control-xs" rows=12 v-model="settings.query.json"></textarea>
+  </div>
+  <!-- Submit -->
+  <input type="submit" class="btn btn-xs btn-block btn-gray mt-2" :value="store.state.waiting ? 'Loading...' : 'Submit'" :disabled="store.state.waiting || (format('source') == 'uuid' && settings.query.nodes == '' && settings.query.edges == '') || (format('config') == 'json' && settings.query.string == '') || (format('source') == 'json' && settings.query.json == '')" />
+  <p class="mt-2 text-danger" v-if="store.state.error">An error has occurred. Please try again.</p>
+</form>

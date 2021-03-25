@@ -1,0 +1,31 @@
+<h6 class="section-heading mb-1">Map</h6>
+<p>Use the options below to build an embeddable map from the data in the query tab.</p>
+<form @submit.prevent="submit()">
+  <!-- Geography -->
+  <div class="form-group">
+    <label class="label">Geographic Unit:</label>
+    <multiselect v-model="settings.map.unit" track-by="value" label="label" :options="options.map.unit" :searchable="false" :allow-empty="false"></multiselect>
+  </div>
+  <div class="form-group" v-if="format('unit') == 'zip'">
+    <label class="label">State of Interest:</label>
+    <multiselect v-model="settings.map.state" track-by="value" label="label" :options="options.map.state" :allow-empty="false"></multiselect>
+  </div>
+  <!-- Columns -->
+  <div class="form-group">
+    <label class="label">Geographic Column:</label>
+    <multiselect v-model="settings.map.geo" track-by="value" label="label" :options="options.map.geo" :allow-empty="false"></multiselect>
+  </div>
+  <div class="form-group">
+    <label class="label">Mapped Column:</label>
+    <multiselect v-model="settings.map.col" track-by="value" label="label" :options="options.map.col" :allow-empty="false"></multiselect>
+  </div>
+  <!-- Aggregation -->
+  <div class="form-group">
+    <label class="label">Aggregation:</label>
+    <multiselect v-model="settings.map.agg" track-by="value" label="label" :options="options.map.agg" :searchable="false" :allow-empty="false"></multiselect>
+  </div>
+  <!-- Submit -->
+  <input type="submit" class="btn btn-xs btn-block btn-gray mt-2" :value="store.state.waiting ? 'Loading...' : 'Submit'" :disabled="_.isNil(store.state.results) || store.state.waiting || (format('unit') == 'zip' && _.isNil(format('state'))) || _.isNil(format('geo')) || _.isNil(format('col')) || _.isNil(format('agg'))"/>
+  <p class="mt-2" v-if="_.isNil(store.state.results) && !(store.state.loading && !store.state.loaded)">You must first use the query tab to grab data to plot before you can create a map.</p>
+  <p class="mt-2 text-danger" v-if="store.state.error">An error has occurred. Please try again.</p>
+</form>

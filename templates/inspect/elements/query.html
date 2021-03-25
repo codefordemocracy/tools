@@ -1,0 +1,8 @@
+<div class="placeholder d-flex justify-content-center align-items-center" v-if="_.isNil(store.state.results)">Your query results will show up here.</div>
+<div class="p-1" v-else>
+  <div id="hoverbar" v-if="!_.isEmpty(store.state.results)">
+    <button class="btn btn-xs btn-light mr-mini" @click="DOWNLOAD(store.state.results, 'json', 'results')">Download JSON</button>
+    <button class="btn btn-xs btn-light" @click="DOWNLOAD(store.state.results, 'csv', 'results')">Download CSV</button>
+  </div>
+  <pre class="mb-0">{{store.state.results | prettify}}</pre>
+</div>

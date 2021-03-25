@@ -1,0 +1,70 @@
+<tabs>
+  <tab name="Details" :selected="store.state.tab == 'details'">
+    <div v-if="store.state.selected.length > 0">
+      <p class="mb-0">You've selected <b>{{store.state.selected.length}} {{ store.state.selected.length != 1 ? 'elements' : 'element' }}</b>. Below are details about them.</p>
+      <div v-for="(element, index) in store.getters.flatselected">
+        <h6 class="section-heading mt-2 mb-1">{{element.element}} #{{element.id}}</h6>
+        <ul class="list-unstyled">
+          <li v-for="(value, key) in element" v-if="key != 'element' && key != 'id' && key != 'date' && !(_.isArray(value) && _.isEmpty(value))" class="mb-tiny" :class="{ 'word-break' : key == 'url'}">
+            <b>{{key}}:</b>
+            <a :href="'https://www.fec.gov/data/candidate/' + value" target="_blank" v-if="key == 'cand_id'">{{value}}</a>
+            <a href="https://www.fec.gov/campaign-finance-data/party-code-descriptions/" target="_blank" v-else-if="key == 'cand_pty_affiliation' || key == 'cmte_pty_affiliation'">{{value}}</a>
+            <a :href="'https://www.fec.gov/data/committee/' + value" target="_blank" v-else-if="key == 'cmte_id'">{{value}}</a>
+            <a href="https://www.fec.gov/campaign-finance-data/committee-type-code-descriptions/" target="_blank" v-else-if="key == 'cmte_tp'">{{value}}</a>
+            <a href="https://www.fec.gov/campaign-finance-data/committee-master-file-description/" target="_blank" v-else-if="key == 'cmte_dsgn' || key == 'org_tp'">{{value}}</a>
+            <a href="https://www.fec.gov/campaign-finance-data/transaction-type-code-descriptions/" target="_blank" v-else-if="key == 'transaction_tp'">{{value}}</a>
+            <a href="https://www.fec.gov/campaign-finance-data/contributions-individuals-file-description/" target="_blank" v-else-if="key == 'transaction_pgi' || key == 'entity_tp' || key == 'amndt_ind'">{{value}}</a>
+            <a href="https://www.fec.gov/campaign-finance-data/report-type-code-descriptions/" target="_blank" v-else-if="key == 'rpt_tp'">{{value}}</a>
+            <a :href="'https://' + value" target="_blank" v-else-if="key == 'url'">https://{{value}}</a>
+            <a :href="'https://docquery.fec.gov/cgi-bin/fecimg/?' + value" target="_blank" v-else-if="key == 'image_num'">{{value}}</a>
+            <span v-else-if="key == 'transaction_amt' || key == 'exp_amt'">{{value | currency}}</span>
+            <span v-else>{{value}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div v-else>
+      <p v-if="store.state.elements.length > 0">Click on a node or edge to view details. Select multiple elements by holding the shift key.</p>
+    </div>
+  </tab>
+  <tab name="Stats" :selected="store.state.tab == 'stats'">
+    <p class="mb-0">The charts below show summary stats for the <b>{{numnodes}} {{ numnodes != 1 ? 'nodes' : 'node' }}</b> and <b>{{numedges}} {{ numedges != 1 ? 'edges' : 'edge' }}</b> currently displayed in the graph.</p>
+    <div v-for="s in stats">
+      <h6 class="section-heading mt-2 mb-1">{{s.label}}</h6>
+      <p v-if="s.stats.length == 0">There are no {{s.label}} in the graph.</p>
+      <div v-for="c in s.stats" class="mx-n1">
+        <strong class="mx-1">
+          <a href="https://www.fec.gov/campaign-finance-data/party-code-descriptions/" target="_blank" v-if="c.label == 'cand_pty_affiliation' || c.label == 'cmte_pty_affiliation'">{{c.label}}</a>
+          <a href="https://www.fec.gov/campaign-finance-data/committee-type-code-descriptions/" target="_blank" v-else-if="c.label == 'cmte_tp'">{{c.label}}</a>
+          <a href="https://www.fec.gov/campaign-finance-data/committee-master-file-description/" target="_blank" v-else-if="c.label == 'cmte_dsgn' || c.label == 'org_tp'">{{c.label}}</a>
+          <a href="https://www.fec.gov/campaign-finance-data/transaction-type-code-descriptions/" target="_blank" v-else-if="c.label == 'transaction_tp'">{{c.label}}</a>
+          <a href="https://www.fec.gov/campaign-finance-data/contributions-individuals-file-description/" target="_blank" v-else-if="c.label == 'transaction_pgi' || c.label == 'entity_tp' || c.label == 'amndt_ind'">{{c.label}}</a>
+          <a href="https://www.fec.gov/campaign-finance-data/report-type-code-descriptions/" target="_blank" v-else-if="c.label == 'rpt_tp'">{{c.label}}</a>
+          <span v-else>{{c.label}}</span>
+        </strong><br/>
+        <histogram-stat v-if="c.type == 'histogram'" :statid="s.label + '-' + c.label" :statdata="c.statdata"></histogram-stat>
+        <stackbar-stat v-if="c.type == 'stackbar'" :statid="s.label + '-' + c.label" :statdata="c.statdata"></stackbar-stat>
+      </div>
+    </div>
+  </tab>
+  <tab name="Actions" :selected="store.state.tab == 'actions'">
+    <h6 class="section-heading mt-1 mb-1">Select Elements</h6>
+    <button @click="store.commit('smartselect', true)" type="button" class="btn btn-xs btn-block btn-gray">Smart Select</button>
+    <h6 class="section-heading mt-2 mb-1">Add Elements</h6>
+    <button @click="store.commit('expandnode', true)" type="button" class="btn btn-xs btn-block btn-gray" :disabled="store.state.selected.length == 0 || !(store.getters.type == 'Node' || store.getters.type == 'Nodes')">Expand Selected {{store.state.selected.length == 1 ? 'Node' : 'Nodes'}}</button>
+    <button @click="store.commit('undo', 'delete'); store.commit('step', 'manipulations'); store.commit('flow', 'undo last deletion')" type="button" class="btn btn-xs btn-block btn-gray" :disabled="store.state.diff.elementsToRemove.length == 0 || store.state.lastaction != 'delete'">Undo Last Deletion</button>
+    <h6 class="section-heading mt-2 mb-1">Remove Elements</h6>
+    <button @click="store.commit('delete'); store.commit('step', 'manipulations'); store.commit('flow', 'delete elements')" type="button" class="btn btn-xs btn-block btn-gray" :disabled="store.state.selected.length == 0">Delete Selected {{store.getters.type}}</button>
+    <button @click="store.commit('undo', 'add'); store.commit('step', 'manipulations'); store.commit('flow', 'undo last addition')" type="button" class="btn btn-xs btn-block btn-gray" :disabled="store.state.diff.elementsToAdd.length == 0 || store.state.lastaction != 'add'">Undo Last Addition</button>
+    <h6 class="section-heading mt-2 mb-1">Edit Display</h6>
+    <button @click="store.commit('runphysics', true)" type="button" class="btn btn-xs btn-block btn-gray">Run Physics</button>
+    <button @click="store.commit('fit', true)" type="button" class="btn btn-xs btn-block btn-gray">Reset Viewport</button>
+    <button @click="store.commit('clear'); store.commit('step', 'intro')" type="button" class="btn btn-xs btn-block btn-gray">Clear Graph</button>
+    <h6 class="section-heading mt-2 mb-1">Export Graph</h6>
+    <a :href="ROOTURL + '/inspect/?source=uuid'+store.getters.graphstring" target="_blank" class="btn btn-xs btn-block btn-gray">View in Inspect Tool</a>
+    <button @click="store.commit('showlink', true)" type="button" class="btn btn-xs btn-block btn-gray">Generate Shareable Link</button>
+    <button @click="store.commit('png', true)" type="button" class="btn btn-xs btn-block btn-gray">Download Viewport as PNG</button>
+    <button @click="DOWNLOAD(store.getters.dataelements, 'csv', 'elements')"type="button" class="btn btn-xs btn-block btn-gray">Download Elements as CSV</button>
+    <button @click="store.commit('json', true)" type="button" class="btn btn-xs btn-block btn-gray">Download Graph as JSON</button>
+  </tab>
+</tabs>
