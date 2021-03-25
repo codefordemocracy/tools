@@ -3,5 +3,5 @@ requests>=2.22.0
 pandas>=1.0.0
 furl==2.1.0
 google-cloud-secret-manager==2.2.0
-cryptography==2.8
+cryptography>=3.4.6
 gunicorn
