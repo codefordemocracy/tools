@@ -5,7 +5,7 @@
 
 <div id="sidebar" class="border-right p-2 bg-white d-flex flex-column" v-cloak>
   {% include "/graph/partials/sidebar.html" %}
-  <p class="mt-auto pt-5 mb-0">Your use of this site is subject to our <a href="https://codefordemocracy.org/legal/#privacy" class="text-gray" target="_blank"><u>Privacy Policy</u></a> and <a href="https://codefordemocracy.org/legal/#terms" class="text-gray" target="_blank"><u>Terms of Service</u></a>.</p>
+  <p class="mt-auto pt-5 mb-0">[[copyright()]]</p>
 </div>
 <div id="main-sidebar" :class="{'bg-light': store.state.elements.length == 0}" v-cloak>
   <div v-if="store.state.elements.length == 0 && !(store.state.loading && !store.state.loaded)" class="text-center" id="emptystate">

@@ -1,6 +1,5 @@
 from furl import furl
 import numpy as np
-import datetime
 
 # utility function to strip URLs of the schema, parameters, and www
 def strip_url(url):

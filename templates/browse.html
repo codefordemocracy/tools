@@ -92,7 +92,7 @@
       </div>
     </template>
   </template>
-  <p class="pt-3 px-3 mb-0 text-center" v-if="!store.state.first">Your use of this site is subject to our <a href="https://codefordemocracy.org/legal/#privacy" class="text-gray" target="_blank"><u>Privacy Policy</u></a> and <a href="https://codefordemocracy.org/legal/#terms" class="text-gray" target="_blank"><u>Terms of Service</u></a>.</p>
+  <p class="pt-3 mb-0" :class="store.state.first ? 'mt-1' : 'px-sm-3 text-sm-center'">[[copyright()]]</p>
 </div>
 
 {% endblock %}

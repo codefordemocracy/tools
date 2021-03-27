@@ -7,6 +7,7 @@ import math
 import requests
 from urllib.parse import urlencode
 from cryptography.fernet import Fernet
+from datetime import datetime
 import json
 import re
 import utilities
@@ -18,6 +19,10 @@ client_id = secrets.access_secret_version(request={"name": "projects/95241678387
 client_secret = secrets.access_secret_version(request={"name": "projects/952416783871/secrets/api_explore_client_secret/versions/1"}).payload.data.decode()
 key = secrets.access_secret_version(request={"name": "projects/952416783871/secrets/explore_crypto_key/versions/1"}).payload.data.decode()
 fernet = Fernet(key)
+
+@app.context_processor
+def inject_now():
+    return { "now": datetime.utcnow() }
 
 #########################################################
 # serve front end

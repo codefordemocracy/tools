@@ -30,7 +30,7 @@
   <div v-else>
     <branch :id="branch.id" :settings="branch.settings" :branches="branch.branches" @destroy="clear" v-for="branch in store.state.branches"></branch>
   </div>
-  <p class="pt-3 px-3 mb-0 text-center" v-if="_.isEmpty(store.state.branches)">Your use of this site is subject to our <a href="https://codefordemocracy.org/legal/#privacy" class="text-gray" target="_blank"><u>Privacy Policy</u></a> and <a href="https://codefordemocracy.org/legal/#terms" class="text-gray" target="_blank"><u>Terms of Service</u></a>.</p>
+  <p class="pt-3 mb-0 px-sm-3 text-sm-center">[[copyright()]]</p>
   <div id="router"></div>
 </div>
 

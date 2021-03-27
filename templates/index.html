@@ -46,6 +46,10 @@
       </nav>
     </div>
 
+    {% macro copyright() %}
+      © [[now.year]] <a href="https://codefordemocracy.org" class="text-gray" target="_blank"><u>Code for Democracy</u></a>. A 501(c)(3) nonprofit. EIN 83-3407325. Your use of this site is subject to our <a href="https://codefordemocracy.org/legal/#privacy" class="text-gray" target="_blank"><u>Privacy Policy</u></a> and <a href="https://codefordemocracy.org/legal/#terms" class="text-gray" target="_blank"><u>Terms of Service</u></a>.
+    {% endmacro %}
+
     <div id="app">
       {% block app %}{% endblock %}
     </div>
