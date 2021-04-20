@@ -512,9 +512,7 @@ new Vue({
       _.forEach(_.keys(this.labels), function(k) {
         self.labels[k] = value
       })
-    }
-  },
-  methods: {
+    },
     cancel() {
       store.commit('expandnode', false)
     },
@@ -584,9 +582,7 @@ new Vue({
       _.forEach(_.keys(this.filter.labels), function(k) {
         self.filter.labels[k] = value
       })
-    }
-  },
-  methods: {
+    },
     cancel() {
       store.commit('smartselect', false)
     },
