@@ -416,8 +416,8 @@ new Vue({
         flow: store.state.flow,
         parameters: this.search[store.state.flow],
         dates: {
-          min: moment(this.search.dates.min, 'YYYY-MM-DD').subtract(1, 'days').format('YYYY-MM-DD'),
-          max: moment(this.search.dates.max, 'YYYY-MM-DD').subtract(1, 'days').format('YYYY-MM-DD')
+          min: moment(this.search.dates.min, 'YYYY-MM-DD').format('YYYY-MM-DD'),
+          max: moment(this.search.dates.max, 'YYYY-MM-DD').format('YYYY-MM-DD')
         },
         pagination: this.search.pagination,
         options: this.search.options
