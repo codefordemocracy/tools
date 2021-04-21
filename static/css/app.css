@@ -965,6 +965,10 @@ textarea {
   overflow: auto;
 }
 
+.modal-body {
+  z-index: 100 !important;
+}
+
 .modal-close {
   position: absolute;
   top: 0;
