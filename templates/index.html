@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-  <head lang="en">
+
+<head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -13,45 +14,48 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-142391396-2"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
 
-      gtag('config', 'UA-142391396-2');
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-142391396-2');
     </script>
 
-  </head>
-  <body>
+</head>
+
+<body>
 
     <div id="navbar">
-      <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="[[ url_for('route_home') ]]">Explore</a>
-        <button class="navbar-toggler" type="button" @click="open = !open">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="[[ url_for('route_home') ]]">Explore</a>
+            <button class="navbar-toggler" type="button" @click="open = !open">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" :class="open ? 'show' : ''">
-          <div class="navbar-nav">
-            <div class="dropdown-divider mx-n2 d-lg-none"></div>
-            <a class="nav-item nav-link [[ 'active' if request.url_rule.endpoint == 'route_graph' ]]" href="[[ url_for('route_graph') ]]">Graph</a>
-            <a class="nav-item nav-link [[ 'active' if request.url_rule.endpoint == 'route_traverse' ]]" href="[[ url_for('route_traverse') ]]">Traverse</a>
-            <a class="nav-item nav-link [[ 'active' if request.url_rule.endpoint == 'route_browse' ]]" href="[[ url_for('route_browse') ]]">Browse</a>
-            <a class="nav-item nav-link [[ 'active' if request.url_rule.endpoint == 'route_inspect' ]]" href="[[ url_for('route_inspect') ]]">Inspect</a>
-          </div>
-          <div class="navbar-nav ml-auto">
-            <div class="dropdown-divider mx-n2 d-lg-none"></div>
-            <a class="nav-item nav-link" href="https://docs.codefordemocracy.org/data/explore/" target="_blank">Documentation</a>
-            <a class="nav-item nav-link" href="https://api.codefordemocracy.org" target="_blank">API</a>
-          </div>
-        </div>
-      </nav>
+            <div class="collapse navbar-collapse" :class="open ? 'show' : ''">
+                <div class="navbar-nav">
+                    <div class="dropdown-divider mx-n2 d-lg-none"></div>
+                    <a class="nav-item nav-link [[ 'active' if request.url_rule.endpoint == 'route_graph' ]]" href="[[ url_for('route_graph') ]]">Graph</a>
+                    <a class="nav-item nav-link [[ 'active' if request.url_rule.endpoint == 'route_traverse' ]]" href="[[ url_for('route_traverse') ]]">Traverse</a>
+                    <a class="nav-item nav-link [[ 'active' if request.url_rule.endpoint == 'route_browse' ]]" href="[[ url_for('route_browse') ]]">Browse</a>
+                    <a class="nav-item nav-link [[ 'active' if request.url_rule.endpoint == 'route_inspect' ]]" href="[[ url_for('route_inspect') ]]">Inspect</a>
+                </div>
+                <div class="navbar-nav ml-auto">
+                    <div class="dropdown-divider mx-n2 d-lg-none"></div>
+                    <a class="nav-item nav-link" href="https://docs.codefordemocracy.org/data/explore/" target="_blank">Documentation</a>
+                    <a class="nav-item nav-link" href="https://api.codefordemocracy.org" target="_blank">API</a>
+                </div>
+            </div>
+        </nav>
     </div>
 
-    {% macro copyright() %}
-      © [[now.year]] <a href="https://codefordemocracy.org" class="text-gray" target="_blank"><u>Code for Democracy</u></a>. A 501(c)(3) nonprofit. EIN 83-3407325. Your use of this site is subject to our <a href="https://codefordemocracy.org/legal/#privacy" class="text-gray" target="_blank"><u>Privacy Policy</u></a> and <a href="https://codefordemocracy.org/legal/#terms" class="text-gray" target="_blank"><u>Terms of Service</u></a>.
-    {% endmacro %}
+    {% macro copyright() %} © [[now.year]] <a href="https://codefordemocracy.org" class="text-gray" target="_blank"><u>Code for Democracy</u></a>. A 501(c)(3) nonprofit. EIN 83-3407325. Your use of this site is subject to our <a href="https://codefordemocracy.org/legal/#privacy"
+        class="text-gray" target="_blank"><u>Privacy Policy</u></a> and <a href="https://codefordemocracy.org/legal/#terms" class="text-gray" target="_blank"><u>Terms of Service</u></a>. {% endmacro %}
 
     <div id="app">
-      {% block app %}{% endblock %}
+        {% block app %}{% endblock %}
     </div>
 
     <script src="//cdn.jsdelivr.net/npm/vue@2.6.12"></script>
@@ -77,5 +81,6 @@
 
     {% block scripts %}{% endblock %}
 
-  </body>
+</body>
+
 </html>
