@@ -7,7 +7,7 @@ import math
 import requests
 from urllib.parse import urlencode
 from cryptography.fernet import Fernet
-from datetime import datetime
+import datetime
 import json
 import re
 import utilities
@@ -22,7 +22,7 @@ fernet = Fernet(key)
 
 @app.context_processor
 def inject_now():
-    return { "now": datetime.utcnow() }
+    return { "now": datetime.datetime.now() }
 
 #########################################################
 # serve front end
