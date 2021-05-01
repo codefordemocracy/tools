@@ -983,6 +983,7 @@ textarea {
   background-size: 2.5rem 2.5rem;
   background-repeat: no-repeat;
   overflow: hidden;
+  z-index: 1000 !important;
 }
 
 .modal-close:hover {
