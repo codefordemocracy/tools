@@ -6,7 +6,7 @@ import math
 import requests
 from urllib.parse import urlencode
 from cryptography.fernet import Fernet
-from datetime import datetime
+import datetime
 
 from vue import VueFlask
 from flask import render_template, Response, request, make_response, jsonify
