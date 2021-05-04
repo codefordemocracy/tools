@@ -52,12 +52,12 @@ const DATERANGES = {
   },
   dates: {
     elastic: {
-      min: moment().add(1, 'days').subtract(3, 'months').format('YYYY-MM-DD'),
-      max: moment().add(1, 'days').format('YYYY-MM-DD')
+      min: moment().subtract(3, 'months').format('YYYY-MM-DD'),
+      max: moment().format('YYYY-MM-DD')
     },
     fec: {
-      min: moment('2019-01-01', 'YYYY-MM-DD').add(1, 'days').toDate(),
-      max: moment('2020-12-31', 'YYYY-MM-DD').add(1, 'days').toDate(),
+      min: moment('2019-01-01', 'YYYY-MM-DD').toDate(),
+      max: moment('2020-12-31', 'YYYY-MM-DD').toDate(),
     }
   }
 }

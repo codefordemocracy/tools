@@ -131,8 +131,8 @@ new Vue({
         group: this.group,
         term: this.term,
         dates: {
-          min: moment(this.dates.min, 'YYYY-MM-DD').subtract(1, 'days').format('YYYY-MM-DD'),
-          max: moment(this.dates.max, 'YYYY-MM-DD').subtract(1, 'days').format('YYYY-MM-DD')
+          min: moment(this.dates.min, 'YYYY-MM-DD').format('YYYY-MM-DD'),
+          max: moment(this.dates.max, 'YYYY-MM-DD').format('YYYY-MM-DD')
         },
         skip: page*10,
         limit: 10

@@ -286,8 +286,8 @@ const matches = {
       let query = _.merge(this.api.payload, this.qs)
       if (this.status.refined == true) {
         query["dates"] = {
-          min: moment(this.refine.dates.min, 'YYYY-MM-DD').subtract(1, 'days').format('YYYY-MM-DD'),
-          max: moment(this.refine.dates.max, 'YYYY-MM-DD').subtract(1, 'days').format('YYYY-MM-DD')
+          min: moment(this.refine.dates.min, 'YYYY-MM-DD').format('YYYY-MM-DD'),
+          max: moment(this.refine.dates.max, 'YYYY-MM-DD').format('YYYY-MM-DD')
         }
         query["direction"] = this.refine.direction
         query["sup_opp"] = this.refine.sup_opp

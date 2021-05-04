@@ -27,7 +27,7 @@ fernet = Fernet(key)
 
 @app.context_processor
 def inject_now():
-    return { "now": datetime.utcnow() }
+    return { "now": datetime.datetime.now() }
 
 #########################################################
 # serve front end

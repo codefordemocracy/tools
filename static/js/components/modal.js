@@ -4,16 +4,16 @@ const modal = {
     <div class="modal-mask">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-          <div class="modal-header p-2">
-            <slot name="header"></slot>
-            <div class="modal-close">
-              <button class="btn btn-sm" @click="cancel()">&times;</button>
-            </div>
+          <div class="modal-close">
+            <button class="btn btn-sm" @click="cancel()">&times;</button>
           </div>
-          <div class="modal-body px-2 py-1">
+          <div class="modal-header p-2" v-if="!iframe">
+            <slot name="header"></slot>
+          </div>
+          <div class="modal-body" :class="iframe ? 'p-0' : 'px-2 py-1'">
             <slot name="body"></slot>
           </div>
-          <div class="modal-footer p-2">
+          <div class="modal-footer p-2" v-if="!iframe">
             <slot name="footer"></slot>
           </div>
         </div>
@@ -22,7 +22,11 @@ const modal = {
   </transition>
   `,
   props: {
-    show: Boolean
+    show: Boolean,
+    iframe: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     cancel() {

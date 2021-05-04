@@ -12,7 +12,7 @@
     <p class="lead">Use this tool to explore relationships between political entities. Choose a starting point to begin:</p>
     <form class="form-inline mt-3 mx-ntiny" @submit.prevent="search()">
       <div class="form-group flex-grow-1 flex-sm-grow-0 mx-tiny">
-        <select v-model="entity" class="form-control form-control-xs w-100 select pr-3" :disabled="!_.isEmpty(store.state.branches)">
+        <select v-model="entity" class="form-control form-control-xs select w-100 pr-3" :disabled="!_.isEmpty(store.state.branches)">
           <option v-for="entity in store.state.search" :value="entity">{{_.startCase(entity)}}</option>
         </select>
       </div>

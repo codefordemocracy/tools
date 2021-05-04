@@ -257,20 +257,23 @@ textarea {
 
 .select {
   opacity: 1 !important;
-  padding: 0.3rem 0.5rem;
   appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
   background-image:
     linear-gradient(45deg, transparent 50%, #aaa 50%),
     linear-gradient(135deg, #aaa 50%, transparent 30%);
+  background-repeat: no-repeat;
+}
+
+.form-control-xs.select {
+  padding: 0.3rem 0.5rem;
   background-position:
     calc(100% - 13px) calc(1em),
     calc(100% - 8px) calc(1em);
   background-size:
     5px 5px,
     5px 5px;
-  background-repeat: no-repeat;
 }
 
 .dropdown-item:not(:disabled):not(.disabled) {
@@ -965,6 +968,10 @@ textarea {
   overflow: auto;
 }
 
+.modal-body {
+  z-index: 100 !important;
+}
+
 .modal-close {
   position: absolute;
   top: 0;
@@ -975,6 +982,8 @@ textarea {
   background-position: 100% 0;
   background-size: 2.5rem 2.5rem;
   background-repeat: no-repeat;
+  overflow: hidden;
+  z-index: 1000 !important;
 }
 
 .modal-close:hover {
