@@ -164,6 +164,14 @@
     >
       Smart Select
     </button>
+    <h6 class="section-heading mt-1 mb-1">Uncover donors</h6>
+    <button
+      @click="store.commit('uncoverdonors', true)"
+      type="button"
+      class="btn btn-xs btn-block btn-gray"
+    >
+      Uncover Donors
+    </button>
     <h6 class="section-heading mt-2 mb-1">Add Elements</h6>
     <button
       @click="store.commit('expandnode', true)"

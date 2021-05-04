@@ -220,6 +220,15 @@ def route_api_graph():
             qs["labels"] = qs["labels"].replace("]", "")
             qs["labels"] = qs["labels"].replace(" ", "")
             elements = utilities.elements2cy(get(path(endpoint, qs)))
+    elif data["type"] == "uncover_contributions":
+        if len(data["labels"]) > 0:
+            endpoint = "/graph/traverse/uncover_contributors/"
+            qs["ids"] = json.dumps(data["ids"])
+            qs["ids"] = qs["ids"].replace("[", "")
+            qs["ids"] = qs["ids"].replace("\"", "")
+            qs["ids"] = qs["ids"].replace("]", "")
+            qs["ids"] = qs["ids"].replace(" ", "")
+            elements = utilities.elements2cy(get(path(endpoint, qs)))
     return jsonify(elements)
 
 #########################################################

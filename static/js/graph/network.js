@@ -41,22 +41,7 @@ const network = {
         let contextMenu = cy.contextMenus({
             submenuIndicator: { src: '../static/js/graph/assets/submenu-indicator-default.svg', width: 12, height: 12 },
 
-            menuItems: [
-                // {
-                //     id: 'remove',
-                //     content: 'remove',
-                //     tooltipText: 'remove',
-                //     // image: { src: "assets/remove.svg", width: 12, height: 12, x: 6, y: 4 },
-                //     selector: 'node, edge',
-                //     onClickFunction: function(event) {
-                //         var target = event.target || event.cyTarget;
-                //         removed = target.remove();
-                //         contextMenu.showMenuItem('undo-last-remove');
-                //     },
-                //     hasTrailingDivider: true
-                // },
-
-                {
+            menuItems: [{
                     id: 'node-expander',
                     content: 'expand node',
                     selector: 'node',
@@ -67,13 +52,13 @@ const network = {
                     }
                 },
                 {
-                    id: 'nodes-expander',
-                    content: 'expand nodes',
+                    id: 'uncover-donors',
+                    content: 'uncover donors',
                     selector: 'node',
                     coreAsWell: true,
                     show: false,
                     onClickFunction: function(e) {
-                        self.$store.commit('expandnode', true);
+                        self.$store.commit('uncoverdonors', true);
                     }
                 },
                 {
@@ -106,75 +91,6 @@ const network = {
                     },
                     hasTrailingDivider: true
                 },
-                // {
-                //     id: 'undo-last-remove',
-                //     content: 'undo last remove',
-                //     selector: 'node, edge',
-                //     show: false,
-                //     coreAsWell: true,
-                //     onClickFunction: function(event) {
-                //         if (removed) {
-                //             removed.restore();
-                //         }
-                //         contextMenu.hideMenuItem('undo-last-remove');
-                //     },
-                //     hasTrailingDivider: true
-                // },
-                // {
-                //     id: 'color',
-                //     content: 'change color',
-                //     tooltipText: 'change color',
-                //     selector: 'node',
-                //     hasTrailingDivider: true,
-                //     submenu: [{
-                //             id: 'color-blue',
-                //             content: 'blue',
-                //             tooltipText: 'blue',
-                //             // image: { src: "assets/add.svg", width: 12, height: 12, x: 6, y: 4 },
-                //             onClickFunction: function(event) {
-                //                 let target = event.target || event.cyTarget;
-                //                 target.style('background-color', 'blue');
-                //             },
-                //             // submenu: [{
-                //             //         id: 'color-light-blue',
-                //             //         content: 'light blue',
-                //             //         tooltipText: 'light blue',
-                //             //         onClickFunction: function(event) {
-                //             //             let target = event.target || event.cyTarget;
-                //             //             target.style('background-color', 'lightblue');
-                //             //         },
-                //             //     },
-                //             //     {
-                //             //         id: 'color-dark-blue',
-                //             //         content: 'dark blue',
-                //             //         tooltipText: 'dark blue',
-                //             //         onClickFunction: function(event) {
-                //             //             let target = event.target || event.cyTarget;
-                //             //             target.style('background-color', 'darkblue');
-                //             //         },
-                //             //     },
-                //             // ],
-                //         },
-                //         // {
-                //         //     id: 'color-green',
-                //         //     content: 'green',
-                //         //     tooltipText: 'green',
-                //         //     onClickFunction: function(event) {
-                //         //         let target = event.target || event.cyTarget;
-                //         //         target.style('background-color', 'green');
-                //         //     },
-                //         // },
-                //         // {
-                //         //     id: 'color-red',
-                //         //     content: 'red',
-                //         //     tooltipText: 'red',
-                //         //     onClickFunction: function(event) {
-                //         //         let target = event.target || event.cyTarget;
-                //         //         target.style('background-color', 'red');
-                //         //     },
-                //         // },
-                //     ]
-                // },
                 {
                     id: 'select-all-nodes',
                     content: 'select all nodes',
@@ -185,32 +101,6 @@ const network = {
                         selectAllOfTheSameType('node');
                     }
                 },
-                // {
-                //     id: 'select-all-edges',
-                //     content: 'select all edges',
-                //     selector: 'edge',
-                //     coreAsWell: true,
-                //     show: true,
-                //     onClickFunction: function(event) {
-                //         selectAllOfTheSameType('edge');
-
-                //         contextMenu.hideMenuItem('select-all-edges');
-                //         contextMenu.showMenuItem('unselect-all-edges');
-                //     }
-                // },
-                // {
-                //     id: 'unselect-all-edges',
-                //     content: 'unselect all edges',
-                //     selector: 'edge',
-                //     coreAsWell: true,
-                //     show: false,
-                //     onClickFunction: function(event) {
-                //         unselectAllOfTheSameType('edge');
-
-                //         contextMenu.showMenuItem('select-all-edges');
-                //         contextMenu.hideMenuItem('unselect-all-edges');
-                //     }
-                // }
             ]
         });
 
@@ -219,12 +109,13 @@ const network = {
             self.$store.commit('diff', { newElements: newElements, oldElements: oldElements })
                 // style selecting elements
             let styleSelected = function() {
-                    cy.elements().addClass('faded');
-                    cy.$(':selected').closedNeighborhood().removeClass('faded').addClass('connected');
-                    cy.$(':selected').connectedNodes().removeClass('faded').addClass('connected');
-                    cy.$(':selected').removeClass('faded').removeClass('connected');
-                }
-                // add new elements
+                cy.elements().addClass('faded');
+                cy.$(':selected').closedNeighborhood().removeClass('faded').addClass('connected');
+                cy.$(':selected').connectedNodes().removeClass('faded').addClass('connected');
+                cy.$(':selected').removeClass('faded').removeClass('connected');
+            }
+
+            // add new elements
             if (self.$store.state.diff.elementsToAdd.length > 0) {
                 cy.elements().lock()
                 cy.add(self.$store.state.diff.elementsToAdd)
@@ -234,21 +125,18 @@ const network = {
                 cy.layout({ name: self.$store.state.layout }).run()
                 cy.elements().unlock()
             }
+
             // remove deleted elements
             for (let i = 0; i < self.$store.state.diff.idsToRemove.length; i++) {
                 cy.$id(self.$store.state.diff.idsToRemove[i]).unselect().remove()
             }
-            // // React to right click
-            // cy.elements().on('cxttap', _.debounce(function(e) {
-            //     contextMenu.showMenuItem("select-all-edges")
-            // }, 100));
 
             // logic for applying styles on select and unselect
             cy.elements().on('select', _.debounce(function(e) {
                 styleSelected();
                 self.selectElement(cy.$(':selected').jsons());
 
-                // If only nodes are selected then we can expand
+                // if only nodes are selected then we can expand
                 if (self.$store.state.selected.length > 0) {
                     contextMenu.showMenuItem('delete-selected');
                     contextMenu.hideMenuItem('select-all-nodes');
