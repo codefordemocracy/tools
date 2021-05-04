@@ -13,11 +13,9 @@ from flask import render_template, Response, request, make_response, jsonify
 from google.cloud import secretmanager
 import pandas as pd
 from pandas.api.types import is_string_dtype, is_numeric_dtype
-from livereload import Server, shell
 
 
 app = VueFlask(__name__)
-# print(app.config.get("BASE_URL", "https://api.codefordemocracy.org"))
 
 secrets = secretmanager.SecretManagerServiceClient()
 client_id = secrets.access_secret_version(request={"name": "projects/952416783871/secrets/api_explore_client_id/versions/1"}).payload.data.decode()
