@@ -543,14 +543,11 @@ new Vue({
     components: {
         'modal': modal,
     },
-    data: {},
+    data: {
+        minTransactionAmt: 5000,
+        limit: 1000
+    },
     methods: {
-        all(value) {
-            var self = this
-            _.forEach(_.keys(this.filter.labels), function(k) {
-                self.filter.labels[k] = value
-            })
-        },
         cancel() {
             store.commit('uncoverdonors', false)
         },
@@ -561,7 +558,8 @@ new Vue({
                 type: 'uncoverdonors',
                 // labels: mapLabels(this.labels),
                 ids: _.map(store.state.selected, 'data.id'),
-                // pagination: this.pagination
+                minTransactionAmt: this.minTransactionAmt,
+                limit: this.limit
             })
             store.commit('step', 'actions')
             store.commit('flow', 'uncover donors')

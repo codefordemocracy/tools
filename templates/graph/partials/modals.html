@@ -85,6 +85,16 @@
             <p class="text-muted mb-0">Expand network to include donors for current nodes.</p>
         </div>
         <div slot="body">
+            <div class="form-group">
+                <!-- <label class="label">Degree Cutoff:</label> -->
+                <p class="text-muted mb-1">Minimum transaction amount.</p>
+                <input class="form-control form-control-xs" v-model="minTransactionAmt" type="number" min="1" max="999999999" />
+            </div>
+            <div class="form-group">
+                <!-- <label class="label">Degree Cutoff:</label> -->
+                <p class="text-muted mb-1">limit</p>
+                <input class="form-control form-control-xs" v-model="limit" type="number" min="1" max="100000" />
+            </div>
             <!-- <div class="form-group">
                 <label class="label">Layout:</label>
                 <select class="form-control form-control-xs select" v-model="layout">
@@ -188,9 +198,9 @@
             <div class="form-group">
                 <label class="label">Type of Filter:</label>
                 <select class="form-control form-control-xs select" v-model="filter.type">
-          <option value="degree">Degree</option>
-          <option value="label">Label</option>
-        </select>
+                    <option value="degree">Degree</option>
+                    <option value="label">Label</option>
+                </select>
             </div>
             <div class="form-group" v-if="filter.type == 'degree'">
                 <label class="label">Degree Cutoff:</label>

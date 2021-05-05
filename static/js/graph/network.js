@@ -52,6 +52,16 @@ const network = {
                     }
                 },
                 {
+                    id: 'nodes-expander',
+                    content: 'expand nodes',
+                    selector: 'node',
+                    coreAsWell: true,
+                    show: false,
+                    onClickFunction: function(e) {
+                        self.$store.commit('expandnode', true);
+                    }
+                },
+                {
                     id: 'uncover-donors',
                     content: 'uncover donors',
                     selector: 'node',
@@ -140,6 +150,7 @@ const network = {
                 if (self.$store.state.selected.length > 0) {
                     contextMenu.showMenuItem('delete-selected');
                     contextMenu.hideMenuItem('select-all-nodes');
+                    contextMenu.showMenuItem('uncover-donors');
                     if (self.$store.getters.type == 'Node') {
                         contextMenu.showMenuItem('node-expander');
                         contextMenu.hideMenuItem('nodes-expander');
@@ -162,6 +173,7 @@ const network = {
                 self.selectElement(cy.$(':selected').jsons());
                 contextMenu.hideMenuItem('node-expander');
                 contextMenu.hideMenuItem('nodes-expander');
+                contextMenu.hideMenuItem('uncover-donors');
                 contextMenu.showMenuItem('select-all-nodes');
                 contextMenu.hideMenuItem('delete-selected');
             }, 100));
