@@ -527,7 +527,7 @@ new Vue({
             store.commit('error', false)
             addData({
                 type: 'expandnode',
-                labels: mapLabels(this.labels),
+                labels: mapLabels(self.labels),
                 ids: _.map(store.state.selected, 'data.id'),
                 pagination: this.pagination
             })
@@ -542,12 +542,24 @@ new Vue({
     el: '#uncoverdonors',
     components: {
         'modal': modal,
+        'toggle': toggle
     },
     data: {
+        labels: {
+            committee: true,
+            donor: true,
+            employer: true
+        },
         minTransactionAmt: 5000,
         limit: 1000
     },
     methods: {
+        all(value) {
+            var self = this
+            _.forEach(_.keys(this.labels), function(k) {
+                self.labels[k] = value
+            })
+        },
         cancel() {
             store.commit('uncoverdonors', false)
         },
@@ -556,7 +568,7 @@ new Vue({
             store.commit('error', false)
             addData({
                 type: 'uncoverdonors',
-                // labels: mapLabels(this.labels),
+                labels: mapLabels(this.labels),
                 ids: _.map(store.state.selected, 'data.id'),
                 minTransactionAmt: this.minTransactionAmt,
                 limit: this.limit
@@ -564,7 +576,6 @@ new Vue({
             store.commit('step', 'actions')
             store.commit('flow', 'uncover donors')
             this.cancel()
-
         }
     }
 })

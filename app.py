@@ -219,20 +219,25 @@ def route_api_graph():
             qs["labels"] = qs["labels"].replace(" ", "")
             elements = utilities.elements2cy(get(path(endpoint, qs)))
     elif data["type"] == "uncoverdonors":
-        print('calling uncoverdonors')
-        print(data)
         if len(data["ids"]) > 0:
             endpoint = "/graph/traverse/uncoverdonors/"
-            qs["ids"] = json.dumps(data["ids"])
-            qs["ids"] = qs["ids"].replace("[", "")
-            qs["ids"] = qs["ids"].replace("\"", "")
-            qs["ids"] = qs["ids"].replace("]", "")
-            qs["ids"] = qs["ids"].replace(" ", "")
+            qs["ids"] = (
+                json.dumps(data["ids"])
+                .replace("[", "")
+                .replace("\"", "")
+                .replace("]", "")
+                .replace(" ", "")    
+            )
+            qs["labels"] = (
+                json.dumps(data["labels"])
+                .replace("[", "")
+                .replace("\"", "")
+                .replace("]", "")
+                .replace(" ", "")
+            )
             for key in ["minTransactionAmt", "limit"]:
                 qs[key] = json.dumps(int(data[key]))
             elements = utilities.elements2cy(get(path(endpoint, qs)))
-            print(qs)
-            print(elements)
     return jsonify(elements)
 
 #########################################################

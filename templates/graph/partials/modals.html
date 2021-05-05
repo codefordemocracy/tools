@@ -82,29 +82,33 @@
     <modal :show="store.state.uncoverdonors" @cancel="cancel()">
         <div slot="header">
             <h5 class="modal-title">Uncover Donors</h5>
-            <p class="text-muted mb-0">Expand network to include donors for current nodes.</p>
+            <p class="text-muted mb-0">Expand network to include contributors for selected {{store.state.selected.length == 1 ? 'Node' : 'Nodes'}}.</p>
         </div>
         <div slot="body">
+            <div class="d-flex justify-content-between align-items-start mb-1">
+                <label class="label">Labels:</label>
+                <div>
+                    <span class="text-primary pointer" @click="all(true)">Select All</span>
+                    <span class="text-primary pointer ml-2" @click="all(false)">Unselect All</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 pr-sm-2">
+                    <toggle :sync="true" v-model="labels.donor"><span slot="text">Donor</span></toggle>
+                </div>
+                <div class="col-sm-6 pr-sm-2">
+                    <toggle :sync="true" v-model="labels.committee"><span slot="text">Committee</span></toggle>
+                </div>
+            </div>
+            <br/>
             <div class="form-group">
-                <!-- <label class="label">Degree Cutoff:</label> -->
                 <p class="text-muted mb-1">Minimum transaction amount.</p>
                 <input class="form-control form-control-xs" v-model="minTransactionAmt" type="number" min="1" max="999999999" />
             </div>
             <div class="form-group">
-                <!-- <label class="label">Degree Cutoff:</label> -->
                 <p class="text-muted mb-1">limit</p>
                 <input class="form-control form-control-xs" v-model="limit" type="number" min="1" max="100000" />
             </div>
-            <!-- <div class="form-group">
-                <label class="label">Layout:</label>
-                <select class="form-control form-control-xs select" v-model="layout">
-                    <option value="cose">CoSE</option>
-                    <option value="circle">Circle</option>
-                    <option value="concentric">Concentric</option>
-                    <option value="grid">Grid</option>
-                    <option value="breadthfirst">Breadth First</option>
-                  </select>
-            </div> -->
         </div>
         <div slot="footer">
             <button type="button" @click="cancel()" class="btn btn-xs btn-secondary">Cancel</button>
@@ -112,6 +116,7 @@
         </div>
     </modal>
 </div>
+
 <div id="expandnode" v-cloak>
     <modal :show="store.state.expandnode" @cancel="cancel()">
         <div slot="header">
