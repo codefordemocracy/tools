@@ -1,16 +1,19 @@
-from vue import VueFlask
-from flask import render_template, Response, request, make_response, jsonify
-from google.cloud import secretmanager
-import pandas as pd
-from pandas.api.types import is_string_dtype, is_numeric_dtype
+import json
+import os
+import re
+import utilities
 import math
 import requests
 from urllib.parse import urlencode
 from cryptography.fernet import Fernet
 import datetime
-import json
-import re
-import utilities
+
+from vue import VueFlask
+from flask import render_template, Response, request, make_response, jsonify
+from google.cloud import secretmanager
+import pandas as pd
+from pandas.api.types import is_string_dtype, is_numeric_dtype
+
 
 app = VueFlask(__name__)
 
@@ -57,11 +60,20 @@ def path(endpoint, qs):
         endpoint = endpoint + "?" + urlencode(qs)
     return endpoint
 
-def get(path):
-    response = requests.get('https://api.codefordemocracy.org'+path, auth=(client_id, client_secret), headers={'User-Agent': 'explore'})
-    if response.status_code == 200:
-        return json.loads(response.text)
-    return []
+def create_get():
+    api_url = os.environ.get("C4D_API_URL", 'https://api.codefordemocracy.org')
+    print(api_url)
+    def get(path):
+        response = requests.get(
+            api_url + path, 
+            auth=(client_id, client_secret), 
+            headers={'User-Agent': 'explore'})
+        if response.status_code == 200:
+            return json.loads(response.text)
+        return []
+    return get
+
+get = create_get()
 
 #########################################################
 # graph endpoints
@@ -195,7 +207,7 @@ def route_api_graph():
     elif data["type"] == "expandnode":
         if len(data["labels"]) > 0:
             endpoint = "/graph/traverse/neighbors/"
-            qs["ids"] =json.dumps(data["ids"])
+            qs["ids"] = json.dumps(data["ids"])
             qs["ids"] = qs["ids"].replace("[", "")
             qs["ids"] = qs["ids"].replace("\"", "")
             qs["ids"] = qs["ids"].replace("]", "")
@@ -205,6 +217,26 @@ def route_api_graph():
             qs["labels"] = qs["labels"].replace("\"", "")
             qs["labels"] = qs["labels"].replace("]", "")
             qs["labels"] = qs["labels"].replace(" ", "")
+            elements = utilities.elements2cy(get(path(endpoint, qs)))
+    elif data["type"] == "uncoverdonors":
+        if len(data["ids"]) > 0:
+            endpoint = "/graph/traverse/uncoverdonors/"
+            qs["ids"] = (
+                json.dumps(data["ids"])
+                .replace("[", "")
+                .replace("\"", "")
+                .replace("]", "")
+                .replace(" ", "")    
+            )
+            qs["labels"] = (
+                json.dumps(data["labels"])
+                .replace("[", "")
+                .replace("\"", "")
+                .replace("]", "")
+                .replace(" ", "")
+            )
+            for key in ["minTransactionAmt", "limit"]:
+                qs[key] = json.dumps(int(data[key]))
             elements = utilities.elements2cy(get(path(endpoint, qs)))
     return jsonify(elements)
 
