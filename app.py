@@ -527,8 +527,6 @@ def route_api_browse_documents():
                 docs = get(path(endpoint, qs))
                 for doc in docs:
                     element = {}
-                    if "url" in doc["_source"]:
-                        element["url"] = doc["_source"]["url"]
                     if "extracted" in doc["_source"]:
                         if "title" in doc["_source"]["extracted"]:
                             element["title"] = doc["_source"]["extracted"]["title"]
@@ -536,6 +534,8 @@ def route_api_browse_documents():
                             element["text"] = doc["_source"]["extracted"]["text"]
                         if "date" in doc["_source"]["extracted"]:
                             element["date"] = doc["_source"]["extracted"]["date"]
+                        if "url" in doc["_source"]["extracted"]:
+                            element["url"] = doc["_source"]["extracted"]["url"]
                     elements.append(element)
         elif data["documents"] == "tweets":
             endpoint = "/documents/browse/twitter/tweets/candidate/"
