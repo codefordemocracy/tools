@@ -1,5 +1,4 @@
 import json
-import os
 import re
 import utilities
 import math
@@ -13,7 +12,6 @@ from flask import render_template, Response, request, make_response, jsonify
 from google.cloud import secretmanager
 import pandas as pd
 from pandas.api.types import is_string_dtype, is_numeric_dtype
-
 
 app = VueFlask(__name__)
 
@@ -60,20 +58,11 @@ def path(endpoint, qs):
         endpoint = endpoint + "?" + urlencode(qs)
     return endpoint
 
-def create_get():
-    api_url = os.environ.get("C4D_API_URL", 'https://api.codefordemocracy.org')
-    print(api_url)
-    def get(path):
-        response = requests.get(
-            api_url + path, 
-            auth=(client_id, client_secret), 
-            headers={'User-Agent': 'explore'})
-        if response.status_code == 200:
-            return json.loads(response.text)
-        return []
-    return get
-
-get = create_get()
+def get(path):
+    response = requests.get('https://api.codefordemocracy.org'+path, auth=(client_id, client_secret), headers={'User-Agent': 'explore'})
+    if response.status_code == 200:
+        return json.loads(response.text)
+    return []
 
 #########################################################
 # graph endpoints
@@ -226,7 +215,7 @@ def route_api_graph():
                 .replace("[", "")
                 .replace("\"", "")
                 .replace("]", "")
-                .replace(" ", "")    
+                .replace(" ", "")
             )
             qs["labels"] = (
                 json.dumps(data["labels"])
