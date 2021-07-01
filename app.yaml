@@ -1,5 +1,5 @@
 runtime: python
-service: explore
+service: tools
 env: flex
 entrypoint: gunicorn app:app --limit-request-line 0 --timeout 600
 

@@ -16,9 +16,9 @@ from pandas.api.types import is_string_dtype, is_numeric_dtype
 app = VueFlask(__name__)
 
 secrets = secretmanager.SecretManagerServiceClient()
-client_id = secrets.access_secret_version(request={"name": "projects/952416783871/secrets/api_explore_client_id/versions/1"}).payload.data.decode()
-client_secret = secrets.access_secret_version(request={"name": "projects/952416783871/secrets/api_explore_client_secret/versions/1"}).payload.data.decode()
-key = secrets.access_secret_version(request={"name": "projects/952416783871/secrets/explore_crypto_key/versions/1"}).payload.data.decode()
+client_id = secrets.access_secret_version(request={"name": "projects/952416783871/secrets/api_tools_client_id/versions/1"}).payload.data.decode()
+client_secret = secrets.access_secret_version(request={"name": "projects/952416783871/secrets/api_tools_client_secret/versions/1"}).payload.data.decode()
+key = secrets.access_secret_version(request={"name": "projects/952416783871/secrets/tools_crypto_key/versions/1"}).payload.data.decode()
 fernet = Fernet(key)
 
 @app.context_processor
@@ -59,7 +59,7 @@ def path(endpoint, qs):
     return endpoint
 
 def get(path):
-    response = requests.get('https://api.codefordemocracy.org'+path, auth=(client_id, client_secret), headers={'User-Agent': 'explore'})
+    response = requests.get('https://api.codefordemocracy.org'+path, auth=(client_id, client_secret), headers={'User-Agent': 'tools'})
     if response.status_code == 200:
         return json.loads(response.text)
     return []
