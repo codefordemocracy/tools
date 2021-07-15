@@ -1,0 +1,75 @@
+<div class="mb-4">
+  <a href="https://codefordemocracy.org" target="_blank"><img src="//assets.codefordemocracy.org/img/logo-tiny.png" id="logo" /></a>
+</div>
+<div v-if="store.state.explore.step == 'intro'">
+  <h1 id="page-title">Graph<sup>(ALPHA)</sup></h1>
+  <p class="lead">Use this tool to explore relationships between political entities</p>
+  <p>Explore nodes and edges, discover 2nd-order and beyond connections, and learn our graph-based data schema</p>
+  <button @click="store.commit('explore/step', 'start')" type="button" class="btn btn-xs btn-gray mt-3 px-2">Get Started &rarr;</button>
+</div>
+<div v-if="store.state.explore.step == 'start'">
+  <h6 class="section-heading mb-1" v-if="store.state.explore.elements.length == 0">Choose Starting Point</h6>
+  <h6 class="section-heading mb-1" v-else>Search</h6>
+  <p v-if="store.state.explore.elements.length == 0">To begin exploring the graph, choose one of the starting points below:</p>
+  <p v-else>Add more elements to your graph by using one of the search flows below:</p>
+  <button v-for="flow in [ ['candidates', 'Candidates'], ['committees', 'Committees'], ['donors', 'Donors'], ['payees', 'Payees'], ['tweeters', 'Tweeters'], ['sources', 'Sources'], ['buyers', 'Buyers'], ['pages', 'Pages'] ]" @click="store.commit('explore/step', 'search'); store.commit('explore/flow', flow[0])" type="button" class="btn btn-xs btn-block btn-gray">{{flow[1]}}</button>
+  <button @click="store.commit('explore/step', 'intro')" type="button" class="btn btn-xs btn-light mt-4">&larr; Back</button>
+</div>
+<div v-if="store.state.explore.step == 'search'">
+  <form @submit.prevent="submit()">
+    <div v-if="store.state.explore.flow == 'candidates'">
+      {% include "/explore/relationships/graph/settings/candidates.html.j2" %}
+    </div>
+    <div v-if="store.state.explore.flow == 'committees'">
+      {% include "/explore/relationships/graph/settings/committees.html.j2" %}
+    </div>
+    <div v-if="store.state.explore.flow == 'donors'">
+      {% include "/explore/relationships/graph/settings/donors.html.j2" %}
+    </div>
+    <div v-if="store.state.explore.flow == 'payees'">
+      {% include "/explore/relationships/graph/settings/payees.html.j2" %}
+    </div>
+    <div v-if="store.state.explore.flow == 'tweeters'">
+      {% include "/explore/relationships/graph/settings/tweeters.html.j2" %}
+    </div>
+    <div v-if="store.state.explore.flow == 'sources'">
+      {% include "/explore/relationships/graph/settings/sources.html.j2" %}
+    </div>
+    <div v-if="store.state.explore.flow == 'buyers'">
+      {% include "/explore/relationships/graph/settings/buyers.html.j2" %}
+    </div>
+    <div v-if="store.state.explore.flow == 'pages'">
+      {% include "/explore/relationships/graph/settings/pages.html.j2" %}
+    </div>
+    <input type="submit" class="btn btn-xs btn-block btn-gray mt-2" value="Search" />
+  </form>
+  <div class="text-right mt-1">
+    <span class="text-primary pointer" v-if="store.state.explore.advanced == false" @click="store.commit('explore/advanced', true)">Advanced +</span>
+    <span class="text-primary pointer" v-if="store.state.explore.advanced == true" @click="store.commit('explore/advanced', false)">Advanced &ndash;</span>
+  </div>
+  <button @click="store.commit('explore/step', 'start')" type="button" class="btn btn-xs btn-light mt-2">&larr; Back</button>
+</div>
+<div v-if="store.state.explore.step == 'results' || store.state.explore.step == 'actions' || store.state.explore.step == 'manipulations'">
+  <h6 class="section-heading mb-1" v-if="store.state.explore.step == 'results'">Results</h6>
+  <h6 class="section-heading mb-1" v-if="store.state.explore.step == 'actions' || store.state.explore.step == 'manipulations'">{{store.state.explore.flow}}</h6>
+  <template v-if="store.state.explore.step == 'manipulations'">
+    <p v-if="store.state.explore.flow == 'smart select'">You've selected <b>{{store.state.explore.selected.length}} {{ store.state.explore.selected.length != 1 ? 'elements' : 'element' }}</b>.</p>
+    <p v-if="store.state.explore.flow == 'delete elements' || store.state.explore.flow == 'undo last addition'">You've deleted <b>{{store.state.explore.diff.elementsToRemove.length}} {{ store.state.explore.diff.elementsToRemove.length != 1 ? 'elements' : 'element' }}</b>.</p>
+    <p v-if="store.state.explore.flow == 'undo last deletion'">You've added <b>{{store.state.explore.diff.elementsToAdd.length}} {{ store.state.explore.diff.elementsToAdd.length != 1 ? 'elements' : 'element' }}</b>.</p>
+  </template>
+  <template v-else>
+    <div v-if="store.state.explore.waiting == true">
+      <p>Hold tight, we're searching for results!</p>
+    </div>
+    <template v-else>
+      <p v-if="store.state.explore.diff.idsToAdd.length == 0"><span v-if="store.state.explore.error == true">An error has occurred. </span>Unfortunately, there are no new results.</p>
+      <div v-else>
+        <p class="mb-1">You've added <strong>{{store.state.explore.diff.idsToAdd.length}} {{store.state.explore.diff.idsToAdd.length == 1 ? 'element' : 'elements'}}</strong> to your graph!</p>
+        <p>Use the box on the right side of the screen in order to further explore your graph.</p>
+      </div>
+    </template>
+  </template>
+  <button @click="store.commit('explore/viewkey', 'start')" type="button" class="btn btn-xs btn-block btn-secondary mt-2">View Key</button>
+  <button @click="store.commit('explore/step', 'start')" type="button" class="btn btn-xs btn-block btn-gray">Search for More Nodes</button>
+  <button v-if="store.state.explore.step == 'results'" @click="store.commit('explore/step', 'search')" type="button" class="btn btn-xs btn-light mt-4">&larr; Back</button>
+</div>

@@ -1,0 +1,56 @@
+<h6 class="section-heading mb-1">Search Committees</h6>
+<p>You can search committees by name<span v-if="store.state.explore.advanced == true">, connected organization, designation, type, or party affiliation</span>:</p>
+<div class="form-group">
+  <label class="label">Name:</label>
+  <typeahead input="form-control form-control-xs" v-model="search.committees.cmte_nm" :items="PLACEHOLDERS.committee"></typeahead>
+</div>
+<div v-if="store.state.explore.advanced == true">
+  <div class="form-group">
+    <label class="label">Party Affiliation:</label>
+    <select class="form-control form-control-xs select" v-model="search.committees.cmte_pty_affiliation" >
+      {% include "/explore/relationships/graph/snippets/parties.html.j2" %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="label">Committee Designation:</label>
+    <select class="form-control form-control-xs select" v-model="search.committees.cmte_dsgn" >
+      <option value="all">All</option>
+      <option value="A">Authorized by a candidate</option>
+      <option value="D">Leadership PAC</option>
+      <option value="J">Joint fundraiser</option>
+      <option value="B">Lobbyist/Registrant PAC</option>
+      <option value="P">Principal campaign committee of a candidate</option>
+      <option value="U">Unauthorized</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="label">Committee Type:</label>
+    <select class="form-control form-control-xs select" v-model="search.committees.cmte_tp" >
+      {% include "/explore/relationships/graph/snippets/committees.html.j2" %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="label">Limit:</label>
+    <p class="text-muted mb-1">Number of results returned per search.</p>
+    <input class="form-control form-control-xs" v-model="search.pagination.limit" type="number" min="0" max="300" />
+  </div>
+  <div class="form-group">
+    <label class="label">Page:</label>
+    <p class="text-muted mb-1">By default, only the first page of results is returned for each search. Increment this number to get additional results.</p>
+    <input class="form-control form-control-xs" v-model="search.pagination.page" type="number" min="1" max="99999" />
+  </div>
+  <div class="p-1 bg-light">
+    <div class="form-group" :class="search.options.context ? 'mb-1' : 'mb-0'">
+      <label class="label toggleset">Context:</label>
+      <toggle v-model="search.options.context" :labels="{checked: 'Show', unchecked: 'Hide'}" :width=62><span slot="text">Connected Contributions</span></toggle>
+    </div>
+    <div class="form-group mb-1" v-if="search.options.context">
+      <label class="label">Min Date for Contributions:</label>
+      <datepicker v-model="search.dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-control form-control-xs" :disabled-dates="disabledDates"></datepicker>
+    </div>
+    <div class="form-group mb-0" v-if="search.options.context">
+      <label class="label">Max Date for Contributions:</label>
+      <datepicker v-model="search.dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-control form-control-xs" :disabled-dates="disabledDates"></datepicker>
+    </div>
+  </div>
+</div>

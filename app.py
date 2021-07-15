@@ -8,18 +8,24 @@ from cryptography.fernet import Fernet
 import datetime
 
 from vue import VueFlask
-from flask import render_template, Response, request, make_response, jsonify
+from flask import render_template, request, Response, make_response, jsonify, session, redirect
 from google.cloud import secretmanager
+import google.auth.transport.requests
+import google.oauth2.id_token
 import pandas as pd
 from pandas.api.types import is_string_dtype, is_numeric_dtype
-
-app = VueFlask(__name__)
 
 secrets = secretmanager.SecretManagerServiceClient()
 client_id = secrets.access_secret_version(request={"name": "projects/952416783871/secrets/api_tools_client_id/versions/1"}).payload.data.decode()
 client_secret = secrets.access_secret_version(request={"name": "projects/952416783871/secrets/api_tools_client_secret/versions/1"}).payload.data.decode()
-key = secrets.access_secret_version(request={"name": "projects/952416783871/secrets/tools_crypto_key/versions/1"}).payload.data.decode()
-fernet = Fernet(key)
+crypto_key = secrets.access_secret_version(request={"name": "projects/952416783871/secrets/tools_crypto_key/versions/1"}).payload.data.decode()
+secret_key = secrets.access_secret_version(request={"name": "projects/952416783871/secrets/tools_secret_key/versions/1"}).payload.data.decode()
+service_url = secrets.access_secret_version(request={"name": "projects/952416783871/secrets/tools_service_url/versions/1"}).payload.data.decode()
+
+fernet = Fernet(crypto_key)
+app = VueFlask(__name__)
+app.secret_key = secret_key
+app.permanent_session_lifetime = datetime.timedelta(hours=3)
 
 @app.context_processor
 def inject_now():
@@ -31,23 +37,97 @@ def inject_now():
 
 @app.route("/", methods=["GET"])
 def route_home():
-    return render_template("home.html")
+    return render_template("home.html.j2")
 
-@app.route("/graph/", methods=["GET"])
-def route_graph():
-    return render_template("graph.html")
+@app.route("/create/list/", methods=["GET"])
+def route_create_list():
+    action = request.args.get("action")
+    id = request.args.get("id")
+    if action == "edit" and id is not None:
+        workflow = "Edit List"
+    elif action == "clone" and id is not None:
+        workflow = "Clone List"
+    else:
+        workflow = "Create a List"
+    output = "list"
+    templates = [{"step": 1, "slug": "type"}, {"step": 2, "slug": "include"}, {"step": 3, "slug": "review"}, {"step": 4, "slug": "exclude"}, {"step": 5, "slug": "save"}]
+    return render_template("workflow.html.j2", workflow=workflow, output=output, templates=templates, action=action, id=id)
 
-@app.route("/traverse/", methods=["GET"])
-def route_traverse():
-    return render_template("traverse.html")
+@app.route("/create/query/", methods=["GET"])
+def route_create_query():
+    action = request.args.get("action")
+    id = request.args.get("id")
+    if action == "edit" and id is not None:
+        workflow = "Edit Query"
+    elif action == "clone" and id is not None:
+        workflow = "Clone Query"
+    else:
+        workflow = "Create a Query"
+    output = "query"
+    templates = [{"step": 1, "slug": "recipes"}, {"step": 2, "slug": "lists"}, {"step": 3, "slug": "results"}, {"step": 4, "slug": "filters"}, {"step": 5, "slug": "save"}]
+    return render_template("workflow.html.j2", workflow=workflow, output=output, templates=templates, action=action, id=id)
 
-@app.route("/inspect/", methods=["GET"])
-def route_inspect():
-    return render_template("inspect.html")
+@app.route("/create/alert/", methods=["GET"])
+def route_create_alert():
+    action = request.args.get("action")
+    id = request.args.get("id")
+    if action == "edit" and id is not None:
+        workflow = "Edit Alert"
+    elif action == "clone" and id is not None:
+        workflow = "Clone Alert"
+    else:
+        workflow = "Create an Alert"
+    output = "alert"
+    templates = [{"step": 1, "slug": "query"}, {"step": 2, "slug": "trigger"}, {"step": 3, "slug": "save"}]
+    return render_template("workflow.html.j2", workflow=workflow, output=output, templates=templates, action=action, id=id)
 
-@app.route("/browse/", methods=["GET"])
-def route_browse():
-    return render_template("browse.html")
+@app.route("/create/visualization/", methods=["GET"])
+def route_create_visualization():
+    action = request.args.get("action")
+    id = request.args.get("id")
+    if action == "edit" and id is not None:
+        workflow = "Edit Visualization"
+    elif action == "clone" and id is not None:
+        workflow = "Clone Visualization"
+    else:
+        workflow = "Create a Visualization"
+    output = "visualization"
+    templates = [{"step": 1, "slug": "output"}, {"step": 2, "slug": "data"}, {"step": 3, "slug": "design"}, {"step": 4, "slug": "save"}]
+    return render_template("workflow.html.j2", workflow=workflow, output=output, templates=templates, action=action, id=id)
+
+@app.route("/create/visualization/plot/", methods=["GET"])
+def route_create_visualization_plot():
+    return render_template("visualization/plot.html.j2")
+
+@app.route("/view/list/", methods=["GET"])
+def route_view_list():
+    mode = request.args.get("mode")
+    return render_template("workflow/list/popup/view.html.j2", mode=mode)
+
+@app.route("/explore/relationships/", methods=["GET"])
+@app.route("/explore/relationships/graph/", methods=["GET"])
+def route_explore_relationships_graph():
+    mode = request.args.get("mode")
+    return render_template("explore/relationships/graph/main.html.j2", mode=mode)
+
+@app.route("/explore/relationships/traverse/", methods=["GET"])
+def route_explore_relationships_traverse():
+    mode = request.args.get("mode")
+    return render_template("explore/relationships/traverse/main.html.j2", mode=mode)
+
+@app.route("/explore/documents/", methods=["GET"])
+def route_explore_documents():
+    mode = request.args.get("mode")
+    return render_template("explore/documents/app.html.j2", mode=mode)
+
+@app.route("/dashboard/", methods=["GET"])
+def route_dashboard():
+    return render_template("dashboard.html.j2")
+
+@app.route("/user/<username>/", methods=["GET"])
+def route_user(username):
+    mode = request.args.get("mode")
+    return render_template("user.html.j2", username=username, mode=mode)
 
 #########################################################
 # connect to api
@@ -59,14 +139,385 @@ def path(endpoint, qs):
     return endpoint
 
 def get(path):
-    response = requests.get('https://api.codefordemocracy.org'+path, auth=(client_id, client_secret), headers={'User-Agent': 'tools'})
+    url = "https://api.codefordemocracy.org"
+    response = requests.get(url+path, auth=(client_id, client_secret), headers={'User-Agent': 'tools'})
     if response.status_code == 200:
         return json.loads(response.text)
     return []
 
+def action(payload):
+    auth_req = google.auth.transport.requests.Request()
+    id_token = google.oauth2.id_token.fetch_id_token(auth_req, service_url)
+    response = requests.post(service_url, json=payload, headers={'Authorization': 'Bearer ' + id_token})
+    if response.status_code == 200:
+        return json.loads(response.text)
+    return False
+
 #########################################################
-# graph endpoints
+# helper functions
 #########################################################
+
+def make_api_string_from_comma_separated(setting):
+    setting = [s.strip() for s in setting if s.strip() != ""]
+    setting = json.dumps(setting)
+    setting = setting.replace("[\"", "")
+    setting = setting.replace("\", \"", ",")
+    setting = setting.replace("\"]", "")
+    setting = setting.replace("[]", "")
+    return setting
+
+#########################################################
+# list workflow endpoints
+#########################################################
+
+@app.route("/api/list/preview/", methods=["POST"])
+def route_api_list_preview():
+    data = request.get_json()
+    elements = []
+    if data.get("subtype") is not None:
+        endpoint = "/data/preview/" + data["subtype"] + "/"
+        terms = ""
+        ids = ""
+        if data.get("include") is not None:
+            if data["include"].get("terms") is not None:
+                terms = make_api_string_from_comma_separated(data["include"]["terms"])
+            if data["include"].get("ids") is not None:
+                ids = make_api_string_from_comma_separated(data["include"]["ids"])
+            if len(terms) > 0 and len(ids) > 0:
+                elements = get(path(endpoint, {"terms": terms, "ids": ids, "skip": 0, "limit": 1000}))
+            elif len(terms) > 0:
+                elements = get(path(endpoint, {"terms": terms, "skip": 0, "limit": 1000}))
+            elif len(ids) > 0:
+                elements = get(path(endpoint, {"ids": ids, "skip": 0, "limit": 1000}))
+    return jsonify(elements)
+
+#########################################################
+# query workflow endpoints
+#########################################################
+
+@app.route("/api/recipe/results/table/", methods=["POST"])
+def route_api_recipe_table():
+    data = request.get_json()
+    qs = dict()
+    elements = []
+    if data.get("dates") is not None:
+        min_date = str(data["dates"]["min"])[:10]
+        max_date = str(data["dates"]["max"])[:10]
+        qs["min_year"] = min_date[:4]
+        qs["max_year"] = max_date[:4]
+        qs["min_month"] = min_date[5:7]
+        qs["max_month"] = max_date[5:7]
+        qs["min_day"] = min_date[8:10]
+        qs["max_day"] = max_date[8:10]
+    if data.get("sort") is not None:
+        if data["sort"]["orderby"] != "none":
+            qs["orderby"] = data["sort"]["orderby"]
+        qs["orderdir"] = data["sort"]["orderdir"]
+    if data.get("pagination") is not None:
+        if "skip" in data["pagination"]:
+            qs["skip"] = data["pagination"]["skip"]
+        if "limit" in data["pagination"]:
+            qs["limit"] = data["pagination"]["limit"]
+    if data.get("output") is not None:
+        endpoint = "/data/calculate/recipe/" + data["output"] + "/"
+        if "config" in data:
+            if "template" in data["config"] and "lists" in data["config"]:
+                qs["lists"] = json.dumps(data["config"]["lists"])
+                qs["lists"] = qs["lists"].replace("[", "")
+                qs["lists"] = qs["lists"].replace("\"", "")
+                qs["lists"] = qs["lists"].replace("]", "")
+                qs["lists"] = qs["lists"].replace(" ", "")
+                qs["template"] = data["config"]["template"]
+                elements = get(path(endpoint, qs))
+    return jsonify(elements)
+
+@app.route("/api/recipe/results/count/", methods=["POST"])
+def route_api_recipe_count():
+    data = request.get_json()
+    qs = dict()
+    count = -1
+    if data.get("dates") is not None:
+        min_date = str(data["dates"]["min"])[:10]
+        max_date = str(data["dates"]["max"])[:10]
+        qs["min_year"] = min_date[:4]
+        qs["max_year"] = max_date[:4]
+        qs["min_month"] = min_date[5:7]
+        qs["max_month"] = max_date[5:7]
+        qs["min_day"] = min_date[8:10]
+        qs["max_day"] = max_date[8:10]
+    if data.get("output") is not None:
+        endpoint = "/data/calculate/recipe/" + data["output"] + "/"
+        if "config" in data:
+            if "template" in data["config"] and "lists" in data["config"]:
+                qs["lists"] = json.dumps(data["config"]["lists"])
+                qs["lists"] = qs["lists"].replace("[", "")
+                qs["lists"] = qs["lists"].replace("\"", "")
+                qs["lists"] = qs["lists"].replace("]", "")
+                qs["lists"] = qs["lists"].replace(" ", "")
+                qs["template"] = data["config"]["template"]
+                qs["count"] = True
+                elements = get(path(endpoint, qs))
+                if "count" in elements[0]:
+                    count = elements[0]["count"]
+    return jsonify(count)
+
+#########################################################
+# visualization workflow endpoints
+#########################################################
+
+# data
+
+@app.route("/api/inspect/", methods=["POST"])
+def route_api_inspect():
+    data = request.get_json()
+    qs = dict()
+    elements = []
+    if data["source"] == "uuid":
+        endpoint = "/graph/find/elements/uuid/"
+        if "nodes" in data:
+            qs["nodes"] = data["nodes"]
+        if "edges" in data:
+            qs["edges"] = data["edges"]
+        elements = get(path(endpoint, qs))
+    elif data["source"] == "config":
+        configs = data["string"].split(",")
+        for config in configs:
+            elements.extend(get(fernet.decrypt(config.encode()).decode()))
+    elif data["source"] == "json":
+        elements = json.loads(data["json"])
+    return jsonify(elements)
+
+# formatting
+
+@app.route("/format/flat/", methods=["POST"])
+def route_format_flat():
+    data = request.get_json()
+    df = pd.json_normalize(data)
+    return make_response(json.dumps(df.to_json(orient='records', default=utilities.convert)))
+
+# calculations
+
+@app.route("/calc/columns/", methods=["POST"])
+def route_calc_columns():
+    data = request.get_json()
+    df = pd.json_normalize(data)
+    options = [{"label": i, "value": i} for i in df.columns if len(df[i].value_counts()) > 0]
+    return make_response(json.dumps(options, default=utilities.convert))
+
+@app.route("/calc/values/", methods=["POST"])
+def route_calc_values():
+    data = request.get_json()
+    df = pd.json_normalize(data["results"])
+    options = [{"label": i, "value": i} for i in df[data["column"]].unique() if i is not None]
+    return make_response(json.dumps(options, default=utilities.convert))
+
+@app.route("/calc/aggs/", methods=["POST"])
+def route_calc_aggs():
+    data = request.get_json()
+    df = pd.json_normalize(data["results"])
+    options = [
+        {"label": "Average", "value": "average"},
+        {"label": "Sum", "value": "sum"},
+        {"label": "Min", "value": "min"},
+        {"label": "Max", "value": "max"},
+        {"label": "Count", "value": "count"},
+        {"label": "Distinct", "value": "distinct"}
+    ]
+    if is_string_dtype(df[data["column"]]):
+        options = [
+            {"label": "Count", "value": "count"},
+            {"label": "Distinct", "value": "distinct"}
+        ]
+    return make_response(json.dumps(options, default=utilities.convert))
+
+# outputs
+
+@app.route("/render/table/", methods=["POST"])
+def route_render_table():
+    data = request.get_json()
+    obj = {}
+    if utilities.validate(data, "table"):
+        df = pd.json_normalize(data["results"])
+        df = df[data["config"]["cols"]]
+        # filter data
+        if "fvals" in data["config"] and data["config"]["fvals"] != []:
+            df = df.loc[df[data["config"]["fcol"]].isin(data["config"]["fvals"])]
+        # sort data
+        if "scol" in data["config"] and data["config"]["scol"] is not None:
+            if data["config"]["sdir"] == "asc":
+                df = df.sort_values(data["config"]["scol"], ascending=True)
+            elif data["config"]["sdir"] == "desc":
+                df = df.sort_values(data["config"]["scol"], ascending=False)
+        # paginate
+        if data["config"]["pag"] == "yes":
+            records = []
+            numpages = math.ceil(len(df)/data["config"]["rows"])
+            for i in range(numpages):
+                records.append(df[i*data["config"]["rows"]:(i+1)*data["config"]["rows"]].to_dict('records'))
+        else:
+            records = df.to_dict('records')
+            numpages = 0
+        # make table obj
+        obj = {
+            "columns": [i for i in df.columns],
+            "data": records,
+            "options": {
+                "paginate": data["config"]["pag"],
+                "numpages": numpages
+            }
+        }
+    return make_response(json.dumps(obj, default=utilities.convert))
+
+@app.route("/render/chart/", methods=["POST"])
+def route_render_chart():
+    data = request.get_json()
+    obj = {}
+    if utilities.validate(data, "chart"):
+        df = pd.json_normalize(data["results"])
+        # sort and filter data
+        df = df.sort_values(data["config"]["x"], ascending=True)
+        if "fcol" in data["config"] and "fvals" in data["config"]:
+            if data["config"]["fvals"] is not None and data["config"]["fvals"] != []:
+                df = df.loc[df[data["config"]["fcol"]].isin(data["config"]["fvals"])]
+        # configure x axis
+        xaxis = {
+            "title": { "text": data["config"]["x"] },
+            "automargin": True
+        }
+        if is_numeric_dtype(df[data["config"]["x"]]):
+            if df[data["config"]["x"]].min() >= 0 and df[data["config"]["x"]].max() <= 3000:
+                xaxis["tickformat"] = "d"
+        # configure y axis and aggregation
+        if "y" in data["config"]:
+            y_title = data["config"]["y"]
+            if "agg" in data["config"]:
+                if data["config"]["agg"] == "average":
+                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "mean"})
+                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
+                elif data["config"]["agg"] == "sum":
+                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "sum"})
+                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
+                elif data["config"]["agg"] == "min":
+                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "min"})
+                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
+                elif data["config"]["agg"] == "max":
+                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "max"})
+                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
+                elif data["config"]["agg"] == "count":
+                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "count"})
+                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
+                elif data["config"]["agg"] == "distinct":
+                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "nunique"})
+                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
+            yaxis = {
+                "title": { "text": y_title },
+                "automargin": True
+            }
+            if is_numeric_dtype(df[data["config"]["y"]]):
+                if df[data["config"]["y"]].min() >= 0 and df[data["config"]["y"]].max() <= 3000:
+                    yaxis["tickformat"] = "d"
+        # make chart obj
+        obj = {
+            "data": [{
+                "x": df[data["config"]["x"]].values.tolist(),
+                "marker": { "color": "#dadada" }
+            }],
+            "layout": {
+                "xaxis": xaxis,
+                "height": data["config"]["height"]
+            },
+            "config": {
+                "displayModeBar": False,
+                "responsive": True
+            }
+        }
+        if data["config"]["type"] == "scatter":
+            obj["data"][0]["y"] = df[data["config"]["y"]].values.tolist()
+            obj["data"][0]["type"] = "scatter"
+            obj["data"][0]["mode"] = "markers"
+            obj["layout"]["y"] = yaxis
+        elif data["config"]["type"] == "line":
+            obj["data"][0]["y"] = df[data["config"]["y"]].values.tolist()
+            obj["data"][0]["type"] = "scatter"
+            obj["data"][0]["mode"] = "lines"
+            obj["layout"]["y"] = yaxis
+        elif data["config"]["type"] == "bar":
+            obj["data"][0]["y"] = df[data["config"]["y"]].values.tolist()
+            obj["data"][0]["type"] = "bar"
+            obj["layout"]["y"] = yaxis
+        elif data["config"]["type"] == "hist":
+            obj["data"][0]["type"] = "histogram"
+    return make_response(json.dumps(obj, default=utilities.convert))
+
+@app.route("/render/map/", methods=["POST"])
+def route_render_map():
+    data = request.get_json()
+    obj = {}
+    if utilities.validate(data, "map"):
+        df = pd.json_normalize(data["results"])
+        # apply aggregation
+        label = data["config"]["col"]
+        if data["config"]["agg"] == "average":
+            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "mean"})
+            label = data["config"]["agg"] + " of " + data["config"]["col"]
+        elif data["config"]["agg"] == "sum":
+            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "sum"})
+            label = data["config"]["agg"] + " of " + data["config"]["col"]
+        elif data["config"]["agg"] == "min":
+            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "min"})
+            label = data["config"]["agg"] + " of " + data["config"]["col"]
+        elif data["config"]["agg"] == "max":
+            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "max"})
+            label = data["config"]["agg"] + " of " + data["config"]["col"]
+        elif data["config"]["agg"] == "count":
+            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "count"})
+            label = data["config"]["agg"] + " of " + data["config"]["col"]
+        elif data["config"]["agg"] == "distinct":
+            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "nunique"})
+            label = data["config"]["agg"] + " of " + data["config"]["col"]
+        # make map obj
+        obj = {
+            "data": [{
+                "type": "choroplethmapbox",
+                "locations": df[data["config"]["geo"]].values.tolist(),
+                "z": df[data["config"]["col"]].values.tolist(),
+                "text": label,
+                "colorscale": "YIOrRd",
+                "colorbar": { "thickness": 20 },
+                "marker": {
+                    "opacity": 0.7,
+                    "line":{
+                        "color": "rgb(255,255,255)",
+                        "width": 1
+                    }
+                }
+            }],
+            "layout": {
+                "mapbox": {
+                    "style": "carto-positron",
+                    "zoom": 3,
+                    "center": { "lat": 37.0902, "lon": -95.7129 },
+                },
+                "margin": { "r": 0, "t": 0, "l": 0, "b": 0 },
+                "height": data["config"]["height"]
+            }
+        }
+        if data["config"]["unit"] == "state":
+            f = requests.get("https://assets.codefordemocracy.org/geo/states.json").text
+            states = json.loads(f)
+            obj["data"][0]["geojson"] = states
+        elif data["config"]["unit"] == "zip" and data["config"]["state"] is not None:
+            filename = data["config"]["state"] + ".json"
+            f = requests.get("https://assets.codefordemocracy.org/geo/" + filename).text
+            zips = json.loads(f)
+            obj["data"][0]["geojson"] = zips
+    return make_response(json.dumps(obj, default=utilities.convert))
+
+#########################################################
+# explore endpoints
+#########################################################
+
+# relationships
 
 @app.route("/api/graph/", methods=["POST"])
 def route_api_graph():
@@ -209,7 +660,7 @@ def route_api_graph():
             elements = utilities.elements2cy(get(path(endpoint, qs)))
     elif data["type"] == "uncoverdonors":
         if len(data["ids"]) > 0:
-            endpoint = "/graph/traverse/uncoverdonors/"
+            endpoint = "/graph/uncover/donors/"
             qs["ids"] = (
                 json.dumps(data["ids"])
                 .replace("[", "")
@@ -228,10 +679,6 @@ def route_api_graph():
                 qs[key] = json.dumps(int(data[key]))
             elements = utilities.elements2cy(get(path(endpoint, qs)))
     return jsonify(elements)
-
-#########################################################
-# traverse endpoints
-#########################################################
 
 @app.route("/api/traverse/find/", methods=["POST"])
 def route_api_traverse_find():
@@ -481,9 +928,7 @@ def route_api_traverse_contribution_recipient():
             elements = get(path(endpoint, qs))
     return jsonify(elements)
 
-#########################################################
-# browse endpoints
-#########################################################
+# documents
 
 @app.route("/api/browse/documents/", methods=["POST"])
 def route_api_browse_documents():
@@ -612,260 +1057,69 @@ def route_api_browse_histogram():
     return jsonify(elements)
 
 #########################################################
-# inspect endpoints
+# user data and authenticated endpoints
 #########################################################
 
-@app.route("/api/inspect/", methods=["POST"])
-def route_api_inspect():
+@app.route("/api/user/public/", methods=["POST"])
+def route_api_user_public():
     data = request.get_json()
-    qs = dict()
-    elements = []
-    if data["source"] == "uuid":
-        endpoint = "/graph/find/elements/uuid/"
-        if "nodes" in data:
-            qs["nodes"] = data["nodes"]
-        if "edges" in data:
-            qs["edges"] = data["edges"]
-        elements = get(path(endpoint, qs))
-    elif data["source"] == "config":
-        configs = data["string"].split(",")
-        for config in configs:
-            elements.extend(get(fernet.decrypt(config.encode()).decode()))
-    elif data["source"] == "json":
-        elements = json.loads(data["json"])
-    return jsonify(elements)
+    user = {}
+    if data.get("username") is not None:
+        user = action({"task": "get_public_profile", "username": data["username"]})
+    return jsonify(user)
 
-#########################################################
-# formatting functions
-#########################################################
+@app.route("/api/user/active/", methods=["GET"])
+def route_api_user_active():
+    profile = action({"task": "get_active_user", "token": request.cookies.get('cfd'), "lists": session.get("lists")})
+    if profile and "lists" in session:
+        session.pop('lists', None)
+    return jsonify(profile)
 
-@app.route("/format/flat/", methods=["POST"])
-def route_format_flat():
+@app.route("/api/user/active/bookmarks/", methods=["GET"])
+def route_api_user_active_bookmarks():
+    bookmarks = action({"task": "get_active_user_bookmarks", "token": request.cookies.get('cfd')})
+    return jsonify(bookmarks)
+
+@app.route("/api/user/active/lists/", methods=["GET"])
+def route_api_user_active_lists():
+    lists = action({"task": "get_active_user_lists", "token": request.cookies.get('cfd')})
+    return jsonify(lists)
+
+@app.route("/api/lists/preloaded/", methods=["POST"])
+def route_api_lists_preloaded():
     data = request.get_json()
-    df = pd.json_normalize(data)
-    return make_response(json.dumps(df.to_json(orient='records', default=utilities.convert)))
+    lists = action({"task": "get_preloaded_lists", "token": request.cookies.get('cfd')})
+    return jsonify(lists)
 
-#########################################################
-# calculations for settings
-#########################################################
-
-@app.route("/calc/columns/", methods=["POST"])
-def route_calc_columns():
+@app.route("/api/list/meta/", methods=["POST"])
+def route_api_list_meta():
     data = request.get_json()
-    df = pd.json_normalize(data)
-    options = [{"label": i, "value": i} for i in df.columns if len(df[i].value_counts()) > 0]
-    return make_response(json.dumps(options, default=utilities.convert))
+    list = action({"task": "get_list_meta", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return jsonify(list)
 
-@app.route("/calc/values/", methods=["POST"])
-def route_calc_values():
+@app.route("/api/list/create/", methods=["POST"])
+def route_api_list_create():
     data = request.get_json()
-    df = pd.json_normalize(data["results"])
-    options = [{"label": i, "value": i} for i in df[data["column"]].unique() if i is not None]
-    return make_response(json.dumps(options, default=utilities.convert))
+    response = action({"task": "create_list", "token": request.cookies.get('cfd'), "data": data})
+    return jsonify(response)
 
-@app.route("/calc/aggs/", methods=["POST"])
-def route_calc_aggs():
+@app.route("/api/list/edit/", methods=["POST"])
+def route_api_list_edit():
     data = request.get_json()
-    df = pd.json_normalize(data["results"])
-    options = [
-        {"label": "Average", "value": "average"},
-        {"label": "Sum", "value": "sum"},
-        {"label": "Min", "value": "min"},
-        {"label": "Max", "value": "max"},
-        {"label": "Count", "value": "count"},
-        {"label": "Distinct", "value": "distinct"}
-    ]
-    if is_string_dtype(df[data["column"]]):
-        options = [
-            {"label": "Count", "value": "count"},
-            {"label": "Distinct", "value": "distinct"}
-        ]
-    return make_response(json.dumps(options, default=utilities.convert))
+    response = action({"task": "edit_list", "token": request.cookies.get('cfd'), "data": data})
+    return jsonify(response)
 
-#########################################################
-# render outputs
-#########################################################
-
-@app.route("/render/table/", methods=["POST"])
-def route_render_table():
+@app.route("/api/list/toggle/", methods=["POST"])
+def route_api_list_toggle():
     data = request.get_json()
-    obj = {}
-    if utilities.validate(data, "table"):
-        df = pd.json_normalize(data["results"])
-        df = df[data["config"]["cols"]]
-        # filter data
-        if "fvals" in data["config"] and data["config"]["fvals"] != []:
-            df = df.loc[df[data["config"]["fcol"]].isin(data["config"]["fvals"])]
-        # sort data
-        if "scol" in data["config"] and data["config"]["scol"] is not None:
-            if data["config"]["sdir"] == "asc":
-                df = df.sort_values(data["config"]["scol"], ascending=True)
-            elif data["config"]["sdir"] == "desc":
-                df = df.sort_values(data["config"]["scol"], ascending=False)
-        # paginate
-        if data["config"]["pag"] == "yes":
-            records = []
-            numpages = math.ceil(len(df)/data["config"]["rows"])
-            for i in range(numpages):
-                records.append(df[i*data["config"]["rows"]:(i+1)*data["config"]["rows"]].to_dict('records'))
-        else:
-            records = df.to_dict('records')
-            numpages = 0
-        # make table obj
-        obj = {
-            "columns": [i for i in df.columns],
-            "data": records,
-            "options": {
-                "paginate": data["config"]["pag"],
-                "numpages": numpages
-            }
-        }
-    return make_response(json.dumps(obj, default=utilities.convert))
+    action({"task": "toggle_list", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return route_api_user_active_lists()
 
-@app.route("/render/chart/", methods=["POST"])
-def route_render_chart():
-    data = request.get_json()
-    obj = {}
-    if utilities.validate(data, "chart"):
-        df = pd.json_normalize(data["results"])
-        # sort and filter data
-        df = df.sort_values(data["config"]["x"], ascending=True)
-        if "fcol" in data["config"] and "fvals" in data["config"]:
-            if data["config"]["fvals"] is not None and data["config"]["fvals"] != []:
-                df = df.loc[df[data["config"]["fcol"]].isin(data["config"]["fvals"])]
-        # configure x axis
-        xaxis = {
-            "title": { "text": data["config"]["x"] },
-            "automargin": True
-        }
-        if is_numeric_dtype(df[data["config"]["x"]]):
-            if df[data["config"]["x"]].min() >= 0 and df[data["config"]["x"]].max() <= 3000:
-                xaxis["tickformat"] = "d"
-        # configure y axis and aggregation
-        if "y" in data["config"]:
-            y_title = data["config"]["y"]
-            if "agg" in data["config"]:
-                if data["config"]["agg"] == "average":
-                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "mean"})
-                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
-                elif data["config"]["agg"] == "sum":
-                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "sum"})
-                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
-                elif data["config"]["agg"] == "min":
-                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "min"})
-                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
-                elif data["config"]["agg"] == "max":
-                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "max"})
-                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
-                elif data["config"]["agg"] == "count":
-                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "count"})
-                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
-                elif data["config"]["agg"] == "distinct":
-                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "nunique"})
-                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
-            yaxis = {
-                "title": { "text": y_title },
-                "automargin": True
-            }
-            if is_numeric_dtype(df[data["config"]["y"]]):
-                if df[data["config"]["y"]].min() >= 0 and df[data["config"]["y"]].max() <= 3000:
-                    yaxis["tickformat"] = "d"
-        # make chart obj
-        obj = {
-            "data": [{
-                "x": df[data["config"]["x"]].values.tolist(),
-                "marker": { "color": "#dadada" }
-            }],
-            "layout": {
-                "xaxis": xaxis,
-                "height": data["config"]["height"]
-            },
-            "config": {
-                "displayModeBar": False,
-                "responsive": True
-            }
-        }
-        if data["config"]["type"] == "scatter":
-            obj["data"][0]["y"] = df[data["config"]["y"]].values.tolist()
-            obj["data"][0]["type"] = "scatter"
-            obj["data"][0]["mode"] = "markers"
-            obj["layout"]["y"] = yaxis
-        elif data["config"]["type"] == "line":
-            obj["data"][0]["y"] = df[data["config"]["y"]].values.tolist()
-            obj["data"][0]["type"] = "scatter"
-            obj["data"][0]["mode"] = "lines"
-            obj["layout"]["y"] = yaxis
-        elif data["config"]["type"] == "bar":
-            obj["data"][0]["y"] = df[data["config"]["y"]].values.tolist()
-            obj["data"][0]["type"] = "bar"
-            obj["layout"]["y"] = yaxis
-        elif data["config"]["type"] == "hist":
-            obj["data"][0]["type"] = "histogram"
-    return make_response(json.dumps(obj, default=utilities.convert))
-
-@app.route("/render/map/", methods=["POST"])
-def route_render_map():
-    data = request.get_json()
-    obj = {}
-    if utilities.validate(data, "map"):
-        df = pd.json_normalize(data["results"])
-        # apply aggregation
-        label = data["config"]["col"]
-        if data["config"]["agg"] == "average":
-            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "mean"})
-            label = data["config"]["agg"] + " of " + data["config"]["col"]
-        elif data["config"]["agg"] == "sum":
-            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "sum"})
-            label = data["config"]["agg"] + " of " + data["config"]["col"]
-        elif data["config"]["agg"] == "min":
-            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "min"})
-            label = data["config"]["agg"] + " of " + data["config"]["col"]
-        elif data["config"]["agg"] == "max":
-            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "max"})
-            label = data["config"]["agg"] + " of " + data["config"]["col"]
-        elif data["config"]["agg"] == "count":
-            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "count"})
-            label = data["config"]["agg"] + " of " + data["config"]["col"]
-        elif data["config"]["agg"] == "distinct":
-            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "nunique"})
-            label = data["config"]["agg"] + " of " + data["config"]["col"]
-        # make map obj
-        obj = {
-            "data": [{
-                "type": "choroplethmapbox",
-                "locations": df[data["config"]["geo"]].values.tolist(),
-                "z": df[data["config"]["col"]].values.tolist(),
-                "text": label,
-                "colorscale": "YIOrRd",
-                "colorbar": { "thickness": 20 },
-                "marker": {
-                    "opacity": 0.7,
-                    "line":{
-                        "color": "rgb(255,255,255)",
-                        "width": 1
-                    }
-                }
-            }],
-            "layout": {
-                "mapbox": {
-                    "style": "carto-positron",
-                    "zoom": 3,
-                    "center": { "lat": 37.0902, "lon": -95.7129 },
-                },
-                "margin": { "r": 0, "t": 0, "l": 0, "b": 0 },
-                "height": data["config"]["height"]
-            }
-        }
-        if data["config"]["unit"] == "state":
-            f = requests.get("https://assets.codefordemocracy.org/geo/states.json").text
-            states = json.loads(f)
-            obj["data"][0]["geojson"] = states
-        elif data["config"]["unit"] == "zip" and data["config"]["state"] is not None:
-            filename = data["config"]["state"] + ".json"
-            f = requests.get("https://assets.codefordemocracy.org/geo/" + filename).text
-            zips = json.loads(f)
-            obj["data"][0]["geojson"] = zips
-    return make_response(json.dumps(obj, default=utilities.convert))
+@app.route("/api/list/delete/", methods=["POST"])
+def route_api_list_delete():
+    ata = request.get_json()
+    action({"task": "delete_list", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return route_api_user_active_lists()
 
 
 if __name__ == "__main__":

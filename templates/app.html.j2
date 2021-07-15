@@ -1,0 +1,38 @@
+{% extends "index.html.j2" %} {% block html %}
+
+<!-- navigation -->
+<div id="navbar">
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="ml-n1 d-flex align-items-center">
+      <a class="navbar-logo" href="[[ url_for('route_home') ]]"><img src="//assets.codefordemocracy.org/img/favicon-white.png" width="32" height="32" /></a>
+      <a class="navbar-brand" href="[[ url_for('route_home') ]]">Tools<sup>(ALPHA)</sup><br/><small>by Code for Democracy</small></a>
+    </div>
+    <button class="navbar-toggler" type="button" @click="open = !open"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" :class="open ? 'show' : ''">
+      <div class="navbar-nav">
+        <div class="navbar-divider mx-n2 d-lg-none"></div>
+        <a class="d-flex align-items-center nav-item nav-link nav-link-chonk [[ 'active' if request.url_rule.endpoint == 'route_create_list' ]]" href="[[ url_for('route_create_list') ]]"><span class="nav-link-circle">A</span><span><small>CREATE A</small><br/>List</span></a>
+        <a class="d-flex align-items-center nav-item nav-link nav-link-chonk [[ 'active' if request.url_rule.endpoint == 'route_create_query' ]]" href="[[ url_for('route_create_query') ]]"><span class="nav-link-circle">B</span><span><small>CREATE A</small><br/>Query</span></a>
+        <a class="d-flex align-items-center nav-item nav-link nav-link-chonk [[ 'active' if request.url_rule.endpoint == 'route_create_alert' ]]" href="[[ url_for('route_create_alert') ]]"><span class="nav-link-circle">C</span><span><small>CREATE AN</small><br/>Alert</span></a>
+        <a class="d-flex align-items-center nav-item nav-link nav-link-chonk [[ 'active' if request.url_rule.endpoint == 'route_create_visualization' ]]" href="[[ url_for('route_create_visualization') ]]"><span class="nav-link-circle">D</span><span><small>CREATE A</small><br/>Visualization</span></a>
+      </div>
+      <div class="navbar-nav ml-auto">
+        <div class="navbar-divider mx-n2 d-lg-none"></div>
+        <template v-if="store.state.auth.profile" v-cloak>
+          <a class="nav-item nav-link" href="javascript:void(0)" @click="store.commit('auth/login', true)" v-if="_.isEmpty(store.state.auth.profile)">Log In</a>
+          <a class="nav-item nav-link [[ 'active' if request.url_rule.endpoint == 'route_dashboard' ]]" href="[[ url_for('route_dashboard') ]]" v-else>@{{store.state.auth.profile.username}}</a>
+        </template>
+        <div class="navbar-divider mx-n2 mx-lg-2"></div>
+        <a class="nav-item nav-link" href="https://docs.codefordemocracy.org/data/explore/" target="_blank">Documentation</a>
+        <a class="nav-item nav-link" href="https://api.codefordemocracy.org" target="_blank">API</a>
+      </div>
+    </div>
+  </nav>
+</div>
+<!-- / navigation -->
+
+<div id="app">
+  {% block app %}{% endblock %}
+</div>
+
+{% endblock %}

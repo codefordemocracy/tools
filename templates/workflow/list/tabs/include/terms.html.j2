@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-12 col-md-6 pb-2 pb-md-0">
+    <div class="form-group" v-if="_.includes([null, 'person', 'organization'], list.type)">
+      <label class="mb-0 form-control-label">Subtype:</label>
+      <p class="mb-bump">Tell us a little more about the type of {{_.isNull(list.type) ? 'entity' : list.type}} in your list.</p>
+      <multiselect v-model="list.subtype" :options="subtypes"></multiselect>
+    </div>
+    <div class="form-group" v-if="_.includes([null, 'candidate', 'donor', 'committee', 'employer', 'job', 'topic'], list.subtype)">
+      <label class="mb-0 form-control-label">Terms:</label>
+      <p class="mb-bump">Separate search terms using commas.</p>
+      <textarea class="form-control form-control-xs" v-model="list.include.terms" :placeholder="placeholder.terms"></textarea>
+    </div>
+    <div class="form-group" v-if="_.includes([null, 'candidate', 'committee', 'topic'], list.subtype)">
+      <label class="mb-0 form-control-label">IDs:</label>
+      <p class="mb-bump">
+        Paste one ID per line.
+        <span v-if="list.subtype == 'candidate'">Use Candidate IDs provided by the FEC.</span>
+        <span v-if="list.subtype == 'committee'">Use Committee IDs provided by the FEC.</span>
+        <span v-if="list.subtype == 'topic'">See <a href="https://lda.congress.gov/ld/help/default.htm?turl=Documents%2FAppCodes.htm" target="_blank">list of codes</a> used in lobbying disclosures.</span>
+      </p>
+      <textarea class="form-control form-control-xs" rows=10 v-model="list.include.ids" :placeholder="placeholder.ids"></textarea>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="bg-light p-2 preview">
+      <small class="badge badge-xs badge-gray-dark">PREVIEW</small>
+      <pre class="mb-0">{{preview | prettify}}</pre>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="bg-white border p-1">
+  <div class="row no-gutters">
+    <div class="col-12 col-sm-6 col-lg-3 p-1">
+      <button class="btn btn-block btn-sm p-3 text-uppercase" :class="visualization.type == 'table' ? 'btn-primary text-white' : 'btn-secondary'" @click="visualization.type = 'table'">
+        <i class="icon-table fs-30 mb-1" :class="visualization.type == 'table' ? 'text-white' : 'text-gray-dark'"></i><br/>
+        Table
+      </button>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3 p-1">
+      <button class="btn btn-block btn-sm p-3 text-uppercase" :class="visualization.type == 'chart' ? 'btn-primary text-white' : 'btn-secondary'" @click="visualization.type = 'chart'">
+        <i class="icon-bar-chart fs-30 mb-1" :class="visualization.type == 'chart' ? 'text-white' : 'text-gray-dark'"></i><br/>
+        Chart
+      </button>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3 p-1">
+      <button class="btn btn-block btn-sm p-3 text-uppercase" :class="visualization.type == 'network' ? 'btn-primary text-white' : 'btn-secondary'" @click="visualization.type = 'network'">
+        <i class="icon-share-2 fs-30 mb-1" :class="visualization.type == 'network' ? 'text-white' : 'text-gray-dark'"></i><br/>
+        Network
+      </button>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3 p-1">
+      <button class="btn btn-block btn-sm p-3 text-uppercase" :class="visualization.type == 'map' ? 'btn-primary text-white' : 'btn-secondary'" @click="visualization.type = 'map'">
+        <i class="icon-globe fs-30 mb-1" :class="visualization.type == 'map' ? 'text-white' : 'text-gray-dark'"></i><br/>
+        Map
+      </button>
+    </div>
+  </div>
+</div>

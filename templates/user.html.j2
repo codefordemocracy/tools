@@ -1,0 +1,41 @@
+{% extends "index.html.j2" %} {% block title %}@[[username]] | {% endblock %} {% block html %}
+
+<div id="main" class="bg-light py-2" v-if="!_.isEmpty(user.username)" v-cloak>
+  <div class="container-fluid">
+    <div class="bg-gray-medium text-white p-2 mb-2">
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          <h5 v-if="!_.isEmpty(user.name)" class="font-weight-normal mb-0">{{user.name}}</h5>
+          <h5 v-if="_.isEmpty(user.name)" class="font-weight-normal mb-0">@{{user.username}}</h5>
+          <label v-if="!_.isEmpty(user.name)" class="text-gray-light">@{{user.username}}</label>
+        </div>
+        <div class="col-12 col-sm-6 d-flex justify-content-sm-end align-items-center bigicon mx-n1 mx-sm-0 mt-2 mt-sm-0">
+          <a v-if="!_.isEmpty(user.website)" :href="user.website" target="_blank"><i class="icon-link text-secondary px-1"></i></a>
+          <a v-if="!_.isEmpty(user.twitter)" :href="'https://twitter.com/' + user.twitter" target="_blank"><i class="icon-twitter text-secondary px-1"></i></a>
+          <a v-if="!_.isEmpty(user.linkedin)" :href="'https://linkedin.com/in/' + user.linkedin" target="_blank"><i class="icon-linkedin text-secondary px-1"></i></a>
+          <a v-if="!_.isEmpty(user.github)" :href="'https://github.com/' + user.github" target="_blank"><i class="icon-github text-secondary px-1"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="border bg-white pt-2 px-2 mb-2" :class="_.isEmpty(user.lists) ? 'pb-2' : 'pb-1'">
+      <h5>Public Lists</h5>
+      <p class="lead mb-2">These are the lists curated by @{{user.username}}.</p>
+      <div class="bg-xlight p-1" v-if="_.isEmpty(user.lists)">
+        No lists found.
+      </div>
+      <listpaginator :lists="user.lists" :hide="['visibility', 'created_by']" :actions="['clone']" :ratio="ratio"></listpaginator>
+    </div>
+    {% if mode != "popup" %}
+      <p class="mt-auto mb-0">[[copyright()]]</p>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+
+<script src="[[ url_for('static', filename='js/blocks/list/listdisplayer.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/blocks/list/listpaginator.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/modules/user.js') ]]"></script>
+
+{% endblock %}

@@ -1,7 +1,11 @@
+/* Formatting Filters */
+
 Vue.filter('prettify', function (value) {
   try { return JSON.stringify(value, null, 2) }
   catch { return value }
 })
+
+/* Numerical Filters */
 
 Vue.filter('currency', function (value) {
   if (typeof value !== "number") {
@@ -14,6 +18,23 @@ Vue.filter('currency', function (value) {
   });
   return formatter.format(value);
 });
+
+Vue.filter('numbreviate', function (value) {
+  try {
+    if (Math.abs(value) > 1000000000) {
+      return (value/1000000000).toFixed(1) + 'B'
+    } else if (Math.abs(value) > 1000000) {
+      return (value/1000000).toFixed(1) + 'M'
+    } else if (Math.abs(value) > 1000) {
+      return (value/1000).toFixed(1) + 'K'
+    } else {
+      return value
+    }
+  }
+  catch { return value }
+})
+
+/* Text Filters */
 
 Vue.filter('plural', function (value) {
   if (value == "candidate") {

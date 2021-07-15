@@ -1,0 +1,28 @@
+<div class="bg-white border p-1">
+  <div class="row no-gutters">
+    <div class="col-12 col-sm-6 col-lg-3 p-1">
+      <button class="btn btn-block btn-sm p-3 text-uppercase" :class="list.type == 'person' ? 'btn-primary text-white' : 'btn-secondary'" @click="list.type = 'person'">
+        <i class="icon-user fs-30 mb-1" :class="list.type == 'person' ? 'text-white' : 'text-gray-dark'"></i><br/>
+        Person
+      </button>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3 p-1">
+      <button class="btn btn-block btn-sm p-3 text-uppercase" :class="list.type == 'organization' ? 'btn-primary text-white' : 'btn-secondary'" @click="list.type = 'organization'">
+        <i class="icon-institution fs-30 mb-1" :class="list.type == 'organization' ? 'text-white' : 'text-gray-dark'"></i><br/>
+        Organization
+      </button>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3 p-1">
+      <button class="btn btn-block btn-sm p-3 text-uppercase" :class="list.type == 'job' ? 'btn-primary text-white' : 'btn-secondary'" @click="list.type = 'job'">
+        <i class="icon-briefcase fs-30 mb-1" :class="list.type == 'job' ? 'text-white' : 'text-gray-dark'"></i><br/>
+        Job
+      </button>
+    </div>
+    <div class="col-12 col-sm-6 col-lg-3 p-1">
+      <button class="btn btn-block btn-sm p-3 text-uppercase" :class="list.type == 'topic' ? 'btn-primary text-white' : 'btn-secondary'" @click="list.type = 'topic'">
+        <i class="icon-file-text fs-30 mb-1" :class="list.type == 'topic' ? 'text-white' : 'text-gray-dark'"></i><br/>
+        Topic
+      </button>
+    </div>
+  </div>
+</div>

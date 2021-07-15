@@ -1,0 +1,23 @@
+{% extends "index.html.j2" %}
+{% block html %}
+
+<!-- navigation -->
+<div id="topbar">
+  <nav class="navbar navbar-expand navbar-dark">
+    <div class="navbar-brand">Explore Relationships</div>
+    <div class="navbar-nav">
+      <a class="d-flex align-items-center nav-item nav-link [[ 'active' if request.url_rule.endpoint == 'route_explore_relationships_graph' ]]" href="[[ url_for('route_explore_relationships_graph', mode=mode) ]]">Graph</a>
+      <a class="d-flex align-items-center nav-item nav-link [[ 'active' if request.url_rule.endpoint == 'route_explore_relationships_traverse' ]]" href="[[ url_for('route_explore_relationships_traverse', mode=mode) ]]">Traverse</a>
+    </div>
+  </nav>
+</div>
+<!-- / navigation -->
+
+{% block app %}{% endblock %}
+
+{% endblock %}
+{% block scripts %}
+
+<script src="[[ url_for('static', filename='js/modules/explore/relationships/app.js') ]]"></script>
+
+{% endblock %}

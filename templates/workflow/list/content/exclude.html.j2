@@ -1,0 +1,17 @@
+<tabs class="bg-white border-bottom">
+  <tab name="Terms & IDs" :selected="true" class="p-2">
+    <div class="d-flex justify-content-center align-items-center p-10">
+      <span v-if="_.includes(store.state.workflow.valid, store.state.workflow.tab-1)">This feature is coming soon. Please continue to the next step.</span>
+      <span v-else>This feature is coming soon.</span>
+    </div>
+  </tab>
+  <tab name="Categorical Filters" :selected="false" :placeholder="true" class="p-2">
+
+  </tab>
+  <tab name="Numerical Filters" :selected="false" :placeholder="true" class="p-2">
+
+  </tab>
+  <tab name="Date Filters" :selected="false" :placeholder="true" class="p-2">
+
+  </tab>
+</tabs>

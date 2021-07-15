@@ -1,0 +1,45 @@
+{% extends "app.html.j2" %}
+{% block app %}
+
+<div id="main" class="bg-light p-2 d-flex flex-column justify-content-center">
+  <div class="container my-auto px-0">
+    <div class="row">
+      <div class="col-12 col-lg-6 my-1">
+        <div class="bg-white border p-2">
+          <h5>Create a List</h5>
+          <p class="lead">Lists are reusable collections of entities such as people or organizations. They can be used as stand-alone references or as the building blocks for queries.</p>
+          <a href="[[ url_for('route_create_list') ]]" class="btn btn-gray btn-xs px-2">Launch Workflow &rarr;</a>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6 my-1">
+        <div class="bg-white border p-2">
+          <h5>Create a Query</h5>
+          <p class="lead">Queries are bulk searches and analytical workflows built on top of one or more lists. They can be easily re-run when new data is available.</p>
+          <a href="[[ url_for('route_create_query') ]]" class="btn btn-gray btn-xs px-2">Launch Workflow &rarr;</a>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6 my-1">
+        <div class="bg-white border p-2">
+          <h5>Create an Alert</h5>
+          <p class="lead">Alerts are email notifications that let you know when new query results are available. They can also be triggered when specific results are found.</p>
+          <a href="[[ url_for('route_create_alert') ]]" class="btn btn-gray btn-xs px-2">Launch Workflow &rarr;</a>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6 my-1">
+        <div class="bg-white border p-2">
+          <h5>Create a Visualization</h5>
+          <p class="lead">Visualizations are interactive graphics that showcase query results. They can be embedded in web pages or notebooks with just a few lines of code.</p>
+          <a href="[[ url_for('route_create_visualization') ]]" class="btn btn-gray btn-xs px-2">Launch Workflow &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="pt-1 mb-0 px-lg-3 text-lg-center">[[copyright()]]</p>
+</div>
+
+{% endblock %}
+{% block scripts %}
+
+<script src="[[ url_for('static', filename='js/modules/home.js') ]]"></script>
+
+{% endblock %}

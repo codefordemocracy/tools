@@ -1,0 +1,72 @@
+{% extends "app.html.j2" %} {% block title %}[[workflow]] | {% endblock %} {% block app %}
+
+<div id="sidebar" v-cloak>
+  <div id="sidebar-tabs" class="bg-light d-flex">
+    {% for template in templates %}
+      <a class="sidebar-tab d-flex justify-content-center align-items-center" :class="store.state.workflow.tab == [[template.step]] ? 'active' : ''" href="javascript:void(0);" @click="store.commit('workflow/tab', [[template.step]]);"><span>[[template.step]]</span></a>
+    {% endfor %}
+    <div class="sidebar-spacer flex-grow-1"></div>
+  </div>
+  <div id="sidebar-settings" class="p-2 d-flex flex-column">
+    <label>[[workflow]] &mdash; Step {{store.state.workflow.tab}}</label>
+    {% for template in templates %}
+    <template v-if="store.state.workflow.tab == [[template.step]]">
+      {% include "/workflow/" + output + "/sidebar/" + template.slug + ".html.j2" %}
+    </template>
+    {% endfor %}
+    <div class="alert alert-info" v-if="!_.includes(store.state.workflow.valid, store.state.workflow.tab-1)"><strong>NOTE:</strong> This step will remain disabled until you complete the previous steps.</div>
+  </div>
+</div>
+<div id="content" class="bg-light p-2 d-flex flex-column justify-content-between" v-cloak>
+  <div class="screen" v-if="!_.includes(store.state.workflow.valid, store.state.workflow.tab-1)"></div>
+  <div class="mb-2">
+    <template v-if="_.includes(store.state.workflow.valid, store.state.workflow.tab-1)">
+      {% if action == "edit" and id != None %}
+        <div class="alert alert-warning"><strong>WARNING:</strong> You are editing the [[output]] with ID <u>[[id]]</u>.</div>
+      {% endif %}
+      {% if action == "clone" and id != None %}
+        <div class="alert alert-info"><strong>NOTE:</strong> Your [[output]] has been pre-populated with settings cloned from the [[output]] with ID <u>[[id]]</u>.</div>
+      {% endif %}
+      {% for template in templates %}
+    </template>
+    <template v-if="store.state.workflow.tab == [[template.step]]">
+      {% include "/workflow/" + output + "/content/" + template.slug + ".html.j2" %}
+    </template>
+    {% endfor %}
+    <div class="mt-2 d-flex justify-content-between">
+      <button class="btn btn-xs btn-secondary" :class="store.state.workflow.tab > 1 && _.includes(store.state.workflow.valid, store.state.workflow.tab-1) ? 'visible' : 'invisible'" @click="store.state.workflow.tab--">&larr; Return to Previous Step</button>
+      <button class="btn btn-xs btn-gray" :class="_.includes(store.state.workflow.valid, store.state.workflow.tab) ? 'visible' : 'invisible'" @click="store.state.workflow.tab++">Go to Next Step &rarr;</button>
+      <template v-if="store.state.workflow.complete && store.state.workflow.tab == [[templates|length]]">
+        <button class="btn btn-xs btn-indigo px-2" @click="store.commit('auth/login', true)" v-if="store.state.auth.profile && _.isEmpty(store.state.auth.profile)">Log In to Continue</button>
+        <button class="btn btn-xs btn-primary px-2" :disabled="store.state.workflow.processing || store.state.workflow.success" @click="save()" v-else>{{store.state.workflow.processing ? 'Processing...' : 'Save [[output.capitalize()]]'}}</button>
+      </template>
+    </div>
+    <p class="text-success mt-1 float-right" v-if="store.state.workflow.success">Success! [[output.capitalize()]] saved.</p>
+    <p class="text-danger mt-1 float-right" v-if="store.state.workflow.error">An error has occurred.</p>
+  </div>
+  <p class="mt-auto mb-0">[[copyright()]]</p>
+</div>
+
+{% endblock %}
+{% block scripts %}
+
+  {% if output == 'list' %}
+  {% endif %}
+
+  {% if output == 'query' %}
+  <script src="[[ url_for('static', filename='js/blocks/recipe/configurable.js') ]]"></script>
+  <script src="[[ url_for('static', filename='js/blocks/recipe/configuration.js') ]]"></script>
+  <script src="[[ url_for('static', filename='js/blocks/list/listdisplayer.js') ]]"></script>
+  <script src="[[ url_for('static', filename='js/blocks/list/listsearcher.js') ]]"></script>
+  {% endif %}
+
+  {% if output == 'alert' %}
+  {% endif %}
+
+  {% if output == 'visualization' %}
+  {% endif %}
+
+<script src="[[ url_for('static', filename='js/modules/workflow.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/modules/workflow/' + output + '/app.js') ]]"></script>
+
+{% endblock %}

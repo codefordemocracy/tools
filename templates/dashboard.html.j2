@@ -1,0 +1,73 @@
+{% extends "app.html.j2" %} {% block title %}Dashboard | {% endblock %} {% block app %}
+
+<div id="main" class="bg-light py-2" v-cloak>
+  <div class="container-fluid">
+    <div class="p-2 mb-2" :class="_.isEmpty(store.state.auth.profile) ? 'border bg-white' : 'bg-gray-medium text-white'" v-if="store.state.auth.profile">
+      <p class="lead" v-if="_.isEmpty(store.state.auth.profile)">You are logged out. <a href="javascript:void(0)" @click="store.commit('auth/login', true)">Click here to login.</a></p>
+      <div class="row align-items-center" v-else>
+        <div class="col-12 col-lg-8 mb-1 mb-lg-0">
+          <h5 class="mb-0">Welcome, <span class="font-weight-normal text-white">{{store.state.auth.profile.email}}</span>!</h5>
+          <p class="text-gray-light">(This is your private dashboard. <a :href="'/user/' + store.state.auth.profile.username + '/?mode=popup'" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-user-' + _.uniqueId(), 0.7, window)">Click here</a> to view your public profile.)</p>
+        </div>
+        <div class="col-12 col-lg-4 text-lg-right">
+          <a :href="ACCOUNTURL + '/dashboard/'" class="btn btn-xs btn-white mt-1 mt-lg-0 mr-tiny" target="_blank">Manage Your Account</a>
+          <button class="btn btn-xs btn-white mt-1 mt-lg-0" @click="store.commit('auth/logout', true)">Log Out</button>
+        </div>
+      </div>
+    </div>
+    <div class="row no-gutters mb-0">
+      <div class="col-12 col-lg-6 mb-0 pr-lg-1">
+        <div v-if="!_.isEmpty(store.state.auth.profile) && !_.isNull(lists)">
+          <div class="border bg-white pt-2 px-2 mb-2" :class="_.isEmpty(_.filter(lists, {visibility: status})) ? 'pb-2' : 'pb-1'" v-for="status in ['public', 'hidden']">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <h5 class="mb-0">Your {{_.startCase(status)}} Lists</h5>
+              <a :href="'/create/list/?visibility=' + status" class="btn btn-gray btn-xs px-1 font-weight-bold">&plus;</a>
+            </div>
+            <p class="lead mb-2" v-if="status == 'public'">These lists show up on your public profile and can be viewed or cloned by other users.</p>
+            <p class="lead mb-2" v-else>These lists are hidden from public searches.</p>
+            <div class="bg-xlight p-1" v-if="_.isEmpty(_.filter(lists, {visibility: status}))">
+              You don't have any {{status}} lists.
+            </div>
+            <listpaginator :lists="_.filter(lists, {visibility: status})" :hide="['visibility', 'created_by']" @toggle="toggleList" @confirm="confirmDelete"></listpaginator>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6 mb-0 pl-lg-1">
+        <div class="border bg-white pt-2 px-2 mb-2" :class="_.isEmpty(bookmarks) ? 'pb-2' : 'pb-1'" v-if="!_.isEmpty(store.state.auth.profile) && !_.isNull(bookmarks)">
+          <h5>Your Bookmarks</h5>
+          <p class="lead mb-2">Bookmarks help you keep track of results you want to revisit. Your collection of bookmarks is private and is not viewable by other users.</p>
+          <div class="bg-xlight p-1" v-if="_.isEmpty(bookmarks)">
+            You don't have any bookmarks.
+          </div>
+          <bookmarks :bookmarks="bookmarks" @update="updateBookmarks" v-else></bookmarks>
+        </div>
+      </div>
+    </div>
+    <p class="mt-auto mb-0">[[copyright()]]</p>
+  </div>
+  <modal :show="confirm.modal" @cancel="confirm.modal = false">
+    <div slot="header">
+      <h5 class="modal-title">Confirm List Deletion</h5>
+      <p class="text-muted mb-0">Are you sure you want to delete this list?</p>
+    </div>
+    <div slot="body">
+      <div class="alert alert-warning"><strong>WARNING:</strong> The deletion of lists is irreversible. You are deleting the list with name <u>{{confirm.name}}</u> and ID <u>{{confirm.id}}</u>.</div>
+    </div>
+    <div slot="footer" class="d-flex justify-content-end w-100">
+      <div>
+        <button type="button" @click="confirm.modal = false" class="btn btn-xs btn-secondary mr-tiny">Cancel</button>
+        <button type="button" @click="deleteList(); confirm.modal = false" class="btn btn-xs btn-gray px-1">Confirm</button>
+      </div>
+    </div>
+  </modal>
+</div>
+
+{% endblock %}
+{% block scripts %}
+
+<script src="[[ url_for('static', filename='js/blocks/bookmarks.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/blocks/list/listdisplayer.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/blocks/list/listpaginator.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/modules/dashboard.js') ]]"></script>
+
+{% endblock %}

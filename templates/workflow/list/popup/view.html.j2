@@ -1,0 +1,32 @@
+{% extends "index.html.j2" %}
+{% block title %}View List | {% endblock %}
+
+{% block html %}
+
+<div id="main" class="bg-light p-2 d-flex flex-column justify-content-center" v-cloak>
+  <div class="bg-white border p-2" v-if="!_.isEmpty(list)">
+    <div class="row align-items-center mb-2">
+      <div class="col-12 col-md-8 mb-1 mb-md-0">
+        <h3 class="mb-0">{{list.name}}</h3>
+        <p class="lead text-muted">{{list.id}}</p>
+      </div>
+      <div class="col-12 col-md-4 text-md-right">
+        <a :href="'/create/list/?action=clone&id=' + list.id" class="btn btn-xs btn-gray" target="_blank">Clone List</a>
+      </div>
+    </div>
+    <div class="bg-xlight p-2">
+      <listdisplayer :list="list" :hide="['visibility', 'name', 'id']" :ratio="ratio"></listdisplayer>
+    </div>
+  </div>
+  {% if mode != "popup" %}
+    <p class="pt-3 px-sm-3 mb-0 text-sm-center">[[copyright()]]</p>
+  {% endif %}
+</div>
+
+{% endblock %}
+{% block scripts %}
+
+<script src="[[ url_for('static', filename='js/blocks/list/listdisplayer.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/modules/workflow/list/popup/view.js') ]]"></script>
+
+{% endblock %}
