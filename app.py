@@ -157,13 +157,20 @@ def action(payload):
 # helper functions
 #########################################################
 
-def make_api_string_from_comma_separated(setting):
+def make_api_string_from_comma_separated_text_input(setting):
     setting = [s.strip() for s in setting if s.strip() != ""]
     setting = json.dumps(setting)
     setting = setting.replace("[\"", "")
     setting = setting.replace("\", \"", ",")
     setting = setting.replace("\"]", "")
     setting = setting.replace("[]", "")
+    return setting
+
+def make_api_string_from_comma_separated_numerical_input(setting):
+    setting = json.dumps(setting)
+    setting = setting.replace("[", "")
+    setting = setting.replace("]", "")
+    setting = setting.replace(" ", "")
     return setting
 
 #########################################################
@@ -180,9 +187,9 @@ def route_api_list_preview():
         ids = ""
         if data.get("include") is not None:
             if data["include"].get("terms") is not None:
-                terms = make_api_string_from_comma_separated(data["include"]["terms"])
+                terms = make_api_string_from_comma_separated_text_input(data["include"]["terms"])
             if data["include"].get("ids") is not None:
-                ids = make_api_string_from_comma_separated(data["include"]["ids"])
+                ids = make_api_string_from_comma_separated_text_input(data["include"]["ids"])
             if len(terms) > 0 and len(ids) > 0:
                 elements = get(path(endpoint, {"terms": terms, "ids": ids, "skip": 0, "limit": 1000}))
             elif len(terms) > 0:
@@ -222,11 +229,7 @@ def route_api_recipe_table():
         endpoint = "/data/calculate/recipe/" + data["output"] + "/"
         if "config" in data:
             if "template" in data["config"] and "lists" in data["config"]:
-                qs["lists"] = json.dumps(data["config"]["lists"])
-                qs["lists"] = qs["lists"].replace("[", "")
-                qs["lists"] = qs["lists"].replace("\"", "")
-                qs["lists"] = qs["lists"].replace("]", "")
-                qs["lists"] = qs["lists"].replace(" ", "")
+                qs["lists"] = make_api_string_from_comma_separated_text_input(data["config"]["lists"])
                 qs["template"] = data["config"]["template"]
                 elements = get(path(endpoint, qs))
     return jsonify(elements)
@@ -249,11 +252,7 @@ def route_api_recipe_count():
         endpoint = "/data/calculate/recipe/" + data["output"] + "/"
         if "config" in data:
             if "template" in data["config"] and "lists" in data["config"]:
-                qs["lists"] = json.dumps(data["config"]["lists"])
-                qs["lists"] = qs["lists"].replace("[", "")
-                qs["lists"] = qs["lists"].replace("\"", "")
-                qs["lists"] = qs["lists"].replace("]", "")
-                qs["lists"] = qs["lists"].replace(" ", "")
+                qs["lists"] = make_api_string_from_comma_separated_text_input(data["config"]["lists"])
                 qs["template"] = data["config"]["template"]
                 qs["count"] = True
                 elements = get(path(endpoint, qs))
@@ -614,9 +613,7 @@ def route_api_graph():
                 bias_score.append(2)
                 bias_score.append(3)
             if len(bias_score) > 0:
-                bias_score = json.dumps(bias_score)
-                bias_score = bias_score.replace("[", "")
-                bias_score = bias_score.replace("]", "")
+                bias_score = make_api_string_from_comma_separated_numerical_input(bias_score)
                 qs["bias_score"] = bias_score
             if data["parameters"]["factually_questionable_flag"]:
                 qs["factually_questionable_flag"] = 1
@@ -647,34 +644,14 @@ def route_api_graph():
     elif data["type"] == "expandnode":
         if len(data["labels"]) > 0:
             endpoint = "/graph/traverse/neighbors/"
-            qs["ids"] = json.dumps(data["ids"])
-            qs["ids"] = qs["ids"].replace("[", "")
-            qs["ids"] = qs["ids"].replace("\"", "")
-            qs["ids"] = qs["ids"].replace("]", "")
-            qs["ids"] = qs["ids"].replace(" ", "")
-            qs["labels"] = json.dumps(data["labels"])
-            qs["labels"] = qs["labels"].replace("[", "")
-            qs["labels"] = qs["labels"].replace("\"", "")
-            qs["labels"] = qs["labels"].replace("]", "")
-            qs["labels"] = qs["labels"].replace(" ", "")
+            qs["ids"] = make_api_string_from_comma_separated_numerical_input(data["ids"])
+            qs["labels"] = make_api_string_from_comma_separated_numerical_input(data["labels"])
             elements = utilities.elements2cy(get(path(endpoint, qs)))
     elif data["type"] == "uncoverdonors":
         if len(data["ids"]) > 0:
             endpoint = "/graph/uncover/donors/"
-            qs["ids"] = (
-                json.dumps(data["ids"])
-                .replace("[", "")
-                .replace("\"", "")
-                .replace("]", "")
-                .replace(" ", "")
-            )
-            qs["labels"] = (
-                json.dumps(data["labels"])
-                .replace("[", "")
-                .replace("\"", "")
-                .replace("]", "")
-                .replace(" ", "")
-            )
+            qs["ids"] = make_api_string_from_comma_separated_numerical_input(data["ids"])
+            qs["labels"] = make_api_string_from_comma_separated_text_input(data["labels"])
             for key in ["minTransactionAmt", "limit"]:
                 qs[key] = json.dumps(int(data[key]))
             elements = utilities.elements2cy(get(path(endpoint, qs)))
@@ -768,11 +745,7 @@ def route_api_traverse_associations():
     if len(data["ids"]) > 0:
         qs["skip"] = str((int(data["page"])-1)*int(data["limit"]))
         qs["limit"] = str(data["limit"])
-        qs["ids"] = json.dumps(data["ids"])
-        qs["ids"] = qs["ids"].replace("[", "")
-        qs["ids"] = qs["ids"].replace("\"", "")
-        qs["ids"] = qs["ids"].replace("]", "")
-        qs["ids"] = qs["ids"].replace(" ", "")
+        qs["ids"] = make_api_string_from_comma_separated_numerical_input(data["ids"])
         if "intermediaries" in data:
             qs["intermediaries"] = data["intermediaries"]
             if data["intermediaries"] == "contribution":
@@ -814,16 +787,8 @@ def route_api_traverse_intersection():
     if len(data["ids"]) > 0 and len(data["ids2"]) > 0:
         qs["skip"] = str((int(data["page"])-1)*int(data["limit"]))
         qs["limit"] = str(data["limit"])
-        qs["ids"] = json.dumps(data["ids"])
-        qs["ids"] = qs["ids"].replace("[", "")
-        qs["ids"] = qs["ids"].replace("\"", "")
-        qs["ids"] = qs["ids"].replace("]", "")
-        qs["ids"] = qs["ids"].replace(" ", "")
-        qs["ids2"] = json.dumps(data["ids2"])
-        qs["ids2"] = qs["ids2"].replace("[", "")
-        qs["ids2"] = qs["ids2"].replace("\"", "")
-        qs["ids2"] = qs["ids2"].replace("]", "")
-        qs["ids2"] = qs["ids2"].replace(" ", "")
+        qs["ids"] = make_api_string_from_comma_separated_numerical_input(data["ids"])
+        qs["ids2"] = make_api_string_from_comma_separated_numerical_input(data["ids2"])
         if "intermediaries" in data:
             qs["intermediaries"] = data["intermediaries"]
             if data["intermediaries"] == "contribution":
@@ -855,16 +820,8 @@ def route_api_traverse_intermediaries():
     if len(data["ids"]) > 0 and len(data["ids2"]) > 0:
         qs["skip"] = str((int(data["page"])-1)*int(data["limit"]))
         qs["limit"] = str(data["limit"])
-        qs["ids"] = json.dumps(data["ids"])
-        qs["ids"] = qs["ids"].replace("[", "")
-        qs["ids"] = qs["ids"].replace("\"", "")
-        qs["ids"] = qs["ids"].replace("]", "")
-        qs["ids"] = qs["ids"].replace(" ", "")
-        qs["ids2"] = json.dumps(data["ids2"])
-        qs["ids2"] = qs["ids2"].replace("[", "")
-        qs["ids2"] = qs["ids2"].replace("\"", "")
-        qs["ids2"] = qs["ids2"].replace("]", "")
-        qs["ids2"] = qs["ids2"].replace(" ", "")
+        qs["ids"] = make_api_string_from_comma_separated_numerical_input(data["ids"])
+        qs["ids2"] = make_api_string_from_comma_separated_numerical_input(data["ids2"])
         if "intermediaries" in data:
             qs["intermediaries"] = data["intermediaries"]
             if data["intermediaries"] == "contribution":
