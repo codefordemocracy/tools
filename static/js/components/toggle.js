@@ -12,20 +12,20 @@ const translate3d = (x, y, z = '0px') => {
 
 const toggle = {
   template: `
-  <div class="d-flex justify-content-between align-items-end">
-    <span class="switch-text"><slot name="text"></slot></span>
+  <div class="flex justify-between items-start text-xs">
+    <span class="leading-none py-1.5"><slot name="text"></slot></span>
     <label :class="className">
-      <input type="checkbox" class="switch-input" :name="name" :checked="value" :disabled="disabled" @change.stop="toggle" />
-      <div class="switch-core" :style="coreStyle">
-        <div class="switch-button" :style="buttonStyle"></div>
+      <input type="checkbox" class="hidden opacity-0 absolute w-px h-px" :name="name" :checked="value" :disabled="disabled" @change.stop="toggle" />
+      <div class="relative box-border outline-none m-0 select-none transition-all duration-300" :style="coreStyle">
+        <div class="absolute overflow-hidden top-0 left-0 rounded-full bg-white z-10" :style="buttonStyle"></div>
       </div>
-      <div v-if="labels">
-        <span class="switch-label switch-left" :style="labelStyle" v-if="toggled">
+      <div v-if="labels" class="uppercase">
+        <span class="absolute top-0 text-white left-2" :style="labelStyle" v-if="toggled">
           <slot name="checked">
             <div>{{labelChecked}}</div>
           </slot>
         </span>
-        <span class="switch-label switch-right" :style="labelStyle" v-else>
+        <span class="absolute top-0 text-white right-2" :style="labelStyle" v-else>
           <slot name="unchecked">
             <div>{{labelUnchecked}}</div>
           </slot>
@@ -102,7 +102,7 @@ const toggle = {
   computed: {
     className () {
       let { toggled, disabled } = this
-      return ['switch', { toggled, disabled }]
+      return ['switch inline-block relative align-middle select-none cursor-pointer', { toggled, disabled }]
     },
     coreStyle () {
       return {

@@ -3,27 +3,27 @@
 
 {% block html %}
 
-<div id="main" class="bg-light p-2" :class="!store.state.explore.first ? 'd-flex flex-column justify-content-center' : ''" v-cloak>
-  <div class="bg-white border" :class="!store.state.explore.first ? 'p-3' : 'p-2'" :id="!store.state.explore.first ? 'intro' : ''">
+<div id="main" class="bg-light p-5" :class="!store.state.explore.first ? 'flex flex-col justify-center' : ''" v-cloak>
+  <div class="bg-white border border-secondary" :class="!store.state.explore.first ? 'p-7 max-w-lg m-auto' : 'p-5'">
     <template v-if="!store.state.explore.first">
-      <div class="mb-4">
+      <div class="mb-8">
         <a href="https://codefordemocracy.org" target="_blank"><img src="//assets.codefordemocracy.org/img/logo-tiny.png" id="logo" /></a>
       </div>
-      <h1 id="page-title">Explore Documents<sup>(ALPHA)</sup></h1>
-      <p class="lead">Use this tool to explore articles, tweets from candidates, or political ads over a custom time range:</p>
+      <h1 id="page-title" class="text-2xl text-dark-gray mb-2">Explore Documents<sup>(ALPHA)</sup></h1>
+      <p class="font-light text-sm leading-relaxed mb-5">Explore news articles, tweets from candidates, or digital political ads over a custom time range:</p>
     </template>
-    <form @submit.prevent="search(0)" :class="store.state.explore.first ? 'row' : ''">
-      <div class="form-group" :class="store.state.explore.first ? 'col-12 col-lg-2' : ''">
+    <form @submit.prevent="search(0)" class="form-full form-sm" :class="store.state.explore.first ? 'grid md:grid-cols-2 lg:grid-cols-12 md:gap-x-5' : ''">
+      <div class="form-group" :class="store.state.explore.first ? 'md:col-span-2 lg:col-span-2' : ''">
         <label class="label">Document Type:</label>
-        <select v-model="documents" class="form-control form-control-xs select pr-3">
+        <select v-model="documents" class="form-element">
           <option value="articles">Articles</option>
           <option value="tweets">Tweets</option>
           <option value="ads">Ads</option>
         </select>
       </div>
-      <div class="form-group" :class="store.state.explore.first ? 'col-12 col-lg-4' : ''" v-if="documents == 'articles'">
+      <div class="form-group" :class="store.state.explore.first ? 'md:col-span-2 lg:col-span-4' : ''" v-if="documents == 'articles'">
         <label class="label">Type of Source:</label>
-        <select v-model="group" class="form-control form-control-xs select pr-3">
+        <select v-model="group" class="form-element">
           <option value="questionable">Factually Questionable Sources</option>
           <option value="conspiracy">Conspiracy Sources</option>
           <option value="hate">Hate Group Sources</option>
@@ -36,64 +36,64 @@
           <option value="conservative">Conservative Sources</option>
         </select>
       </div>
-      <div class="form-group" :class="store.state.explore.first ? 'col-12 col-lg-4' : ''" v-if="documents == 'tweets'">
+      <div class="form-group" :class="store.state.explore.first ? 'md:col-span-2 lg:col-span-4' : ''" v-if="documents == 'tweets'">
         <label class="label">Party of Candidate Tweeting:</label>
-        <select v-model="group" class="form-control form-control-xs select pr-3">
+        <select v-model="group" class="form-element">
           <option value="dem">Democrat</option>
           <option value="rep">Republican</option>
         </select>
       </div>
-      <div class="form-group" :class="store.state.explore.first ? 'col-12 col-lg-4' : ''" v-if="documents == 'ads'">
+      <div class="form-group" :class="store.state.explore.first ? 'md:col-span-2 lg:col-span-4' : ''" v-if="documents == 'ads'">
         <label class="label">Ad Format:</label>
-        <select v-model="group" class="form-control form-control-xs select pr-3">
+        <select v-model="group" class="form-element">
           <option value="facebook">Facebook</option>
         </select>
       </div>
-      <div class="form-group" :class="store.state.explore.first ? 'col-12 col-md-6 col-lg-3' : ''">
+      <div class="form-group" :class="store.state.explore.first ? 'lg:col-span-3' : ''">
         <label class="label">Min Publication Date:</label>
-        <datepicker v-model="dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-control form-control-xs" :disabled-dates="disabledDates"></datepicker>
+        <datepicker v-model="dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates"></datepicker>
       </div>
-      <div class="form-group" :class="store.state.explore.first ? 'col-12 col-md-6 col-lg-3' : ''">
+      <div class="form-group" :class="store.state.explore.first ? 'lg:col-span-3' : ''">
         <label class="label">Max Publication Date:</label>
-        <datepicker v-model="dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-control form-control-xs" :disabled-dates="disabledDates"></datepicker>
+        <datepicker v-model="dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates"></datepicker>
       </div>
-      <div class="form-group" :class="store.state.explore.first ? 'col-12 col-md-8 col-lg-10 mb-md-0' : ''">
+      <div class="form-group" :class="store.state.explore.first ? 'md:col-span-2 lg:col-span-10 lg:mb-0' : ''">
         <label class="label">Search Term:</label>
-        <typeahead input="form-control form-control-xs" v-model="term" :items="PLACEHOLDERS.topic"></typeahead>
+        <typeahead ul="text-xs" input="form-element" v-model="term" :items="PLACEHOLDERS.topic"></typeahead>
       </div>
-      <div class="form-group d-flex" :class="store.state.explore.first ? 'col-12 col-md-4 col-lg-2 mb-md-0' : 'mb-tiny'">
-        <input type="submit" class="btn btn-xs btn-gray w-100 align-self-end" :value="button" :disabled="store.state.explore.loading"/>
+      <div :class="store.state.explore.first ? 'md:col-span-2 lg:pt-6' : ''">
+        <input type="submit" class="btn btn-gray mb-0" :value="button" :disabled="store.state.explore.loading"/>
       </div>
     </form>
     <template v-if="!store.state.explore.first && store.state.explore.loaded">
-      <p class="mt-1 text-orange" v-if="_.isEmpty(store.state.explore.results) && !store.state.explore.error">No {{documents}} found.</p>
-      <p class="mt-1 text-danger" v-if="store.state.explore.error">An error has occurred. Please try again.</p>
+      <p class="form-text-bottom text-info" v-if="_.isEmpty(store.state.explore.results) && !store.state.explore.error">No {{documents}} found.</p>
+      <p class="form-text-bottom text-error" v-if="store.state.explore.error">An error has occurred. Please try again.</p>
     </template>
   </div>
   <template v-if="store.state.explore.first">
-    <div class="bg-white border mt-2" v-if="!_.isEmpty(store.state.explore.histogram)">
+    <div class="bg-white border border-secondary mt-5" v-if="!_.isEmpty(store.state.explore.histogram)">
       <plot :id="_.uniqueId('histogram')" :settings="plot"></plot>
     </div>
     <template v-if="store.state.explore.loaded">
-      <div class="bg-white p-2 border mt-2 position-relative" v-for="result in store.state.explore.results">
-        <a class="btn btn-xs btn-light doclink" :href="ROOTURL + '/traverse/?entity=tweeter&term=@'+result.user_screen_name" target="_blank" v-if="store.state.explore.search.documents == 'tweets'">View in Traverse Tool</a>
-        <a class="btn btn-xs btn-light doclink" :href="'https://facebook.com/ads/library/?id=' + result.id" target="_blank" v-if="store.state.explore.search.documents == 'ads' && store.state.explore.search.group == 'facebook'">View in Facebook Ads Library</a>
-        <pre class="mb-0">{{result | prettify}}</pre>
+      <div class="bg-white border border-secondary mt-5 relative" v-for="result in store.state.explore.results">
+        <a class="btn btn-sm btn-light absolute top-0 right-0 z-10 rounded-none" :href="ROOTURL + '/traverse/?entity=tweeter&term=@'+result.user_screen_name" target="_blank" v-if="store.state.explore.search.documents == 'tweets'">View in Traverse Tool</a>
+        <a class="btn btn-sm btn-light absolute top-0 right-0 z-10 rounded-none" :href="'https://facebook.com/ads/library/?id=' + result.id" target="_blank" v-if="store.state.explore.search.documents == 'ads' && store.state.explore.search.group == 'facebook'">View in Facebook Ads Library</a>
+        <pre class="text-xs text-dark overflow-x-auto p-5">{{result | prettify}}</pre>
       </div>
-      <div class="bg-white p-2 border mt-2" v-if="_.isEmpty(store.state.explore.results) && !store.state.explore.error">
-        <div class="bg-xlight p-1">No {{documents}} found.</div>
+      <div class="bg-white p-5 border border-secondary mt-5" v-if="_.isEmpty(store.state.explore.results) && !store.state.explore.error">
+        <div class="bg-xlight p-3 text-xs">No {{documents}} found.</div>
       </div>
-      <div class="d-flex justify-content-between align-items-center mt-2" v-if="!_.isEmpty(store.state.explore.results) || store.state.explore.page > 0">
-        <button class="btn btn-xs btn-gray" :class="button" @click="search(store.state.explore.page-1)" :disabled="store.state.explore.page == 0">&larr; Previous Results</button>
-        <button class="btn btn-xs btn-gray" :class="button" @click="search(store.state.explore.page+1)" :disabled="_.isEmpty(store.state.explore.results)">More Results &rarr;</button>
+      <div class="flex justify-between items-center mt-5" v-if="!_.isEmpty(store.state.explore.results) || store.state.explore.page > 0">
+        <button class="btn btn-sm btn-gray" :class="button" @click="search(store.state.explore.page-1)" :disabled="store.state.explore.page == 0">&larr; Previous Results</button>
+        <button class="btn btn-sm btn-gray" :class="button" @click="search(store.state.explore.page+1)" :disabled="_.isEmpty(store.state.explore.results)">More Results &rarr;</button>
       </div>
-      <div class="bg-white p-2 border mt-2" v-if="store.state.explore.error">
-        <div class="bg-xlight p-1">An error has occurred. Please try again.</div>
+      <div class="bg-white p-5 border mt-5" v-if="store.state.explore.error">
+        <div class="bg-xlight p-3 text-xs">An error has occurred. Please try again.</div>
       </div>
     </template>
   </template>
   {% if mode != "popup" %}
-    <p class="pt-3 mb-0" :class="store.state.first ? 'mt-1' : 'px-sm-3 text-sm-center'">[[copyright()]]</p>
+    <p class="text-xs pt-5" :class="store.state.first ? 'mt-auto' : 'sm:text-center'">[[copyright()]]</p>
   {% endif %}
 </div>
 

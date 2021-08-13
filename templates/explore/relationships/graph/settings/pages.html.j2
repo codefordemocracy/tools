@@ -1,32 +1,32 @@
-<h6 class="section-heading mb-1">Search Pages</h6>
-<p>You can search for a Facebook page below:</p>
+<h6 class="text-lg text-dark-gray mb-2">Search Pages</h6>
+<p class="text-xs mb-4">You can search for a Facebook page below:</p>
 <div class="form-group">
   <label class="label">Name:</label>
-  <typeahead input="form-control form-control-xs" v-model="search.pages.name" :items="PLACEHOLDERS.page"></typeahead>
+  <typeahead ul="text-xs" input="form-element" v-model="search.pages.name" :items="PLACEHOLDERS.page"></typeahead>
 </div>
 <div v-if="store.state.explore.advanced == true">
   <div class="form-group">
     <label class="label">Limit:</label>
-    <p class="text-muted mb-1">Number of results returned per search.</p>
-    <input class="form-control form-control-xs" v-model="search.pagination.limit" type="number" min="0" max="300" />
+    <p class="form-text-top">Number of results returned per search.</p>
+    <input class="form-element" v-model="search.pagination.limit" type="number" min="0" max="300" />
   </div>
   <div class="form-group">
     <label class="label">Page:</label>
-    <p class="text-muted mb-1">By default, only the first page of results is returned for each search. Increment this number to get additional results.</p>
-    <input class="form-control form-control-xs" v-model="search.pagination.page" type="number" min="1" max="99999" />
+    <p class="form-text-top">By default, only the first page of results is returned for each search. Increment this number to get additional results.</p>
+    <input class="form-element" v-model="search.pagination.page" type="number" min="1" max="99999" />
   </div>
-  <div class="p-1 bg-light">
-    <div class="form-group" :class="search.options.context ? 'mb-1' : 'mb-0'">
-      <label class="label toggleset">Context:</label>
+  <div class="p-3 bg-light mb-4">
+    <div class="form-group" :class="search.options.context ? '' : 'mb-0'">
+      <label class="label mb-1">Context:</label>
       <toggle v-model="search.options.context" :labels="{checked: 'Show', unchecked: 'Hide'}" :width=62><span slot="text">Connected Ads</span></toggle>
     </div>
-    <div class="form-group mb-1" v-if="search.options.context">
+    <div class="form-group" v-if="search.options.context">
       <label class="label">Min Date for Ads:</label>
-      <datepicker v-model="search.dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-control form-control-xs" :disabled-dates="disabledDates"></datepicker>
+      <datepicker v-model="search.dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates"></datepicker>
     </div>
     <div class="form-group mb-0" v-if="search.options.context">
       <label class="label">Max Date for Ads:</label>
-      <datepicker v-model="search.dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-control form-control-xs" :disabled-dates="disabledDates"></datepicker>
+      <datepicker v-model="search.dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates"></datepicker>
     </div>
   </div>
 </div>

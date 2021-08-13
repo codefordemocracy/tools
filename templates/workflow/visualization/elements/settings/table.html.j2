@@ -1,4 +1,4 @@
-<h6 class="section-heading mb-1">Table</h6>
+<h6 class="text-lg text-dark-gray mb-2">Table</h6>
 <p>Use the options below to build an embeddable data table from the data in the query tab.</p>
 <form @submit.prevent="submit()">
   <!-- Columns -->
@@ -34,7 +34,7 @@
     <multiselect v-model="settings.table.rows" track-by="value" label="label" :options="options.table.rows" :searchable="false" :allow-empty="false"></multiselect>
   </div>
   <!-- Submit -->
-  <input type="submit" class="btn btn-xs btn-block btn-gray mt-2" :value="store.state.waiting ? 'Loading...' : 'Submit'" :disabled="_.isNil(store.state.results) || store.state.waiting || settings.table.cols == '' || (!_.isNil(format('fcol')) && settings.table.fvals == '')"/>
+  <input type="submit" class="btn btn-sm btn-block btn-gray mt-2" :value="store.state.waiting ? 'Loading...' : 'Submit'" :disabled="_.isNil(store.state.results) || store.state.waiting || settings.table.cols == '' || (!_.isNil(format('fcol')) && settings.table.fvals == '')"/>
   <p class="mt-2" v-if="_.isNil(store.state.results) && !(store.state.loading && !store.state.loaded)">You must first use the query tab to grab data before you can create a data table.</p>
   <p class="mt-2 text-danger" v-if="store.state.error">An error has occurred. Please try again.</p>
 </form>

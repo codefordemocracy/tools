@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>{% block title %}{% endblock %}Tools | Code for Democracy</title>
-    <link rel="stylesheet" href="//assets.codefordemocracy.org/css/style.css" />
+    <link rel="stylesheet" href="//assets.codefordemocracy.org/css/cfd.css" />
     <link rel="stylesheet" href="[[ url_for('static', filename='css/vue-multiselect.css') ]]" />
     <link rel="stylesheet" href="[[ url_for('static', filename='css/app.css') ]]" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="icon" type="image/png" href="//assets.codefordemocracy.org/img/favicon.png" />
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -36,24 +37,23 @@
     <div id="waitlist" v-cloak>
       <modal :show="store.state.waitlist.modal" @cancel="store.commit('waitlist/modal', false)">
         <div slot="header">
-          <h5 class="modal-title">This feature isn't quite ready yet!</h5>
-          <p>Enter your email to get notified when it launches.</p>
+          <h5 class="modal-title text-dark">Join Waitlist</h5>
+          <p class="modal-subtitle">This feature isn't quite ready yet! Enter your email to get notified when it launches.</p>
         </div>
         <div slot="body">
-          <form class="form-inline" @submit.prevent="subscribe()">
+          <form class="form-full form-sm" @submit.prevent="subscribe()">
             <input type="text" v-model="form.b_b4403b081b3c5fd183e8f1f60_0a70f9292d" tabindex="-1" style="position: absolute; left: -5000px;" aria-hidden="true" />
-            <div class="input-group w-100">
-              <input class="form-control form-control-xs" placeholder="you@example.com" v-model="form.EMAIL" type="email" v-on:keyup="error=false; success=false" />
-              <div class="input-group-append">
-                <input type="submit" class="btn btn-xs btn-primary" value="Join Waitlist" :disabled="_.isEmpty(form.EMAIL)" />
-              </div>
+            <div class="form-group">
+              <label class="label">Email:</label>
+              <input class="form-element" v-model="form.EMAIL" type="email" v-on:keyup="error=false; success=false" v-on:keyup.enter="subscribe()" placeholder="you@example.com" />
             </div>
+            <p class="form-text-bottom text-error" v-if="error">An error has occurred.</p>
+            <p class="form-text-bottom text-info" v-if="success">You're all set!</p>
           </form>
-          <p class="text-danger small mt-1" v-if="error">An error has occurred.</p>
-          <p class="text-primary small mt-1" v-if="success">You're all set!</p>
         </div>
-        <div slot="footer">
-          <button class="btn btn-xs btn-secondary" @click="store.commit('waitlist/modal', false)">Close</button>
+        <div slot="footer" class="flex justify-end">
+          <button class="btn btn-sm btn-secondary mr-1" @click="store.commit('waitlist/modal', false)">Cancel</button>
+          <button @click="subscribe()" class="btn btn-sm btn-primary" :disabled="_.isEmpty(form.EMAIL)">Join Waitlist</button>
         </div>
       </modal>
     </div>

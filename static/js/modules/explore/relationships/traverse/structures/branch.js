@@ -1,14 +1,14 @@
 const branch = {
   template: `
-    <div :id="id">
+    <div :id="id" class="branch">
       <leaf :settings="settings" :numbranches="numbranches" @add="add" @destroy="destroy"></leaf>
       <div v-if="branches.length > 0">
-        <div class="bar d-flex flex-column">
-          <div class="align-self-center line"></div>
-          <div class="bubbles pl-1 pb-1 text-center">
-            <button v-for="path in paths" @click="set(path.id)" class="d-inline-block bubble" :class="{'bg-secondary': !path.active, 'bg-gray': path.active, 'text-white': path.active}"></button>
+        <div class="bar flex flex-col">
+          <div class="self-center line bg-secondary"></div>
+          <div class="mx-auto bg-white border border-secondary rounded-full p-1 flex justify-center items-center">
+            <button v-for="path in paths" @click="set(path.id)" class="inline-block bubble rounded-full m-1" :class="{'bg-secondary': !path.active, 'bg-gray': path.active}"></button>
           </div>
-          <div class="align-self-center line" v-if="branch"></div>
+          <div class="self-center line bg-secondary" v-if="branch"></div>
         </div>
         <branch :id="branch.id" :settings="branch.settings" :branches="branch.branches" @destroy="remove" v-for="branch in branches" v-show="active == branch.id"></branch>
       </div>

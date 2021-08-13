@@ -1,8 +1,8 @@
 const dropdown = {
   template: `
-  <div class="btn-group">
-    <button type="button" class="btn dropdown-toggle" :class="button" @click="toggleOpen()" ref="button">{{text}} </button>
-    <div class="dropdown-menu" :class="[menu, {'d-block': open}]" @click="toggleOpen()" ref="dropdown">
+  <div class="dropdown-menu inline-block relative">
+    <button type="button" class="btn" :class="button" @click="toggleOpen()" ref="button">{{text}}<i class="fas fa-caret-down ml-2"></i></button>
+    <div class="absolute bg-white z-20" :class="[menu, {'block': open, 'hidden': !open}]" @click="toggleOpen()" ref="dropdown">
       <slot></slot>
     </div>
   </div>

@@ -1,13 +1,18 @@
 const network = {
-    template: '<div id="cy" ref="cy"></div>',
+    template: `<div ref="cy" class="w-full h-full" :class="render ? '' : 'invisible'"></div>`,
     methods: {
         selectElement(data) {
             this.$store.commit('explore/select', data)
         }
     },
+    data() {
+      return {
+        render: false
+      }
+    },
     mounted() {
         let self = this
-            // initialize cytoscape
+        // initialize cytoscape
         let cy = cytoscape({
             container: this.$refs.cy,
             style: cytostyle
@@ -40,8 +45,8 @@ const network = {
 
         let contextMenu = cy.contextMenus({
             submenuIndicator: { src: '../../svg/submenu-indicator-default.svg', width: 12, height: 12 },
-            contextMenuClasses: ['border', 'bg-white'],
-            menuItemClasses: ['btn', 'btn-white', 'btn-xs', 'w-100'],
+            contextMenuClasses: ['border', 'border-secondary', 'bg-white'],
+            menuItemClasses: ['btn', 'btn-white', 'btn-sm', 'w-full'],
             menuItems: [{
                     id: 'node-expander',
                     content: 'Expand Node',
@@ -117,8 +122,10 @@ const network = {
 
         // watch for updates
         this.$store.watch((state) => state.explore.elements, (newElements, oldElements) => {
+
             self.$store.commit('explore/diff', { newElements: newElements, oldElements: oldElements })
-                // style selecting elements
+
+            // style selecting elements
             let styleSelected = function() {
                 cy.elements().addClass('faded');
                 cy.$(':selected').closedNeighborhood().removeClass('faded').addClass('connected');
@@ -135,6 +142,7 @@ const network = {
                 }
                 cy.layout({ name: self.$store.state.explore.layout }).run()
                 cy.elements().unlock()
+                self.render = true
             }
 
             // remove deleted elements
@@ -165,6 +173,7 @@ const network = {
                 } else {
                     contextMenu.hideMenuItem('delete-selected');
                 }
+
             }, 100));
             cy.elements().on('unselect', _.debounce(function(e) {
                 cy.elements().removeClass('faded').removeClass('connected');
@@ -178,6 +187,7 @@ const network = {
                 contextMenu.showMenuItem('select-all-nodes');
                 contextMenu.hideMenuItem('delete-selected');
             }, 100));
+
         })
         this.$store.watch((state) => state.explore.filter, (newFilter, oldFilter) => {
             // filter elements when the signal is received
@@ -250,7 +260,6 @@ const cytostyle = [{
         'border-color': '#555',
         'border-opacity': '0',
         'overlay-padding': '2px',
-        'z-index': '10',
         'text-outline-color': 'black',
         'text-outline-width': '0.15px'
     }

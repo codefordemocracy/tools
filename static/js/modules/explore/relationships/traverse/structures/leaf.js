@@ -1,9 +1,9 @@
 const leaf = {
   template: `
     <div>
-      <div class="cap d-flex justify-content-between align-items-center">
-        <div>
-          <strong>{{settings.entity}}:</strong> {{settings.term}}
+      <div class="py-2 px-3 flex justify-between items-center bg-secondary">
+        <div class="uppercase">
+          <strong class="text-dark">{{settings.entity}}:</strong> {{settings.term}}
           <span class="text-muted" v-if="settings.template != 'contribution'"> &ndash; </span>
           <span v-if="settings.template == 'overview'">overview</span>
           <span v-if="settings.template == 'associations-results'">associations ({{settings.entity2}}s)</span>
@@ -12,11 +12,9 @@ const leaf = {
           <span v-if="settings.template == 'intersection-results'">intersection ({{settings.term2}}) <span class="text-muted">&ndash;</span> {{settings.entity2}}s</span>
           <span v-if="settings.template == 'intersection-details'">intersection ({{settings.term2}}) <span class="text-muted">&ndash;</span> details ({{settings.term3}})</span>
         </div>
-        <div class="text-right">
-          <button class="btn text-muted" @click="destroy()">x</button>
-        </div>
+        <a href="javascript:void(0);" class="text-muted hover:text-dark" @click="destroy()"><i class="fas fa-times"></i></a>
       </div>
-      <div class="leaf p-2">
+      <div class="border-l border-r border-b border-secondary bg-white p-5">
         <overview :settings="settings" :numbranches="numbranches" @add="add" v-if="settings.template == 'overview'"></overview>
         <associations-results-candidate-committee :settings="settings" :numbranches="numbranches" @add="add" v-if="settings.template == 'associations-results' && ((settings.entity == 'candidate' && settings.entity2 == 'committee') || (settings.entity == 'committee' && settings.entity2 == 'candidate'))"></associations-results-candidate-committee>
         <associations-results-committee-committee :settings="settings" :numbranches="numbranches" @add="add" v-else-if="settings.template == 'associations-results' && settings.entity == 'committee' && settings.entity2 == 'committee'"></associations-results-committee-committee>

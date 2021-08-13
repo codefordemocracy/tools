@@ -4,22 +4,22 @@
 {% block app %}
 
 <div id="sidebar-icons" class="bg-white" v-show="store.state.embed == false" v-cloak>
-  <div id="navicons" class="bg-light d-flex">
-    <div class="navicon-tab d-flex justify-content-center align-items-center" :class="store.state.tab == 'query' ? 'active' : ''">
+  <div id="navicons" class="bg-light flex">
+    <div class="navicon-tab flex justify-content-center items-center" :class="store.state.tab == 'query' ? 'active' : ''">
       <span class="p-1 pointer" @click="store.commit('tab', 'query'); store.commit('error', false);"><i id="nav-query" class="icon-database fs-18"></i></span>
     </div>
-    <div class="navicon-tab d-flex justify-content-center align-items-center" :class="store.state.tab == 'table' ? 'active' : ''">
+    <div class="navicon-tab flex justify-content-center items-center" :class="store.state.tab == 'table' ? 'active' : ''">
       <span class="p-1 pointer" @click="store.commit('tab', 'table'); store.commit('error', false);"><i id="nav-table" class="icon-table fs-18"></i></span>
     </div>
-    <div class="navicon-tab d-flex justify-content-center align-items-center" :class="store.state.tab == 'chart' ? 'active' : ''">
+    <div class="navicon-tab flex justify-content-center items-center" :class="store.state.tab == 'chart' ? 'active' : ''">
       <span class="p-1 pointer" @click="store.commit('tab', 'chart'); store.commit('error', false);"><i id="nav-chart" class="icon-bar-chart fs-18"></i></span>
     </div>
-    <div class="navicon-tab d-flex justify-content-center align-items-center" :class="store.state.tab == 'map' ? 'active' : ''">
+    <div class="navicon-tab flex justify-content-center items-center" :class="store.state.tab == 'map' ? 'active' : ''">
       <span class="p-1 pointer" @click="store.commit('tab', 'map'); store.commit('error', false);"><i id="nav-map" class="icon-globe fs-20"></i></span>
     </div>
     <div class="navicon-spacer flex-grow-1"></div>
   </div>
-  <div id="settings" class="p-2 d-flex flex-column">
+  <div id="settings" class="p-2 flex flex-col">
     <template v-if="store.state.tab == 'query'">
       {% include "/visualization/settings/query.html.j2" %}
     </template>
@@ -51,19 +51,19 @@
     </template>
   </div>
   <div id="sharebar" class="mt-2 p-1 border bg-white" v-if="store.state.embed == false && store.state.tab != 'query' && !_.isEmpty(store.state.output[store.state.tab])">
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="flex justify-between items-center">
       <div class="sharebar-text">{{store.getters.sharelink}}</div>
-      <div><button class="btn btn-xs btn-light ml-1" @click="copy(store.getters.sharelink, 'shareclick')">{{shareclick ? 'Copied!': 'Copy Share Link'}}</button></div>
+      <div><button class="btn btn-sm btn-light ml-1" @click="copy(store.getters.sharelink, 'shareclick')">{{shareclick ? 'Copied!': 'Copy Share Link'}}</button></div>
     </div>
     <hr class="my-1">
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="flex justify-between items-center">
       <div class="sharebar-text">{{store.getters.embedcode}}</div>
-      <div><button class="btn btn-xs btn-light ml-1" @click="copy(store.getters.embedcode, 'embedclick')">{{embedclick ? 'Copied!': 'Copy Embed Code'}}</button></div>
+      <div><button class="btn btn-sm btn-light ml-1" @click="copy(store.getters.embedcode, 'embedclick')">{{embedclick ? 'Copied!': 'Copy Embed Code'}}</button></div>
     </div>
   </div>
 </div>
 <div id="router"></div>
-<div id="loading" v-if="store.state.loading && !store.state.loaded" class="d-flex justify-content-center align-items-center text-uppercase font-weight-light" v-cloak>Loading<span class="blink">...</span></div>
+<div id="loading" v-if="store.state.loading && !store.state.loaded" class="flex justify-content-center items-center text-uppercase font-weight-light" v-cloak>Loading<span class="blink">...</span></div>
 {% include "/visualization/partials/modals.html.j2" %}
 
 {% endblock %}

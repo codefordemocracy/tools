@@ -1,6 +1,6 @@
 const listdisplayer = {
   template: `
-    <ul class="list-unstyled infolist text-gray" v-if="!_.isEmpty(list)">
+    <ul class="list-none text-xs leading-normal" v-if="!_.isEmpty(list)">
       <li v-if="!_.includes(hide, 'visibility')"><strong>Visibility:</strong> {{list.visibility}}</li>
       <li v-if="!_.includes(hide, 'type')"><strong>Type:</strong> {{list.type}}</li>
       <li v-if="!_.includes(hide, 'id')"><strong>ID:</strong>{{list.id}}</li>

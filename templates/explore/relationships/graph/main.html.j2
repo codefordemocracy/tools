@@ -4,25 +4,27 @@
 {% block app %}
 
 <div id="slab">
-  <div id="sidebar" class="border-right p-2 bg-white d-flex flex-column" v-cloak>
+  <div id="sidebar" class="border-right p-5 bg-white flex flex-col" v-cloak>
       {% include "/explore/relationships/graph/partials/sidebar.html.j2" %}
       {% if mode != "popup" %}
-        <p class="mt-auto pt-5 mb-0">[[copyright()]]</p>
+        <p class="mt-auto text-xs pt-12">[[copyright()]]</p>
       {% endif %}
   </div>
   <div id="content" :class="{'bg-light': store.state.explore.elements.length == 0}" v-cloak>
-      <div v-if="store.state.explore.elements.length == 0 && !(store.state.explore.loading && !store.state.explore.loaded)" class="text-center" id="emptystate">
-          <p class="lead mb-0">Your graph is currently empty!</p>
-          <p class="text-muted">(Use the sidebar to add elements.)</p>
+      <div v-if="store.state.explore.elements.length == 0 && !(store.state.explore.loading && !store.state.explore.loaded)" class="flex justify-center items-center w-full h-full">
+        <div class="leading-relaxed">
+          <p class="font-light text-sm">Your graph is currently empty!</p>
+          <p class="text-muted text-xs">(Use the sidebar to add elements.)</p>
+        </div>
       </div>
       <network></network>
   </div>
-  <div id="box" class="bg-white border-bottom" v-if="store.state.explore.elements.length > 0" v-cloak>
+  <div id="box" v-if="store.state.explore.elements.length > 0" v-cloak>
       {% include "/explore/relationships/graph/partials/box.html.j2" %}
   </div>
 </div>
 <div id="router"></div>
-<div id="loading" v-if="store.state.explore.loading && !store.state.explore.loaded" class="d-flex justify-content-center align-items-center text-uppercase font-weight-light" v-cloak>Loading<span class="blink">...</span></div>
+<div id="loading" v-if="store.state.explore.loading && !store.state.explore.loaded" class="flex justify-center items-center uppercase font-light" v-cloak>Loading<span class="blink">...</span></div>
 {% include "/explore/relationships/graph/partials/modals.html.j2" %} {% endblock %} {% block scripts %}
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/cytoscape/3.3.1/cytoscape.min.js"></script>

@@ -2,15 +2,11 @@
 {% block html %}
 
 <!-- navigation -->
-<div id="topbar">
-  <nav class="navbar navbar-expand navbar-dark">
-    <div class="navbar-brand">Explore Relationships</div>
-    <div class="navbar-nav">
-      <a class="d-flex align-items-center nav-item nav-link [[ 'active' if request.url_rule.endpoint == 'route_explore_relationships_graph' ]]" href="[[ url_for('route_explore_relationships_graph', mode=mode) ]]">Graph</a>
-      <a class="d-flex align-items-center nav-item nav-link [[ 'active' if request.url_rule.endpoint == 'route_explore_relationships_traverse' ]]" href="[[ url_for('route_explore_relationships_traverse', mode=mode) ]]">Traverse</a>
-    </div>
-  </nav>
-</div>
+<nav class="navbar flex items-center" id="topbar">
+  <div class="text-white px-5">Explore Relationships</div>
+  <a class="leading-none p-5 text-sm text-gray-40 hover:text-gray-30" href="[[ url_for('route_explore_relationships_graph', mode=mode) ]]">Graph</a>
+  <a class="leading-none p-5 text-sm text-gray-40 hover:text-gray-30" href="[[ url_for('route_explore_relationships_traverse', mode=mode) ]]">Traverse</a>
+</nav>
 <!-- / navigation -->
 
 {% block app %}{% endblock %}

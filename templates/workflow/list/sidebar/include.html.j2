@@ -1,8 +1,8 @@
-<h5 class="font-weight-bold">Build Search Criteria</h5>
-<p class="lead">Next, define your list by using search criteria to add entities to your list.</p>
+<h5 class="text-2xl text-dark-gray mb-2">Build Search Criteria</h5>
+<p class="font-light text-sm leading-relaxed">Next, define your list by using search criteria to add entities to your list.</p>
 <template v-if="_.includes(store.state.workflow.valid, store.state.workflow.tab-1)">
-  <p class="mb-2">Not sure where to start? Use our mini-tools to clone an existing list as a template or browse relationships and documents to brainstorm.</p>
-  <button class="btn btn-xs btn-block btn-gray" @click="store.commit('waitlist/modal', true)">Explore Lists</button>
-  <button class="btn btn-xs btn-block btn-gray" @click="POPUP('[[ url_for('route_explore_relationships_graph', mode='popup') ]]', 'popup-explore-relationships-' + _.uniqueId(), 0.95, window)">Explore Relationships</button>
-  <button class="btn btn-xs btn-block btn-gray" @click="POPUP('[[ url_for('route_explore_documents', mode='popup') ]]', 'popup-explore-documents-' + _.uniqueId(), 0.95, window)">Explore Documents</button>
+  <p class="text-xs mt-3 mb-5 leading-relaxed">Not sure where to start? Use our mini-tools to clone an existing list as a template or browse relationships and documents to brainstorm.</p>
+  <button class="btn btn-sm btn-gray mb-2" @click="store.commit('waitlist/modal', true)">Explore Lists</button>
+  <button class="btn btn-sm btn-gray mb-2" @click="POPUP('[[ url_for('route_explore_relationships_graph', mode='popup') ]]', 'popup-explore-relationships-' + _.uniqueId(), 0.95, window)">Explore Relationships</button>
+  <button class="btn btn-sm btn-gray" @click="POPUP('[[ url_for('route_explore_documents', mode='popup') ]]', 'popup-explore-documents-' + _.uniqueId(), 0.95, window)">Explore Documents</button>
 </template>

@@ -2,35 +2,29 @@
 {% block title %}Traverse | Explore Relationships | {% endblock %}
 
 {% block app %}
-<div id="slab" class="bg-light p-2" :class="_.isEmpty(store.state.explore.branches) ? 'd-flex flex-column justify-content-center' : ''" v-cloak>
-  <div class="bg-white p-3 border" id="intro" v-if="_.isEmpty(store.state.explore.branches)">
-    <div class="mb-4">
+<div id="slab" class="bg-light p-5" :class="_.isEmpty(store.state.explore.branches) ? 'flex flex-col justify-center' : ''" v-cloak>
+  <div class="bg-white border border-secondary p-7 max-w-lg m-auto" v-if="_.isEmpty(store.state.explore.branches)">
+    <div class="mb-8">
       <a href="https://codefordemocracy.org" target="_blank"><img src="//assets.codefordemocracy.org/img/logo-tiny.png" id="logo" /></a>
     </div>
-    <h1 id="page-title" class="mb-2">Traverse<sup>(ALPHA)</sup></h1>
-    <p class="lead">Use this tool to explore relationships between political entities by browsing tabular data. Choose a starting point to begin:</p>
-    <form class="form-inline mt-3 mx-ntiny" @submit.prevent="search()">
-      <div class="form-group flex-grow-1 flex-sm-grow-0 mx-tiny">
-        <select v-model="entity" class="form-control form-control-xs select w-100 pr-3" :disabled="!_.isEmpty(store.state.explore.branches)">
+    <h1 id="page-title" class="text-2xl text-dark-gray mb-2">Traverse<sup>(ALPHA)</sup></h1>
+    <p class="font-light text-sm leading-relaxed mb-5">Explore relationships between political entities by browsing tabular data. Choose a starting point to begin:</p>
+    <form class="form-sm" @submit.prevent="search()">
+      <div class="grid grid-cols-12 gap-1">
+        <select v-model="entity" class="col-span-12 md:col-span-3 form-element" :disabled="!_.isEmpty(store.state.explore.branches)">
           <option v-for="entity in store.state.explore.search" :value="entity">{{_.startCase(entity)}}</option>
         </select>
+        <typeahead ul="text-xs" class="col-span-9 md:col-span-7" input="form-element w-full" v-model="term" :items="PLACEHOLDERS[entity]" :disabled="!_.isEmpty(store.state.explore.branches)"></typeahead>
+        <input type="submit" class="col-span-3 md:col-span-2 btn btn-sm btn-gray" value="Search" :disabled="_.isEmpty(term) || !_.isEmpty(store.state.explore.branches)" />
       </div>
-      <div class="flex-grow-1 d-flex">
-        <div class="form-group flex-grow-1 mx-tiny">
-          <typeahead class="text-left w-100" input="form-control form-control-xs w-100" v-model="term" :items="PLACEHOLDERS[entity]" :disabled="!_.isEmpty(store.state.explore.branches)"></typeahead>
-        </div>
-        <div class="form-group mx-tiny">
-          <input type="submit" class="btn btn-xs btn-gray w-100" value="Search" :disabled="_.isEmpty(term) || !_.isEmpty(store.state.explore.branches)" />
-        </div>
-      </div>
-      <p class="mt-2 mb-0 text-muted">Tip: You can combine multiple search terms by entering <code class="mb-0">term1 OR term2</code>.<span v-if="entity=='donor'"> You can also filter on <code class="mb-0">EMPLOYER:term</code> or <code class="mb-0">OCCUPATION:term</code>.</span></p>
+      <p class="mt-5 text-xs text-muted">Tip: You can combine multiple search terms by entering <code class="text-pink font-extralight">term1 OR term2</code>.<span v-if="entity=='donor'"> You can also filter on <code class="text-pink">EMPLOYER:term</code> or <code class="text-pink">OCCUPATION:term</code>.</span></p>
     </form>
   </div>
   <div v-else>
     <branch :id="branch.id" :settings="branch.settings" :branches="branch.branches" @destroy="clear" v-for="branch in store.state.explore.branches"></branch>
   </div>
   {% if mode != "popup" %}
-    <p class="pt-3 mb-0 px-sm-3 text-sm-center">[[copyright()]]</p>
+    <p class="text-xs pt-9 sm:text-center">[[copyright()]]</p>
   {% endif %}
   <div id="router"></div>
 </div>

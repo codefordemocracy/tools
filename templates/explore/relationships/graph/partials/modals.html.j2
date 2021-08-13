@@ -2,55 +2,53 @@
     <modal :show="store.state.explore.viewkey" @cancel="cancel()">
         <div slot="header">
             <h5 class="modal-title">Key</h5>
-            <p class="text-muted mb-0">Nodes are color-coded depending on their type. Each type of node has a different label in the data schema. The colors are as follows:</p>
+            <p class="modal-subtitle">Nodes are color-coded depending on their type. Each type of node has a different label in the data schema. The colors are as follows:</p>
         </div>
         <div slot="body">
             <div class="form-group">
-                <label class="label mb-1">Labels:</label>
-                <div class="row no-gutters">
-                    <div class="col-sm-4 pr-sm-1">
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #005bae;">Candidate</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #282252;">Committee</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #5C268E;">Donor</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #eb5581;">Employer</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #D0021B;">Job</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #f37b3c;">Contribution</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #e9c464;">Expenditure</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #357045;">Payee</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #54B59F;">Party</div>
-                        <div class="keyblob text-center text-white mb-1 mb-sm-0" style="background-color: #78CADB;">Race</div>
+                <label class="label">Labels:</label>
+                <div class="grid grid-cols-3 gap-1.5 text-xs text-center text-white">
+                    <div class="grid grid cols-1 gap-1.5">
+                      <div class="rounded-full px-3 py-1" style="background-color: #005bae;">Candidate</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #282252;">Committee</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #5C268E;">Donor</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #eb5581;">Employer</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #D0021B;">Job</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #f37b3c;">Contribution</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #e9c464;">Expenditure</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #357045;">Payee</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #54B59F;">Party</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #78CADB;">Race</div>
                     </div>
-                    <div class="col-sm-4 pr-sm-1">
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #4b5b82;">Tweeter</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #2a2831;">Tweet</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #55356e;">Retweet</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #c57385;">Hashtag</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #b43f34;">Link</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #d78a64;">Domain</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #dbc699;">Source</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #5b675d;">Ad</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #97a8a3;">Message</div>
-                        <div class="keyblob text-center text-white mb-1 mb-sm-0" style="background-color: #bebebe;">Buyer</div>
+                    <div class="grid grid cols-1 gap-1.5">
+                      <div class="rounded-full px-3 py-1" style="background-color: #4b5b82;">Tweeter</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #2a2831;">Tweet</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #55356e;">Retweet</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #c57385;">Hashtag</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #b43f34;">Link</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #d78a64;">Domain</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #dbc699;">Source</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #5b675d;">Ad</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #97a8a3;">Message</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #bebebe;">Buyer</div>
                     </div>
-                    <div class="col-sm-4 pr-sm-1">
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #002167;">Page</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #000019;">Bill</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #16004a;">Vote</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #990040;">Jurisdiction</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #7b0000;">Member</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #9f3500;">Zip</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #9a7d1d;">State</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #002f09;">Year</div>
-                        <div class="keyblob text-center text-white mb-1" style="background-color: #006e5b;">Month</div>
-                        <div class="keyblob text-center text-white mb-1 mb-sm-0" style="background-color: #278292;">Day</div>
+                    <div class="grid grid cols-1 gap-1.5">
+                      <div class="rounded-full px-3 py-1" style="background-color: #002167;">Page</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #000019;">Bill</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #16004a;">Vote</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #990040;">Jurisdiction</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #7b0000;">Member</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #9f3500;">Zip</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #9a7d1d;">State</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #002f09;">Year</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #006e5b;">Month</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #278292;">Day</div>
                     </div>
                 </div>
             </div>
         </div>
-        <div slot="footer" class="d-flex justify-content-end w-100">
-            <div>
-                <button type="button" @click="cancel()" class="btn btn-xs btn-secondary px-1">Close</button>
-            </div>
+        <div slot="footer" class="flex justify-end">
+            <button type="button" @click="cancel()" class="btn btn-sm btn-secondary">Close</button>
         </div>
     </modal>
 </div>
@@ -58,23 +56,23 @@
     <modal :show="store.state.explore.runphysics" @cancel="cancel()">
         <div slot="header">
             <h5 class="modal-title">Run Physics</h5>
-            <p class="text-muted mb-0">Clean up the display of the graph by selecting a layout.</p>
+            <p class="modal-subtitle">Clean up the display of the graph by selecting a layout.</p>
         </div>
-        <div slot="body">
+        <div slot="body" class="form-sm form-full">
             <div class="form-group">
                 <label class="label">Layout:</label>
-                <select class="form-control form-control-xs select" v-model="layout">
-          <option value="cose">CoSE</option>
-          <option value="circle">Circle</option>
-          <option value="concentric">Concentric</option>
-          <option value="grid">Grid</option>
-          <option value="breadthfirst">Breadth First</option>
-        </select>
+                <select class="form-element" v-model="layout">
+                    <option value="cose">CoSE</option>
+                    <option value="circle">Circle</option>
+                    <option value="concentric">Concentric</option>
+                    <option value="grid">Grid</option>
+                    <option value="breadthfirst">Breadth First</option>
+                </select>
             </div>
         </div>
-        <div slot="footer">
-            <button type="button" @click="cancel()" class="btn btn-xs btn-secondary mr-tiny">Cancel</button>
-            <button type="button" @click="submit()" class="btn btn-xs btn-gray">Run Physics</button>
+        <div slot="footer" class="flex justify-end">
+            <button type="button" @click="cancel()" class="btn btn-sm btn-secondary mr-1">Cancel</button>
+            <button type="button" @click="submit()" class="btn btn-sm btn-gray">Run Physics</button>
         </div>
     </modal>
 </div>
@@ -82,113 +80,108 @@
     <modal :show="store.state.explore.uncoverdonors" @cancel="cancel()">
         <div slot="header">
             <h5 class="modal-title">Uncover Donors</h5>
-            <p class="text-muted mb-0">Expand network to include contributors for selected {{store.state.explore.selected.length == 1 ? 'Node' : 'Nodes'}}.</p>
+            <p class="modal-subtitle">Expand network to include contributors for selected {{store.state.explore.selected.length == 1 ? 'node' : 'nodes'}}.</p>
         </div>
-        <div slot="body">
-            <div class="d-flex justify-content-between align-items-start mb-1">
-                <label class="label">Labels:</label>
-                <div>
-                    <span class="text-primary pointer" @click="all(true)">Select All</span>
-                    <span class="text-primary pointer ml-2" @click="all(false)">Unselect All</span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 pr-sm-2">
-                    <toggle :sync="true" v-model="labels.donor"><span slot="text">Donor</span></toggle>
-                </div>
-                <div class="col-sm-6 pr-sm-2">
-                    <toggle :sync="true" v-model="labels.committee"><span slot="text">Committee</span></toggle>
-                </div>
-            </div>
-            <br/>
+        <div slot="body" class="form-sm form-full">
             <div class="form-group">
-                <p class="text-muted mb-1">Minimum transaction amount.</p>
-                <input class="form-control form-control-xs" v-model="minTransactionAmt" type="number" min="1" max="999999999" />
+              <div class="flex justify-between items-start">
+                  <label class="label">Labels:</label>
+                  <div class="text-xs text-primary">
+                      <a href="javascript:void(0);" @click="all(true)" class="mr-3">Select All</a>
+                      <a href="javascript:void(0);" @click="all(false)">Unselect All</a>
+                  </div>
+              </div>
+                <toggle class="mb-1" :sync="true" v-model="labels.donor"><span slot="text">Donor</span></toggle>
+                <toggle class="mb-1" :sync="true" v-model="labels.committee"><span slot="text">Committee</span></toggle>
             </div>
             <div class="form-group">
-                <p class="text-muted mb-1">limit</p>
-                <input class="form-control form-control-xs" v-model="limit" type="number" min="1" max="100000" />
+                <label class="label">Minimum transaction amount:</label>
+                <input class="form-element" v-model="minTransactionAmt" type="number" min="1" max="999999999" />
+            </div>
+            <div class="form-group">
+                <label class="label">limit:</label>
+                <input class="form-element" v-model="limit" type="number" min="1" max="100000" />
             </div>
         </div>
-        <div slot="footer">
-            <button type="button" @click="cancel()" class="btn btn-xs btn-secondary mr-tiny">Cancel</button>
-            <button type="button" @click="submit()" class="btn btn-xs btn-gray">Uncover donors</button>
+        <div slot="footer" class="flex justify-end">
+            <button type="button" @click="cancel()" class="btn btn-sm btn-secondary mr-1">Cancel</button>
+            <button type="button" @click="submit()" class="btn btn-sm btn-gray">Uncover donors</button>
         </div>
     </modal>
 </div>
-
 <div id="expandnode" v-cloak>
     <modal :show="store.state.explore.expandnode" @cancel="cancel()">
         <div slot="header">
             <h5 class="modal-title">Expand Selected {{store.state.explore.selected.length == 1 ? 'Node' : 'Nodes'}}</h5>
-            <p class="text-muted mb-0">Expanding the selected {{store.state.explore.selected.length == 1 ? 'node' : 'nodes'}} will add {{store.state.explore.selected.length == 1 ? 'its' : 'their'}} first-order connections to the graph. Choose which types of nodes are added using the settings below.
-                Edges will be added automatically.</p>
+            <p class="modal-subtitle">Expanding the selected {{store.state.explore.selected.length == 1 ? 'node' : 'nodes'}} will add {{store.state.explore.selected.length == 1 ? 'its' : 'their'}} first-order connections to the graph. Choose which types of nodes are added using the settings below. Edges will be added automatically.</p>
         </div>
-        <div slot="body">
-            <div class="d-flex justify-content-between align-items-start mb-1">
-                <label class="label">Labels:</label>
-                <div>
-                    <span class="text-primary pointer" @click="all(true)">Select All</span>
-                    <span class="text-primary pointer ml-2" @click="all(false)">Unselect All</span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 pr-sm-2">
-                    <toggle :sync="true" v-model="labels.candidate"><span slot="text">Candidate</span></toggle>
-                    <toggle :sync="true" v-model="labels.committee"><span slot="text">Committee</span></toggle>
-                    <toggle :sync="true" v-model="labels.donor"><span slot="text">Donor</span></toggle>
-                    <toggle :sync="true" v-model="labels.employer"><span slot="text">Employer</span></toggle>
-                    <toggle :sync="true" v-model="labels.job"><span slot="text">Job</span></toggle>
-                    <toggle :sync="true" v-model="labels.contribution"><span slot="text">Contribution</span></toggle>
-                    <toggle :sync="true" v-model="labels.expenditure"><span slot="text">Expenditure</span></toggle>
-                    <toggle :sync="true" v-model="labels.payee"><span slot="text">Payee</span></toggle>
-                    <toggle :sync="true" v-model="labels.party"><span slot="text">Party</span></toggle>
-                    <toggle :sync="true" v-model="labels.race"><span slot="text">Race</span></toggle>
-                    <toggle :sync="true" v-model="labels.tweeter"><span slot="text">Tweeter</span></toggle>
-                    <toggle :sync="true" v-model="labels.tweet"><span slot="text">Tweet</span></toggle>
-                    <toggle :sync="true" v-model="labels.retweet"><span slot="text">Retweet</span></toggle>
-                    <toggle :sync="true" v-model="labels.hashtag"><span slot="text">Hashtag</span></toggle>
-                    <toggle :sync="true" v-model="labels.link"><span slot="text">Link</span></toggle>
-                </div>
-                <div class="col-sm-6 pl-sm-2">
-                    <toggle :sync="true" v-model="labels.domain"><span slot="text">Domain</span></toggle>
-                    <toggle :sync="true" v-model="labels.source"><span slot="text">Source</span></toggle>
-                    <toggle :sync="true" v-model="labels.ad"><span slot="text">Ad</span></toggle>
-                    <toggle :sync="true" v-model="labels.message"><span slot="text">Message</span></toggle>
-                    <toggle :sync="true" v-model="labels.buyer"><span slot="text">Buyer</span></toggle>
-                    <toggle :sync="true" v-model="labels.page"><span slot="text">Page</span></toggle>
-                    <toggle :sync="true" v-model="labels.bill"><span slot="text">Bill</span></toggle>
-                    <toggle :sync="true" v-model="labels.vote"><span slot="text">Vote</span></toggle>
-                    <toggle :sync="true" v-model="labels.jurisdiction"><span slot="text">Jurisdiction</span></toggle>
-                    <toggle :sync="true" v-model="labels.member"><span slot="text">Member</span></toggle>
-                    <toggle :sync="true" v-model="labels.zip"><span slot="text">Zip</span></toggle>
-                    <toggle :sync="true" v-model="labels.state"><span slot="text">State</span></toggle>
-                    <toggle :sync="true" v-model="labels.year"><span slot="text">Year</span></toggle>
-                    <toggle :sync="true" v-model="labels.month"><span slot="text">Month</span></toggle>
-                    <toggle :sync="true" v-model="labels.day"><span slot="text">Day</span></toggle>
-                </div>
+        <div slot="body" class="form-sm form-full">
+            <div class="form-group">
+              <div class="flex justify-between items-start">
+                  <label class="label">Labels:</label>
+                  <div class="text-xs text-primary">
+                      <a href="javascript:void(0);" @click="all(true)" class="mr-3">Select All</a>
+                      <a href="javascript:void(0);" @click="all(false)">Unselect All</a>
+                  </div>
+              </div>
+              <div class="grid grid-cols-2 gap-5">
+                  <div>
+                      <toggle class="mb-1" :sync="true" v-model="labels.candidate"><span slot="text">Candidate</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.committee"><span slot="text">Committee</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.donor"><span slot="text">Donor</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.employer"><span slot="text">Employer</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.job"><span slot="text">Job</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.contribution"><span slot="text">Contribution</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.expenditure"><span slot="text">Expenditure</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.payee"><span slot="text">Payee</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.party"><span slot="text">Party</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.race"><span slot="text">Race</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.tweeter"><span slot="text">Tweeter</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.tweet"><span slot="text">Tweet</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.retweet"><span slot="text">Retweet</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.hashtag"><span slot="text">Hashtag</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.link"><span slot="text">Link</span></toggle>
+                  </div>
+                  <div>
+                      <toggle class="mb-1" :sync="true" v-model="labels.domain"><span slot="text">Domain</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.source"><span slot="text">Source</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.ad"><span slot="text">Ad</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.message"><span slot="text">Message</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.buyer"><span slot="text">Buyer</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.page"><span slot="text">Page</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.bill"><span slot="text">Bill</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.vote"><span slot="text">Vote</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.jurisdiction"><span slot="text">Jurisdiction</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.member"><span slot="text">Member</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.zip"><span slot="text">Zip</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.state"><span slot="text">State</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.year"><span slot="text">Year</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.month"><span slot="text">Month</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.day"><span slot="text">Day</span></toggle>
+                  </div>
+              </div>
             </div>
             <div v-if="store.state.explore.advanced == true" class="mt-2">
                 <div class="form-group">
                     <label class="label">Limit:</label>
-                    <p class="text-muted mb-1">Number of results returned per expansion.</p>
-                    <input class="form-control form-control-xs" v-model="pagination.limit" type="number" min="0" max="300" />
+                    <p class="form-text-top">Number of results returned per expansion.</p>
+                    <input class="form-element" v-model="pagination.limit" type="number" min="0" max="300" />
                 </div>
                 <div class="form-group">
                     <label class="label">Page:</label>
-                    <p class="text-muted mb-1">By default, only the first page of results is returned for each expansion. Increment this number to get additional results.</p>
-                    <input class="form-control form-control-xs" v-model="pagination.page" type="number" min="1" max="99999" />
+                    <p class="form-text-top">By default, only the first page of results is returned for each expansion. Increment this number to get additional results.</p>
+                    <input class="form-element" v-model="pagination.page" type="number" min="1" max="99999" />
                 </div>
             </div>
         </div>
-        <div slot="footer" class="d-flex justify-content-between w-100">
-            <div class="d-flex align-items-center">
-                <span class="text-primary pointer" v-if="store.state.explore.advanced == false" @click="store.commit('explore/advanced', true)">Advanced +</span>
-                <span class="text-primary pointer" v-if="store.state.explore.advanced == true" @click="store.commit('explore/advanced', false)">Advanced &ndash;</span>
+        <div slot="footer" class="flex justify-between items-center">
+            <div class="text-primary text-xs">
+                <a href="javascript:void(0);" v-if="store.state.explore.advanced == false" @click="store.commit('explore/advanced', true)">Advanced +</a>
+                <a href="javascript:void(0);" v-if="store.state.explore.advanced == true" @click="store.commit('explore/advanced', false)">Advanced &ndash;</a>
             </div>
             <div>
-                <button type="button" @click="cancel()" class="btn btn-xs btn-secondary mr-tiny">Cancel</button>
-                <button type="button" @click="submit()" class="btn btn-xs btn-gray">Expand Selected {{store.state.explore.selected.length == 1 ? 'Node' : 'Nodes'}}</button>
+                <button type="button" @click="cancel()" class="btn btn-sm btn-secondary mr-1">Cancel</button>
+                <button type="button" @click="submit()" class="btn btn-sm btn-gray">Expand Selected {{store.state.explore.selected.length == 1 ? 'Node' : 'Nodes'}}</button>
             </div>
         </div>
     </modal>
@@ -197,70 +190,71 @@
     <modal :show="store.state.explore.smartselect" @cancel="cancel()">
         <div slot="header">
             <h5 class="modal-title">Smart Select</h5>
-            <p class="text-muted mb-0">Programmatically select nodes that you can then apply further action to.</p>
+            <p class="modal-subtitle">Programmatically select nodes that you can then apply further action to.</p>
         </div>
-        <div slot="body">
+        <div slot="body" class="form-sm form-full">
             <div class="form-group">
                 <label class="label">Type of Filter:</label>
-                <select class="form-control form-control-xs select" v-model="filter.type">
+                <select class="form-element select" v-model="filter.type">
                     <option value="degree">Degree</option>
                     <option value="label">Label</option>
                 </select>
             </div>
             <div class="form-group" v-if="filter.type == 'degree'">
                 <label class="label">Degree Cutoff:</label>
-                <p class="text-muted mb-1">Nodes with fewer than this number of edges will be selected.</p>
-                <input class="form-control form-control-xs" v-model="filter.degree" type="number" min="1" />
+                <p class="form-text-top">Nodes with fewer than this number of edges will be selected.</p>
+                <input class="form-element" v-model="filter.degree" type="number" min="1" />
             </div>
             <div class="form-group" v-if="filter.type == 'label'">
-                <div class="d-flex justify-content-between align-items-start mb-1">
+
+                <div class="flex justify-between items-start">
                     <label class="label">Choose Labels:</label>
-                    <div>
-                        <span class="text-primary pointer" @click="all(true)">Select All</span>
-                        <span class="text-primary pointer ml-2" @click="all(false)">Unselect All</span>
+                    <div class="text-xs text-primary">
+                        <a href="javascript:void(0);" @click="all(true)" class="mr-3">Select All</a>
+                        <a href="javascript:void(0);" @click="all(false)">Unselect All</a>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-6 pr-sm-2">
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.candidate"><span slot="text">Candidate</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.committee"><span slot="text">Committee</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.donor"><span slot="text">Donor</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.employer"><span slot="text">Employer</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.job"><span slot="text">Job</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.contribution"><span slot="text">Contribution</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.expenditure"><span slot="text">Expenditure</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.payee"><span slot="text">Payee</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.party"><span slot="text">Party</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.race"><span slot="text">Race</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.tweeter"><span slot="text">Tweeter</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.tweet"><span slot="text">Tweet</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.retweet"><span slot="text">Retweet</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.hashtag"><span slot="text">Hashtag</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.link"><span slot="text">Link</span></toggle>
+                <div class="grid grid-cols-2 gap-5">
+                    <div>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.candidate"><span slot="text">Candidate</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.committee"><span slot="text">Committee</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.donor"><span slot="text">Donor</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.employer"><span slot="text">Employer</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.job"><span slot="text">Job</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.contribution"><span slot="text">Contribution</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.expenditure"><span slot="text">Expenditure</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.payee"><span slot="text">Payee</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.party"><span slot="text">Party</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.race"><span slot="text">Race</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.tweeter"><span slot="text">Tweeter</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.tweet"><span slot="text">Tweet</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.retweet"><span slot="text">Retweet</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.hashtag"><span slot="text">Hashtag</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.link"><span slot="text">Link</span></toggle>
                     </div>
-                    <div class="col-sm-6 pl-sm-2">
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.domain"><span slot="text">Domain</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.source"><span slot="text">Source</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.ad"><span slot="text">Ad</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.message"><span slot="text">Message</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.buyer"><span slot="text">Buyer</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.page"><span slot="text">Page</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.bill"><span slot="text">Bill</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.vote"><span slot="text">Vote</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.jurisdiction"><span slot="text">Jurisdiction</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.member"><span slot="text">Member</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.zip"><span slot="text">Zip</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.state"><span slot="text">State</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.year"><span slot="text">Year</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.month"><span slot="text">Month</span></toggle>
-                        <toggle :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.day"><span slot="text">Day</span></toggle>
+                    <div>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.domain"><span slot="text">Domain</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.source"><span slot="text">Source</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.ad"><span slot="text">Ad</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.message"><span slot="text">Message</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.buyer"><span slot="text">Buyer</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.page"><span slot="text">Page</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.bill"><span slot="text">Bill</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.vote"><span slot="text">Vote</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.jurisdiction"><span slot="text">Jurisdiction</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.member"><span slot="text">Member</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.zip"><span slot="text">Zip</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.state"><span slot="text">State</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.year"><span slot="text">Year</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.month"><span slot="text">Month</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.day"><span slot="text">Day</span></toggle>
                     </div>
                 </div>
             </div>
         </div>
-        <div slot="footer">
-            <button type="button" @click="cancel()" class="btn btn-xs btn-secondary mr-tiny">Cancel</button>
-            <button type="button" @click="submit()" class="btn btn-xs btn-gray">Smart Select</button>
+        <div slot="footer" class="flex justify-end">
+            <button type="button" @click="cancel()" class="btn btn-sm btn-secondary mr-1">Cancel</button>
+            <button type="button" @click="submit()" class="btn btn-sm btn-gray">Smart Select</button>
         </div>
     </modal>
 </div>

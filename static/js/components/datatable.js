@@ -11,7 +11,7 @@ const datatable = {
         </tr>
       </tbody>
     </table>
-    <div class="d-flex justify-content-between align-items-center pt-1 border-top" v-if="options.paginate == 'yes'">
+    <div class="flex justify-between items-center pt-1 border-top" v-if="options.paginate == 'yes'">
       <button class="btn" :class="button" @click="previous()" :disabled="page == 1">&larr; Previous Page</button>
       <div>Page {{page}} of {{options.numpages}}</div>
       <button class="btn pl-3" :class="button" @click="next()" :disabled="page == options.numpages">Next Page &rarr;</button>

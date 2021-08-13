@@ -1,12 +1,12 @@
 <tabs :fill="true" @change="change">
-  <tab name="Details" :selected="store.state.explore.tab == 'details'" class="p-1">
+  <tab name="Details" :selected="store.state.explore.tab == 'details'" class="p-3">
     <div v-if="store.state.explore.selected.length > 0">
-      <p class="mb-0">You've selected <b>{{store.state.explore.selected.length}} {{ store.state.explore.selected.length != 1 ? 'elements' : 'element' }}</b>. Below are details about them.</p>
+      <p class="text-xs">You've selected <b>{{store.state.explore.selected.length}} {{ store.state.explore.selected.length != 1 ? 'elements' : 'element' }}</b>. Below are details about them.</p>
       <div v-for="(element, index) in store.getters['explore/flatselected']">
-        <h6 class="section-heading mt-2 mb-1">{{element.element}} #{{element.id}}</h6>
+        <h6 class="text-lg text-dark-gray mt-3">{{_.startCase(element.element)}} #{{element.id}}</h6>
         <ul class="list-unstyled">
-          <li v-for="(value, key) in element" v-if="key != 'element' && key != 'id' && key != 'date' && !(_.isArray(value) && _.isEmpty(value))" class="mb-tiny" :class="{ 'word-break' : key == 'url'}">
-            <b>{{key}}:</b>
+          <li v-for="(value, key) in element" v-if="key != 'element' && key != 'id' && key != 'date' && !(_.isArray(value) && _.isEmpty(value))" class="text-xs text-gray" :class="{ 'word-break' : key == 'url'}">
+            <strong>{{key}}:</strong>
             <a :href="'https://www.fec.gov/data/candidate/' + value" target="_blank" v-if="key == 'cand_id'">{{value}}</a>
             <a href="https://www.fec.gov/campaign-finance-data/party-code-descriptions/" target="_blank" v-else-if="key == 'cand_pty_affiliation' || key == 'cmte_pty_affiliation'">{{value}}</a>
             <a :href="'https://www.fec.gov/data/committee/' + value" target="_blank" v-else-if="key == 'cmte_id'">{{value}}</a>
@@ -24,16 +24,16 @@
       </div>
     </div>
     <div v-else>
-      <p v-if="store.state.explore.elements.length > 0">Click on a node or edge to view details. Select multiple elements by holding the shift key.</p>
+      <p class="text-xs" v-if="store.state.explore.elements.length > 0">Click on a node or edge to view details. Select multiple elements by holding the shift key.</p>
     </div>
   </tab>
-  <tab name="Stats" :selected="store.state.explore.tab == 'stats'" class="p-1">
-    <p class="mb-0">The charts below show summary stats for the <b>{{numnodes}} {{ numnodes != 1 ? 'nodes' : 'node' }}</b> and <b>{{numedges}} {{ numedges != 1 ? 'edges' : 'edge' }}</b> currently displayed in the graph.</p>
+  <tab name="Stats" :selected="store.state.explore.tab == 'stats'" class="p-3">
+    <p class="text-xs">The charts below show summary stats for the <b>{{numnodes}} {{ numnodes != 1 ? 'nodes' : 'node' }}</b> and <b>{{numedges}} {{ numedges != 1 ? 'edges' : 'edge' }}</b> currently displayed in the graph.</p>
     <div v-for="s in stats">
-      <h6 class="section-heading mt-2 mb-1">{{s.label}}</h6>
+      <h6 class="text-lg text-dark-gray mt-3">{{_.startCase(s.label)}}</h6>
       <p v-if="s.stats.length == 0">There are no {{s.label}} in the graph.</p>
-      <div v-for="c in s.stats" class="mx-n1">
-        <strong class="mx-1">
+      <div v-for="c in s.stats" class="-mx-2.5">
+        <strong class="text-xs text-gray mx-2.5">
           <a href="https://www.fec.gov/campaign-finance-data/party-code-descriptions/" target="_blank" v-if="c.label == 'cand_pty_affiliation' || c.label == 'cmte_pty_affiliation'">{{c.label}}</a>
           <a href="https://www.fec.gov/campaign-finance-data/committee-type-code-descriptions/" target="_blank" v-else-if="c.label == 'cmte_tp'">{{c.label}}</a>
           <a href="https://www.fec.gov/campaign-finance-data/committee-master-file-description/" target="_blank" v-else-if="c.label == 'cmte_dsgn' || c.label == 'org_tp'">{{c.label}}</a>
@@ -47,23 +47,23 @@
       </div>
     </div>
   </tab>
-  <tab name="Actions" :selected="store.state.explore.tab == 'actions'" class="p-1">
-    <h6 class="section-heading mt-1 mb-1">Select Elements</h6>
-    <button @click="store.commit('explore/smartselect', true)" type="button" class="btn btn-xs btn-block btn-gray">Smart Select</button>
-    <h6 class="section-heading mt-2 mb-1">Add Elements</h6>
-    <button @click="store.commit('explore/expandnode', true)" type="button" class="btn btn-xs btn-block btn-gray" :disabled="store.state.explore.selected.length == 0 || !(store.getters['explore/type'] == 'Node' || store.getters['explore/type'] == 'Nodes')">Expand Selected {{store.state.explore.selected.length == 1 ? 'Node' : 'Nodes'}}</button>
-    <button @click="store.commit('explore/uncoverdonors', true)" type="button" class="btn btn-xs btn-block btn-gray" :disabled="store.state.explore.selected.length == 0 || !(store.getters['explore/type'] == 'Node' || store.getters['explore/type'] == 'Nodes')">Uncover Donors</button>
-    <button @click="store.commit('explore/undo', 'delete'); store.commit('explore/step', 'manipulations'); store.commit('explore/flow', 'undo last deletion')" type="button" class="btn btn-xs btn-block btn-gray" :disabled="store.state.explore.diff.elementsToRemove.length == 0 || store.state.explore.lastaction != 'delete'">Undo Last Deletion</button>
-    <h6 class="section-heading mt-2 mb-1">Remove Elements</h6>
-    <button @click="store.commit('explore/delete'); store.commit('explore/step', 'manipulations'); store.commit('explore/flow', 'delete elements')" type="button" class="btn btn-xs btn-block btn-gray" :disabled="store.state.explore.selected.length == 0">Delete Selected {{store.getters['explore/type']}}</button>
-    <button @click="store.commit('explore/undo', 'add'); store.commit('explore/step', 'manipulations'); store.commit('explore/flow', 'undo last addition')" type="button" class="btn btn-xs btn-block btn-gray" :disabled="store.state.explore.diff.elementsToAdd.length == 0 || store.state.explore.lastaction != 'add'">Undo Last Addition</button>
-    <h6 class="section-heading mt-2 mb-1">Edit Display</h6>
-    <button @click="store.commit('explore/runphysics', true)" type="button" class="btn btn-xs btn-block btn-gray">Run Physics</button>
-    <button @click="store.commit('explore/fit', true)" type="button" class="btn btn-xs btn-block btn-gray">Reset Viewport</button>
-    <button @click="store.commit('explore/clear'); store.commit('explore/step', 'intro')" type="button" class="btn btn-xs btn-block btn-gray">Clear Graph</button>
-    <h6 class="section-heading mt-2 mb-1">Export Graph</h6>
-    <button @click="store.commit('explore/png', true)" type="button" class="btn btn-xs btn-block btn-gray">Download Viewport as PNG</button>
-    <button @click="DOWNLOAD(store.getters['explore/dataelements'], 'csv', 'elements')"type="button" class="btn btn-xs btn-block btn-gray">Download Elements as CSV</button>
-    <button @click="store.commit('explore/json', true)" type="button" class="btn btn-xs btn-block btn-gray">Download Graph as JSON</button>
+  <tab name="Actions" :selected="store.state.explore.tab == 'actions'" class="p-3">
+    <h6 class="text-lg text-dark-gray mb-2">Select Elements</h6>
+    <button @click="store.commit('explore/smartselect', true)" type="button" class="btn btn-sm w-full btn-gray mb-4">Smart Select</button>
+    <h6 class="text-lg text-dark-gray mb-2">Add Elements</h6>
+    <button @click="store.commit('explore/expandnode', true)" type="button" class="btn btn-sm w-full btn-gray mb-2" :disabled="store.state.explore.selected.length == 0 || !(store.getters['explore/type'] == 'Node' || store.getters['explore/type'] == 'Nodes')">Expand Selected {{store.state.explore.selected.length == 1 ? 'Node' : 'Nodes'}}</button>
+    <button @click="store.commit('explore/uncoverdonors', true)" type="button" class="btn btn-sm w-full btn-gray mb-2" :disabled="store.state.explore.selected.length == 0 || !(store.getters['explore/type'] == 'Node' || store.getters['explore/type'] == 'Nodes')">Uncover Donors</button>
+    <button @click="store.commit('explore/undo', 'delete'); store.commit('explore/step', 'manipulations'); store.commit('explore/flow', 'undo last deletion')" type="button" class="btn btn-sm w-full btn-gray mb-4" :disabled="store.state.explore.diff.elementsToRemove.length == 0 || store.state.explore.lastaction != 'delete'">Undo Last Deletion</button>
+    <h6 class="text-lg text-dark-gray mb-2">Remove Elements</h6>
+    <button @click="store.commit('explore/delete'); store.commit('explore/step', 'manipulations'); store.commit('explore/flow', 'delete elements')" type="button" class="btn btn-sm w-full btn-gray mb-2" :disabled="store.state.explore.selected.length == 0">Delete Selected {{store.getters['explore/type']}}</button>
+    <button @click="store.commit('explore/undo', 'add'); store.commit('explore/step', 'manipulations'); store.commit('explore/flow', 'undo last addition')" type="button" class="btn btn-sm w-full btn-gray mb-4" :disabled="store.state.explore.diff.elementsToAdd.length == 0 || store.state.explore.lastaction != 'add'">Undo Last Addition</button>
+    <h6 class="text-lg text-dark-gray mb-2">Edit Display</h6>
+    <button @click="store.commit('explore/runphysics', true)" type="button" class="btn btn-sm w-full btn-gray mb-2">Run Physics</button>
+    <button @click="store.commit('explore/fit', true)" type="button" class="btn btn-sm w-full btn-gray mb-2">Reset Viewport</button>
+    <button @click="store.commit('explore/clear'); store.commit('explore/step', 'intro')" type="button" class="btn btn-sm w-full btn-gray mb-4">Clear Graph</button>
+    <h6 class="text-lg text-dark-gray mb-2">Export Graph</h6>
+    <button @click="store.commit('explore/png', true)" type="button" class="btn btn-sm w-full btn-gray mb-2">Download Viewport as PNG</button>
+    <button @click="DOWNLOAD(store.getters['explore/dataelements'], 'csv', 'elements')"type="button" class="btn btn-sm w-full btn-gray mb-2">Download Elements as CSV</button>
+    <button @click="store.commit('explore/json', true)" type="button" class="btn btn-sm w-full btn-gray">Download Graph as JSON</button>
   </tab>
 </tabs>

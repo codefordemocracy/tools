@@ -1,12 +1,12 @@
 const typeahead = {
   template: `
-  <div class="typeahead">
-    <input ref="typeahead" :placeholder="placeholder" :class="input" :value="value" :disabled="disabled" @focus="onFocus()" @input="onChange()" @keyup.down="onArrowDown" @keyup.up="onArrowUp" @keydown.enter="onEnter" />
-    <ul class="typeahead-results" :class="ul" v-show="isOpen && results.length > 0">
-      <li class="typeahead-noclick text-muted" v-if="isLoading">
+  <div class="typeahead relative">
+    <input type="text" ref="typeahead" :placeholder="placeholder" :class="input" :value="value" :disabled="disabled" @focus="onFocus()" @input="onChange()" @keyup.down="onArrowDown" @keyup.up="onArrowUp" @keydown.enter="onEnter" />
+    <ul class="typeahead-results absolute p-0 m-0 w-full border border-secondary bg-white overflow-auto z-20" :class="ul" v-show="isOpen && results.length > 0">
+      <li class="italic py-1 px-2 text-muted" v-if="isLoading">
         Loading...
       </li>
-      <li v-else v-for="(result, i) in results" :key="i" @click="setResult(result)" class="typeahead-result" :class="{ 'is-active': i === arrowCounter }">
+      <li v-else v-for="(result, i) in results" :key="i" @click="setResult(result)" class="list-none py-1 px-2 cursor-pointer hover:bg-green hover:text-white" :class="{ 'bg-green text-white': i === arrowCounter }">
         {{ result }}
       </li>
     </ul>

@@ -1,11 +1,11 @@
 const matches = {
   template: `
     <div>
-      <div class="d-flex justify-content-between align-items-center mb-1">
-        <h3 class="mb-0"><slot name="header"></slot></h3>
-        <div class="d-flex align-items-center">
-          <button class="btn btn-xs btn-gray mr-tiny btn-icon" @click="modals.refine = true" v-if="!status.loading && !_.isEmpty(matches) && has.intermediaries && (intermediaries == 'contribution' || intermediaries == 'expenditure')"><i class="icon-cog"></i></button>
-          <dropdown class="ml-tiny" button="btn-xs btn-gray" text="Bulk Actions" menu="dropdown-menu-right dropdown-menu-xs border" v-if="!_.isEmpty(matches)">
+      <div class="flex justify-between items-center mb-3">
+        <h3 class="text-xl text-dark-gray"><slot name="header"></slot></h3>
+        <div class="flex items-center">
+          <button class="btn btn-sm btn-gray mr-1" @click="modals.refine = true" v-if="!status.loading && !_.isEmpty(matches) && has.intermediaries && (intermediaries == 'contribution' || intermediaries == 'expenditure')"><i class="fas fa-cog"></i></button>
+          <dropdown button="btn-sm btn-gray" text="Bulk Actions" menu="right-0 text-right dropdown-menu-xs border border-secondary" v-if="!_.isEmpty(matches)">
             <template v-if="interactions.selectable">
               <button class="dropdown-item" @click="selectAllPage()" :disabled="numbranches > 0">Select All<template v-if="paginate"> on Page</template></button>
               <button class="dropdown-item" @click="unselectAllPage()" :disabled="numbranches > 0">Unselect All<template v-if="paginate"> on Page</template></button>
@@ -19,17 +19,21 @@ const matches = {
           </dropdown>
         </div>
       </div>
-      <p class="py-1 lead"><slot name="intro"></slot></p>
-      <div v-if="status.loading">Loading<span class="blink">...</span></div>
-      <div class="bg-xlight p-1" v-if="!status.loading && _.isEmpty(matches)"><slot name="none"></slot><span v-if="pagination.end && pagination.page > 1">. You've reached the end.</span></div>
-      <div class="matches" :class="{'hasdropdowns': !_.isEmpty(_.filter(dropdowns, {'open': true}))}">
-        <table v-if="!_.isEmpty(matches)">
-          <thead>
-            <th class="bg-light" :class="column == 'Amount' ? 'text-right pr-2' : ''" v-for="column in columns">{{column}}</th>
+      <p class="font-light text-sm leading-relaxed mb-5"><slot name="intro"></slot></p>
+      <div class="bg-xlight p-3 text-xs" v-if="_.isEmpty(matches)">
+        <div v-if="status.loading">Loading<span class="blink">...</span></div>
+        <template v-else>
+          <slot name="none"></slot><span v-if="pagination.end && pagination.page > 1">. You've reached the end.</span>
+        </template>
+      </div>
+      <div class="matches text-dark-gray" :class="{'hasdropdowns': !_.isEmpty(_.filter(dropdowns, {'open': true}))}">
+        <table v-if="!_.isEmpty(matches)" class="text-xs w-full">
+          <thead class="text-left align-bottom">
+            <th class="bg-light" :class="column == 'Amount' ? 'text-right pr-5' : ''" v-for="column in columns">{{column}}</th>
             <th class="bg-light text-right">Actions</th>
           </thead>
           <tbody>
-            <tr class="border-top bg-xlight" v-for="match in matches">
+            <tr class="border-t border-secondary bg-xlight" v-for="match in matches">
               <td v-for="(value, key) in row(match)">
                 <a :href="'https://www.fec.gov/data/candidate/' + value" target="_blank" v-if="key == 'Candidate ID'">{{value}}</a>
                 <a :href="'https://www.fec.gov/data/committee/' + value" target="_blank" v-else-if="key == 'Committee ID'">{{value}}</a>
@@ -62,10 +66,10 @@ const matches = {
               </td>
               <td class="actions">
                 <template v-if="interactions.selectable">
-                  <button @click="select(match.id)" :disabled="numbranches > 0" class="btn btn-xs btn-primary selectables ml-tiny" v-if="!_.includes(selected, match.id)">Select</button>
-                  <button @click="unselect(match.id)" :disabled="numbranches > 0" class="btn btn-xs btn-danger selectables ml-tiny" v-if="_.includes(selected, match.id)">Unselect</button>
+                  <button @click="select(match.id)" :disabled="numbranches > 0" class="btn btn-sm btn-primary selectables" v-if="!_.includes(selected, match.id)">Select</button>
+                  <button @click="unselect(match.id)" :disabled="numbranches > 0" class="btn btn-sm btn-red selectables" v-if="_.includes(selected, match.id)">Unselect</button>
                 </template>
-                <dropdown class="ml-tiny" button="btn-xs btn-gray" text="Investigate" menu="dropdown-menu-right dropdown-menu-xs border" @dropdown="dropdown">
+                <dropdown button="btn-sm btn-gray" text="Investigate" menu="right-0 text-right dropdown-menu-xs border border-secondary" @dropdown="dropdown">
                   <button @click="intermediate(match)" class="dropdown-item" v-if="has.intermediaries">View Details</button>
                   <button @click="expand(match)" class="dropdown-item" v-if="has.expansions">Expand Record</button>
                   <button @click="search(match)" class="dropdown-item" v-if="has.search">New Search</button>
@@ -78,28 +82,28 @@ const matches = {
           </tbody>
         </table>
       </div>
-      <div class="d-flex justify-content-between align-items-center mt-2" v-if="paginate">
-        <button class="btn btn-xs btn-light" @click="previous()" :disabled="pagination.page == 1 || status.paging">&larr; Previous Page</button>
-        <div class="text-gray"><span v-if="status.paging">Loading new page...</span><span v-else-if="status.updating">Updating matches...</span><span v-else>Page {{pagination.page}}</span></div>
-        <button class="btn btn-xs btn-light ml-3" @click="next()" :disabled="status.paging || pagination.end">Next Page &rarr;</button>
+      <div class="flex justify-between items-center mt-5" v-if="paginate">
+        <button class="btn btn-sm btn-light" @click="previous()" :disabled="pagination.page == 1 || status.paging">&larr; Previous Page</button>
+        <div class="text-gray text-xs"><span v-if="status.paging">Loading new page...</span><span v-else-if="status.updating">Updating matches...</span><span v-else>Page {{pagination.page}}</span></div>
+        <button class="btn btn-sm btn-light ml-3" @click="next()" :disabled="status.paging || pagination.end">Next Page &rarr;</button>
       </div>
       <modal :show="modals.refine" @cancel="modals.refine = false">
         <div slot="header">
           <h5 class="modal-title">Refine Matches</h5>
-          <p class="text-muted mb-0">You can refine the matches using the options below:</p>
+          <p class="modal-subtitle">You can refine the matches using the options below:</p>
         </div>
-        <div slot="body" class="pb-10 mb-2">
+        <div slot="body" class="form-sm form-full pb-12 mb-5">
           <div class="form-group">
             <label class="label">Min <span v-if="intermediaries == 'contribution'">Contribution </span><span v-else-if="intermediaries == 'expenditure'">Expenditure </span>Date:</label>
-            <datepicker v-model="refine.dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-control form-control-xs" :disabled-dates="refine.disabledDates"></datepicker>
+            <datepicker v-model="refine.dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="refine.disabledDates"></datepicker>
           </div>
           <div class="form-group">
             <label class="label">Max <span v-if="intermediaries == 'contribution'">Contribution </span><span v-else-if="intermediaries == 'expenditure'">Expenditure </span>Date:</label>
-            <datepicker v-model="refine.dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-control form-control-xs" :disabled-dates="refine.disabledDates"></datepicker>
+            <datepicker v-model="refine.dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="refine.disabledDates"></datepicker>
           </div>
           <div class="form-group" v-if="intermediaries == 'contribution' && api.payload.entity != 'donor' && api.payload.entity2 != 'donor'">
             <label class="label">Direction of Contributions:</label>
-            <select v-model="refine.direction" class="form-control form-control-xs select pr-3">
+            <select v-model="refine.direction" class="form-element select pr-3">
               <option value="all">All</option>
               <option value="receipts">Receipts</option>
               <option value="disbursements">Disbursements</option>
@@ -107,40 +111,40 @@ const matches = {
           </div>
           <div class="form-group" v-if="intermediaries == 'expenditure'">
             <label class="label">Support vs. Oppose:</label>
-            <select v-model="refine.sup_opp" class="form-control form-control-xs select pr-3">
+            <select v-model="refine.sup_opp" class="form-element select pr-3">
               <option value="all">All</option>
               <option value="S">Support</option>
               <option value="O">Oppose</option>
             </select>
           </div>
         </div>
-        <div slot="footer">
-          <button class="btn btn-xs btn-secondary mr-tiny" @click="modals.refine = false">Cancel</button>
-          <button class="btn btn-xs btn-gray" @click="status.updating = true; get(true, false, false); status.refined = true; modals.refine = false">Update Matches</button>
+        <div slot="footer" class="flex justify-end">
+          <button class="btn btn-sm btn-secondary mr-1" @click="modals.refine = false">Cancel</button>
+          <button class="btn btn-sm btn-gray" @click="status.updating = true; get(true, false, false); status.refined = true; modals.refine = false">Update Matches</button>
         </div>
       </modal>
       <modal :show="modals.download" @cancel="modals.download = false">
         <div slot="header">
           <h5 class="modal-title">Download Matches</h5>
-          <p class="text-muted mb-0">You can download the matches using the options below:</p>
+          <p class="modal-subtitle">You can download the matches using the options below:</p>
         </div>
-        <div slot="body" class="pb-10 mb-2">
+        <div slot="body" class="form-sm form-full pb-12 mb-5">
           <div class="form-group">
             <label class="label">Format:</label>
-            <select v-model="download.format" class="form-control form-control-xs select pr-3">
+            <select v-model="download.format" class="form-element select pr-3">
               <option value="csv">CSV</option>
               <option value="json">JSON</option>
             </select>
           </div>
           <div class="form-group">
             <label class="label">Page:</label>
-            <p class="text-muted mb-1">Each page will contain up to 1000 matches.</p>
-            <input class="form-control form-control-xs" v-model="download.page" type="number" min="1" />
+            <p class="form-text-top">Each page will contain up to 1000 matches.</p>
+            <input class="form-element" v-model="download.page" type="number" min="1" />
           </div>
         </div>
-        <div slot="footer">
-          <button class="btn btn-xs btn-secondary mr-tiny" @click="modals.download = false">Cancel</button>
-          <button class="btn btn-xs btn-gray" @click="get(false, true, false); modals.download = false">Download Matches</button>
+        <div slot="footer" class="flex justify-end">
+          <button class="btn btn-sm btn-secondary mr-1" @click="modals.download = false">Cancel</button>
+          <button class="btn btn-sm btn-gray" @click="get(false, true, false); modals.download = false">Download Matches</button>
         </div>
       </modal>
     </div>

@@ -1,7 +1,7 @@
 const associations_results_candidate_committee = {
   template: `
     <div>
-      <matches :mentity="mentity" :has="has[0]" :numbranches="numbranches" :interactions="interactions" :api="matches[0]" :qs="qs[0]" :selected="selected" @onselect="onselect" @investigate="investigate" class="mb-3">
+      <matches :mentity="mentity" :has="has[0]" :numbranches="numbranches" :interactions="interactions" :api="matches[0]" :qs="qs[0]" :selected="selected" @onselect="onselect" @investigate="investigate" class="mb-10">
         <template v-slot:header>Matches</template>
         <template v-slot:intro>Here are the {{settings.entity2}}s associated with {{_.toUpper(settings.term)}} through direct linkages.</template>
         <template v-slot:none>No matches found</template>

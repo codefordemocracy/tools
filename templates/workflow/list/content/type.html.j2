@@ -1,28 +1,20 @@
-<div class="bg-white border p-1">
-  <div class="row no-gutters">
-    <div class="col-12 col-sm-6 col-lg-3 p-1">
-      <button class="btn btn-block btn-sm p-3 text-uppercase" :class="list.type == 'person' ? 'btn-primary text-white' : 'btn-secondary'" @click="list.type = 'person'">
-        <i class="icon-user fs-30 mb-1" :class="list.type == 'person' ? 'text-white' : 'text-gray-dark'"></i><br/>
-        Person
-      </button>
-    </div>
-    <div class="col-12 col-sm-6 col-lg-3 p-1">
-      <button class="btn btn-block btn-sm p-3 text-uppercase" :class="list.type == 'organization' ? 'btn-primary text-white' : 'btn-secondary'" @click="list.type = 'organization'">
-        <i class="icon-institution fs-30 mb-1" :class="list.type == 'organization' ? 'text-white' : 'text-gray-dark'"></i><br/>
-        Organization
-      </button>
-    </div>
-    <div class="col-12 col-sm-6 col-lg-3 p-1">
-      <button class="btn btn-block btn-sm p-3 text-uppercase" :class="list.type == 'job' ? 'btn-primary text-white' : 'btn-secondary'" @click="list.type = 'job'">
-        <i class="icon-briefcase fs-30 mb-1" :class="list.type == 'job' ? 'text-white' : 'text-gray-dark'"></i><br/>
-        Job
-      </button>
-    </div>
-    <div class="col-12 col-sm-6 col-lg-3 p-1">
-      <button class="btn btn-block btn-sm p-3 text-uppercase" :class="list.type == 'topic' ? 'btn-primary text-white' : 'btn-secondary'" @click="list.type = 'topic'">
-        <i class="icon-file-text fs-30 mb-1" :class="list.type == 'topic' ? 'text-white' : 'text-gray-dark'"></i><br/>
-        Topic
-      </button>
-    </div>
+<div class="bg-white border border-secondary p-5">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+    <button class="btn px-5 py-10 text-sm rounded-sm uppercase" :class="list.type == 'person' ? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="list.type = 'person'">
+      <i class="fas fa-user icon-box-icon icon-box-icon-smaller mb-3"></i><br/>
+      Person
+    </button>
+    <button class="btn px-5 py-10 text-sm rounded-sm uppercase" :class="list.type == 'organization' ? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="list.type = 'organization'">
+      <i class="fas fa-university icon-box-icon icon-box-icon-average mb-3"></i><br/>
+      Organization
+    </button>
+    <button class="btn px-5 py-10 text-sm rounded-sm uppercase" :class="list.type == 'job' ? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="list.type = 'job'">
+      <i class="fas fa-briefcase icon-box-icon icon-box-icon-small mb-3"></i><br/>
+      Job
+    </button>
+    <button class="btn px-5 py-10 text-sm rounded-sm uppercase" :class="list.type == 'topic' ? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="list.type = 'topic'">
+      <i class="fas fa-file-alt icon-box-icon icon-box-icon-small mb-3"></i><br/>
+      Topic
+    </button>
   </div>
 </div>

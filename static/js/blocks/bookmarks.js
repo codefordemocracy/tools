@@ -1,25 +1,21 @@
 const bookmarks = {
   template: `
     <div>
-      <div class="bg-xlight p-2 mb-1" v-for="bookmark in chunks[page-1]">
-        <ul class="list-unstyled infolist text-gray">
+      <div class="bg-xlight p-5 mb-4" v-for="bookmark in chunks[page-1]">
+        <ul class="list-none">
           <li><strong>Description:</strong> {{bookmark.description}}</li>
           <li><strong>URL:</strong> <a :href="makeurl(bookmark)" class="text-gray">{{makeurl(bookmark)}}</a></li>
           <li><strong>Bookmarked at:</strong> {{moment(bookmark.bookmarked_at).local()}}</li>
         </ul>
-        <a :href="makeurl(bookmark)" class="mr-2">View</a>
-        <a href="javascript:void(0)" @click="remove(bookmark)" class="text-danger">Delete</a>
+        <div class="text-xs mt-3">
+          <a :href="makeurl(bookmark)" class="mr-3" class="text-primary">View</a>
+          <a href="javascript:void(0)" @click="remove(bookmark)" class="text-red">Delete</a>
+        </div>
       </div>
-      <div class="row d-flex align-items-center mb-1" v-if="chunks.length > 1">
-        <div class="col-6 col-sm-3 order-sm-1">
-          <button class="btn btn-link text-gray btn-xs" @click="page--" :disabled="page == 1">&larr; Previous<span class="d-none d-md-inline"> Page</span></button>
-        </div>
-        <div class="col-6 col-sm-3 order-sm-3 text-right">
-          <button class="btn btn-link text-gray btn-xs pl-3" @click="page++" :disabled="page == chunks.length">Next<span class="d-none d-md-inline"> Page</span> &rarr;</button>
-        </div>
-        <div class="col-12 col-sm-6 order-sm-2 text-center">
-          Page {{page}} of {{chunks.length}}</span>
-        </div>
+      <div class="flex justify-between items-center" v-if="chunks.length > 1">
+        <button class="btn text-gray btn-sm" @click="page--" :disabled="page == 1">&larr; Previous<span class="hidden md:inline"> Page</span></button>
+        <span class="text-xs">Page {{page}} of {{chunks.length}}</span>
+        <button class="btn text-gray btn-sm pl-3" @click="page++" :disabled="page == chunks.length">Next<span class="hidden md:inline"> Page</span> &rarr;</button>
       </div>
     </div>
   `,

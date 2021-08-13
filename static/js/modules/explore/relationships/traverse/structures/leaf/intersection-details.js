@@ -1,7 +1,7 @@
 const intersection_details = {
   template: `
     <div>
-      <matches :mentity="mentity" :has="has" :interactions="interactions" :api="matches[0]" :qs="settings.qs" @investigate="investigate" class="mb-2">
+      <matches :mentity="mentity" :has="has" :interactions="interactions" :api="matches[0]" :qs="settings.qs" @investigate="investigate" class="mb-10">
         <template v-slot:header>Intermediaries</template>
         <template v-slot:intro>These are the details on the intermediaries that connect {{_.toUpper(settings.term)}} and {{_.toUpper(settings.term3)}}.</template>
         <template v-slot:none>No intermediaries found</template>

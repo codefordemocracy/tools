@@ -16,11 +16,11 @@ const configuration = {
   template: `
   <div class="configuration">
     <div :class="version == 'grid' ? 'card' : ''">
-      <div :class="version == 'grid' ? 'card-body d-flex flex-column justify-content-between' : ''">
+      <div :class="version == 'grid' ? 'card-body flex flex-col justify-between' : ''">
         ` + concatrecipes + `
         <div class="mt-2" v-if="version == 'grid'">
-          <a :href="'/recipe/settings/' + querystring" class="btn btn-xs btn-gray">Customize</a>
-          <a :href="'/recipe/results/' + querystring" class="btn btn-xs btn-primary">See Results <span class="font-weight-bold">&rarr;</span></a>
+          <a :href="'/recipe/settings/' + querystring" class="btn btn-sm btn-gray">Customize</a>
+          <a :href="'/recipe/results/' + querystring" class="btn btn-sm btn-primary">See Results <span class="font-weight-bold">&rarr;</span></a>
         </div>
         <template v-if="version == 'results'">
           <button class="btn btn-sm btn-light mt-3" @click="click"><span class="font-weight-bold">&larr;</span> Edit Settings</button>

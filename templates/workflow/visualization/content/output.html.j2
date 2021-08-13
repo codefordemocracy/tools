@@ -1,28 +1,20 @@
-<div class="bg-white border p-1">
-  <div class="row no-gutters">
-    <div class="col-12 col-sm-6 col-lg-3 p-1">
-      <button class="btn btn-block btn-sm p-3 text-uppercase" :class="visualization.type == 'table' ? 'btn-primary text-white' : 'btn-secondary'" @click="visualization.type = 'table'">
-        <i class="icon-table fs-30 mb-1" :class="visualization.type == 'table' ? 'text-white' : 'text-gray-dark'"></i><br/>
-        Table
-      </button>
-    </div>
-    <div class="col-12 col-sm-6 col-lg-3 p-1">
-      <button class="btn btn-block btn-sm p-3 text-uppercase" :class="visualization.type == 'chart' ? 'btn-primary text-white' : 'btn-secondary'" @click="visualization.type = 'chart'">
-        <i class="icon-bar-chart fs-30 mb-1" :class="visualization.type == 'chart' ? 'text-white' : 'text-gray-dark'"></i><br/>
-        Chart
-      </button>
-    </div>
-    <div class="col-12 col-sm-6 col-lg-3 p-1">
-      <button class="btn btn-block btn-sm p-3 text-uppercase" :class="visualization.type == 'network' ? 'btn-primary text-white' : 'btn-secondary'" @click="visualization.type = 'network'">
-        <i class="icon-share-2 fs-30 mb-1" :class="visualization.type == 'network' ? 'text-white' : 'text-gray-dark'"></i><br/>
-        Network
-      </button>
-    </div>
-    <div class="col-12 col-sm-6 col-lg-3 p-1">
-      <button class="btn btn-block btn-sm p-3 text-uppercase" :class="visualization.type == 'map' ? 'btn-primary text-white' : 'btn-secondary'" @click="visualization.type = 'map'">
-        <i class="icon-globe fs-30 mb-1" :class="visualization.type == 'map' ? 'text-white' : 'text-gray-dark'"></i><br/>
-        Map
-      </button>
-    </div>
+<div class="bg-white border border-secondary p-5">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+    <button class="btn px-5 py-10 text-sm rounded-sm uppercase" :class="visualization.type == 'table' ? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="visualization.type = 'table'">
+      <i class="fas fa-table icon-box-icon icon-box-icon-average mb-3"></i><br/>
+      Table
+    </button>
+    <button class="btn px-5 py-10 text-sm rounded-sm uppercase" :class="visualization.type == 'chart'? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="visualization.type = 'chart'">
+      <i class="fas fa-chart-bar icon-box-icon icon-box-icon-large mb-3"></i><br/>
+      Chart
+    </button>
+    <button class="btn px-5 py-10 text-sm rounded-sm uppercase" :class="visualization.type == 'network' ? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="visualization.type = 'network'">
+      <i class="fas fa-project-diagram icon-box-icon icon-box-icon-smallest mb-3"></i><br/>
+      Network
+    </button>
+    <button class="btn px-5 py-10 text-sm rounded-sm uppercase" :class="visualization.type == 'map' ? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="visualization.type = 'map'">
+      <i class="fas fa-globe-americas icon-box-icon icon-box-icon-average mb-3"></i><br/>
+      Map
+    </button>
   </div>
 </div>

@@ -1,14 +1,14 @@
 const tabbed = {
   tabs: {
     template: `
-      <div ref="tabs">
-        <div class="d-flex" :class="{'border-right': fill}">
-          <div v-for="tab in tabs" @click="select(tab)" class="tab border border-right-0 bg-light text-center" :class="{'tab-active': tab.active, 'flex-fill': fill}">
+      <div ref="tabs" class="border-b border-secondary tabs">
+        <div class="flex" :class="{'border-r border-secondary': fill}">
+          <div v-for="tab in tabs" @click="select(tab)" class="py-2 px-5 cursor-pointer text-xs border border-r-0 border-secondary bg-light text-center" :class="{'tab-active border-b-0 bg-white': tab.active, 'flex-1': fill}">
             {{tab.name}}
           </div>
-          <div class="bg-light border-left border-bottom flex-grow-1" v-if="!fill"></div>
+          <div class="bg-light border-l border-b border-secondary flex-grow" v-if="!fill"></div>
         </div>
-        <div class="tab-content border-left border-right">
+        <div class="tab-content overflow-auto break-words bg-white border-l border-r border-secondary">
           <slot></slot>
         </div>
       </div>

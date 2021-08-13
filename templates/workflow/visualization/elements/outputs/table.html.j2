@@ -1,2 +1,2 @@
-<div class="placeholder d-flex justify-content-center align-items-center" v-if="_.isEmpty(store.state.output.table)">Your data table will show up here.</div>
-<datatable class="datatable p-1" button="btn-link text-gray btn-xs" :columns="store.state.output.table.columns" :data="store.state.output.table.data" :options="store.state.output.table.options" v-else></datatable>
+<div class="placeholder flex justify-content-center items-center" v-if="_.isEmpty(store.state.output.table)">Your data table will show up here.</div>
+<datatable class="datatable p-1" button="btn-link text-gray btn-sm" :columns="store.state.output.table.columns" :data="store.state.output.table.data" :options="store.state.output.table.options" v-else></datatable>

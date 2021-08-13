@@ -1,7 +1,7 @@
 const contribution = {
   template: `
     <div>
-      <matches :has="has" :interactions="interactions" :api="matches[0]" @investigate="investigate" class="mb-3">
+      <matches :has="has" :interactions="interactions" :api="matches[0]" @investigate="investigate" class="mb-10">
         <template v-slot:header>Contributor</template>
         <template v-slot:intro>These are the details for the CONTRIBUTOR.</template>
         <template v-slot:none>No contributors found</template>
