@@ -15,8 +15,8 @@
         <div class="navbar-divider self-stretch lg:hidden"></div>
         <a class="nav-link-chonk flex [[ 'active' if request.url_rule.endpoint == 'route_create_list' ]]" href="[[ url_for('route_create_list') ]]"><span class="nav-circle">A</span><span><small>CREATE A</small><br/>List</span></a>
         <a class="nav-link-chonk flex [[ 'active' if request.url_rule.endpoint == 'route_create_query' ]]" href="[[ url_for('route_create_query') ]]"><span class="nav-circle">B</span><span><small>CREATE A</small><br/>Query</span></a>
-        <a class="nav-link-chonk flex [[ 'active' if request.url_rule.endpoint == 'route_create_alert' ]]" href="[[ url_for('route_create_alert') ]]"><span class="nav-circle">C</span><span><small>CREATE AN</small><br/>Alert</span></a>
-        <a class="nav-link-chonk flex [[ 'active' if request.url_rule.endpoint == 'route_create_visualization' ]]" href="[[ url_for('route_create_visualization') ]]"><span class="nav-circle">D</span><span><small>CREATE A</small><br/>Visualization</span></a>
+        <a class="nav-link-chonk flex [[ 'active' if request.url_rule.endpoint == 'route_create_visualization' ]]" href="[[ url_for('route_create_visualization') ]]"><span class="nav-circle">C</span><span><small>CREATE A</small><br/>Visualization</span></a>
+        <a class="nav-link-chonk flex [[ 'active' if request.url_rule.endpoint == 'route_create_alert' ]]" href="[[ url_for('route_create_alert') ]]"><span class="nav-circle">D</span><span><small>CREATE AN</small><br/>Alert</span></a>
       </div>
       <div class="lg:flex lg:items-center lg:mr-1">
         <template v-if="store.state.auth.profile">
@@ -25,7 +25,7 @@
           <a class="nav-link [[ 'active' if request.url_rule.endpoint == 'route_dashboard' ]]" href="[[ url_for('route_dashboard') ]]" v-else>@{{store.state.auth.profile.username}}</a>
         </template>
         <div class="navbar-divider self-stretch lg:mx-2"></div>
-        <a class="nav-link" href="https://docs.codefordemocracy.org/data/explore/" target="_blank">Documentation</a>
+        <a class="nav-link" href="https://docs.codefordemocracy.org/tools/" target="_blank">Documentation</a>
         <a class="nav-link" href="https://api.codefordemocracy.org" target="_blank">API</a>
       </div>
     </div>
