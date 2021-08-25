@@ -32,7 +32,7 @@ new Vue({
     form: {
       b_b4403b081b3c5fd183e8f1f60_0a70f9292d: null,
       EMAIL: null,
-      ORIGIN: 'Watchdog'
+      ORIGIN: 'Tools'
     },
     error: false,
     success: false
