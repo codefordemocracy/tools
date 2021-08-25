@@ -1074,7 +1074,7 @@ def route_api_list_toggle():
 
 @app.route("/api/list/delete/", methods=["POST"])
 def route_api_list_delete():
-    ata = request.get_json()
+    data = request.get_json()
     action({"task": "delete_list", "token": request.cookies.get('cfd'), "id": data.get("id")})
     return route_api_user_active_lists()
 
