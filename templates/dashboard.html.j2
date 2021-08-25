@@ -2,6 +2,9 @@
 
 <div id="main" class="bg-light p-5 text-dark" v-cloak>
   <div class="grid grid-cols-1 gap-5">
+    <div class="border border-secondary bg-white p-5" v-if="!store.state.auth.profile">
+      <p>Please wait, we're loading your dashboard.</p>
+    </div>
     <div class="p-5" :class="_.isEmpty(store.state.auth.profile) ? 'border border-secondary bg-white' : 'bg-gray-55'" v-if="store.state.auth.profile">
       <p v-if="_.isEmpty(store.state.auth.profile)">You are logged out. <a href="javascript:void(0)" @click="store.commit('auth/login', true)">Click here to login.</a></p>
       <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center" v-else>
