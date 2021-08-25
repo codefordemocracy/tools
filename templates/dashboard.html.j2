@@ -18,7 +18,7 @@
     <template v-if="!_.isEmpty(store.state.auth.profile) && !_.isNull(lists)">
       <div class="border border-secondary bg-white p-5" v-for="status in ['public', 'hidden']">
         <div class="flex justify-between items-center">
-          <h5 class="text-2xl font-light mb-3">Your {{_.startCase(status)}} Lists</h5>
+          <h5 class="text-2xl font-light text-dark-gray mb-3">Your {{_.startCase(status)}} Lists</h5>
           <a :href="'/create/list/?visibility=' + status" class="btn btn-sm btn-gray font-semibold">&plus;</a>
         </div>
         <p class="font-light mb-5" v-if="status == 'public'">These lists show up on your public profile and can be viewed or cloned by other users.</p>
@@ -30,7 +30,7 @@
       </div>
     </template>
     <div class="border border-secondary bg-white p-5" v-if="!_.isEmpty(store.state.auth.profile) && !_.isNull(bookmarks)">
-      <h5 class="text-2xl font-light mb-3">Your Bookmarks</h5>
+      <h5 class="text-2xl font-light text-dark-gray mb-3">Your Bookmarks</h5>
       <p class="font-light mb-5">Bookmarks help you keep track of results you want to revisit. Your collection of bookmarks is private and is not viewable by other users.</p>
       <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(bookmarks)">
         You don't have any bookmarks.
