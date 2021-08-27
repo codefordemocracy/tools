@@ -628,8 +628,8 @@ def route_api_graph():
             elements = utilities.elements2cy(get(path(endpoint, qs)))
         elif data["flow"] == "tweeters":
             endpoint = "/graph/search/tweeters/"
-            if len(data["parameters"]["screen_name"]) > 0:
-                qs["screen_name"] = data["parameters"]["screen_name"]
+            if len(data["parameters"]["username"]) > 0:
+                qs["username"] = data["parameters"]["username"]
             elements = utilities.elements2cy(get(path(endpoint, qs)))
         elif data["flow"] == "buyers":
             endpoint = "/graph/search/buyers/"
@@ -707,13 +707,13 @@ def route_api_traverse_find():
                 qstring["name"] = term
             elif data["entity"] == "tweeter":
                 endpoint = "/graph/search/tweeters/"
-                qstring["screen_name"] = term
+                qstring["username"] = term
             elif data["entity"] == "topic":
                 endpoint = "/graph/search/topics/"
                 qstring["name"] = term
             elif data["entity"] == "tweeter":
                 endpoint = "/graph/search/tweeters/"
-                qstring["screen_name"] = term
+                qstring["username"] = term
             if data.get("inspect") is True:
                 elements.extend([{
                     "config": fernet.encrypt(path(endpoint, qstring).encode()).decode()
@@ -936,20 +936,20 @@ def route_api_browse_documents():
                 for doc in docs:
                     element = {}
                     if "obj" in doc["_source"]:
-                        if "id" in doc["_source"]["obj"]:
-                            element["id"] = doc["_source"]["obj"]["id"]
-                            if "user_screen_name" in doc["_source"]:
-                                element["url"] = "https://twitter.com/" + doc["_source"]["user_screen_name"] + "/status/" + doc["_source"]["obj"]["id"]
-                        if "created_at" in doc["_source"]["obj"]:
-                            element["created_at"] = doc["_source"]["obj"]["created_at"]
-                        if "entities" in doc["_source"]["obj"]:
-                            if "hashtags" in doc["_source"]["obj"]["entities"]:
-                                if len(doc["_source"]["obj"]["entities"]["hashtags"]) > 0:
-                                    element["hashtags"] = [x["text"] for x in doc["_source"]["obj"]["entities"]["hashtags"]]
-                    if "user_id" in doc["_source"]:
-                        element["user_id"] = doc["_source"]["user_id"]
-                    if "user_screen_name" in doc["_source"]:
-                        element["user_screen_name"] = doc["_source"]["user_screen_name"]
+                        if "id" in doc["_source"]["obj"].get("tweet", {}):
+                            element["id"] = doc["_source"]["obj"]["tweet"]["id"]
+                            if "username" in doc["_source"]["obj"].get("author", {}):
+                                element["url"] = "https://twitter.com/" + doc["_source"]["obj"]["author"]["username"] + "/status/" + doc["_source"]["obj"]["tweet"]["id"]
+                        if "created_at" in doc["_source"]["obj"].get("tweet", {}):
+                            element["created_at"] = doc["_source"]["obj"]["tweet"]["created_at"]
+                        if "entities" in doc["_source"]["obj"].get("tweet", {}):
+                            if "hashtags" in doc["_source"]["obj"]["tweet"]["entities"]:
+                                if len(doc["_source"]["obj"]["tweet"]["entities"]["hashtags"]) > 0:
+                                    element["hashtags"] = [x["tag"] for x in doc["_source"]["obj"]["tweet"]["entities"]["hashtags"]]
+                    if "user_id" in doc["_source"]["obj"].get("author", {}):
+                        element["user_id"] = doc["_source"]["obj"]["author"]["user_id"]
+                    if "username" in doc["_source"]["obj"].get("author", {}):
+                        element["username"] = doc["_source"]["obj"]["author"]["username"]
                     elements.append(element)
         elif data["documents"] == "ads":
             endpoint = "/documents/browse/facebook/ads/"

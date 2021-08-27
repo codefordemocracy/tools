@@ -336,7 +336,7 @@ const cytostyle = [{
 }, {
     'selector': 'node[label=\'Tweeter\']',
     'style': {
-        'content': 'data(properties.screen_name)',
+        'content': 'data(properties.username)',
         'background-color': '#4b5b82',
         'border-color': '#4b5b82'
     }
@@ -348,14 +348,14 @@ const cytostyle = [{
         'border-color': '#2a2831'
     }
 }, {
-    'selector': 'node[label=\'Retweet\']',
+    'selector': 'node[label=\'Hashtag\']',
     'style': {
-        'content': 'data(properties.datetime)',
+        'content': 'data(properties.text)',
         'background-color': '#55356e',
         'border-color': '#55356e'
     }
 }, {
-    'selector': 'node[label=\'Hashtag\']',
+    'selector': 'node[label=\'Annotation\']',
     'style': {
         'content': 'data(properties.text)',
         'background-color': '#c57385',

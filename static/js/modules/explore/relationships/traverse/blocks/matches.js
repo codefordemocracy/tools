@@ -419,7 +419,7 @@ const matches = {
       } else if (this.mentity == 'tweeter') {
         return {
           'ID': match.properties.user_id,
-          'Handle': match.properties.screen_name,
+          'Handle': match.properties.username,
           'Name': match.properties.name
         }
       } else if (this.mentity == 'buyer') {
@@ -479,7 +479,7 @@ const matches = {
       } else if (this.mentity == 'source') {
         return match.properties.domain
       } else if (this.mentity == 'tweeter') {
-        return '@' + match.properties.screen_name
+        return '@' + match.properties.username
       } else if (this.mentity == 'buyer') {
         return match.properties.name
       } else if (this.mentity == 'page') {

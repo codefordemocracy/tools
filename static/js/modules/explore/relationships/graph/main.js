@@ -413,7 +413,7 @@ new Vue({
                 name: ''
             },
             tweeters: {
-                screen_name: ''
+                username: ''
             },
             dates: DATERANGES.dates.fec,
             pagination: {

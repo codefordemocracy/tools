@@ -1,8 +1,8 @@
 <h6 class="text-lg text-dark-gray mb-2">Search Tweeters</h6>
 <p class="text-xs mb-4">You can search for a Tweeter below:</p>
 <div class="form-group">
-  <label class="label">Screen Name:</label>
-  <typeahead ul="text-xs" input="form-element" v-model="search.tweeters.screen_name" :items="PLACEHOLDERS.tweeter"></typeahead>
+  <label class="label">Username:</label>
+  <typeahead ul="text-xs" input="form-element" v-model="search.tweeters.username" :items="PLACEHOLDERS.tweeter"></typeahead>
 </div>
 <div v-if="store.state.explore.advanced == true">
   <div class="form-group">
