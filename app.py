@@ -53,6 +53,11 @@ def route_create_list():
     templates = [{"step": 1, "slug": "type"}, {"step": 2, "slug": "include"}, {"step": 3, "slug": "review"}, {"step": 4, "slug": "exclude"}, {"step": 5, "slug": "save"}]
     return render_template("workflow.html.j2", workflow=workflow, output=output, templates=templates, action=action, id=id)
 
+@app.route("/view/list/", methods=["GET"])
+def route_view_list():
+    mode = request.args.get("mode")
+    return render_template("workflow/list/popup/view.html.j2", mode=mode)
+    
 @app.route("/create/query/", methods=["GET"])
 def route_create_query():
     action = request.args.get("action")
@@ -65,20 +70,6 @@ def route_create_query():
         workflow = "Create a Query"
     output = "query"
     templates = [{"step": 1, "slug": "recipes"}, {"step": 2, "slug": "lists"}, {"step": 3, "slug": "results"}, {"step": 4, "slug": "filters"}, {"step": 5, "slug": "save"}]
-    return render_template("workflow.html.j2", workflow=workflow, output=output, templates=templates, action=action, id=id)
-
-@app.route("/create/alert/", methods=["GET"])
-def route_create_alert():
-    action = request.args.get("action")
-    id = request.args.get("id")
-    if action == "edit" and id is not None:
-        workflow = "Edit Alert"
-    elif action == "clone" and id is not None:
-        workflow = "Clone Alert"
-    else:
-        workflow = "Create an Alert"
-    output = "alert"
-    templates = [{"step": 1, "slug": "query"}, {"step": 2, "slug": "trigger"}, {"step": 3, "slug": "save"}]
     return render_template("workflow.html.j2", workflow=workflow, output=output, templates=templates, action=action, id=id)
 
 @app.route("/create/visualization/", methods=["GET"])
@@ -99,10 +90,19 @@ def route_create_visualization():
 def route_create_visualization_plot():
     return render_template("visualization/plot.html.j2")
 
-@app.route("/view/list/", methods=["GET"])
-def route_view_list():
-    mode = request.args.get("mode")
-    return render_template("workflow/list/popup/view.html.j2", mode=mode)
+@app.route("/create/alert/", methods=["GET"])
+def route_create_alert():
+    action = request.args.get("action")
+    id = request.args.get("id")
+    if action == "edit" and id is not None:
+        workflow = "Edit Alert"
+    elif action == "clone" and id is not None:
+        workflow = "Clone Alert"
+    else:
+        workflow = "Create an Alert"
+    output = "alert"
+    templates = [{"step": 1, "slug": "query"}, {"step": 2, "slug": "trigger"}, {"step": 3, "slug": "save"}]
+    return render_template("workflow.html.j2", workflow=workflow, output=output, templates=templates, action=action, id=id)
 
 @app.route("/explore/relationships/", methods=["GET"])
 @app.route("/explore/relationships/graph/", methods=["GET"])
