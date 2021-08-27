@@ -4,13 +4,13 @@
 {% block app %}
 
 <div id="slab">
-  <div id="sidebar" class="border-right p-5 bg-white flex flex-col" v-cloak>
+  <div id="leftbar" class="p-5 bg-white flex flex-col" v-cloak>
       {% include "/explore/relationships/graph/partials/sidebar.html.j2" %}
       {% if mode != "popup" %}
         <p class="mt-auto text-xs pt-12">[[copyright()]]</p>
       {% endif %}
   </div>
-  <div id="content" :class="{'bg-light': store.state.explore.elements.length == 0}" v-cloak>
+  <div id="right" :class="{'bg-light': store.state.explore.elements.length == 0}" v-cloak>
       <div v-if="store.state.explore.elements.length == 0 && !(store.state.explore.loading && !store.state.explore.loaded)" class="flex justify-center items-center w-full h-full">
         <div class="leading-relaxed">
           <p class="font-light text-sm">Your graph is currently empty!</p>

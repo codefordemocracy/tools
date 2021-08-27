@@ -1,10 +1,10 @@
 {% extends "index.html.j2" %} {% block title %}@[[username]] | {% endblock %} {% block html %}
 
-<div id="main" class="bg-light p-5 text-dark" v-if="!_.isEmpty(user.username)" v-cloak>
+<div id="main" class="bg-light p-5 text-dark flex flex-col min-h-screen" v-if="!_.isEmpty(user.username)" v-cloak>
   <div class="bg-gray-55 text-white p-5 mb-5 flex flex-col lg:flex-row lg:justify-between lg:items-center">
     <div class="pb-5 lg:pb-0">
-      <h5 v-if="!_.isEmpty(user.name)" class="text-2xl font-light">{{user.name}}</h5>
-      <h5 v-if="_.isEmpty(user.name)" class="text-2xl font-light">@{{user.username}}</h5>
+      <h5 v-if="!_.isEmpty(user.name)" class="text-xl font-light">{{user.name}}</h5>
+      <h5 v-if="_.isEmpty(user.name)" class="text-xl font-light">@{{user.username}}</h5>
       <label v-if="!_.isEmpty(user.name)" class="font-light text-gray-40">@{{user.username}}</label>
     </div>
     <div class="-ml-2 lg:ml-0">
@@ -15,7 +15,7 @@
     </div>
   </div>
   <div class="border border-secondary bg-white p-5">
-    <h5 class="text-2xl font-light text-dark-gray mb-3">Public Lists</h5>
+    <h5 class="text-xl font-light text-dark-gray mb-3">Public Lists</h5>
     <p class="font-light mb-5">These are the lists curated by @{{user.username}}.</p>
     <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(user.lists)">
       No lists found.
@@ -23,7 +23,7 @@
     <listpaginator :lists="user.lists" :hide="['visibility', 'created_by']" :actions="['clone']" :ratio="ratio"></listpaginator>
   </div>
   {% if mode != "popup" %}
-    <p class="text-xs pt-5">[[copyright()]]</p>
+    <p class="text-xs pt-5 mt-auto">[[copyright()]]</p>
   {% endif %}
 </div>
 

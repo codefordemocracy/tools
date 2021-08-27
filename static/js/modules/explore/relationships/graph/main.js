@@ -320,7 +320,7 @@ const addData = function(payload) {
 /* Initialize Components */
 
 new Vue({
-    el: '#content',
+    el: '#right',
     store,
     components: {
         'network': network
@@ -356,7 +356,7 @@ new Vue({
 })
 
 new Vue({
-    el: '#sidebar',
+    el: '#leftbar',
     components: {
         'datepicker': vuejsDatepicker,
         'toggle': toggle,

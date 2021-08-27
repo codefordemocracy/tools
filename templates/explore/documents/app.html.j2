@@ -3,7 +3,7 @@
 
 {% block html %}
 
-<div id="main" class="bg-light p-5" :class="!store.state.explore.first ? 'flex flex-col justify-center' : ''" v-cloak>
+<div id="main" class="bg-light p-5 min-h-screen" :class="!store.state.explore.first ? 'flex flex-col justify-center' : ''" v-cloak>
   <div class="bg-white border border-secondary" :class="!store.state.explore.first ? 'p-7 max-w-lg m-auto' : 'p-5'">
     <template v-if="!store.state.explore.first">
       <div class="mb-8">
