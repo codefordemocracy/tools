@@ -1,8 +1,22 @@
-<tabs>
-  <tab name="PublicLists" :selected="true" class="p-5">
-    <div class="flex justify-center items-center text-xs text-dark px-5 py-10">This feature is coming soon.</div>
-  </tab>
-  <tab name="Your Lists" :selected="false" :placeholder="true" class="p-5">
-
-  </tab>
-</tabs>
+<div class="bg-gray-55 p-5 mb-5 text-xs" v-if="_.isNull(recipe.selected.template)">
+  <p class="text-white">Additional settings for your selected recipe will show up here.</p>
+</div>
+<div class="bg-gray-55 p-5 text-xs text-white" v-else>
+  <configuration :recipe="recipe.selected" version="settings"></configuration>
+</div>
+<div class="bg-white border-l border-r border-b border-secondary mb-5 flex items-stretch" v-if="!_.isNull(recipe.selected.template)">
+  <div class="bg-secondary flex items-center px-5 text-sm">
+    <i class="fas fa-level-up-alt transform rotate-90"></i>
+  </div>
+  <div class="p-2 grid grid-flow-col auto-cols-max gap-2 overflow-x-scroll">
+    <button class="btn btn-sm text-left sm:w-28 md:w-36" :class="index == lists.slot ? 'btn-primary' : 'btn-secondary'" v-for="(list, index) in recipe.selected.subtypes" @click="lists.slot = index">
+      <span class="text-xl font-medium">List {{_.toUpper(getSequence(index))}}</span><br/>
+      <span class="font-light">{{list}}</span>
+      <i class="fas fa-long-arrow-alt-down text-sm float-right ml-5" v-if="index == lists.slot"></i>
+      <i class="fas fa-check-circle text-sm float-right ml-5" v-else-if="!_.isNil(lists.config[getSequence(index)])"></i>
+    </button>
+  </div>
+</div>
+<div class="bg-white border border-secondary p-5 text-xs">
+  <listsearcher :subtype="_.isNull(recipe.selected.template) ? undefined : recipe.selected.subtypes[lists.slot]" :sequence="getSequence(lists.slot)" :settings="!_.isUndefined(lists.config[getSequence(lists.slot)]) ? lists.config[getSequence(lists.slot)] : undefined" @change="updateLists"></listsearcher>
+</div>

@@ -14,7 +14,8 @@ new Vue({
   router,
   el: '#main',
   components: {
-    'listpaginator': listpaginator
+    'listpaginator': listpaginator,
+    'querypaginator': querypaginator
   },
   data: {
     user: {}

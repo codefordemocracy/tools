@@ -1,0 +1,26 @@
+{% extends "index.html.j2" %}
+{% block title %}View Query | {% endblock %}
+
+{% block html %}
+
+<div id="main" class="bg-light p-5 flex flex-col min-h-screen" v-cloak>
+  <div class="bg-white border border-secondary p-5" v-if="!_.isEmpty(query)">
+    <h3 class="text-xl font-light text-dark-gray">{{query.name}}</h3>
+    <p class="font-light text-sm text-muted mb-3">{{query.id}}</p>
+    <a :href="'/create/query/?action=clone&id=' + query.id" class="btn btn-sm btn-gray mb-7" target="_blank">Clone Query</a>
+    <div class="bg-xlight text-dark text-xs p-3">
+      <querydisplayer :query="query" :hide="['visibility', 'name', 'id']" :ratio="ratio"></querydisplayer>
+    </div>
+  </div>
+  {% if mode != "popup" %}
+    <p class="text-xs pt-5 mt-auto">[[copyright()]]</p>
+  {% endif %}
+</div>
+
+{% endblock %}
+{% block scripts %}
+
+<script src="[[ url_for('static', filename='js/blocks/result/querydisplayer.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/modules/workflow/query/popup/view.js') ]]"></script>
+
+{% endblock %}

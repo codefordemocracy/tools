@@ -14,13 +14,21 @@
       <a v-if="!_.isEmpty(user.github)" :href="'https://github.com/' + user.github" target="_blank"><i class="text-xl fab fa-github px-2"></i></a>
     </div>
   </div>
-  <div class="border border-secondary bg-white p-5">
+  <div class="border border-secondary bg-white p-5 mb-5">
     <h5 class="text-xl font-light text-dark-gray mb-3">Public Lists</h5>
     <p class="font-light mb-5">These are the lists curated by @{{user.username}}.</p>
     <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(user.lists)">
       No lists found.
     </div>
     <listpaginator :lists="user.lists" :hide="['visibility', 'created_by']" :actions="['clone']" :ratio="ratio"></listpaginator>
+  </div>
+  <div class="border border-secondary bg-white p-5">
+    <h5 class="text-xl font-light text-dark-gray mb-3">Public Queries</h5>
+    <p class="font-light mb-5">These are the queries curated by @{{user.username}}.</p>
+    <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(user.queries)">
+      No queries found.
+    </div>
+    <querypaginator :queries="user.queries" :hide="['visibility', 'created_by']" :actions="['clone']" :ratio="ratio"></listpaginator>
   </div>
   {% if mode != "popup" %}
     <p class="text-xs pt-5 mt-auto">[[copyright()]]</p>
@@ -32,6 +40,8 @@
 
 <script src="[[ url_for('static', filename='js/blocks/list/listdisplayer.js') ]]"></script>
 <script src="[[ url_for('static', filename='js/blocks/list/listpaginator.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/blocks/result/querydisplayer.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/blocks/result/querypaginator.js') ]]"></script>
 <script src="[[ url_for('static', filename='js/modules/user.js') ]]"></script>
 
 {% endblock %}

@@ -4,7 +4,7 @@
       <label class="label">Subtype:</label>
       <p class="form-text-top">Tell us a little more about the type of {{_.isNull(list.type) ? 'entity' : list.type}} in your list.</p>
       <select class="form-element" v-model="list.subtype">
-          <option v-for="o in subtypes" :value="o">{{o}}</option>
+        <option v-for="o in subtypes" :value="o">{{o}}</option>
       </select>
     </div>
     <div class="form-group" v-if="_.includes([null, 'candidate', 'donor', 'committee', 'employer', 'job', 'topic'], list.subtype)">
@@ -23,8 +23,8 @@
       <textarea class="form-element" rows=10 v-model="list.include.ids" :placeholder="placeholder.ids"></textarea>
     </div>
   </div>
-  <div class="bg-light p-5 relative overflow-auto text-xs my-1">
-    <small class="rounded-sm bg-dark text-white p-1 absolute top-1 right-1 leading-none">PREVIEW</small>
-    <pre class="text-xs">{{preview | prettify}}</pre>
+  <div class="bg-light p-3 relative overflow-scroll text-xs my-1 item-stretch">
+    <small class="rounded-sm bg-gray-80 text-white p-1 absolute top-1 right-1 leading-none">PREVIEW</small>
+    <pre class="text-xs absolute">{{preview | prettify}}</pre>
   </div>
 </div>

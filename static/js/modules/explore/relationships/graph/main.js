@@ -363,7 +363,7 @@ new Vue({
         'typeahead': typeahead
     },
     data: {
-        disabledDates: DATERANGES.disabledDates.fec,
+        disabledDates: DATERANGES.disabledDates.datasets,
         search: {
             candidates: {
                 cand_name: '',
@@ -415,7 +415,7 @@ new Vue({
             tweeters: {
                 username: ''
             },
-            dates: DATERANGES.dates.fec,
+            dates: DATERANGES.dates.datasets,
             pagination: {
                 limit: 30,
                 page: 1

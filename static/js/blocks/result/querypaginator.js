@@ -1,16 +1,16 @@
-const listpaginator = {
+const querypaginator = {
   components: {
-    'listdisplayer': listdisplayer
+    'querydisplayer': querydisplayer
   },
   template: `
     <div>
-      <div class="bg-xlight p-5 mb-4" v-for="list in chunks[page-1]">
-        <listdisplayer :list="list" :hide="hide" :ratio="ratio"></listdisplayer>
+      <div class="bg-xlight p-5 mb-4" v-for="query in chunks[page-1]">
+        <querydisplayer :query="query" :hide="hide" :ratio="ratio"></querydisplayer>
         <div class="text-xs mt-3">
-          <a href="javascript:void(0)" @click="toggle(list)" class="text-purple mr-3" v-if="_.includes(actions, 'toggle')">Make <span v-if="list.visibility == 'public'">Hidden</span><span v-else>Public</span></a>
-          <a :href="'/create/list/?action=clone&id=' + list.id" class="text-primary mr-3" v-if="_.includes(actions, 'clone')">Clone</a>
-          <a :href="'/create/list/?action=edit&id=' + list.id" class="text-orange mr-3" v-if="_.includes(actions, 'edit')">Edit</a>
-          <a href="javascript:void(0)" @click="confirm(list)" class="text-red" v-if="_.includes(actions, 'delete')">Delete</a>
+          <a href="javascript:void(0)" @click="toggle(query)" class="text-purple mr-3" v-if="_.includes(actions, 'toggle')">Make <span v-if="query.visibility == 'public'">Hidden</span><span v-else>Public</span></a>
+          <a :href="'/create/query/?action=clone&id=' + query.id" class="text-primary mr-3" v-if="_.includes(actions, 'clone')">Clone</a>
+          <a :href="'/create/query/?action=edit&id=' + query.id" class="text-orange mr-3" v-if="_.includes(actions, 'edit')">Edit</a>
+          <a href="javascript:void(0)" @click="confirm(query)" class="text-red" v-if="_.includes(actions, 'delete')">Delete</a>
         </div>
       </div>
       <div class="flex justify-between items-center" v-if="chunks.length > 1">
@@ -29,7 +29,7 @@ const listpaginator = {
       type: Array,
       default: ['toggle', 'clone', 'edit', 'delete']
     },
-    lists: {
+    queries: {
       type: Array,
       default: []
     },
@@ -49,15 +49,15 @@ const listpaginator = {
   },
   computed: {
     chunks() {
-      return _.chunk(this.lists, this.pagelength)
+      return _.chunk(this.queries, this.pagelength)
     }
   },
   methods: {
-    toggle(list) {
-      this.$emit('toggle', list)
+    toggle(query) {
+      this.$emit('toggle', query)
     },
-    confirm(list) {
-      this.$emit('confirm', list)
+    confirm(query) {
+      this.$emit('confirm', query)
     }
   }
 }

@@ -48,16 +48,17 @@ def route_create_list():
     elif action == "clone" and id is not None:
         workflow = "Clone List"
     else:
+        action = "create"
         workflow = "Create a List"
     output = "list"
-    templates = [{"step": 1, "slug": "type"}, {"step": 2, "slug": "include"}, {"step": 3, "slug": "review"}, {"step": 4, "slug": "exclude"}, {"step": 5, "slug": "save"}]
+    templates = [{"step": 1, "slug": "type"}, {"step": 2, "slug": "include"}, {"step": 3, "slug": "exclude"}, {"step": 4, "slug": "review"}, {"step": 5, "slug": "save"}]
     return render_template("workflow.html.j2", workflow=workflow, output=output, templates=templates, action=action, id=id)
 
 @app.route("/view/list/", methods=["GET"])
 def route_view_list():
     mode = request.args.get("mode")
     return render_template("workflow/list/popup/view.html.j2", mode=mode)
-    
+
 @app.route("/create/query/", methods=["GET"])
 def route_create_query():
     action = request.args.get("action")
@@ -67,10 +68,16 @@ def route_create_query():
     elif action == "clone" and id is not None:
         workflow = "Clone Query"
     else:
+        action = "create"
         workflow = "Create a Query"
     output = "query"
-    templates = [{"step": 1, "slug": "recipes"}, {"step": 2, "slug": "lists"}, {"step": 3, "slug": "results"}, {"step": 4, "slug": "filters"}, {"step": 5, "slug": "save"}]
+    templates = [{"step": 1, "slug": "recipe"}, {"step": 2, "slug": "lists"}, {"step": 3, "slug": "filters"}, {"step": 4, "slug": "results"}, {"step": 5, "slug": "save"}]
     return render_template("workflow.html.j2", workflow=workflow, output=output, templates=templates, action=action, id=id)
+
+@app.route("/view/query/", methods=["GET"])
+def route_view_query():
+    mode = request.args.get("mode")
+    return render_template("workflow/query/popup/view.html.j2", mode=mode)
 
 @app.route("/create/visualization/", methods=["GET"])
 def route_create_visualization():
@@ -81,6 +88,7 @@ def route_create_visualization():
     elif action == "clone" and id is not None:
         workflow = "Clone Visualization"
     else:
+        action = "create"
         workflow = "Create a Visualization"
     output = "visualization"
     templates = [{"step": 1, "slug": "output"}, {"step": 2, "slug": "data"}, {"step": 3, "slug": "design"}, {"step": 4, "slug": "save"}]
@@ -99,10 +107,16 @@ def route_create_alert():
     elif action == "clone" and id is not None:
         workflow = "Clone Alert"
     else:
+        action = "create"
         workflow = "Create an Alert"
     output = "alert"
     templates = [{"step": 1, "slug": "query"}, {"step": 2, "slug": "trigger"}, {"step": 3, "slug": "save"}]
     return render_template("workflow.html.j2", workflow=workflow, output=output, templates=templates, action=action, id=id)
+
+@app.route("/explore/lists/", methods=["GET"])
+def route_explore_lists():
+    mode = request.args.get("mode")
+    return render_template("explore/lists/app.html.j2", mode=mode)
 
 @app.route("/explore/relationships/", methods=["GET"])
 @app.route("/explore/relationships/graph/", methods=["GET"])
@@ -173,6 +187,12 @@ def make_api_string_from_comma_separated_numerical_input(setting):
     setting = setting.replace(" ", "")
     return setting
 
+@app.route("/format/flat/", methods=["POST"])
+def route_format_flat():
+    data = request.get_json()
+    df = pd.json_normalize(data)
+    return make_response(json.dumps(df.to_json(orient='records'), default=utilities.convert))
+
 #########################################################
 # list workflow endpoints
 #########################################################
@@ -183,6 +203,8 @@ def route_api_list_preview():
     elements = []
     if data.get("subtype") is not None:
         endpoint = "/data/preview/" + data["subtype"] + "/"
+        if data["subtype"] != data["type"]:
+            endpoint = "/data/preview/" + data["type"] + "/" + data["subtype"] + "/"
         terms = ""
         ids = ""
         if data.get("include") is not None:
@@ -191,11 +213,11 @@ def route_api_list_preview():
             if data["include"].get("ids") is not None:
                 ids = make_api_string_from_comma_separated_text_input(data["include"]["ids"])
             if len(terms) > 0 and len(ids) > 0:
-                elements = get(path(endpoint, {"terms": terms, "ids": ids, "skip": 0, "limit": 1000}))
+                elements = get(path(endpoint, {"terms": terms, "ids": ids, "skip": 0, "limit": 500}))
             elif len(terms) > 0:
-                elements = get(path(endpoint, {"terms": terms, "skip": 0, "limit": 1000}))
+                elements = get(path(endpoint, {"terms": terms, "skip": 0, "limit": 500}))
             elif len(ids) > 0:
-                elements = get(path(endpoint, {"ids": ids, "skip": 0, "limit": 1000}))
+                elements = get(path(endpoint, {"ids": ids, "skip": 0, "limit": 500}))
     return jsonify(elements)
 
 #########################################################
@@ -207,9 +229,9 @@ def route_api_recipe_table():
     data = request.get_json()
     qs = dict()
     elements = []
-    if data.get("dates") is not None:
-        min_date = str(data["dates"]["min"])[:10]
-        max_date = str(data["dates"]["max"])[:10]
+    if data["query"].get("dates") is not None:
+        min_date = str(data["query"]["dates"]["min"])[:10]
+        max_date = str(data["query"]["dates"]["max"])[:10]
         qs["min_year"] = min_date[:4]
         qs["max_year"] = max_date[:4]
         qs["min_month"] = min_date[5:7]
@@ -225,13 +247,12 @@ def route_api_recipe_table():
             qs["skip"] = data["pagination"]["skip"]
         if "limit" in data["pagination"]:
             qs["limit"] = data["pagination"]["limit"]
-    if data.get("output") is not None:
-        endpoint = "/data/calculate/recipe/" + data["output"] + "/"
-        if "config" in data:
-            if "template" in data["config"] and "lists" in data["config"]:
-                qs["lists"] = make_api_string_from_comma_separated_text_input(data["config"]["lists"])
-                qs["template"] = data["config"]["template"]
-                elements = get(path(endpoint, qs))
+    if data["query"].get("output") is not None:
+        endpoint = "/data/calculate/recipe/" + data["query"]["output"] + "/"
+        if "template" in data["query"] and "lists" in data["query"]:
+            qs["lists"] = make_api_string_from_comma_separated_text_input(data["query"]["lists"].values())
+            qs["template"] = data["query"]["template"]
+            elements = get(path(endpoint, qs))
     return jsonify(elements)
 
 @app.route("/api/recipe/results/count/", methods=["POST"])
@@ -239,26 +260,48 @@ def route_api_recipe_count():
     data = request.get_json()
     qs = dict()
     count = -1
-    if data.get("dates") is not None:
-        min_date = str(data["dates"]["min"])[:10]
-        max_date = str(data["dates"]["max"])[:10]
+    if data["query"].get("dates") is not None:
+        min_date = str(data["query"]["dates"]["min"])[:10]
+        max_date = str(data["query"]["dates"]["max"])[:10]
         qs["min_year"] = min_date[:4]
         qs["max_year"] = max_date[:4]
         qs["min_month"] = min_date[5:7]
         qs["max_month"] = max_date[5:7]
         qs["min_day"] = min_date[8:10]
         qs["max_day"] = max_date[8:10]
-    if data.get("output") is not None:
-        endpoint = "/data/calculate/recipe/" + data["output"] + "/"
-        if "config" in data:
-            if "template" in data["config"] and "lists" in data["config"]:
-                qs["lists"] = make_api_string_from_comma_separated_text_input(data["config"]["lists"])
-                qs["template"] = data["config"]["template"]
-                qs["count"] = True
-                elements = get(path(endpoint, qs))
-                if "count" in elements[0]:
-                    count = elements[0]["count"]
+    if data["query"].get("output") is not None:
+        endpoint = "/data/calculate/recipe/" + data["query"]["output"] + "/"
+        if "template" in data["query"] and "lists" in data["query"]:
+            qs["lists"] = make_api_string_from_comma_separated_text_input(data["query"]["lists"].values())
+            qs["template"] = data["query"]["template"]
+            qs["count"] = True
+            elements = get(path(endpoint, qs))
+            if "count" in elements[0]:
+                count = elements[0]["count"]
     return jsonify(count)
+
+@app.route("/api/recipe/results/histogram/", methods=["POST"])
+def route_api_recipe_histogram():
+    data = request.get_json()
+    qs = dict()
+    buckets = []
+    if data["query"].get("dates") is not None:
+        min_date = str(data["query"]["dates"]["min"])[:10]
+        max_date = str(data["query"]["dates"]["max"])[:10]
+        qs["min_year"] = min_date[:4]
+        qs["max_year"] = max_date[:4]
+        qs["min_month"] = min_date[5:7]
+        qs["max_month"] = max_date[5:7]
+        qs["min_day"] = min_date[8:10]
+        qs["max_day"] = max_date[8:10]
+    if data["query"].get("output") is not None:
+        endpoint = "/data/calculate/recipe/" + data["query"]["output"] + "/"
+        if "template" in data["query"] and "lists" in data["query"]:
+            qs["lists"] = make_api_string_from_comma_separated_text_input(data["query"]["lists"].values())
+            qs["template"] = data["query"]["template"]
+            qs["histogram"] = True
+            buckets = get(path(endpoint, qs))
+    return jsonify(buckets)
 
 #########################################################
 # visualization workflow endpoints
@@ -285,14 +328,6 @@ def route_api_inspect():
     elif data["source"] == "json":
         elements = json.loads(data["json"])
     return jsonify(elements)
-
-# formatting
-
-@app.route("/format/flat/", methods=["POST"])
-def route_format_flat():
-    data = request.get_json()
-    df = pd.json_normalize(data)
-    return make_response(json.dumps(df.to_json(orient='records', default=utilities.convert)))
 
 # calculations
 
@@ -1017,6 +1052,8 @@ def route_api_browse_histogram():
 # user data and authenticated endpoints
 #########################################################
 
+# user
+
 @app.route("/api/user/public/", methods=["POST"])
 def route_api_user_public():
     data = request.get_json()
@@ -1032,20 +1069,24 @@ def route_api_user_active():
         session.pop('lists', None)
     return jsonify(profile)
 
-@app.route("/api/user/active/bookmarks/", methods=["GET"])
-def route_api_user_active_bookmarks():
-    bookmarks = action({"task": "get_active_user_bookmarks", "token": request.cookies.get('cfd')})
-    return jsonify(bookmarks)
+# dashboard
 
 @app.route("/api/user/active/lists/", methods=["GET"])
 def route_api_user_active_lists():
     lists = action({"task": "get_active_user_lists", "token": request.cookies.get('cfd')})
     return jsonify(lists)
 
-@app.route("/api/lists/preloaded/", methods=["POST"])
-def route_api_lists_preloaded():
+@app.route("/api/user/active/queries/", methods=["GET"])
+def route_api_user_active_queries():
+    queries = action({"task": "get_active_user_queries", "token": request.cookies.get('cfd')})
+    return jsonify(queries)
+
+# list
+
+@app.route("/api/lists/", methods=["POST"])
+def route_api_lists():
     data = request.get_json()
-    lists = action({"task": "get_preloaded_lists", "token": request.cookies.get('cfd')})
+    lists = action({"task": "get_lists", "token": request.cookies.get('cfd')})
     return jsonify(lists)
 
 @app.route("/api/list/meta/", methods=["POST"])
@@ -1077,6 +1118,44 @@ def route_api_list_delete():
     data = request.get_json()
     action({"task": "delete_list", "token": request.cookies.get('cfd'), "id": data.get("id")})
     return route_api_user_active_lists()
+
+# query
+
+@app.route("/api/queries/", methods=["POST"])
+def route_api_queries():
+    data = request.get_json()
+    queries = action({"task": "get_queries", "token": request.cookies.get('cfd')})
+    return jsonify(queries)
+
+@app.route("/api/query/meta/", methods=["POST"])
+def route_api_query_meta():
+    data = request.get_json()
+    query = action({"task": "get_query_meta", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return jsonify(query)
+
+@app.route("/api/query/create/", methods=["POST"])
+def route_api_query_create():
+    data = request.get_json()
+    response = action({"task": "create_query", "token": request.cookies.get('cfd'), "data": data})
+    return jsonify(response)
+
+@app.route("/api/query/edit/", methods=["POST"])
+def route_api_query_edit():
+    data = request.get_json()
+    response = action({"task": "edit_query", "token": request.cookies.get('cfd'), "data": data})
+    return jsonify(response)
+
+@app.route("/api/query/toggle/", methods=["POST"])
+def route_api_query_toggle():
+    data = request.get_json()
+    action({"task": "toggle_query", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return route_api_user_active_queries()
+
+@app.route("/api/query/delete/", methods=["POST"])
+def route_api_query_delete():
+    data = request.get_json()
+    action({"task": "delete_query", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return route_api_user_active_queries()
 
 
 if __name__ == "__main__":

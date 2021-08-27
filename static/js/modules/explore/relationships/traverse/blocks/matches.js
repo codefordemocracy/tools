@@ -203,8 +203,8 @@ const matches = {
         download: false
       },
       refine: {
-        disabledDates: DATERANGES.disabledDates.fec,
-        dates: DATERANGES.dates.fec,
+        disabledDates: DATERANGES.disabledDates.datasets,
+        dates: DATERANGES.dates.datasets,
         direction: 'all',
         sup_opp: 'all'
       },

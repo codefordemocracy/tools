@@ -1,0 +1,43 @@
+{% extends "index.html.j2" %}
+{% block title %}Explore Lists | {% endblock %}
+
+{% block html %}
+
+<div id="main" class="bg-light p-5 flex flex-col min-h-screen" v-cloak>
+  <div class="flex justify-between items-center mb-3">
+    <h1 id="page-title" class="text-2xl text-dark-gray">Explore Lists<sup>(ALPHA)</sup></h1>
+    <a href="https://codefordemocracy.org" target="_blank"><img src="//assets.codefordemocracy.org/img/favicon.png" width="38" height="38" /></a>
+  </div>
+  <div class="bg-white border border-secondary p-5 mb-5 form-full form-sm grid grid-cols-1 sm:grid-cols-2 gap-5">
+    <div>
+      <label class="label">List Type:</label>
+      <select class="form-element" v-model="type">
+        <option v-for="o in types" :value="o">{{o}}</option>
+      </select>
+    </div>
+    <div>
+      <label class="label">List Subtype:</label>
+      <select class="form-element" v-model="subtype">
+        <option v-for="o in subtypes" :value="o">{{o}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="bg-white border border-secondary p-5">
+    <listsearcher :subtype="subtype" @change="sync"></listsearcher>
+  </div>
+  <div class="mt-5" v-if="!_.isEmpty(list)">
+    <a :href="'/create/list/?action=clone&id=' + list.id" class="btn btn-sm btn-gray float-right" target="_blank">Clone Selected List</a>
+  </div>
+  {% if mode != "popup" %}
+    <p class="text-xs pt-5 mt-auto">[[copyright()]]</p>
+  {% endif %}
+</div>
+
+{% endblock %}
+{% block scripts %}
+
+<script src="[[ url_for('static', filename='js/blocks/list/listdisplayer.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/blocks/list/listsearcher.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/modules/explore/lists/app.js') ]]"></script>
+
+{% endblock %}

@@ -6,8 +6,7 @@ new Vue({
   el: '#app',
   components: {
     'tabs': tabbed.tabs,
-    'tab': tabbed.tab,
-    'multiselect': window.VueMultiselect.default
+    'tab': tabbed.tab
   },
   data: {
     list: {
@@ -17,6 +16,7 @@ new Vue({
         terms: null,
         ids: null
       },
+      visibility: 'hidden',
       name: null,
       description: null
     },
@@ -61,7 +61,7 @@ C00027466
       return ''
     },
     build() {
-      let obj = SHIM(_.cloneDeep(this.list))
+      let obj = _.cloneDeep(this.list)
       if (!_.isNil(obj.include.terms)) {
         obj.include.terms = _.map(_.split(obj.include.terms, ','))
       }
@@ -83,7 +83,7 @@ C00027466
         console.error(error)
       })
     },
-    save() {
+    submit() {
       let endpoint = '/api/list/create/'
       if (this.$route.query.action == 'edit') {
         endpoint = '/api/list/edit/'
@@ -117,7 +117,7 @@ C00027466
           store.commit('workflow/valid', 3)
           store.commit('workflow/valid', 4)
         }
-        if (!_.isEmpty(this.list.name) && !_.isEmpty(this.list.description)) {
+        if (!_.isEmpty(this.list.visibility) && !_.isEmpty(this.list.name) && !_.isEmpty(this.list.description)) {
           store.commit('workflow/complete')
         }
       }
@@ -135,7 +135,7 @@ C00027466
     if (!_.isUndefined(this.$route.query.id)) {
       axios.post('/api/list/meta/', {id: this.$route.query.id})
       .then(function(response) {
-        self.list = UNSHIM(response.data)
+        self.list = response.data
         if (!_.isNil(self.list.include.terms)) {
           self.list.include.terms = self.list.include.terms.join(', ')
         }

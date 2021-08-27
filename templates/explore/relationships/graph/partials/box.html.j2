@@ -1,5 +1,5 @@
 <tabs :fill="true" @change="change">
-  <tab name="Details" :selected="store.state.explore.tab == 'details'" class="p-3">
+  <tab name="Details" :selected="store.state.explore.tab == 'details'" class="p-3 break-words">
     <div v-if="store.state.explore.selected.length > 0">
       <p class="text-xs">You've selected <b>{{store.state.explore.selected.length}} {{ store.state.explore.selected.length != 1 ? 'elements' : 'element' }}</b>. Below are details about them.</p>
       <div v-for="(element, index) in store.getters['explore/flatselected']">

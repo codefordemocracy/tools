@@ -1,2 +1,14 @@
-<h5 class="text-2xl text-dark-gray mb-2">Preview Results</h5>
-<p class="font-light text-sm leading-relaxed">Examine the preliminary results returned by your query.</p>
+<h5 class="text-2xl text-dark-gray mb-2">View Results</h5>
+<p class="font-light text-sm leading-relaxed">See the results returned by your query.</p>
+<template v-if="_.includes(store.state.workflow.valid, store.state.workflow.tab-1)">
+  <p class="text-xs mt-3 mb-3">The histogram on top shows results by date, and the table below it shows row-level data.</p>
+  <p class="text-xs mb-5">You can also download the results for use in other applications.</p>
+  <button class="btn btn-sm btn-gray mb-2" @click="results.download = 'csv'" :disabled="results.download == 'csv'">
+    <span v-if="results.download == 'csv'">Rows Processed: {{results.downloading | numbreviate}}<span v-if="results.count > 0"> of {{results.count | numbreviate}}</span></span>
+    <span v-else>Download Results as CSV</span>
+  </button>
+  <button class="btn btn-sm btn-gray" @click="results.download = 'json'" :disabled="results.download == 'json'">
+    <span v-if="results.download == 'json'">Rows Processed: {{results.downloading | numbreviate}}<span v-if="results.count > 0"> of {{results.count | numbreviate}}</span></span>
+    <span v-else>Download Results as JSON</span>
+  </button>
+</template>

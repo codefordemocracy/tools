@@ -1,3 +1,20 @@
-<div class="bg-white border border-secondary p-5">
-  <div class="flex justify-center items-center text-xs text-dark px-5 py-10">This feature is coming soon.</div>
+<div class="bg-white border border-secondary p-5 form-full form-sm form-nosubmit">
+  <div class="form-group">
+    <label class="label">Visibility:</label>
+    <p class="form-text-top">Public queries are visible to other users. Hidden queries are only visible to you.</p>
+    <select class="form-element" v-model="save.visibility">
+      <option value="public">Public</option>
+      <option value="hidden">Hidden</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="label">Name:</label>
+    <p class="form-text-top">Enter a name for the query.</p>
+    <input class="form-element" type="text" v-model="save.name" placeholder="Something Memorable"></input>
+  </div>
+  <div class="form-group">
+    <label class="label">Description:</label>
+    <p class="form-text-top">Enter a description for the query.</p>
+    <textarea class="form-element" v-model="save.description" placeholder="Details about the recipe and lists" rows="3"></textarea>
+  </div>
 </div>

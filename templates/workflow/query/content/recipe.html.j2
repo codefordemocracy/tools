@@ -1,0 +1,29 @@
+<div class="bg-white border border-secondary px-5 py-3 mb-5">
+  <toggle v-model="recipe.prefill" :labels="{checked: 'On', unchecked: 'Off'}" :width=60><span slot="text">Show Example Lists</span></toggle>
+</div>
+<tabs>
+  <tab name="Campaign Finance" :selected="true" class="px-5 pt-5 pb-2">
+    <button class="btn btn-sm w-full flex justify-between sm:items-center mb-2" v-for="r in makeRecipes('campfin')" :class="recipe.selected.template == r.template ? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="recipe.selected = r; resetLists()">
+      <configuration :recipe="r" :lists="recipe.featured" :prefill="recipe.prefill" class="text-left"></configuration>
+      <span class="rounded-sm bg-gray-55 text-white leading-normal w-12 -mr-2 ml-5 flex-shrink-0">{{r.template}}</span>
+    </button>
+  </tab>
+  <tab name="Lobbying Disclosures" :selected="false" class="px-5 pt-5 pb-2">
+    <button class="btn btn-sm w-full flex justify-between sm:items-center mb-2" v-for="r in makeRecipes('lobbying')" :class="recipe.selected.template == r.template ? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="recipe.selected = r; resetLists()">
+      <configuration :recipe="r" :lists="recipe.featured" :prefill="recipe.prefill" class="text-left"></configuration>
+      <span class="rounded-sm bg-gray-55 text-white leading-normal w-12 -mr-2 ml-5 flex-shrink-0">{{r.template}}</span>
+    </button>
+  </tab>
+  <tab name="Tax Documents" :selected="false" class="px-5 pt-5 pb-2">
+    <button class="btn btn-sm w-full flex justify-between sm:items-center mb-2" v-for="r in makeRecipes('tax')" :class="recipe.selected.template == r.template ? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="recipe.selected = r; resetLists()">
+      <configuration :recipe="r" :lists="recipe.featured" :prefill="recipe.prefill" class="text-left"></configuration>
+      <span class="rounded-sm bg-gray-55 text-white leading-normal w-12 -mr-2 ml-5 flex-shrink-0">{{r.template}}</span>
+    </button>
+  </tab>
+  <tab name="Political Ads & Narratives" :selected="false" class="px-5 pt-5 pb-2">
+    <button class="btn btn-sm w-full flex justify-between sm:items-center mb-2" v-for="r in makeRecipes('narrative')" :class="recipe.selected.template == r.template ? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="recipe.selected = r; resetLists()">
+      <configuration :recipe="r" :lists="recipe.featured" :prefill="recipe.prefill" class="text-left"></configuration>
+      <span class="rounded-sm bg-gray-55 text-white leading-normal w-12 -mr-2 ml-5 flex-shrink-0">{{r.template}}</span>
+    </button>
+  </tab>
+</tabs>

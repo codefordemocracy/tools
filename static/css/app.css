@@ -420,6 +420,10 @@ a.nav-link:hover {
 
 /* ----- Graph ----- */
 
+#box .tab-content {
+  max-height: 70vh;
+}
+
 /* ----- Traverse ----- */
 
 /* Branches */

@@ -3,7 +3,7 @@
 const store = new Vuex.Store({
   modules: {
     auth: authStore,
-    waitlist: waitlistStore
+    waitquery: waitqueryStore
   }
 })
 
@@ -14,10 +14,10 @@ new Vue({
   router,
   el: '#main',
   components: {
-    'listdisplayer': listdisplayer
+    'querydisplayer': querydisplayer
   },
   data: {
-    list: {}
+    query: {}
   },
   computed: {
     ratio() {
@@ -30,9 +30,9 @@ new Vue({
     var self = this
     // load data for view workflow
     if (!_.isUndefined(this.$route.query.id)) {
-      axios.post('/api/list/meta/', {id: this.$route.query.id})
+      axios.post('/api/query/meta/', {id: this.$route.query.id})
       .then(function(response) {
-        self.list = response.data
+        self.query = response.data
       })
       .catch(function(error) {
         console.error(error)

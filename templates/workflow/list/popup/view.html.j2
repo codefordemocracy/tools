@@ -8,7 +8,7 @@
     <h3 class="text-xl font-light text-dark-gray">{{list.name}}</h3>
     <p class="font-light text-sm text-muted mb-3">{{list.id}}</p>
     <a :href="'/create/list/?action=clone&id=' + list.id" class="btn btn-sm btn-gray mb-7" target="_blank">Clone List</a>
-    <div class="bg-xlight text-xs p-3">
+    <div class="bg-xlight text-dark text-xs p-3">
       <listdisplayer :list="list" :hide="['visibility', 'name', 'id']" :ratio="ratio"></listdisplayer>
     </div>
   </div>

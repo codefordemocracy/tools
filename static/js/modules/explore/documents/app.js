@@ -59,10 +59,10 @@ new Vue({
     'plot': plot
   },
   data: {
-    disabledDates: DATERANGES.dates.elastic,
+    disabledDates: DATERANGES.disabledDates.documents,
     documents: 'articles',
     group: 'questionable',
-    dates: DATERANGES.dates.elastic,
+    dates: DATERANGES.dates.documents,
     term: null
   },
   computed: {
