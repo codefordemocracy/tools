@@ -1,4 +1,0 @@
-<div :class="{'p-1': !store.state.embed}">
-  <div class="placeholder flex justify-content-center items-center" v-if="_.isEmpty(store.state.output.chart)">Your chart will show up here.</div>
-  <plot :settings="store.state.output.chart" id="chart" v-else></plot>
-</div>

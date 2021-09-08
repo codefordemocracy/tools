@@ -1,0 +1,6 @@
+<div class="bg-white border border-secondary p-5">
+  <datatable class="text-xs" :count="formatted.count" :columns="formatted.columns" :data="formatted.pages" :head="true" :options="{paginate: true, pagination: 'client', numpages: formatted.pages.length, limit: 20}" v-if="loaded && formatted.count > 0"></datatable>
+  <div class="flex justify-center items-center text-xs text-dark px-5 py-10" v-else-if="!buildable">The preview of your formatted query results will show up here.</div>
+  <p class="text-xs" v-else-if="!loaded">Loading...</p>
+  <p class="text-xs" v-else>The settings you configured did not produce any rows of data.</p>
+</div>

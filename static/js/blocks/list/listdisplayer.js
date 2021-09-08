@@ -4,7 +4,7 @@ const listdisplayer = {
       <li v-if="!_.includes(hide, 'visibility')"><strong>Visibility:</strong> {{list.visibility}}</li>
       <li v-if="!_.includes(hide, 'type')"><strong>Type:</strong> {{list.type}}</li>
       <li v-if="!_.includes(hide, 'subtype')"><strong>Subtype:</strong> {{list.subtype}}</li>
-      <li v-if="!_.includes(hide, 'id')"><strong>ID:</strong> {{list.id}}</li>
+      <li v-if="!_.includes(hide, 'id')"><strong>ID:</strong> <a class="text-primary" :href="'/view/list/?id=' + list.id + '&mode=popup'" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-view-list-' + _.uniqueId(), ratio, window)">{{list.id}}</a></li>
       <li v-if="!_.includes(hide, 'name')"><strong>Name:</strong> {{list.name}}</li>
       <li v-if="!_.includes(hide, 'description')"><strong>Description:</strong> {{list.description}}</li>
       <li v-if="!_.includes(hide, 'last_updated')"><strong>Last Updated:</strong> {{moment(list.last_updated).local()}}</li>

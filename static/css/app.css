@@ -396,7 +396,7 @@ a.nav-link:hover {
 /* Icon Boxes */
 
 .icon-box-icon {
-  line-height: 2.25rem
+  line-height: 2.25rem !important;
 }
 .icon-box-icon-average {
   font-size: 1.875rem;

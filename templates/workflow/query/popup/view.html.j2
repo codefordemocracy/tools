@@ -24,10 +24,10 @@
       </div>
     </div>
     <div class="bg-white border border-secondary p-5 mb-5">
-      <queryhist :query="query"></queryhist>
+      <resultshistogram :query="query"></resultshistogram>
     </div>
     <div class="bg-white border border-secondary p-5">
-      <querytable :query="query" :download="results.download" @downloading="downloadingResults" @count="countResults"></querytable>
+      <resultstable :query="query" :download="results.download" @downloading="downloadingResults" @count="countResults"></resultstable>
     </div>
   </template>
   <div class="bg-white border border-secondary p-5" v-else-if="loaded">
@@ -41,9 +41,9 @@
 {% endblock %}
 {% block scripts %}
 
-<script src="[[ url_for('static', filename='js/blocks/result/querydisplayer.js') ]]"></script>
-<script src="[[ url_for('static', filename='js/blocks/result/querytable.js') ]]"></script>
-<script src="[[ url_for('static', filename='js/blocks/result/queryhist.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/blocks/query/querydisplayer.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/blocks/query/resultstable.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/blocks/query/resultshistogram.js') ]]"></script>
 <script src="[[ url_for('static', filename='js/modules/workflow/query/popup/view.js') ]]"></script>
 
 {% endblock %}

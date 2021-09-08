@@ -61,14 +61,16 @@
   <script src="[[ url_for('static', filename='js/blocks/recipe/configuration.js') ]]"></script>
   <script src="[[ url_for('static', filename='js/blocks/list/listdisplayer.js') ]]"></script>
   <script src="[[ url_for('static', filename='js/blocks/list/listsearcher.js') ]]"></script>
-  <script src="[[ url_for('static', filename='js/blocks/result/querytable.js') ]]"></script>
-  <script src="[[ url_for('static', filename='js/blocks/result/queryhist.js') ]]"></script>
-  {% endif %}
-
-  {% if output == 'alert' %}
+  <script src="[[ url_for('static', filename='js/blocks/query/resultstable.js') ]]"></script>
+  <script src="[[ url_for('static', filename='js/blocks/query/resultshistogram.js') ]]"></script>
   {% endif %}
 
   {% if output == 'visualization' %}
+  <script src="[[ url_for('static', filename='js/blocks/query/querydisplayer.js') ]]"></script>
+  <script src="[[ url_for('static', filename='js/blocks/query/querysearcher.js') ]]"></script>
+  {% endif %}
+
+  {% if output == 'alert' %}
   {% endif %}
 
 <script src="[[ url_for('static', filename='js/modules/workflow.js') ]]"></script>

@@ -11,8 +11,8 @@ new Vue({
     'configuration': configuration,
     'listsearcher': listsearcher,
     'datepicker': vuejsDatepicker,
-    'querytable': querytable,
-    'queryhist': queryhist
+    'resultstable': resultstable,
+    'resultshistogram': resultshistogram
   },
   data: {
     query: {

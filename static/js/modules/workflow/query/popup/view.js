@@ -15,8 +15,8 @@ new Vue({
   el: '#main',
   components: {
     'querydisplayer': querydisplayer,
-    'querytable': querytable,
-    'queryhist': queryhist
+    'resultstable': resultstable,
+    'resultshistogram': resultshistogram
   },
   data: {
     loaded: false,

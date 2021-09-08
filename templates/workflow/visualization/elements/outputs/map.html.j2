@@ -1,4 +1,0 @@
-<div :class="{'p-1': !store.state.embed}">
-  <div class="placeholder flex justify-content-center items-center" v-if="_.isEmpty(store.state.output.map)">Your map will show up here.</div>
-  <plot :settings="store.state.output.map" id="map" v-else></plot>
-</div>

@@ -5,7 +5,7 @@ const DOWNLOAD = function(elements, format, filename) {
     file = new Blob([JSON.stringify(elements, null, 2)], {type: 'application/javascript;charset=utf-8'})
     saveAs(file, filename + '.json');
   } else if (format == 'csv') {
-    axios.post('/format/flat/', elements)
+    axios.post('/api/format/flat/', elements)
     .then(function(response) {
       keys = _.uniq(_.map(response, function(ele) { return _.keys(ele) }))
       data = Papa.unparse((response), {columns: keys})

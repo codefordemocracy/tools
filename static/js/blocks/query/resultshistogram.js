@@ -1,4 +1,4 @@
-const queryhist = {
+const resultshistogram = {
   components: {
     'plot': plot
   },
@@ -67,7 +67,7 @@ const queryhist = {
   created() {
     var self = this
     // get results table
-    axios.post('/api/recipe/results/histogram/', {query: this.query})
+    axios.post('/api/query/results/histogram/', {query: this.query})
     .then(function(response) {
       self.buckets = response.data
     })

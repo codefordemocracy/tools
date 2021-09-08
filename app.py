@@ -91,7 +91,7 @@ def route_create_visualization():
         action = "create"
         workflow = "Create a Visualization"
     output = "visualization"
-    templates = [{"step": 1, "slug": "output"}, {"step": 2, "slug": "data"}, {"step": 3, "slug": "design"}, {"step": 4, "slug": "save"}]
+    templates = [{"step": 1, "slug": "output"}, {"step": 2, "slug": "query"}, {"step": 3, "slug": "transform"}, {"step": 4, "slug": "review"}, {"step": 5, "slug": "save"}]
     return render_template("workflow.html.j2", workflow=workflow, output=output, templates=templates, action=action, id=id)
 
 @app.route("/create/visualization/plot/", methods=["GET"])
@@ -187,14 +187,18 @@ def make_api_string_from_comma_separated_numerical_input(setting):
     setting = setting.replace(" ", "")
     return setting
 
-@app.route("/format/flat/", methods=["POST"])
-def route_format_flat():
+#########################################################
+# formatting endpoints
+#########################################################
+
+@app.route("/api/format/flat/", methods=["POST"])
+def route_api_format_flat():
     data = request.get_json()
     df = pd.json_normalize(data)
     return make_response(json.dumps(df.to_json(orient='records'), default=utilities.convert))
 
 #########################################################
-# list workflow endpoints
+# list endpoints
 #########################################################
 
 @app.route("/api/list/preview/", methods=["POST"])
@@ -284,11 +288,11 @@ def route_api_list_review_count():
     return jsonify(count)
 
 #########################################################
-# query workflow endpoints
+# query endpoints
 #########################################################
 
-@app.route("/api/recipe/results/table/", methods=["POST"])
-def route_api_recipe_table():
+@app.route("/api/query/results/table/", methods=["POST"])
+def route_api_query_results_table():
     data = request.get_json()
     qs = dict()
     elements = []
@@ -318,8 +322,8 @@ def route_api_recipe_table():
             elements = get(path(endpoint, qs))
     return jsonify(elements)
 
-@app.route("/api/recipe/results/count/", methods=["POST"])
-def route_api_recipe_count():
+@app.route("/api/query/results/count/", methods=["POST"])
+def route_api_query_results_count():
     data = request.get_json()
     qs = dict()
     count = -1
@@ -343,8 +347,8 @@ def route_api_recipe_count():
                 count = elements[0]["count"]
     return jsonify(count)
 
-@app.route("/api/recipe/results/histogram/", methods=["POST"])
-def route_api_recipe_histogram():
+@app.route("/api/query/results/histogram/", methods=["POST"])
+def route_api_query_results_histogram():
     data = request.get_json()
     qs = dict()
     buckets = []
@@ -367,247 +371,82 @@ def route_api_recipe_histogram():
     return jsonify(buckets)
 
 #########################################################
-# visualization workflow endpoints
+# visualization endpoints
 #########################################################
 
-# data
-
-@app.route("/api/inspect/", methods=["POST"])
-def route_api_inspect():
-    data = request.get_json()
-    qs = dict()
-    elements = []
-    if data["source"] == "uuid":
-        endpoint = "/graph/find/elements/uuid/"
-        if "nodes" in data:
-            qs["nodes"] = data["nodes"]
-        if "edges" in data:
-            qs["edges"] = data["edges"]
-        elements = get(path(endpoint, qs))
-    elif data["source"] == "config":
-        configs = data["string"].split(",")
-        for config in configs:
-            elements.extend(get(fernet.decrypt(config.encode()).decode()))
-    elif data["source"] == "json":
-        elements = json.loads(data["json"])
-    return jsonify(elements)
-
-# calculations
-
-@app.route("/calc/columns/", methods=["POST"])
-def route_calc_columns():
+@app.route("/api/visualization/aggregations/options/", methods=["POST"])
+def route_api_visualization_aggregations_options():
     data = request.get_json()
     df = pd.json_normalize(data)
-    options = [{"label": i, "value": i} for i in df.columns if len(df[i].value_counts()) > 0]
+    options = dict()
+    for col in df.columns:
+        options[col] = ["average", "sum", "min", "max", "count", "distinct"]
+        if is_string_dtype(df[col]):
+            options[col] = ["count", "distinct"]
     return make_response(json.dumps(options, default=utilities.convert))
 
-@app.route("/calc/values/", methods=["POST"])
-def route_calc_values():
+@app.route("/api/visualization/aggregations/results/", methods=["POST"])
+def route_api_visualization_aggregations_results():
     data = request.get_json()
-    df = pd.json_normalize(data["results"])
-    options = [{"label": i, "value": i} for i in df[data["column"]].unique() if i is not None]
-    return make_response(json.dumps(options, default=utilities.convert))
-
-@app.route("/calc/aggs/", methods=["POST"])
-def route_calc_aggs():
-    data = request.get_json()
-    df = pd.json_normalize(data["results"])
-    options = [
-        {"label": "Average", "value": "average"},
-        {"label": "Sum", "value": "sum"},
-        {"label": "Min", "value": "min"},
-        {"label": "Max", "value": "max"},
-        {"label": "Count", "value": "count"},
-        {"label": "Distinct", "value": "distinct"}
-    ]
-    if is_string_dtype(df[data["column"]]):
-        options = [
-            {"label": "Count", "value": "count"},
-            {"label": "Distinct", "value": "distinct"}
-        ]
-    return make_response(json.dumps(options, default=utilities.convert))
-
-# outputs
-
-@app.route("/render/table/", methods=["POST"])
-def route_render_table():
-    data = request.get_json()
-    obj = {}
-    if utilities.validate(data, "table"):
-        df = pd.json_normalize(data["results"])
-        df = df[data["config"]["cols"]]
-        # filter data
-        if "fvals" in data["config"] and data["config"]["fvals"] != []:
-            df = df.loc[df[data["config"]["fcol"]].isin(data["config"]["fvals"])]
-        # sort data
-        if "scol" in data["config"] and data["config"]["scol"] is not None:
-            if data["config"]["sdir"] == "asc":
-                df = df.sort_values(data["config"]["scol"], ascending=True)
-            elif data["config"]["sdir"] == "desc":
-                df = df.sort_values(data["config"]["scol"], ascending=False)
-        # paginate
-        if data["config"]["pag"] == "yes":
-            records = []
-            numpages = math.ceil(len(df)/data["config"]["rows"])
-            for i in range(numpages):
-                records.append(df[i*data["config"]["rows"]:(i+1)*data["config"]["rows"]].to_dict('records'))
-        else:
-            records = df.to_dict('records')
-            numpages = 0
-        # make table obj
-        obj = {
-            "columns": [i for i in df.columns],
-            "data": records,
-            "options": {
-                "paginate": data["config"]["pag"],
-                "numpages": numpages
-            }
-        }
-    return make_response(json.dumps(obj, default=utilities.convert))
-
-@app.route("/render/chart/", methods=["POST"])
-def route_render_chart():
-    data = request.get_json()
-    obj = {}
-    if utilities.validate(data, "chart"):
-        df = pd.json_normalize(data["results"])
-        # sort and filter data
-        df = df.sort_values(data["config"]["x"], ascending=True)
-        if "fcol" in data["config"] and "fvals" in data["config"]:
-            if data["config"]["fvals"] is not None and data["config"]["fvals"] != []:
-                df = df.loc[df[data["config"]["fcol"]].isin(data["config"]["fvals"])]
-        # configure x axis
-        xaxis = {
-            "title": { "text": data["config"]["x"] },
-            "automargin": True
-        }
-        if is_numeric_dtype(df[data["config"]["x"]]):
-            if df[data["config"]["x"]].min() >= 0 and df[data["config"]["x"]].max() <= 3000:
-                xaxis["tickformat"] = "d"
-        # configure y axis and aggregation
-        if "y" in data["config"]:
-            y_title = data["config"]["y"]
-            if "agg" in data["config"]:
-                if data["config"]["agg"] == "average":
-                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "mean"})
-                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
-                elif data["config"]["agg"] == "sum":
-                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "sum"})
-                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
-                elif data["config"]["agg"] == "min":
-                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "min"})
-                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
-                elif data["config"]["agg"] == "max":
-                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "max"})
-                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
-                elif data["config"]["agg"] == "count":
-                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "count"})
-                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
-                elif data["config"]["agg"] == "distinct":
-                    df = df.groupby(data["config"]["x"], as_index=False).agg({data["config"]["y"]: "nunique"})
-                    y_title = data["config"]["agg"] + " of " + data["config"]["y"]
-            yaxis = {
-                "title": { "text": y_title },
-                "automargin": True
-            }
-            if is_numeric_dtype(df[data["config"]["y"]]):
-                if df[data["config"]["y"]].min() >= 0 and df[data["config"]["y"]].max() <= 3000:
-                    yaxis["tickformat"] = "d"
-        # make chart obj
-        obj = {
-            "data": [{
-                "x": df[data["config"]["x"]].values.tolist(),
-                "marker": { "color": "#dadada" }
-            }],
-            "layout": {
-                "xaxis": xaxis,
-                "height": data["config"]["height"]
-            },
-            "config": {
-                "displayModeBar": False,
-                "responsive": True
-            }
-        }
-        if data["config"]["type"] == "scatter":
-            obj["data"][0]["y"] = df[data["config"]["y"]].values.tolist()
-            obj["data"][0]["type"] = "scatter"
-            obj["data"][0]["mode"] = "markers"
-            obj["layout"]["y"] = yaxis
-        elif data["config"]["type"] == "line":
-            obj["data"][0]["y"] = df[data["config"]["y"]].values.tolist()
-            obj["data"][0]["type"] = "scatter"
-            obj["data"][0]["mode"] = "lines"
-            obj["layout"]["y"] = yaxis
-        elif data["config"]["type"] == "bar":
-            obj["data"][0]["y"] = df[data["config"]["y"]].values.tolist()
-            obj["data"][0]["type"] = "bar"
-            obj["layout"]["y"] = yaxis
-        elif data["config"]["type"] == "hist":
-            obj["data"][0]["type"] = "histogram"
-    return make_response(json.dumps(obj, default=utilities.convert))
-
-@app.route("/render/map/", methods=["POST"])
-def route_render_map():
-    data = request.get_json()
-    obj = {}
-    if utilities.validate(data, "map"):
-        df = pd.json_normalize(data["results"])
-        # apply aggregation
-        label = data["config"]["col"]
-        if data["config"]["agg"] == "average":
-            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "mean"})
-            label = data["config"]["agg"] + " of " + data["config"]["col"]
-        elif data["config"]["agg"] == "sum":
-            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "sum"})
-            label = data["config"]["agg"] + " of " + data["config"]["col"]
-        elif data["config"]["agg"] == "min":
-            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "min"})
-            label = data["config"]["agg"] + " of " + data["config"]["col"]
-        elif data["config"]["agg"] == "max":
-            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "max"})
-            label = data["config"]["agg"] + " of " + data["config"]["col"]
-        elif data["config"]["agg"] == "count":
-            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "count"})
-            label = data["config"]["agg"] + " of " + data["config"]["col"]
-        elif data["config"]["agg"] == "distinct":
-            df = df.groupby(data["config"]["geo"], as_index=False).agg({data["config"]["col"]: "nunique"})
-            label = data["config"]["agg"] + " of " + data["config"]["col"]
-        # make map obj
-        obj = {
-            "data": [{
-                "type": "choroplethmapbox",
-                "locations": df[data["config"]["geo"]].values.tolist(),
-                "z": df[data["config"]["col"]].values.tolist(),
-                "text": label,
-                "colorscale": "YIOrRd",
-                "colorbar": { "thickness": 20 },
-                "marker": {
-                    "opacity": 0.7,
-                    "line":{
-                        "color": "rgb(255,255,255)",
-                        "width": 1
-                    }
-                }
-            }],
-            "layout": {
-                "mapbox": {
-                    "style": "carto-positron",
-                    "zoom": 3,
-                    "center": { "lat": 37.0902, "lon": -95.7129 },
-                },
-                "margin": { "r": 0, "t": 0, "l": 0, "b": 0 },
-                "height": data["config"]["height"]
-            }
-        }
-        if data["config"]["unit"] == "state":
-            f = requests.get("https://assets.codefordemocracy.org/geo/states.json").text
-            states = json.loads(f)
-            obj["data"][0]["geojson"] = states
-        elif data["config"]["unit"] == "zip" and data["config"]["state"] is not None:
-            filename = data["config"]["state"] + ".json"
-            f = requests.get("https://assets.codefordemocracy.org/geo/" + filename).text
-            zips = json.loads(f)
-            obj["data"][0]["geojson"] = zips
+    # get the data
+    qs = dict()
+    elements = []
+    if data["query"].get("dates") is not None:
+        min_date = str(data["query"]["dates"]["min"])[:10]
+        max_date = str(data["query"]["dates"]["max"])[:10]
+        qs["min_year"] = min_date[:4]
+        qs["max_year"] = max_date[:4]
+        qs["min_month"] = min_date[5:7]
+        qs["max_month"] = max_date[5:7]
+        qs["min_day"] = min_date[8:10]
+        qs["max_day"] = max_date[8:10]
+    if data["query"].get("output") is not None:
+        endpoint = "/data/calculate/recipe/" + data["query"]["output"] + "/"
+        if "template" in data["query"] and "lists" in data["query"]:
+            qs["lists"] = make_api_string_from_comma_separated_text_input(data["query"]["lists"].values())
+            qs["template"] = data["query"]["template"]
+            qs["skip"] = 0
+            qs["limit"] = 1000
+            results = get(path(endpoint, qs))
+            while len(results) == qs["limit"] or qs["skip"] == 0:
+                elements.extend(results)
+                qs["skip"] = len(elements)
+                results = get(path(endpoint, qs))
+    # calculate aggregations
+    df = pd.json_normalize(elements)
+    if len(data["aggregations"]["columns"]) > 0:
+        aggs = {}
+        rename = {}
+        for col in df.columns:
+            if col in data["aggregations"]["columns"]:
+                if data["aggregations"]["apply"][col] == "average":
+                    aggs[col] = "mean"
+                    rename[col] = "average(" + col + ")"
+                elif data["aggregations"]["apply"][col] == "sum":
+                    aggs[col] = "sum"
+                    rename[col] = "sum(" + col + ")"
+                elif data["aggregations"]["apply"][col] == "min":
+                    aggs[col] = "min"
+                    rename[col] = "min(" + col + ")"
+                elif data["aggregations"]["apply"][col] == "max":
+                    aggs[col] = "max"
+                    rename[col] = "max(" + col + ")"
+                elif data["aggregations"]["apply"][col] == "count":
+                    aggs[col] = "count"
+                    rename[col] = "count(" + col + ")"
+                elif data["aggregations"]["apply"][col] == "distinct":
+                    aggs[col] = "nunique"
+                    rename[col] = "count(distinct " + col + ")"
+        df = df.groupby(data["aggregations"]["groupby"], as_index=False).agg(aggs).rename(columns=rename)
+    pages = []
+    pagesize = 20
+    for i in range(math.ceil(len(df)/pagesize)):
+        pages.append(df[i*pagesize:(i+1)*pagesize].to_dict('records'))
+    obj = {
+        "count": df.size,
+        "columns": [i for i in df.columns],
+        "pages": pages
+    }
     return make_response(json.dumps(obj, default=utilities.convert))
 
 #########################################################

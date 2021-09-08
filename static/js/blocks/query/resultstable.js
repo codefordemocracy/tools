@@ -1,4 +1,4 @@
-const querytable = {
+const resultstable = {
   components: {
     'datatable': datatable
   },
@@ -45,7 +45,7 @@ const querytable = {
       }
       var self = this
       // get results table
-      axios.post('/api/recipe/results/table/', {query: this.query, pagination: pagination})
+      axios.post('/api/query/results/table/', {query: this.query, pagination: pagination})
       .then(function(response) {
         this.loaded = true
         self.paging = false
@@ -58,7 +58,7 @@ const querytable = {
     getCount(callback) {
       var self = this
       // get results table
-      axios.post('/api/recipe/results/count/', {query: this.query})
+      axios.post('/api/query/results/count/', {query: this.query})
       .then(function(response) {
         callback(response.data)
       })
