@@ -176,11 +176,15 @@ C00027466
         if (!_.isNil(self.list.include.ids)) {
           self.list.include.ids = self.list.include.ids.join('\n')
         }
-        if (!_.isNil(self.list.exclude.terms)) {
-          self.list.exclude.terms = self.list.exclude.terms.join(', ')
-        }
-        if (!_.isNil(self.list.exclude.ids)) {
-          self.list.exclude.ids = self.list.exclude.ids.join('\n')
+        if (_.isUndefined(self.list.exclude)) {
+          self.list.exclude = {}
+        } else {
+          if (!_.isNil(self.list.exclude.terms)) {
+            self.list.exclude.terms = self.list.exclude.terms.join(', ')
+          }
+          if (!_.isNil(self.list.exclude.ids)) {
+            self.list.exclude.ids = self.list.exclude.ids.join('\n')
+          }
         }
       })
       .catch(function(error) {
