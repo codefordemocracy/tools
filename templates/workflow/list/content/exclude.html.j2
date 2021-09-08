@@ -1,9 +1,6 @@
 <tabs @placeholder="store.commit('waitlist/modal', true)">
   <tab name="Terms & IDs" :selected="true" class="p-5">
-    <div class="flex justify-center items-center text-xs text-dark px-5 py-10">
-      <span v-if="_.includes(store.state.workflow.valid, store.state.workflow.tab-1)">This feature is coming soon. Please continue to the next step.</span>
-      <span v-else>This feature is coming soon.</span>
-    </div>
+    {% include "/workflow/list/tabs/exclude/terms.html.j2" %}
   </tab>
   <tab name="Categorical Filters" :placeholder="true" class="p-5">
 

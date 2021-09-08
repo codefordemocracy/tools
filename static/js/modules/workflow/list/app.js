@@ -16,11 +16,18 @@ new Vue({
         terms: null,
         ids: null
       },
+      exclude: {
+        terms: null,
+        ids: null
+      },
       visibility: 'hidden',
       name: null,
       description: null
     },
-    preview: []
+    preview: {
+      include: [],
+      exclude: []
+    }
   },
   computed: {
     subtypes() {
@@ -68,6 +75,12 @@ C00027466
       if (!_.isNil(obj.include.ids)) {
         obj.include.ids = _.map(_.split(obj.include.ids, '\n'))
       }
+      if (!_.isNil(obj.exclude.terms)) {
+        obj.exclude.terms = _.map(_.split(obj.exclude.terms, ','))
+      }
+      if (!_.isNil(obj.exclude.ids)) {
+        obj.exclude.ids = _.map(_.split(obj.exclude.ids, '\n'))
+      }
       return obj
     },
   },
@@ -106,6 +119,7 @@ C00027466
         // set properties based on subtype
         if (_.includes(['donor', 'employer', 'job'], this.list.subtype)) {
           this.list.include.ids = null
+          this.list.exclude.ids = null
         }
         // validate and preview
         if (!_.isNull(this.list.type)) {
@@ -141,6 +155,12 @@ C00027466
         }
         if (!_.isNil(self.list.include.ids)) {
           self.list.include.ids = self.list.include.ids.join('\n')
+        }
+        if (!_.isNil(self.list.exclude.terms)) {
+          self.list.exclude.terms = self.list.exclude.terms.join(', ')
+        }
+        if (!_.isNil(self.list.exclude.ids)) {
+          self.list.exclude.ids = self.list.exclude.ids.join('\n')
         }
       })
       .catch(function(error) {

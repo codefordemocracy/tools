@@ -1,2 +1,5 @@
 <h5 class="text-2xl text-dark-gray mb-2">Add Exclusion Rules</h5>
 <p class="font-light text-sm leading-relaxed">Refine your list by excluding entities that shouldn't be included.</p>
+<template v-if="_.includes(store.state.workflow.valid, store.state.workflow.tab-1)">
+  <p class="text-xs mt-3">Entities will be excluded from your list if they match any of the criteria here.</p>
+</template>

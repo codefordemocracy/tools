@@ -200,25 +200,31 @@ def route_format_flat():
 @app.route("/api/list/preview/", methods=["POST"])
 def route_api_list_preview():
     data = request.get_json()
-    elements = []
+    preview = {
+        "include": [],
+        "exclude": []
+    }
     if data.get("subtype") is not None:
         endpoint = "/data/preview/" + data["subtype"] + "/"
         if data["subtype"] != data["type"]:
             endpoint = "/data/preview/" + data["type"] + "/" + data["subtype"] + "/"
-        terms = ""
-        ids = ""
+        include_terms = None
+        include_ids = None
+        exclude_terms = None
+        exclude_ids = None
         if data.get("include") is not None:
             if data["include"].get("terms") is not None:
-                terms = make_api_string_from_comma_separated_text_input(data["include"]["terms"])
+                include_terms = make_api_string_from_comma_separated_text_input(data["include"]["terms"])
             if data["include"].get("ids") is not None:
-                ids = make_api_string_from_comma_separated_text_input(data["include"]["ids"])
-            if len(terms) > 0 and len(ids) > 0:
-                elements = get(path(endpoint, {"terms": terms, "ids": ids, "skip": 0, "limit": 500}))
-            elif len(terms) > 0:
-                elements = get(path(endpoint, {"terms": terms, "skip": 0, "limit": 500}))
-            elif len(ids) > 0:
-                elements = get(path(endpoint, {"ids": ids, "skip": 0, "limit": 500}))
-    return jsonify(elements)
+                include_ids = make_api_string_from_comma_separated_text_input(data["include"]["ids"])
+            preview["include"] = get(path(endpoint, {"include_terms": include_terms, "include_ids": include_ids, "skip": 0, "limit": 500}))
+        if data.get("exclude") is not None:
+            if data["exclude"].get("terms") is not None:
+                exclude_terms = make_api_string_from_comma_separated_text_input(data["exclude"]["terms"])
+            if data["exclude"].get("ids") is not None:
+                exclude_ids = make_api_string_from_comma_separated_text_input(data["exclude"]["ids"])
+            preview["exclude"] = get(path(endpoint, {"include_terms": exclude_terms, "include_ids": exclude_ids, "skip": 0, "limit": 500}))
+    return jsonify(preview)
 
 #########################################################
 # query workflow endpoints

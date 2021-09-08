@@ -379,6 +379,20 @@ a.nav-link:hover {
 
 /* --------------- Workflows --------------- */
 
+/* Content */
+
+@media (min-width: 768px) {
+  .preview-form-wrapper {
+    min-height: 30vh;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .preview-pre-wrapper {
+    min-height: 30vh;
+  }
+}
+
 /* Icon Boxes */
 
 .icon-box-icon {

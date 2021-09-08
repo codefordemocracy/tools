@@ -13,6 +13,8 @@ const listdisplayer = {
       <li v-if="!_.includes(hide, 'cloned_from') && !_.isNil(list.cloned_from)"><strong>Cloned from:</strong> <a class="text-primary" :href="'/view/list/?id=' + list.cloned_from + '&mode=popup'" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-view-list-' + _.uniqueId(), ratio, window)">{{list.cloned_from}}</a></li>
       <li v-if="!_.includes(hide, 'include.terms') && !_.isEmpty(list.include.terms)"><strong>Included Terms:</strong> {{list.include.terms.join(', ')}}</li>
       <li v-if="!_.includes(hide, 'include.ids') && !_.isEmpty(list.include.ids)"><strong>Included IDs:</strong> {{list.include.ids.join(', ')}}</li>
+      <li v-if="!_.includes(hide, 'exclude.terms') && !_.isUndefined(list.exclude) && !_.isEmpty(list.exclude.terms)"><strong>Excluded Terms:</strong> {{list.exclude.terms.join(', ')}}</li>
+      <li v-if="!_.includes(hide, 'exclude.ids') && !_.isUndefined(list.exclude) && !_.isEmpty(list.exclude.ids)"><strong>Excluded IDs:</strong> {{list.exclude.ids.join(', ')}}</li>
     </ul>
   `,
   props: {
