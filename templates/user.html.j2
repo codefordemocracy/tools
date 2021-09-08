@@ -20,7 +20,7 @@
     <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(user.lists)">
       No lists found.
     </div>
-    <listpaginator :lists="user.lists" :hide="['visibility', 'created_by']" :actions="['clone']" :ratio="ratio"></listpaginator>
+    <listpaginator :lists="user.lists" :hide="['visibility', 'created_by']" :actions="['view', 'clone']" :ratio="ratio"></listpaginator>
   </div>
   <div class="border border-secondary bg-white p-5">
     <h5 class="text-xl font-light text-dark-gray mb-3">Public Queries</h5>
@@ -28,7 +28,7 @@
     <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(user.queries)">
       No queries found.
     </div>
-    <querypaginator :queries="user.queries" :hide="['visibility', 'created_by']" :actions="['clone']" :ratio="ratio"></listpaginator>
+    <querypaginator :queries="user.queries" :hide="['visibility', 'created_by']" :actions="['view', 'clone']" :ratio="ratio"></listpaginator>
   </div>
   {% if mode != "popup" %}
     <p class="text-xs pt-5 mt-auto">[[copyright()]]</p>

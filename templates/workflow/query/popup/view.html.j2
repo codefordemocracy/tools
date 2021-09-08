@@ -4,13 +4,34 @@
 {% block html %}
 
 <div id="main" class="bg-light p-5 flex flex-col min-h-screen" v-cloak>
-  <div class="bg-white border border-secondary p-5" v-if="!_.isEmpty(query)">
-    <h3 class="text-xl font-light text-dark-gray">{{query.name}}</h3>
-    <p class="font-light text-sm text-muted mb-3">{{query.id}}</p>
-    <a :href="'/create/query/?action=clone&id=' + query.id" class="btn btn-sm btn-gray mb-7" target="_blank">Clone Query</a>
-    <div class="bg-xlight text-dark text-xs p-3">
-      <querydisplayer :query="query" :hide="['visibility', 'name', 'id']" :ratio="ratio"></querydisplayer>
+  <template v-if="!_.isEmpty(query)">
+    <div class="bg-white border border-secondary p-5 mb-5">
+      <h3 class="text-xl font-light text-dark-gray">{{query.name}}</h3>
+      <p class="font-light text-sm text-muted mb-3">{{query.id}}</p>
+      <div class="mb-5">
+        <a :href="'/create/query/?action=clone&id=' + query.id" class="btn btn-sm btn-gray mb-2" target="_blank">Clone Query</a>
+        <button class="btn btn-sm btn-secondary mb-2" @click="results.download = 'csv'" :disabled="results.download == 'csv'">
+          <span v-if="results.download == 'csv'">Rows Processed: {{results.downloading | numbreviate}}<span v-if="results.count > 0"> of {{results.count | numbreviate}}</span></span>
+          <span v-else>Download Results as CSV</span>
+        </button>
+        <button class="btn btn-sm btn-secondary mb-2" @click="results.download = 'json'" :disabled="results.download == 'json'">
+          <span v-if="results.download == 'json'">Rows Processed: {{results.downloading | numbreviate}}<span v-if="results.count > 0"> of {{results.count | numbreviate}}</span></span>
+          <span v-else>Download Results as JSON</span>
+        </button>
+      </div>
+      <div class="bg-xlight text-dark text-xs p-3">
+        <querydisplayer :query="query" :hide="['visibility', 'name', 'id']" :ratio="ratio"></querydisplayer>
+      </div>
     </div>
+    <div class="bg-white border border-secondary p-5 mb-5">
+      <queryhist :query="query"></queryhist>
+    </div>
+    <div class="bg-white border border-secondary p-5">
+      <querytable :query="query" :download="results.download" @downloading="downloadingResults" @count="countResults"></querytable>
+    </div>
+  </template>
+  <div class="bg-white border border-secondary p-5" v-else-if="loaded">
+    <p class="text-xs">This query could not be found.</p>
   </div>
   {% if mode != "popup" %}
     <p class="text-xs pt-5 mt-auto">[[copyright()]]</p>
@@ -21,6 +42,8 @@
 {% block scripts %}
 
 <script src="[[ url_for('static', filename='js/blocks/result/querydisplayer.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/blocks/result/querytable.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/blocks/result/queryhist.js') ]]"></script>
 <script src="[[ url_for('static', filename='js/modules/workflow/query/popup/view.js') ]]"></script>
 
 {% endblock %}

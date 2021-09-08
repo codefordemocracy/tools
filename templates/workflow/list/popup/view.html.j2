@@ -4,13 +4,31 @@
 {% block html %}
 
 <div id="main" class="bg-light p-5 flex flex-col min-h-screen" v-cloak>
-  <div class="bg-white border border-secondary p-5" v-if="!_.isEmpty(list)">
-    <h3 class="text-xl font-light text-dark-gray">{{list.name}}</h3>
-    <p class="font-light text-sm text-muted mb-3">{{list.id}}</p>
-    <a :href="'/create/list/?action=clone&id=' + list.id" class="btn btn-sm btn-gray mb-7" target="_blank">Clone List</a>
-    <div class="bg-xlight text-dark text-xs p-3">
-      <listdisplayer :list="list" :hide="['visibility', 'name', 'id']" :ratio="ratio"></listdisplayer>
+  <template v-if="!_.isEmpty(list)">
+    <div class="bg-white border border-secondary p-5 mb-5">
+      <h3 class="text-xl font-light text-dark-gray">{{list.name}}</h3>
+      <p class="font-light text-sm text-muted mb-3">{{list.id}}</p>
+      <div class="mb-5">
+        <a :href="'/create/list/?action=clone&id=' + list.id" class="btn btn-sm btn-gray mb-2" target="_blank">Clone List</a>
+        <button class="btn btn-sm btn-secondary mb-2" @click="review.download = 'csv'" :disabled="review.download == 'csv'">
+          <span v-if="review.download == 'csv'">Rows Processed: {{review.downloading | numbreviate}}<span v-if="review.count > 0"> of {{review.count | numbreviate}}</span></span>
+          <span v-else>Download Entities as CSV</span>
+        </button>
+        <button class="btn btn-sm btn-secondary mb-2" @click="review.download = 'json'" :disabled="review.download == 'json'">
+          <span v-if="review.download == 'json'">Rows Processed: {{review.downloading | numbreviate}}<span v-if="review.count > 0"> of {{review.count | numbreviate}}</span></span>
+          <span v-else>Download Entities as JSON</span>
+        </button>
+      </div>
+      <div class="bg-xlight text-dark text-xs p-3">
+        <listdisplayer :list="list" :hide="['visibility', 'name', 'id']" :ratio="ratio"></listdisplayer>
+      </div>
     </div>
+    <div class="bg-white border border-secondary p-5">
+      <listreviewer :list="list" :download="review.download" @downloading="downloadingEntities" @count="countEntities"></listreviewer>
+    </div>
+  </template>
+  <div class="bg-white border border-secondary p-5" v-else-if="loaded">
+    <p class="text-xs">This list could not be found.</p>
   </div>
   {% if mode != "popup" %}
     <p class="text-xs pt-5 mt-auto">[[copyright()]]</p>
@@ -21,6 +39,7 @@
 {% block scripts %}
 
 <script src="[[ url_for('static', filename='js/blocks/list/listdisplayer.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/blocks/list/listreviewer.js') ]]"></script>
 <script src="[[ url_for('static', filename='js/modules/workflow/list/popup/view.js') ]]"></script>
 
 {% endblock %}
