@@ -53,6 +53,7 @@
 {% block scripts %}
 
   {% if output == 'list' %}
+  <script src="[[ url_for('static', filename='js/blocks/list/listreviewer.js') ]]"></script>
   {% endif %}
 
   {% if output == 'query' %}

@@ -6,7 +6,8 @@ new Vue({
   el: '#app',
   components: {
     'tabs': tabbed.tabs,
-    'tab': tabbed.tab
+    'tab': tabbed.tab,
+    'listreviewer': listreviewer
   },
   data: {
     list: {
@@ -27,6 +28,11 @@ new Vue({
     preview: {
       include: [],
       exclude: []
+    },
+    review: {
+      count: -1,
+      download: false,
+      downloading: 0
     }
   },
   computed: {
@@ -83,6 +89,9 @@ C00027466
       }
       return obj
     },
+    buildable() {
+      return _.intersection(store.state.workflow.valid, [1,2,3]).length == 3
+    }
   },
   methods: {
     peek() {
@@ -95,6 +104,17 @@ C00027466
       .catch(function(error) {
         console.error(error)
       })
+    },
+    downloadingEntities(payload) {
+      if (payload == false) {
+        this.review.download = false
+        this.review.downloading = 0
+      } else {
+        this.review.downloading = payload
+      }
+    },
+    countEntities(payload) {
+      this.review.count = payload
     },
     submit() {
       let endpoint = '/api/list/create/'

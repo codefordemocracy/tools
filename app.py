@@ -226,6 +226,67 @@ def route_api_list_preview():
             preview["exclude"] = get(path(endpoint, {"include_terms": exclude_terms, "include_ids": exclude_ids, "skip": 0, "limit": 500}))
     return jsonify(preview)
 
+@app.route("/api/list/review/table/", methods=["POST"])
+def route_api_list_review_table():
+    data = request.get_json()
+    elements = []
+    skip = 0
+    limit = 500
+    if data.get("pagination") is not None:
+        if "skip" in data["pagination"]:
+            skip = data["pagination"]["skip"]
+        if "limit" in data["pagination"]:
+            limit = data["pagination"]["limit"]
+    if "list" in data:
+        if data["list"].get("subtype") is not None:
+            endpoint = "/data/preview/" + data["list"]["subtype"] + "/"
+            if data["list"]["subtype"] != data["list"]["type"]:
+                endpoint = "/data/preview/" + data["list"]["type"] + "/" + data["list"]["subtype"] + "/"
+            include_terms = None
+            include_ids = None
+            exclude_terms = None
+            exclude_ids = None
+            if data["list"].get("include") is not None:
+                if data["list"]["include"].get("terms") is not None:
+                    include_terms = make_api_string_from_comma_separated_text_input(data["list"]["include"]["terms"])
+                if data["list"]["include"].get("ids") is not None:
+                    include_ids = make_api_string_from_comma_separated_text_input(data["list"]["include"]["ids"])
+            if data["list"].get("exclude") is not None:
+                if data["list"]["exclude"].get("terms") is not None:
+                    exclude_terms = make_api_string_from_comma_separated_text_input(data["list"]["exclude"]["terms"])
+                if data["list"]["exclude"].get("ids") is not None:
+                    exclude_ids = make_api_string_from_comma_separated_text_input(data["list"]["exclude"]["ids"])
+            elements = get(path(endpoint, {"include_terms": include_terms, "include_ids": include_ids, "exclude_terms": exclude_terms, "exclude_ids": exclude_ids, "skip": skip, "limit": limit}))
+    return jsonify(elements)
+
+@app.route("/api/list/review/count/", methods=["POST"])
+def route_api_list_review_count():
+    data = request.get_json()
+    count = -1
+    if "list" in data:
+        if data["list"].get("subtype") is not None:
+            endpoint = "/data/preview/" + data["list"]["subtype"] + "/"
+            if data["list"]["subtype"] != data["list"]["type"]:
+                endpoint = "/data/preview/" + data["list"]["type"] + "/" + data["list"]["subtype"] + "/"
+            include_terms = None
+            include_ids = None
+            exclude_terms = None
+            exclude_ids = None
+            if data["list"].get("include") is not None:
+                if data["list"]["include"].get("terms") is not None:
+                    include_terms = make_api_string_from_comma_separated_text_input(data["list"]["include"]["terms"])
+                if data["list"]["include"].get("ids") is not None:
+                    include_ids = make_api_string_from_comma_separated_text_input(data["list"]["include"]["ids"])
+            if data["list"].get("exclude") is not None:
+                if data["list"]["exclude"].get("terms") is not None:
+                    exclude_terms = make_api_string_from_comma_separated_text_input(data["list"]["exclude"]["terms"])
+                if data["list"]["exclude"].get("ids") is not None:
+                    exclude_ids = make_api_string_from_comma_separated_text_input(data["list"]["exclude"]["ids"])
+            elements = get(path(endpoint, {"include_terms": include_terms, "include_ids": include_ids, "exclude_terms": exclude_terms, "exclude_ids": exclude_ids, "count": True}))
+            if "count" in elements[0]:
+                count = elements[0]["count"]
+    return jsonify(count)
+
 #########################################################
 # query workflow endpoints
 #########################################################
