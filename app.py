@@ -204,85 +204,81 @@ def route_api_list_preview():
         "include": [],
         "exclude": []
     }
+    qs = dict()
+    qs["skip"] = 0
+    qs["limit"] = 500
     if data.get("subtype") is not None:
         endpoint = "/data/preview/" + data["subtype"] + "/"
         if data["subtype"] != data["type"]:
             endpoint = "/data/preview/" + data["type"] + "/" + data["subtype"] + "/"
-        include_terms = None
-        include_ids = None
-        exclude_terms = None
-        exclude_ids = None
         if data.get("include") is not None:
             if data["include"].get("terms") is not None:
-                include_terms = make_api_string_from_comma_separated_text_input(data["include"]["terms"])
+                qs["include_terms"] = make_api_string_from_comma_separated_text_input(data["include"]["terms"])
             if data["include"].get("ids") is not None:
-                include_ids = make_api_string_from_comma_separated_text_input(data["include"]["ids"])
-            preview["include"] = get(path(endpoint, {"include_terms": include_terms, "include_ids": include_ids, "skip": 0, "limit": 500}))
+                qs["include_ids"] = make_api_string_from_comma_separated_text_input(data["include"]["ids"])
+            preview["include"] = get(path(endpoint, qs))
         if data.get("exclude") is not None:
+            qs.pop("include_terms", None)
+            qs.pop("include_ids", None)
             if data["exclude"].get("terms") is not None:
-                exclude_terms = make_api_string_from_comma_separated_text_input(data["exclude"]["terms"])
+                qs["include_terms"] = make_api_string_from_comma_separated_text_input(data["exclude"]["terms"])
             if data["exclude"].get("ids") is not None:
-                exclude_ids = make_api_string_from_comma_separated_text_input(data["exclude"]["ids"])
-            preview["exclude"] = get(path(endpoint, {"include_terms": exclude_terms, "include_ids": exclude_ids, "skip": 0, "limit": 500}))
+                qs["include_ids"] = make_api_string_from_comma_separated_text_input(data["exclude"]["ids"])
+            preview["exclude"] = get(path(endpoint, qs))
     return jsonify(preview)
 
 @app.route("/api/list/review/table/", methods=["POST"])
 def route_api_list_review_table():
     data = request.get_json()
     elements = []
-    skip = 0
-    limit = 500
+    qs = dict()
+    qs["skip"] = 0
+    qs["limit"] = 500
     if data.get("pagination") is not None:
         if "skip" in data["pagination"]:
-            skip = data["pagination"]["skip"]
+            qs["skip"] = data["pagination"]["skip"]
         if "limit" in data["pagination"]:
-            limit = data["pagination"]["limit"]
+            qs["limit"] = data["pagination"]["limit"]
     if "list" in data:
         if data["list"].get("subtype") is not None:
             endpoint = "/data/preview/" + data["list"]["subtype"] + "/"
             if data["list"]["subtype"] != data["list"]["type"]:
                 endpoint = "/data/preview/" + data["list"]["type"] + "/" + data["list"]["subtype"] + "/"
-            include_terms = None
-            include_ids = None
-            exclude_terms = None
-            exclude_ids = None
             if data["list"].get("include") is not None:
                 if data["list"]["include"].get("terms") is not None:
-                    include_terms = make_api_string_from_comma_separated_text_input(data["list"]["include"]["terms"])
+                    qs["include_terms"] = make_api_string_from_comma_separated_text_input(data["list"]["include"]["terms"])
                 if data["list"]["include"].get("ids") is not None:
-                    include_ids = make_api_string_from_comma_separated_text_input(data["list"]["include"]["ids"])
+                    qs["include_ids"] = make_api_string_from_comma_separated_text_input(data["list"]["include"]["ids"])
             if data["list"].get("exclude") is not None:
                 if data["list"]["exclude"].get("terms") is not None:
-                    exclude_terms = make_api_string_from_comma_separated_text_input(data["list"]["exclude"]["terms"])
+                    qs["exclude_terms"] = make_api_string_from_comma_separated_text_input(data["list"]["exclude"]["terms"])
                 if data["list"]["exclude"].get("ids") is not None:
-                    exclude_ids = make_api_string_from_comma_separated_text_input(data["list"]["exclude"]["ids"])
-            elements = get(path(endpoint, {"include_terms": include_terms, "include_ids": include_ids, "exclude_terms": exclude_terms, "exclude_ids": exclude_ids, "skip": skip, "limit": limit}))
+                    qs["exclude_ids"] = make_api_string_from_comma_separated_text_input(data["list"]["exclude"]["ids"])
+            elements = get(path(endpoint, qs))
     return jsonify(elements)
 
 @app.route("/api/list/review/count/", methods=["POST"])
 def route_api_list_review_count():
     data = request.get_json()
     count = -1
+    qs = dict()
     if "list" in data:
         if data["list"].get("subtype") is not None:
             endpoint = "/data/preview/" + data["list"]["subtype"] + "/"
             if data["list"]["subtype"] != data["list"]["type"]:
                 endpoint = "/data/preview/" + data["list"]["type"] + "/" + data["list"]["subtype"] + "/"
-            include_terms = None
-            include_ids = None
-            exclude_terms = None
-            exclude_ids = None
             if data["list"].get("include") is not None:
                 if data["list"]["include"].get("terms") is not None:
-                    include_terms = make_api_string_from_comma_separated_text_input(data["list"]["include"]["terms"])
+                    qs["include_terms"] = make_api_string_from_comma_separated_text_input(data["list"]["include"]["terms"])
                 if data["list"]["include"].get("ids") is not None:
-                    include_ids = make_api_string_from_comma_separated_text_input(data["list"]["include"]["ids"])
+                    qs["include_ids"] = make_api_string_from_comma_separated_text_input(data["list"]["include"]["ids"])
             if data["list"].get("exclude") is not None:
                 if data["list"]["exclude"].get("terms") is not None:
-                    exclude_terms = make_api_string_from_comma_separated_text_input(data["list"]["exclude"]["terms"])
+                    qs["exclude_terms"] = make_api_string_from_comma_separated_text_input(data["list"]["exclude"]["terms"])
                 if data["list"]["exclude"].get("ids") is not None:
-                    exclude_ids = make_api_string_from_comma_separated_text_input(data["list"]["exclude"]["ids"])
-            elements = get(path(endpoint, {"include_terms": include_terms, "include_ids": include_ids, "exclude_terms": exclude_terms, "exclude_ids": exclude_ids, "count": True}))
+                    qs["exclude_ids"] = make_api_string_from_comma_separated_text_input(data["list"]["exclude"]["ids"])
+            qs["count"] = True
+            elements = get(path(endpoint, qs))
             if "count" in elements[0]:
                 count = elements[0]["count"]
     return jsonify(count)
