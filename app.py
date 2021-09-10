@@ -94,9 +94,10 @@ def route_create_visualization():
     templates = [{"step": 1, "slug": "output"}, {"step": 2, "slug": "query"}, {"step": 3, "slug": "transform"}, {"step": 4, "slug": "review"}, {"step": 5, "slug": "save"}]
     return render_template("workflow.html.j2", workflow=workflow, output=output, templates=templates, action=action, id=id)
 
-@app.route("/create/visualization/plot/", methods=["GET"])
-def route_create_visualization_plot():
-    return render_template("visualization/plot.html.j2")
+@app.route("/view/visualization/", methods=["GET"])
+def route_view_visualization():
+    mode = request.args.get("mode")
+    return render_template("workflow/visualization/popup/view.html.j2", mode=mode)
 
 @app.route("/create/alert/", methods=["GET"])
 def route_create_alert():
@@ -112,6 +113,11 @@ def route_create_alert():
     output = "alert"
     templates = [{"step": 1, "slug": "query"}, {"step": 2, "slug": "trigger"}, {"step": 3, "slug": "save"}]
     return render_template("workflow.html.j2", workflow=workflow, output=output, templates=templates, action=action, id=id)
+
+@app.route("/view/alert/", methods=["GET"])
+def route_view_alert():
+    mode = request.args.get("mode")
+    return render_template("workflow/alert/popup/view.html.j2", mode=mode)
 
 @app.route("/explore/lists/", methods=["GET"])
 def route_explore_lists():
@@ -983,6 +989,16 @@ def route_api_user_active_queries():
     queries = action({"task": "get_active_user_queries", "token": request.cookies.get('cfd')})
     return jsonify(queries)
 
+@app.route("/api/user/active/visualizations/", methods=["GET"])
+def route_api_user_active_visualizations():
+    visualizations = action({"task": "get_active_user_visualizations", "token": request.cookies.get('cfd')})
+    return jsonify(visualizations)
+
+@app.route("/api/user/active/alerts/", methods=["GET"])
+def route_api_user_active_alerts():
+    alerts = action({"task": "get_active_user_alerts", "token": request.cookies.get('cfd')})
+    return jsonify(alerts)
+
 # list
 
 @app.route("/api/lists/", methods=["POST"])
@@ -1059,6 +1075,57 @@ def route_api_query_delete():
     action({"task": "delete_query", "token": request.cookies.get('cfd'), "id": data.get("id")})
     return route_api_user_active_queries()
 
+# visualization
+
+@app.route("/api/visualization/meta/", methods=["POST"])
+def route_api_visualization_meta():
+    data = request.get_json()
+    visualization = action({"task": "get_visualization_meta", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return jsonify(visualization)
+
+@app.route("/api/visualization/create/", methods=["POST"])
+def route_api_visualization_create():
+    data = request.get_json()
+    response = action({"task": "create_visualization", "token": request.cookies.get('cfd'), "data": data})
+    return jsonify(response)
+
+@app.route("/api/visualization/edit/", methods=["POST"])
+def route_api_visualization_edit():
+    data = request.get_json()
+    response = action({"task": "edit_visualization", "token": request.cookies.get('cfd'), "data": data})
+    return jsonify(response)
+
+@app.route("/api/visualization/delete/", methods=["POST"])
+def route_api_visualization_delete():
+    data = request.get_json()
+    action({"task": "delete_visualization", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return route_api_user_active_visualizations()
+
+# alert
+
+@app.route("/api/alert/meta/", methods=["POST"])
+def route_api_alert_meta():
+    data = request.get_json()
+    alert = action({"task": "get_alert_meta", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return jsonify(alert)
+
+@app.route("/api/alert/create/", methods=["POST"])
+def route_api_alert_create():
+    data = request.get_json()
+    response = action({"task": "create_alert", "token": request.cookies.get('cfd'), "data": data})
+    return jsonify(response)
+
+@app.route("/api/alert/edit/", methods=["POST"])
+def route_api_alert_edit():
+    data = request.get_json()
+    response = action({"task": "edit_alert", "token": request.cookies.get('cfd'), "data": data})
+    return jsonify(response)
+
+@app.route("/api/alert/delete/", methods=["POST"])
+def route_api_alert_delete():
+    data = request.get_json()
+    action({"task": "delete_alert", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return route_api_user_active_alerts()
 
 if __name__ == "__main__":
     app.run(debug=True)

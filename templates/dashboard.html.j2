@@ -1,11 +1,11 @@
 {% extends "app.html.j2" %} {% block title %}Dashboard | {% endblock %} {% block app %}
 
 <div id="main" class="bg-light p-5 text-dark flex flex-col absolute top-0 left-0 right-0 bottom-0 overflow-scroll" v-cloak>
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-    <div class="border border-secondary bg-white p-5 lg:col-span-2" v-if="!store.state.auth.profile">
-      <p>Please wait, we're loading your dashboard.</p>
+  <template>
+    <div class="border border-secondary bg-white p-5" v-if="!store.state.auth.profile">
+      <p class="text-xs">Please wait, we're loading your dashboard<span class="blink">...</span></p>
     </div>
-    <div class="p-5 lg:col-span-2" :class="_.isEmpty(store.state.auth.profile) ? 'border border-secondary bg-white' : 'bg-gray-55'" v-if="store.state.auth.profile">
+    <div class="p-5 mb-5" :class="_.isEmpty(store.state.auth.profile) ? 'border border-secondary bg-white' : 'bg-gray-55'" v-else>
       <p v-if="_.isEmpty(store.state.auth.profile)">You are logged out. <a href="javascript:void(0)" @click="store.commit('auth/login', true)">Click here to login.</a></p>
       <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center" v-else>
         <div class="pb-5 lg:pb-0">
@@ -18,31 +18,60 @@
         </div>
       </div>
     </div>
-    <div>
-      <tabs v-if="!_.isEmpty(store.state.auth.profile) && !_.isNull(lists)" :fill="true">
-        <tab :name="_.startCase(status) + ' Lists'" class="p-5" v-for="status in ['public', 'hidden']" :selected="status == 'public'">
-          <p class="font-light text-sm mb-5" v-if="status == 'public'">These lists show up on your public profile and can be viewed and cloned by other users.</p>
-          <p class="font-light text-sm mb-5" v-else>These lists are hidden from public searches.</p>
-          <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(_.filter(lists, {visibility: status}))">
-            You don't have any {{status}} lists.
-          </div>
-          <listpaginator :lists="_.filter(lists, {visibility: status})" :hide="['visibility', 'created_by']" @toggle="toggleList" @confirm="confirmList"></listpaginator>
-        </tab>
-      </tabs>
+  </template>
+  <template v-if="!_.isEmpty(store.state.auth.profile)">
+    <div class="border border-secondary bg-white p-5" v-if="!lists || !queries || !visualizations || !alerts">
+      <p class="text-xs">Please wait, we're loading your saved objects<span class="blink">...</span></p>
     </div>
-    <div>
-      <tabs v-if="!_.isEmpty(store.state.auth.profile) && !_.isNull(queries)" :fill="true">
-        <tab :name="_.startCase(status) + ' Queries'" class="p-5" v-for="status in ['public', 'hidden']" :selected="status == 'public'">
-          <p class="font-light text-sm mb-5" v-if="status == 'public'">These queries show up on your public profile and can be viewed and cloned by other users.</p>
-          <p class="font-light text-sm mb-5" v-else>These queries are hidden from public searches.</p>
-          <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(_.filter(queries, {visibility: status}))">
-            You don't have any {{status}} queries.
+    <tabs v-else>
+      <tab name="Lists" class="p-5" :selected="true">
+        <div class="form-full form-sm grid grid-cols-1 sm:grid-cols-3 gap-5 mb-5">
+          <input class="form-element sm:col-span-1" type="text" v-model="filters.list.term" placeholder="Filter lists by search term..."></input>
+          <div class="flex sm:justify-end items-center sm:col-span-2 text-xs">
+            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="all" value="all" v-model="filters.list.visibility"><label for="all" class="mr-3">All Lists</label>
+            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="public" value="public" v-model="filters.list.visibility"><label for="public" class="mr-3">Public Lists</label>
+            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="hidden" value="hidden" v-model="filters.list.visibility"><label for="hidden">Hidden Lists</label>
           </div>
-          <querypaginator :queries="_.filter(queries, {visibility: status})" :hide="['visibility', 'created_by']" @toggle="toggleQuery" @confirm="confirmQuery"></querypaginator>
-        </tab>
-      </tabs>
-    </div>
-  </div>
+        </div>
+        <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(filter('lists', filters.list.term, filters.list.visibility))">
+          You don't have any {{filters.list.visibility == 'all' ? 'saved' : filters.list.visibility}} lists.
+        </div>
+        <listpaginator :lists="filter('lists', filters.list.term, filters.list.visibility)" :hide="['visibility', 'created_by']" @toggle="toggleList" @confirm="confirmList"></listpaginator>
+      </tab>
+      <tab name="Queries" class="p-5">
+        <div class="form-full form-sm grid grid-cols-1 sm:grid-cols-3 gap-5 mb-5">
+          <input class="form-element sm:col-span-1" type="text" v-model="filters.query.term" placeholder="Filter queries by search term..."></input>
+          <div class="flex sm:justify-end items-center sm:col-span-2 text-xs">
+            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="all" value="all" v-model="filters.query.visibility"><label for="all" class="mr-3">All Queries</label>
+            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="public" value="public" v-model="filters.query.visibility"><label for="public" class="mr-3">Public Queries</label>
+            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="hidden" value="hidden" v-model="filters.query.visibility"><label for="hidden">Hidden Queries</label>
+          </div>
+        </div>
+        <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(filter('queries', filters.query.term, filters.query.visibility))">
+          You don't have any {{filters.query.visibility == 'all' ? 'saved' : filters.query.visibility}} queries.
+        </div>
+        <querypaginator :queries="filter('queries', filters.query.term, filters.query.visibility)" :hide="['visibility', 'created_by']" @toggle="toggleQuery" @confirm="confirmQuery"></querypaginator>
+      </tab>
+      <tab name="Visualizations" class="p-5">
+        <div class="form-full form-sm grid grid-cols-1 sm:grid-cols-3 gap-5 mb-5">
+          <input class="form-element sm:col-span-1" type="text" v-model="filters.visualization.term" placeholder="Filter visualizations by search term..."></input>
+        </div>
+        <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(filter('visualizations', filters.visualization.term))">
+          You don't have any saved visualizations.
+        </div>
+        <vizpaginator :visualizations="filter('visualizations', filters.visualization.term)" :hide="['visibility', 'created_by']" @confirm="confirmVisualization"></vizpaginator>
+      </tab>
+      <tab name="Alerts" class="p-5">
+        <div class="form-full form-sm grid grid-cols-1 sm:grid-cols-3 gap-5 mb-5">
+          <input class="form-element sm:col-span-1" type="text" v-model="filters.alert.term" placeholder="Filter alerts by search term..."></input>
+        </div>
+        <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(filter('alerts', filters.alert.term))">
+          You don't have any saved alerts.
+        </div>
+        <alertpaginator :alerts="filter('alerts', filters.alert.term)" :hide="['visibility', 'created_by']" @confirm="confirmAlert"></alertpaginator>
+      </tab>
+    </tabs>
+  </template>
   <p class="text-xs pt-5 mt-auto">[[copyright()]]</p>
   <modal :show="confirm.list.modal" @cancel="confirm.list.modal = false">
     <div slot="header">
@@ -70,6 +99,32 @@
       <button type="button" @click="deleteQuery(); confirm.query.modal = false" class="btn btn-sm btn-gray">Confirm</button>
     </div>
   </modal>
+  <modal :show="confirm.visualization.modal" @cancel="confirm.visualization.modal = false">
+    <div slot="header">
+      <h5 class="modal-title">Confirm Query Deletion</h5>
+      <p class="modal-subtitle">Are you sure you want to delete this visualization?</p>
+    </div>
+    <div slot="body">
+      <div class="alert alert-warning"><strong>WARNING:</strong> The deletion of visualizations is irreversible. You are deleting the visualization with name <u>{{confirm.visualization.name}}</u> and ID <u>{{confirm.visualization.id}}</u>.</div>
+    </div>
+    <div slot="footer" class="flex justify-end">
+      <button type="button" @click="confirm.visualization.modal = false" class="btn btn-sm btn-secondary mr-1">Cancel</button>
+      <button type="button" @click="deleteVisualization(); confirm.visualization.modal = false" class="btn btn-sm btn-gray">Confirm</button>
+    </div>
+  </modal>
+  <modal :show="confirm.alert.modal" @cancel="confirm.alert.modal = false">
+    <div slot="header">
+      <h5 class="modal-title">Confirm Query Deletion</h5>
+      <p class="modal-subtitle">Are you sure you want to delete this alert?</p>
+    </div>
+    <div slot="body">
+      <div class="alert alert-warning"><strong>WARNING:</strong> The deletion of alerts is irreversible. You are deleting the alert with name <u>{{confirm.alert.name}}</u> and ID <u>{{confirm.alert.id}}</u>.</div>
+    </div>
+    <div slot="footer" class="flex justify-end">
+      <button type="button" @click="confirm.alert.modal = false" class="btn btn-sm btn-secondary mr-1">Cancel</button>
+      <button type="button" @click="deleteAlert(); confirm.alert.modal = false" class="btn btn-sm btn-gray">Confirm</button>
+    </div>
+  </modal>
 </div>
 
 {% endblock %}
@@ -79,6 +134,10 @@
 <script src="[[ url_for('static', filename='js/blocks/list/listpaginator.js') ]]"></script>
 <script src="[[ url_for('static', filename='js/blocks/query/querydisplayer.js') ]]"></script>
 <script src="[[ url_for('static', filename='js/blocks/query/querypaginator.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/blocks/visualization/vizdisplayer.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/blocks/visualization/vizpaginator.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/blocks/alert/alertdisplayer.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/blocks/alert/alertpaginator.js') ]]"></script>
 <script src="[[ url_for('static', filename='js/modules/dashboard.js') ]]"></script>
 
 {% endblock %}

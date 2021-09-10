@@ -10,6 +10,9 @@ new Vue({
     'querysearcher': querysearcher
   },
   data: {
+    alert: {
+      id: null
+    },
     query: undefined,
     trigger: {
       event: 'new_results',
@@ -26,6 +29,9 @@ new Vue({
         trigger: this.trigger,
         name: this.save.name,
         description: this.save.description
+      }
+      if (!_.isEmpty(this.alert.id)) {
+        obj.id = this.alert.id
       }
       if (!_.isUndefined(this.query)) {
         obj.query = this.query.selected.id
@@ -62,6 +68,34 @@ new Vue({
           store.commit('workflow/complete')
         }
       }
+    }
+  },
+  created() {
+    var self = this
+    // get id for edit or clone workflow
+    if (_.includes(['edit', 'clone'], this.$route.query.action) && !_.isUndefined(this.$route.query.id)) {
+      this.alert.id = this.$route.query.id
+    }
+    // load data for edit or clone workflow
+    if (!_.isUndefined(this.$route.query.id)) {
+      axios.post('/api/alert/meta/', {id: this.$route.query.id})
+      .then(function(response) {
+        self.query = {
+          filters: {
+            visibility: 'all',
+            term: null
+          },
+          selected: {
+            id: response.data.query
+          }
+        }
+        self.trigger = response.data.trigger
+        self.save.name = response.data.name
+        self.save.description = response.data.description
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
     }
   }
 })

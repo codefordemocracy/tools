@@ -9,7 +9,7 @@ const querysearcher = {
       <div class="flex sm:justify-end items-center sm:col-span-2">
         <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="all" value="all" v-model="settings.filters.visibility"><label for="all" class="mr-3">All Queries</label>
         <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="public" value="public" v-model="settings.filters.visibility"><label for="public" class="mr-3">Public Queries</label>
-        <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="hidden" value="hidden" v-model="settings.filters.visibility" :disabled="_.isEmpty(store.state.auth.profile)" :class="_.isEmpty(store.state.auth.profile) ? 'cursor-not-allowed border-gray-40' : ''"><label for="hidden" :class="_.isEmpty(store.state.auth.profile) ? 'cursor-not-allowed text-gray-40' : ''">Your Private Queries</label>
+        <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="hidden" value="hidden" v-model="settings.filters.visibility" :disabled="_.isEmpty(store.state.auth.profile)" :class="_.isEmpty(store.state.auth.profile) ? 'cursor-not-allowed border-gray-40' : ''"><label for="hidden" :class="_.isEmpty(store.state.auth.profile) ? 'cursor-not-allowed text-gray-40' : ''">Your Hidden Queries</label>
       </div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -83,6 +83,12 @@ const querysearcher = {
     axios.post('/api/queries/')
     .then(function(response) {
       self.preloaded = response.data
+      // fill out selected for cloning and editing
+      if (!_.isUndefined(self.settings.selected.id) && _.isUndefined(self.settings.selected.created_at)) {
+        self.settings.selected = _.filter(response.data, function(l) {
+          return l.id == self.settings.selected.id
+        })[0]
+      }
     })
     .catch(function(error) {
       console.error(error)

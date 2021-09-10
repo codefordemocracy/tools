@@ -165,7 +165,7 @@ C00027466
     if (_.includes(['edit', 'clone'], this.$route.query.action) && !_.isUndefined(this.$route.query.id)) {
       this.list.id = this.$route.query.id
     }
-    // load data for view workflow
+    // load data for edit or clone workflow
     if (!_.isUndefined(this.$route.query.id)) {
       axios.post('/api/list/meta/', {id: this.$route.query.id})
       .then(function(response) {

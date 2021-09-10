@@ -16,11 +16,31 @@ new Vue({
     'tabs': tabbed.tabs,
     'tab': tabbed.tab,
     'listpaginator': listpaginator,
-    'querypaginator': querypaginator
+    'querypaginator': querypaginator,
+    'vizpaginator': vizpaginator,
+    'alertpaginator': alertpaginator
   },
   data: {
-    lists: null,
-    queries: null,
+    lists: false,
+    queries: false,
+    visualizations: false,
+    alerts: false,
+    filters: {
+      list: {
+        visibility: 'all',
+        term: null
+      },
+      query: {
+        visibility: 'all',
+        term: null
+      },
+      visualization: {
+        term: null
+      },
+      alert: {
+        term: null
+      }
+    },
     confirm: {
       list: {
         modal: false,
@@ -31,10 +51,32 @@ new Vue({
         modal: false,
         id: null,
         name: null
+      },
+      visualization: {
+        modal: false,
+        id: null,
+        name: null
+      },
+      alert: {
+        modal: false,
+        id: null,
+        name: null
       }
     }
   },
   methods: {
+    filter(elements, term, visibility='all') {
+      let opts = this[elements]
+      if (visibility != 'all') {
+        opts = _.filter(opts, {visibility: this.filters.list.visibility})
+      }
+      if (!_.isEmpty(term)) {
+        opts = _.filter(opts, function(x) {
+          return _.includes(_.lowerCase(x.name), _.lowerCase(term))
+        })
+      }
+      return opts
+    },
     toggleList(list) {
       var self = this
       axios.post('/api/list/toggle/', {id: list.id})
@@ -84,6 +126,36 @@ new Vue({
       .catch(function(error) {
         console.error(error)
       })
+    },
+    confirmVisualization(viz) {
+      this.confirm.visualization.modal = true
+      this.confirm.visualization.id = viz.id
+      this.confirm.visualization.name = viz.name
+    },
+    deleteVisualization() {
+      var self = this
+      axios.post('/api/visualization/delete/', {id: this.confirm.visualization.id})
+      .then(function(response) {
+        self.visualizations = response.data
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
+    },
+    confirmAlert(alert) {
+      this.confirm.alert.modal = true
+      this.confirm.alert.id = alert.id
+      this.confirm.alert.name = alert.name
+    },
+    deleteAlert() {
+      var self = this
+      axios.post('/api/alert/delete/', {id: this.confirm.alert.id})
+      .then(function(response) {
+        self.alerts = response.data
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
     }
   },
   created() {
@@ -100,6 +172,22 @@ new Vue({
     axios.get('/api/user/active/queries/')
     .then(function(response) {
       self.queries = response.data
+    })
+    .catch(function(error) {
+      console.error(error)
+    })
+    // get visualizations
+    axios.get('/api/user/active/visualizations/')
+    .then(function(response) {
+      self.visualizations = response.data
+    })
+    .catch(function(error) {
+      console.error(error)
+    })
+    // get alerts
+    axios.get('/api/user/active/alerts/')
+    .then(function(response) {
+      self.alerts = response.data
     })
     .catch(function(error) {
       console.error(error)

@@ -26,3 +26,25 @@ const POPUP = function(url, name, ratio, main) {
   var y = main.top.outerHeight/2 + main.top.screenY - (h/2)
   window.open(url, name, `width=${w}, height=${h}, top=${y}, left=${x}, toolbar=no, directories=no, status=no, menubar=no, copyhistory=no`)
 }
+
+// Send to datawrapper
+const DATAWRAPPER = function(settings, title, description) {
+  if (!_.isUndefined(settings)) {
+    settings.title = title
+    settings.description = description
+    let form = document.createElement('form')
+    form.setAttribute('method', 'post')
+    form.setAttribute('target', '_blank')
+    form.setAttribute('action', 'https://app.datawrapper.de/create/')
+    _.forEach(_.keys(settings), function(key) {
+      let input = document.createElement('input')
+      input.setAttribute('type', 'hidden')
+      input.setAttribute('name', key)
+      input.setAttribute('value', key === 'metadata' ? JSON.stringify(settings[key]) : settings[key])
+      form.appendChild(input)
+    })
+    document.body.appendChild(form)
+    form.submit()
+    document.body.removeChild(form)
+  }
+}

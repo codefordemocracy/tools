@@ -1,0 +1,38 @@
+{% extends "index.html.j2" %}
+{% block title %}View Visualization | {% endblock %}
+
+{% block html %}
+
+<div id="main" class="bg-light p-5 flex flex-col min-h-screen" v-cloak>
+  <template v-if="!_.isEmpty(visualization)">
+    <div class="bg-white border border-secondary p-5">
+      <h3 class="text-xl font-light text-dark-gray">{{visualization.name}}</h3>
+      <p class="font-light text-sm text-muted mb-3">{{visualization.id}}</p>
+      <div class="mb-5">
+        <a :href="'/create/visualization/?action=clone&id=' + visualization.id" class="btn btn-sm btn-gray mb-2" target="_blank">Clone Visualization</a>
+        <button class="btn btn-sm btn-secondary mb-2" @click="DATAWRAPPER(datawrapper, visualization.name, visualization.description)" v-if="!_.isNull(datawrapper)">Send to Datawrapper</button>
+      </div>
+      <div class="bg-xlight text-dark text-xs p-3">
+        <vizdisplayer :viz="visualization" :hide="['visibility', 'name', 'id']" :ratio="ratio"></vizdisplayer>
+      </div>
+    </div>
+    <div class="bg-white border border-secondary p-5 mt-5" v-if="!_.isNull(query)">
+      <vizreviewer :category="visualization.category" :query="query" :aggregations="visualization.aggregations" @datawrapper="updateDatawrapper"></vizreviewer>
+    </div>
+  </template>
+  <div class="bg-white border border-secondary p-5" v-else-if="loaded">
+    <p class="text-xs">This visualization could not be found.</p>
+  </div>
+  {% if mode != "popup" %}
+    <p class="text-xs pt-5 mt-auto">[[copyright()]]</p>
+  {% endif %}
+</div>
+
+{% endblock %}
+{% block scripts %}
+
+<script src="[[ url_for('static', filename='js/blocks/visualization/vizdisplayer.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/blocks/visualization/vizreviewer.js') ]]"></script>
+<script src="[[ url_for('static', filename='js/modules/workflow/visualization/popup/view.js') ]]"></script>
+
+{% endblock %}

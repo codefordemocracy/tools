@@ -9,9 +9,12 @@ new Vue({
     'tab': tabbed.tab,
     'querysearcher': querysearcher,
     'multiselect': window.VueMultiselect.default,
-    'datatable': datatable
+    'vizreviewer': vizreviewer
   },
   data: {
+    visualization: {
+      id: null
+    },
     category: null,
     query: undefined,
     aggregations: {
@@ -22,12 +25,7 @@ new Vue({
         groupby: []
       }
     },
-    loaded: false,
-    formatted: {
-      count: null,
-      columns: [],
-      pages: []
-    },
+    datawrapper: null,
     save: {
       name: null,
       description: null
@@ -40,35 +38,16 @@ new Vue({
     build() {
       let obj = {
         category: this.category,
-        aggregations: this.aggregations.settings
+        aggregations: this.aggregations.settings,
+        name: this.save.name,
+        description: this.save.description,
+        datawrapper: !_.isNull(this.datawrapper)
+      }
+      if (!_.isEmpty(this.visualization.id)) {
+        obj.id = this.visualization.id
       }
       if (!_.isUndefined(this.query)) {
         obj.query = this.query.selected.id
-        // datawrapper
-        if (obj.category != "network") {
-          obj.datawrapper = {
-            source_name: 'Code for Democracy',
-            source_url: ROOTURL + '/view/query/?id=' + obj.query + '&mode=popup',
-            data: '',
-            title: this.save.name,
-            description: this.save.description
-          }
-          if (obj.category == 'table') {
-            obj.datawrapper.type = 'tables'
-          } else if (obj.category == 'chart') {
-            obj.datawrapper.type = 'd3-bars'
-          } else if (obj.category == 'map') {
-            obj.datawrapper.type = 'd3-maps-choropleth'
-          }
-          if (this.formatted.count > 0) {
-            obj.datawrapper.data += _.join(this.formatted.columns, ';')
-            _.forEach(this.formatted.pages, function(page) {
-              _.forEach(page, function(row) {
-                obj.datawrapper.data += '\n' + _.join(_.values(row), ';')
-              })
-            })
-          }
-        }
       }
       return obj
     },
@@ -80,6 +59,9 @@ new Vue({
     updateQuery(payload) {
       this.query = payload
     },
+    updateDatawrapper(payload) {
+      this.datawrapper = payload
+    },
     submit() {
       let endpoint = '/api/visualization/create/'
       if (this.$route.query.action == 'edit') {
@@ -87,23 +69,7 @@ new Vue({
       }
       this.$store.dispatch('workflow/submit', {endpoint: endpoint, payload: this.build})
       // send to datawrapper
-      var self = this
-      if (!_.isUndefined(this.build.datawrapper)) {
-        let form = document.createElement('form')
-        form.setAttribute('method', 'post')
-        form.setAttribute('target', '_blank')
-        form.setAttribute('action', 'https://app.datawrapper.de/create/')
-        _.forEach(_.keys(this.build.datawrapper), function(key) {
-          let input = document.createElement('input')
-          input.setAttribute('type', 'hidden')
-          input.setAttribute('name', key)
-          input.setAttribute('value', key === 'metadata' ? JSON.stringify(self.build.datawrapper[key]) : self.build.datawrapper[key])
-          form.appendChild(input)
-        })
-        document.body.appendChild(form)
-        form.submit()
-        document.body.removeChild(form)
-      }
+      DATAWRAPPER(this.build.datawrapper, this.save.name, this.save.description)
     }
   },
   watch: {
@@ -139,7 +105,7 @@ new Vue({
         if (_.isEmpty(this.aggregations.settings.columns) || !_.isEmpty(this.aggregations.settings.groupby)) {
           store.commit('workflow/valid', 3)
         }
-        if (this.loaded) {
+        if (this.build.category != 'network' && !_.isNull(this.datawrapper)) {
           store.commit('workflow/valid', 4)
         }
         if (!_.isEmpty(this.save.name) && !_.isEmpty(this.save.description)) {
@@ -172,24 +138,40 @@ new Vue({
     aggregations: {
       deep: true,
       handler() {
-        this.loaded = false
+        this.datawrapper = null
       }
     }
   },
   created() {
     var self = this
-    this.$store.watch((state) => state.workflow.tab, (newVal, oldVal) => {
-      if (self.buildable && newVal == 4 && !this.loaded) {
-        // get formatted data
-        axios.post('/api/visualization/aggregations/results/', {query: self.query.selected, aggregations: self.build.aggregations})
-        .then(function(response) {
-          self.formatted = response.data
-          self.loaded = true
+    // get id for edit or clone workflow
+    if (_.includes(['edit', 'clone'], this.$route.query.action) && !_.isUndefined(this.$route.query.id)) {
+      this.visualization.id = this.$route.query.id
+    }
+    // load data for edit or clone workflow
+    if (!_.isUndefined(this.$route.query.id)) {
+      axios.post('/api/visualization/meta/', {id: this.$route.query.id})
+      .then(function(response) {
+        self.category = response.data.category
+        self.query = {
+          filters: {
+            visibility: 'all',
+            term: null
+          },
+          selected: {
+            id: response.data.query
+          }
+        }
+        _.forEach(_.keys(response.data.aggregations.apply), function(c) {
+          Vue.set(self.aggregations.settings.apply, c, response.data.aggregations.apply.c)
         })
-        .catch(function(error) {
-          console.error(error)
-        })
-      }
-    })
+        self.aggregations.settings = response.data.aggregations
+        self.save.name = response.data.name
+        self.save.description = response.data.description
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
+    }
   }
 })
