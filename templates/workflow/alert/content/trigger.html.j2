@@ -1,3 +1,17 @@
-<div class="bg-white border border-secondary p-5">
-  <div class="flex justify-center items-center text-xs text-dark px-5 py-10">This feature is coming soon.</div>
+<div class="bg-white border border-secondary p-5 form-full form-sm form-nosubmit">
+  <div class="form-group">
+    <label class="label">Trigger Event:</label>
+    <p class="form-text-top">Select the type of event that will trigger the alert.</p>
+    <select class="form-element" v-model="trigger.event">
+      <option value="new_results">New results available</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label class="label">Max Frequency:</label>
+    <p class="form-text-top">Enter the maximum frequency of alerts you will receive. If you choose to receive weekly alerts, you will receive up to one alert each week even if the trigger event occurs daily.</p>
+    <select class="form-element" v-model="trigger.frequency">
+      <option value="weekly">Weekly</option>
+      <option value="daily">Daily</option>
+    </select>
+  </div>
 </div>

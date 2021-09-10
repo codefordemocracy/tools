@@ -71,6 +71,8 @@
   {% endif %}
 
   {% if output == 'alert' %}
+  <script src="[[ url_for('static', filename='js/blocks/query/querydisplayer.js') ]]"></script>
+  <script src="[[ url_for('static', filename='js/blocks/query/querysearcher.js') ]]"></script>
   {% endif %}
 
 <script src="[[ url_for('static', filename='js/modules/workflow.js') ]]"></script>
