@@ -1,2 +1,5 @@
 <h5 class="text-2xl text-dark-gray mb-2">Save Visualization</h5>
 <p class="font-light text-sm leading-relaxed">Add metadata to your visualization and save it to in order to send it to the visualization engine.</p>
+<template v-if="_.includes(store.state.workflow.valid, store.state.workflow.tab-1)">
+  <p class="text-xs mt-3" v-if="category != 'network'">You will be prompted to create a new visualization in <a href="https://www.datawrapper.de/" target="_blank">Datawrapper</a>.</p>
+</template>
