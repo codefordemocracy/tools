@@ -1,6 +1,6 @@
-<div class="bg-white border border-secondary p-5 form-full form-sm form-nosubmit">
+<div class="bg-white border border-secondary p-5 form-full form-sm">
   <div class="form-group">
-    <label class="label">Visibility:</label>
+    <label class="label">Visibility<span class="text-info">*</span></label>
     <p class="form-text-top">Public lists are visible to other users. Hidden lists are only visible to you.</p>
     <select class="form-element" v-model="list.visibility">
       <option value="public">Public</option>
@@ -8,13 +8,14 @@
     </select>
   </div>
   <div class="form-group">
-    <label class="label">Name:</label>
+    <label class="label">Name<span class="text-info">*</span></label>
     <p class="form-text-top">Enter a name for the list.</p>
     <input class="form-element" type="text" v-model="list.name" placeholder="Top Entities"></input>
   </div>
   <div class="form-group">
-    <label class="label">Description:</label>
+    <label class="label">Description<span class="text-info">*</span></label>
     <p class="form-text-top">Enter a description for the list.</p>
     <textarea class="form-element" v-model="list.description" placeholder="Sourced from https://example.com/top-100/" rows="3"></textarea>
   </div>
+  <p class="text-xs text-muted"><span class="text-info">*</span>This field is required.</p>
 </div>

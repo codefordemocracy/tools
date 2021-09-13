@@ -6,7 +6,7 @@
         </div>
         <div slot="body">
             <div class="form-group">
-                <label class="label">Labels:</label>
+                <label class="label">Labels</label>
                 <div class="grid grid-cols-3 gap-1.5 text-xs text-center text-white">
                     <div class="grid grid cols-1 gap-1.5">
                       <div class="rounded-full px-3 py-1" style="background-color: #005bae;">Candidate</div>
@@ -60,7 +60,7 @@
         </div>
         <div slot="body" class="form-sm form-full">
             <div class="form-group">
-                <label class="label">Layout:</label>
+                <label class="label">Layout</label>
                 <select class="form-element" v-model="layout">
                     <option value="cose">CoSE</option>
                     <option value="circle">Circle</option>
@@ -85,7 +85,7 @@
         <div slot="body" class="form-sm form-full">
             <div class="form-group">
               <div class="flex justify-between items-start">
-                  <label class="label">Labels:</label>
+                  <label class="label">Labels</label>
                   <div class="text-xs text-primary">
                       <a href="javascript:void(0);" @click="all(true)" class="mr-3">Select All</a>
                       <a href="javascript:void(0);" @click="all(false)">Unselect All</a>
@@ -95,11 +95,11 @@
                 <toggle class="mb-1" :sync="true" v-model="labels.committee"><span slot="text">Committee</span></toggle>
             </div>
             <div class="form-group">
-                <label class="label">Minimum transaction amount:</label>
+                <label class="label">Minimum transaction amount</label>
                 <input class="form-element" v-model="minTransactionAmt" type="number" min="1" max="999999999" />
             </div>
             <div class="form-group">
-                <label class="label">limit:</label>
+                <label class="label">limit</label>
                 <input class="form-element" v-model="limit" type="number" min="1" max="100000" />
             </div>
         </div>
@@ -118,7 +118,7 @@
         <div slot="body" class="form-sm form-full">
             <div class="form-group">
               <div class="flex justify-between items-start">
-                  <label class="label">Labels:</label>
+                  <label class="label">Labels</label>
                   <div class="text-xs text-primary">
                       <a href="javascript:void(0);" @click="all(true)" class="mr-3">Select All</a>
                       <a href="javascript:void(0);" @click="all(false)">Unselect All</a>
@@ -163,12 +163,12 @@
             </div>
             <div v-if="store.state.explore.advanced == true" class="mt-2">
                 <div class="form-group">
-                    <label class="label">Limit:</label>
+                    <label class="label">Limit</label>
                     <p class="form-text-top">Number of results returned per expansion.</p>
                     <input class="form-element" v-model="pagination.limit" type="number" min="0" max="300" />
                 </div>
                 <div class="form-group">
-                    <label class="label">Page:</label>
+                    <label class="label">Page</label>
                     <p class="form-text-top">By default, only the first page of results is returned for each expansion. Increment this number to get additional results.</p>
                     <input class="form-element" v-model="pagination.page" type="number" min="1" max="99999" />
                 </div>
@@ -194,21 +194,21 @@
         </div>
         <div slot="body" class="form-sm form-full">
             <div class="form-group">
-                <label class="label">Type of Filter:</label>
+                <label class="label">Type of Filter</label>
                 <select class="form-element select" v-model="filter.type">
                     <option value="degree">Degree</option>
                     <option value="label">Label</option>
                 </select>
             </div>
             <div class="form-group" v-if="filter.type == 'degree'">
-                <label class="label">Degree Cutoff:</label>
+                <label class="label">Degree Cutoff</label>
                 <p class="form-text-top">Nodes with fewer than this number of edges will be selected.</p>
                 <input class="form-element" v-model="filter.degree" type="number" min="1" />
             </div>
             <div class="form-group" v-if="filter.type == 'label'">
 
                 <div class="flex justify-between items-start">
-                    <label class="label">Choose Labels:</label>
+                    <label class="label">Choose Labels</label>
                     <div class="text-xs text-primary">
                         <a href="javascript:void(0);" @click="all(true)" class="mr-3">Select All</a>
                         <a href="javascript:void(0);" @click="all(false)">Unselect All</a>

@@ -1,19 +1,19 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-  <div class="form-full form-sm form-nosubmit preview-form-wrapper">
+  <div class="form-full form-sm preview-form-wrapper">
     <div class="form-group" v-if="_.includes([null, 'person', 'organization'], list.type)">
-      <label class="label">Subtype:</label>
+      <label class="label">Subtype<span class="text-info">*</span></label>
       <p class="form-text-top">Tell us a little more about the type of {{_.isNull(list.type) ? 'entity' : list.type}} in your list.</p>
       <select class="form-element" v-model="list.subtype">
         <option v-for="o in subtypes" :value="o">{{o}}</option>
       </select>
     </div>
     <div class="form-group" v-if="_.includes([null, 'candidate', 'donor', 'committee', 'employer', 'job', 'topic'], list.subtype)">
-      <label class="label">Terms:</label>
+      <label class="label">Terms<span class="text-info">**</span></label>
       <p class="form-text-top">Separate search terms using commas.</p>
       <textarea class="form-element" v-model="list.include.terms" :placeholder="placeholder.terms"></textarea>
     </div>
     <div class="form-group" v-if="_.includes([null, 'candidate', 'committee', 'topic'], list.subtype)">
-      <label class="label">IDs:</label>
+      <label class="label">IDs<span class="text-info">**</span></label>
       <p class="form-text-top">
         Paste one ID per line.
         <span v-if="list.subtype == 'candidate'">Use Candidate IDs provided by the FEC.</span>
@@ -22,6 +22,8 @@
       </p>
       <textarea class="form-element" rows=10 v-model="list.include.ids" :placeholder="placeholder.ids"></textarea>
     </div>
+    <p class="text-xs text-muted"><span class="text-info">*</span>This field is required.</p>
+    <p class="text-xs text-muted"><span class="text-info">**</span>At least one of these fields must be filled out.</p>
   </div>
   <div class="bg-light p-3 relative overflow-scroll text-xs my-1 md:item-stretch preview-pre-wrapper">
     <small class="rounded-sm bg-gray-80 text-white p-1 absolute top-1 right-1 leading-none">PREVIEW</small>

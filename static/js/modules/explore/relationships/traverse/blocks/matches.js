@@ -94,15 +94,15 @@ const matches = {
         </div>
         <div slot="body" class="form-sm form-full pb-12 mb-5">
           <div class="form-group">
-            <label class="label">Min <span v-if="intermediaries == 'contribution'">Contribution </span><span v-else-if="intermediaries == 'expenditure'">Expenditure </span>Date:</label>
+            <label class="label">Min <span v-if="intermediaries == 'contribution'">Contribution </span><span v-else-if="intermediaries == 'expenditure'">Expenditure </span>Date</label>
             <datepicker v-model="refine.dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="refine.disabledDates"></datepicker>
           </div>
           <div class="form-group">
-            <label class="label">Max <span v-if="intermediaries == 'contribution'">Contribution </span><span v-else-if="intermediaries == 'expenditure'">Expenditure </span>Date:</label>
+            <label class="label">Max <span v-if="intermediaries == 'contribution'">Contribution </span><span v-else-if="intermediaries == 'expenditure'">Expenditure </span>Date</label>
             <datepicker v-model="refine.dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="refine.disabledDates"></datepicker>
           </div>
           <div class="form-group" v-if="intermediaries == 'contribution' && api.payload.entity != 'donor' && api.payload.entity2 != 'donor'">
-            <label class="label">Direction of Contributions:</label>
+            <label class="label">Direction of Contributions</label>
             <select v-model="refine.direction" class="form-element select pr-3">
               <option value="all">All</option>
               <option value="receipts">Receipts</option>
@@ -110,7 +110,7 @@ const matches = {
             </select>
           </div>
           <div class="form-group" v-if="intermediaries == 'expenditure'">
-            <label class="label">Support vs. Oppose:</label>
+            <label class="label">Support vs. Oppose</label>
             <select v-model="refine.sup_opp" class="form-element select pr-3">
               <option value="all">All</option>
               <option value="S">Support</option>
@@ -130,14 +130,14 @@ const matches = {
         </div>
         <div slot="body" class="form-sm form-full pb-12 mb-5">
           <div class="form-group">
-            <label class="label">Format:</label>
+            <label class="label">Format</label>
             <select v-model="download.format" class="form-element select pr-3">
               <option value="csv">CSV</option>
               <option value="json">JSON</option>
             </select>
           </div>
           <div class="form-group">
-            <label class="label">Page:</label>
+            <label class="label">Page</label>
             <p class="form-text-top">Each page will contain up to 1000 matches.</p>
             <input class="form-element" v-model="download.page" type="number" min="1" />
           </div>

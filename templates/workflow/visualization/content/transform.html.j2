@@ -1,17 +1,18 @@
-<div class="bg-white border border-secondary p-5 form-full form-sm form-nosubmit">
+<div class="bg-white border border-secondary p-5 form-full form-sm" :class="_.isEmpty(aggregations.settings.columns) ? 'form-nosubmit' : ''">
   <div class="form-group">
-    <label class="label">Columns for Aggregation:</label>
+    <label class="label">Columns for Aggregation</label>
     <p class="form-text-top">The values in these columns will be aggregated.</p>
     <multiselect class="text-xs" v-model="aggregations.settings.columns" :options="_.keys(aggregations.options)" :multiple="true"></multiselect>
   </div>
   <div class="form-group" v-for="col in aggregations.settings.columns">
-    <label class="label">Aggregation for <span class="font-medium text-pink">{{col}}</span>:</label>
+    <label class="label">Aggregation for <span class="font-medium text-pink">{{col}}</span><span class="text-info">*</span></label>
     <p class="form-text-top">This is the aggregation that will be performed on the values in this column.</p>
     <multiselect class="text-xs" v-model="aggregations.settings.apply[col]" :options="aggregations.options[col]" :multiple="false"></multiselect>
   </div>
   <div class="form-group">
-    <label class="label">Group By:</label>
+    <label class="label">Group By<span class="text-info" v-if="!_.isEmpty(aggregations.settings.columns)">*</span></label>
     <p class="form-text-top">These columns will be used to describe the groups the aggregated values are aggregated across.</p>
     <multiselect class="text-xs" v-model="aggregations.settings.groupby" :options="_.difference(_.keys(this.aggregations.options), this.aggregations.settings.columns)" :multiple="true"></multiselect>
   </div>
+  <p class="text-xs text-muted" v-if="!_.isEmpty(aggregations.settings.columns)"><span class="text-info">*</span>This field is required.</p>
 </div>

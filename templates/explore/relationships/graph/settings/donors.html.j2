@@ -1,30 +1,30 @@
 <h6 class="text-lg text-dark-gray mb-2">Search Donors</h6>
 <p class="text-xs mb-4">You can search donors by name<span v-if="store.state.explore.advanced == true">, employer, occupation, state, or zip code and filter contributions by date</span>:</p>
 <div class="form-group">
-  <label class="label">Name:</label>
+  <label class="label">Name</label>
   <typeahead ul="text-xs" input="form-element" v-model="search.donors.name" :items="PLACEHOLDERS.donor"></typeahead>
 </div>
 <div v-if="store.state.explore.advanced == true">
   <div class="form-group">
-    <label class="label">Employer:</label>
+    <label class="label">Employer</label>
     <input class="form-element" type="text" v-model="search.donors.employer" />
   </div>
   <div class="form-group">
-    <label class="label">Occupation:</label>
+    <label class="label">Occupation</label>
     <input class="form-element" type="text" v-model="search.donors.occupation" />
   </div>
   <div class="form-group">
-    <label class="label">State:</label>
+    <label class="label">State</label>
     <select class="form-element select" v-model="search.donors.state">
       {% include "/explore/relationships/graph/snippets/states.html.j2" %}
     </select>
   </div>
   <div class="form-group">
-    <label class="label">Zip Code:</label>
+    <label class="label">Zip Code</label>
     <input class="form-element" v-model="search.donors.zip_code" type="number" min="0" max="99999" />
   </div>
   <div class="form-group">
-    <label class="label">Entity Type:</label>
+    <label class="label">Entity Type</label>
     <select class="form-element select" v-model="search.donors.entity_tp" >
       <option value="all">All</option>
       <option value="IND">Individual</option>
@@ -32,26 +32,26 @@
     </select>
   </div>
   <div class="form-group">
-    <label class="label">Limit:</label>
+    <label class="label">Limit</label>
     <p class="form-text-top">Number of results returned per search.</p>
     <input class="form-element" v-model="search.pagination.limit" type="number" min="0" max="300" />
   </div>
   <div class="form-group">
-    <label class="label">Page:</label>
+    <label class="label">Page</label>
     <p class="form-text-top">By default, only the first page of results is returned for each search. Increment this number to get additional results.</p>
     <input class="form-element" v-model="search.pagination.page" type="number" min="1" max="99999" />
   </div>
   <div class="p-3 bg-light mb-4">
     <div class="form-group" :class="search.options.context ? '' : 'mb-0'">
-      <label class="label mb-1">Context:</label>
+      <label class="label mb-1">Context</label>
       <toggle v-model="search.options.context" :labels="{checked: 'Show', unchecked: 'Hide'}" :width=62><span slot="text">Connected Contributions</span></toggle>
     </div>
     <div class="form-group" v-if="search.options.context">
-      <label class="label">Min Date for Contributions:</label>
+      <label class="label">Min Date for Contributions</label>
       <datepicker v-model="search.dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates"></datepicker>
     </div>
     <div class="form-group mb-0" v-if="search.options.context">
-      <label class="label">Max Date for Contributions:</label>
+      <label class="label">Max Date for Contributions</label>
       <datepicker v-model="search.dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates"></datepicker>
     </div>
   </div>

@@ -1,18 +1,18 @@
 <h6 class="text-lg text-dark-gray mb-2">Search Candidates</h6>
 <p class="text-xs mb-4">You can search candidates by name<span v-if="store.state.explore.advanced == true">, party affiliation, office, state, or district</span>:</p>
 <div class="form-group">
-  <label class="label">Name:</label>
+  <label class="label">Name</label>
   <typeahead ul="text-xs" input="form-element" v-model="search.candidates.cand_name" :items="PLACEHOLDERS.candidate"></typeahead>
 </div>
 <div v-if="store.state.explore.advanced == true">
   <div class="form-group">
-    <label class="label">Party Affiliation:</label>
+    <label class="label">Party Affiliation</label>
     <select class="form-element select" v-model="search.candidates.cand_pty_affiliation" >
       {% include "/explore/relationships/graph/snippets/parties.html.j2" %}
     </select>
   </div>
   <div class="form-group">
-    <label class="label">Office:</label>
+    <label class="label">Office</label>
     <select class="form-element select" v-model="search.candidates.cand_office" >
       <option value="all">All</option>
       <option value="H">House</option>
@@ -21,19 +21,19 @@
     </select>
   </div>
   <div class="form-group">
-    <label class="label">State:</label>
+    <label class="label">State</label>
     <select class="form-element select" v-model="search.candidates.cand_office_st" :disabled="search.candidates.office == 'P'">
       {% include "/explore/relationships/graph/snippets/states.html.j2" %}
     </select>
   </div>
   <div class="form-group">
-    <label class="label">District:</label>
+    <label class="label">District</label>
     <select class="form-element select" v-model="search.candidates.cand_office_district" :disabled="search.candidates.office == 'P' || search.candidates.office == 'S'">
       {% include "/explore/relationships/graph/snippets/districts.html.j2" %}
     </select>
   </div>
   <div class="form-group">
-    <label class="label">Election Year:</label>
+    <label class="label">Election Year</label>
     <select class="form-element select" v-model="search.candidates.cand_election_yr">
       <option value="all">All</option>
       <option value="2020">2020</option>
@@ -42,7 +42,7 @@
     </select>
   </div>
   <div class="form-group">
-    <label class="label">Status:</label>
+    <label class="label">Status</label>
     <select class="form-element select" v-model="search.candidates.cand_ici">
       <option value="all">All</option>
       <option value="I">Incumbent</option>
@@ -51,18 +51,18 @@
     </select>
   </div>
   <div class="form-group">
-    <label class="label">Limit:</label>
+    <label class="label">Limit</label>
     <p class="form-text-top">Number of results returned per search.</p>
     <input class="form-element" v-model="search.pagination.limit" type="number" min="0" max="300" />
   </div>
   <div class="form-group">
-    <label class="label">Page:</label>
+    <label class="label">Page</label>
     <p class="form-text-top">By default, only the first page of results is returned for each search. Increment this number to get additional results.</p>
     <input class="form-element" v-model="search.pagination.page" type="number" min="1" max="99999" />
   </div>
   <div class="p-3 bg-light mb-4">
     <div class="form-group mb-0">
-      <label class="label">Context:</label>
+      <label class="label">Context</label>
       <toggle v-model="search.options.context" :labels="{checked: 'Show', unchecked: 'Hide'}" :width=62><span slot="text">Connected Committees</span></toggle>
     </div>
   </div>

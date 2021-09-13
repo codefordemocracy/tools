@@ -1,12 +1,12 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
   <div class="form-full form-sm form-nosubmit preview-form-wrapper">
     <div class="form-group" v-if="_.includes([null, 'candidate', 'donor', 'committee', 'employer', 'job', 'topic'], list.subtype)">
-      <label class="label">Terms:</label>
+      <label class="label">Terms</label>
       <p class="form-text-top">Separate excluded terms using commas.</p>
       <textarea class="form-element" v-model="list.exclude.terms" :placeholder="placeholder.terms"></textarea>
     </div>
     <div class="form-group" v-if="_.includes([null, 'candidate', 'committee', 'topic'], list.subtype)">
-      <label class="label">IDs:</label>
+      <label class="label">IDs</label>
       <p class="form-text-top">
         Paste one ID per line.
         <span v-if="list.subtype == 'candidate'">Use Candidate IDs provided by the FEC.</span>

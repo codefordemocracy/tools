@@ -14,7 +14,7 @@
     </template>
     <form @submit.prevent="search(0)" class="form-full form-sm" :class="store.state.explore.first ? 'grid md:grid-cols-2 lg:grid-cols-12 md:gap-x-5' : ''">
       <div class="form-group" :class="store.state.explore.first ? 'md:col-span-2 lg:col-span-2' : ''">
-        <label class="label">Document Type:</label>
+        <label class="label">Document Type</label>
         <select v-model="documents" class="form-element">
           <option value="articles">Articles</option>
           <option value="tweets">Tweets</option>
@@ -22,7 +22,7 @@
         </select>
       </div>
       <div class="form-group" :class="store.state.explore.first ? 'md:col-span-2 lg:col-span-4' : ''" v-if="documents == 'articles'">
-        <label class="label">Type of Source:</label>
+        <label class="label">Type of Source</label>
         <select v-model="group" class="form-element">
           <option value="questionable">Factually Questionable Sources</option>
           <option value="conspiracy">Conspiracy Sources</option>
@@ -37,28 +37,28 @@
         </select>
       </div>
       <div class="form-group" :class="store.state.explore.first ? 'md:col-span-2 lg:col-span-4' : ''" v-if="documents == 'tweets'">
-        <label class="label">Party of Candidate Tweeting:</label>
+        <label class="label">Party of Candidate Tweeting</label>
         <select v-model="group" class="form-element">
           <option value="dem">Democrat</option>
           <option value="rep">Republican</option>
         </select>
       </div>
       <div class="form-group" :class="store.state.explore.first ? 'md:col-span-2 lg:col-span-4' : ''" v-if="documents == 'ads'">
-        <label class="label">Ad Format:</label>
+        <label class="label">Ad Format</label>
         <select v-model="group" class="form-element">
           <option value="facebook">Facebook</option>
         </select>
       </div>
       <div class="form-group" :class="store.state.explore.first ? 'lg:col-span-3' : ''">
-        <label class="label">Min Publication Date:</label>
+        <label class="label">Min Publication Date</label>
         <datepicker v-model="dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates"></datepicker>
       </div>
       <div class="form-group" :class="store.state.explore.first ? 'lg:col-span-3' : ''">
-        <label class="label">Max Publication Date:</label>
+        <label class="label">Max Publication Date</label>
         <datepicker v-model="dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates"></datepicker>
       </div>
       <div class="form-group" :class="store.state.explore.first ? 'md:col-span-2 lg:col-span-10 lg:mb-0' : ''">
-        <label class="label">Search Term:</label>
+        <label class="label">Search Term</label>
         <typeahead ul="text-xs" input="form-element" v-model="term" :items="PLACEHOLDERS.topic"></typeahead>
       </div>
       <div :class="store.state.explore.first ? 'md:col-span-2 lg:pt-6' : ''">
