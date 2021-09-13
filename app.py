@@ -8,7 +8,7 @@ from cryptography.fernet import Fernet
 import datetime
 
 from vue import VueFlask
-from flask import render_template, request, Response, make_response, jsonify, session, redirect
+from flask import render_template, request, Response, make_response, jsonify, redirect
 from google.cloud import secretmanager
 import google.auth.transport.requests
 import google.oauth2.id_token
@@ -25,7 +25,6 @@ service_url = secrets.access_secret_version(request={"name": "projects/952416783
 fernet = Fernet(crypto_key)
 app = VueFlask(__name__)
 app.secret_key = secret_key
-app.permanent_session_lifetime = datetime.timedelta(hours=3)
 
 @app.context_processor
 def inject_now():
@@ -972,9 +971,7 @@ def route_api_user_public():
 
 @app.route("/api/user/active/", methods=["GET"])
 def route_api_user_active():
-    profile = action({"task": "get_active_user", "token": request.cookies.get('cfd'), "lists": session.get("lists")})
-    if profile and "lists" in session:
-        session.pop('lists', None)
+    profile = action({"task": "get_active_user", "token": request.cookies.get('cfd')})
     return jsonify(profile)
 
 # dashboard
