@@ -15,8 +15,8 @@ const listsearcher = {
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
       <div class="form-full form-sm -mb-2">
         <button class="btn flex justify-between items-center" :class="settings.selected.id == list.id ? 'btn-primary' : 'btn-secondary'" v-for="list in options" @click="settings.selected = list">
-          {{list.name}}
-          <i class="fas fa-check-circle" :class="!_.isNull(sequence) && settings.selected.id == list.id ? '' : 'invisible'"></i>
+          <span class="text-left">{{list.name}}</span>
+          <i class="fas fa-check-circle ml-4" :class="!_.isNull(sequence) && settings.selected.id == list.id ? '' : 'invisible'"></i>
         </button>
         <p v-if="_.isEmpty(preloaded) && !_.isNull(this.subtype)">Loading...</p>
         <p v-else-if="_.isEmpty(preloaded) && _.isNull(this.subtype)">Lists that match your search criteria will show up here.</p>

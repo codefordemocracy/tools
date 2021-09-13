@@ -15,8 +15,8 @@ const querysearcher = {
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
       <div class="form-full form-sm -mb-2">
         <button class="btn flex justify-between items-center" :class="settings.selected.id == query.id ? 'btn-primary' : 'btn-secondary'" v-for="query in options" @click="settings.selected = query">
-          {{query.name}}
-          <i class="fas fa-check-circle" :class="settings.selected.id == query.id ? '' : 'invisible'"></i>
+          <span class="text-left">{{query.name}}</span>
+          <i class="fas fa-check-circle ml-4" :class="settings.selected.id == query.id ? '' : 'invisible'"></i>
         </button>
         <p v-if="_.isEmpty(preloaded)">Loading...</p>
         <p v-else-if="!_.isEmpty(preloaded) && options.length == 0">There are no queries matching your search criteria.</p>
