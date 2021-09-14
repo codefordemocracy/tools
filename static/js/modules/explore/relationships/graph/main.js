@@ -561,11 +561,13 @@ new Vue({
     data: {
         labels: {
             committee: true,
-            donor: true,
-            employer: true
+            donor: true
         },
-        minTransactionAmt: 5000,
-        limit: 1000
+        min_transaction_amt: 5000,
+        pagination: {
+            limit: 30,
+            page: 1
+        }
     },
     methods: {
         all(value) {
@@ -586,8 +588,8 @@ new Vue({
                 ids: _.map(store.state.explore.selected, function(i) {
                   return parseInt(i.data.id)
                 }),
-                minTransactionAmt: this.minTransactionAmt,
-                limit: this.limit
+                min_transaction_amt: this.min_transaction_amt,
+                pagination: this.pagination
             })
             store.commit('explore/step', 'actions')
             store.commit('explore/flow', 'uncover donors')

@@ -593,8 +593,7 @@ def route_api_graph():
             endpoint = "/graph/uncover/donors/"
             qs["ids"] = make_api_string_from_comma_separated_numerical_input(data["ids"])
             qs["labels"] = make_api_string_from_comma_separated_text_input(data["labels"])
-            for key in ["minTransactionAmt", "limit"]:
-                qs[key] = json.dumps(int(data[key]))
+            qs["min_transaction_amt"] = data["min_transaction_amt"]
             elements = utilities.elements2cy(get(path(endpoint, qs)))
     return jsonify(elements)
 

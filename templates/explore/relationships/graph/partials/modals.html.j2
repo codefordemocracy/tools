@@ -80,7 +80,7 @@
     <modal :show="store.state.explore.uncoverdonors" @cancel="cancel()">
         <div slot="header">
             <h5 class="modal-title">Uncover Donors</h5>
-            <p class="modal-subtitle">Expand network to include contributors for selected {{store.state.explore.selected.length == 1 ? 'node' : 'nodes'}}.</p>
+            <p class="modal-subtitle">Expand the network to include contributors for the selected {{store.state.explore.selected.length == 1 ? 'node' : 'nodes'}} that meet the configured criteria.</p>
         </div>
         <div slot="body" class="form-sm form-full">
             <div class="form-group">
@@ -95,17 +95,31 @@
                 <toggle class="mb-1" :sync="true" v-model="labels.committee"><span slot="text">Committee</span></toggle>
             </div>
             <div class="form-group">
-                <label class="label">Minimum transaction amount</label>
-                <input class="form-element" v-model="minTransactionAmt" type="number" min="1" max="999999999" />
+                <label class="label">Minimum Transaction Amount</label>
+                <input class="form-element" v-model="min_transaction_amt" type="number" min="1" max="999999999" />
             </div>
-            <div class="form-group">
-                <label class="label">limit</label>
-                <input class="form-element" v-model="limit" type="number" min="1" max="100000" />
+            <div v-if="store.state.explore.advanced == true" class="mt-2">
+                <div class="form-group">
+                    <label class="label">Limit</label>
+                    <p class="form-text-top">Number of results returned per expansion.</p>
+                    <input class="form-element" v-model="pagination.limit" type="number" min="0" max="300" />
+                </div>
+                <div class="form-group">
+                    <label class="label">Page</label>
+                    <p class="form-text-top">By default, only the first page of results is returned for each expansion. Increment this number to get additional results.</p>
+                    <input class="form-element" v-model="pagination.page" type="number" min="1" max="99999" />
+                </div>
             </div>
         </div>
-        <div slot="footer" class="flex justify-end">
-            <button type="button" @click="cancel()" class="btn btn-sm btn-secondary mr-1">Cancel</button>
-            <button type="button" @click="submit()" class="btn btn-sm btn-gray">Uncover donors</button>
+        <div slot="footer" class="flex justify-between items-center">
+          <div class="text-primary text-xs">
+              <a href="javascript:void(0);" v-if="store.state.explore.advanced == false" @click="store.commit('explore/advanced', true)">Advanced +</a>
+              <a href="javascript:void(0);" v-if="store.state.explore.advanced == true" @click="store.commit('explore/advanced', false)">Advanced &ndash;</a>
+          </div>
+          <div>
+              <button type="button" @click="cancel()" class="btn btn-sm btn-secondary mr-1">Cancel</button>
+              <button type="button" @click="submit()" class="btn btn-sm btn-gray">Uncover Donors</button>
+          </div>
         </div>
     </modal>
 </div>
