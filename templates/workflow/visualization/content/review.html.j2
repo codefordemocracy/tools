@@ -1,4 +1,4 @@
 <div class="bg-white border border-secondary p-5">
-  <vizreviewer :category="category" :query="query.selected" :aggregations="build.aggregations" @datawrapper="updateDatawrapper" v-if="buildable"></vizreviewer>
+  <vizreviewer :category="category" :query="query.selected" :aggregations="build.aggregations" @datawrapper="updateDatawrapper" :download="review.download" @downloading="downloadingData" v-if="buildable"></vizreviewer>
   <div class="flex justify-center items-center text-xs text-dark px-5 py-10" v-else>The preview of your formatted query results will show up here.</div>
 </div>

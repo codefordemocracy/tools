@@ -21,7 +21,11 @@ new Vue({
     loaded: false,
     visualization: {},
     query: null,
-    datawrapper: null
+    review: {
+      datawrapper: null,
+      download: false,
+      downloading: 0
+    }
   },
   computed: {
     ratio() {
@@ -32,7 +36,15 @@ new Vue({
   },
   methods: {
     updateDatawrapper(payload) {
-      this.datawrapper = payload
+      this.review.datawrapper = payload
+    },
+    downloadingData(payload) {
+      if (payload == false) {
+        this.review.download = false
+        this.review.downloading = 0
+      } else {
+        this.review.downloading = payload
+      }
     }
   },
   created() {

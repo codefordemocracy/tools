@@ -5,8 +5,8 @@ const vizreviewer = {
   template: `
     <div>
       <p class="text-xs" v-if="!loaded">Loading...</p>
-      <p class="text-xs" v-else-if="formatted.count == 0">The settings you configured did not produce any rows of data.</p>
-      <datatable class="text-xs" :count="formatted.count" :columns="formatted.columns" :data="formatted.pages" :head="true" :options="{paginate: true, pagination: 'client', numpages: formatted.pages.length, limit: 20}" v-if="formatted.count > 0"></datatable>
+      <p class="text-xs" v-else-if="loaded && formatted.count == 0">The settings you configured did not produce any rows of data.</p>
+      <datatable class="text-xs" :count="formatted.count" :columns="_.keys(formatted.pages[0][0])" :data="formatted.pages" :head="true" :options="{paginate: true, pagination: 'client', numpages: formatted.pages.length, limit: 20}" v-else></datatable>
     </div>
   `,
   props: {
@@ -29,6 +29,10 @@ const vizreviewer = {
           groupby: []
         }
       }
+    },
+    download: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -36,8 +40,40 @@ const vizreviewer = {
       loaded: false,
       formatted: {
         count: null,
-        columns: [],
         pages: []
+      },
+      downloading: {
+        count: 0,
+        status: false
+      }
+    }
+  },
+  methods: {
+    downloadData(format) {
+      this.downloading.status = true
+      this.downloading.count = 0
+      var self = this
+      var all = []
+      if (this.formatted.count > 0) {
+        _.forEach(self.formatted.pages, function(page) {
+          all = _.concat(all, page)
+          self.downloading.count = all.length
+          self.$emit('downloading', self.downloading.count)
+          if (all.length == self.formatted.count) {
+            DOWNLOAD(all, format, 'viz')
+            self.downloading.status = false
+            self.$emit('downloading', false)
+          }
+        })
+      }
+    },
+  },
+  watch: {
+    download: function (newVal, oldVal){
+      if (newVal == 'csv') {
+        this.downloadData('csv')
+      } else if (newVal == 'json') {
+        this.downloadData('json')
       }
     }
   },
@@ -63,7 +99,7 @@ const vizreviewer = {
           datawrapper.type = 'd3-maps-choropleth'
         }
         if (self.formatted.count > 0) {
-          datawrapper.data += _.join(self.formatted.columns, ';')
+          datawrapper.data += _.join(_.keys(self.formatted.pages[0][0]), ';')
           _.forEach(self.formatted.pages, function(page) {
             _.forEach(page, function(row) {
               datawrapper.data += '\n' + _.join(_.values(row), ';')

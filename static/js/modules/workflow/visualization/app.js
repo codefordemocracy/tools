@@ -25,7 +25,11 @@ new Vue({
         groupby: []
       }
     },
-    datawrapper: null,
+    review: {
+      datawrapper: null,
+      download: false,
+      downloading: 0
+    },
     save: {
       name: null,
       description: null
@@ -41,7 +45,7 @@ new Vue({
         aggregations: this.aggregations.settings,
         name: this.save.name,
         description: this.save.description,
-        datawrapper: !_.isNull(this.datawrapper)
+        datawrapper: this.review.datawrapper
       }
       if (!_.isEmpty(this.visualization.id)) {
         obj.id = this.visualization.id
@@ -60,7 +64,15 @@ new Vue({
       this.query = payload
     },
     updateDatawrapper(payload) {
-      this.datawrapper = payload
+      this.review.datawrapper = payload
+    },
+    downloadingData(payload) {
+      if (payload == false) {
+        this.review.download = false
+        this.review.downloading = 0
+      } else {
+        this.review.downloading = payload
+      }
     },
     submit() {
       let endpoint = '/api/visualization/create/'
@@ -105,7 +117,7 @@ new Vue({
         if (_.isEmpty(this.aggregations.settings.columns) || !_.isEmpty(this.aggregations.settings.groupby)) {
           store.commit('workflow/valid', 3)
         }
-        if (this.build.category != 'network' && !_.isNull(this.datawrapper)) {
+        if (this.build.category != 'network' && !_.isNull(this.review.datawrapper)) {
           store.commit('workflow/valid', 4)
         }
         if (!_.isEmpty(this.save.name) && !_.isEmpty(this.save.description)) {
@@ -138,7 +150,7 @@ new Vue({
     aggregations: {
       deep: true,
       handler() {
-        this.datawrapper = null
+        this.review.datawrapper = null
       }
     }
   },

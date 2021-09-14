@@ -448,8 +448,7 @@ def route_api_visualization_aggregations_results():
     for i in range(math.ceil(len(df)/pagesize)):
         pages.append(df[i*pagesize:(i+1)*pagesize].to_dict('records'))
     obj = {
-        "count": df.size,
-        "columns": [i for i in df.columns],
+        "count": len(df.index),
         "pages": pages
     }
     return make_response(json.dumps(obj, default=utilities.convert))

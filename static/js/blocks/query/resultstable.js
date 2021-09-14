@@ -109,7 +109,7 @@ const resultstable = {
     }
   },
   watch: {
-    download: function (newVal, oldVal){
+    download: function (newVal, oldVal) {
       if (newVal == 'csv') {
         this.downloadResults('csv')
       } else if (newVal == 'json') {
