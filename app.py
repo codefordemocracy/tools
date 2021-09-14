@@ -586,7 +586,7 @@ def route_api_graph():
         if len(data["labels"]) > 0:
             endpoint = "/graph/traverse/neighbors/"
             qs["ids"] = make_api_string_from_comma_separated_numerical_input(data["ids"])
-            qs["labels"] = make_api_string_from_comma_separated_numerical_input(data["labels"])
+            qs["labels"] = make_api_string_from_comma_separated_text_input(data["labels"])
             elements = utilities.elements2cy(get(path(endpoint, qs)))
     elif data["type"] == "uncoverdonors":
         if len(data["ids"]) > 0:

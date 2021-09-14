@@ -3,7 +3,7 @@
     <div v-if="store.state.explore.selected.length > 0">
       <p class="text-xs">You've selected <b>{{store.state.explore.selected.length}} {{ store.state.explore.selected.length != 1 ? 'elements' : 'element' }}</b>. Below are details about them.</p>
       <div v-for="(element, index) in store.getters['explore/flatselected']">
-        <h6 class="text-lg text-dark-gray mt-3">{{_.startCase(element.element)}} #{{element.id}}</h6>
+        <h6 class="text-lg text-dark-gray mt-3 mb-1">{{_.startCase(element.element)}} #{{element.id}}</h6>
         <ul class="list-unstyled">
           <li v-for="(value, key) in element" v-if="key != 'element' && key != 'id' && key != 'date' && !(_.isArray(value) && _.isEmpty(value))" class="text-xs text-gray" :class="{ 'word-break' : key == 'url'}">
             <strong>{{key}}:</strong>
@@ -49,19 +49,20 @@
   </tab>
   <tab name="Actions" :selected="store.state.explore.tab == 'actions'" class="p-3">
     <h6 class="text-lg text-dark-gray mb-2">Select Elements</h6>
-    <button @click="store.commit('explore/smartselect', true)" type="button" class="btn btn-sm w-full btn-gray mb-4">Smart Select</button>
-    <h6 class="text-lg text-dark-gray mb-2">Add Elements</h6>
+    <button @click="store.commit('explore/smartselect', true)" type="button" class="btn btn-sm w-full btn-gray mb-2">Smart Select</button>
+    <h6 class="text-lg text-dark-gray my-2">Add Elements</h6>
     <button @click="store.commit('explore/expandnode', true)" type="button" class="btn btn-sm w-full btn-gray mb-2" :disabled="store.state.explore.selected.length == 0 || !(store.getters['explore/type'] == 'Node' || store.getters['explore/type'] == 'Nodes')">Expand Selected {{store.state.explore.selected.length == 1 ? 'Node' : 'Nodes'}}</button>
+    <button @click="store.commit('explore/undo', 'delete'); store.commit('explore/step', 'manipulations'); store.commit('explore/flow', 'undo last deletion')" type="button" class="btn btn-sm w-full btn-gray mb-2" :disabled="store.state.explore.diff.elementsToRemove.length == 0 || store.state.explore.lastaction != 'delete'">Undo Last Deletion</button>
+    <h6 class="text-lg text-dark-gray my-2">Analyze Elements</h6>
     <button @click="store.commit('explore/uncoverdonors', true)" type="button" class="btn btn-sm w-full btn-gray mb-2" :disabled="store.state.explore.selected.length == 0 || !(store.getters['explore/type'] == 'Node' || store.getters['explore/type'] == 'Nodes')">Uncover Donors</button>
-    <button @click="store.commit('explore/undo', 'delete'); store.commit('explore/step', 'manipulations'); store.commit('explore/flow', 'undo last deletion')" type="button" class="btn btn-sm w-full btn-gray mb-4" :disabled="store.state.explore.diff.elementsToRemove.length == 0 || store.state.explore.lastaction != 'delete'">Undo Last Deletion</button>
-    <h6 class="text-lg text-dark-gray mb-2">Remove Elements</h6>
+    <h6 class="text-lg text-dark-gray my-2">Remove Elements</h6>
     <button @click="store.commit('explore/delete'); store.commit('explore/step', 'manipulations'); store.commit('explore/flow', 'delete elements')" type="button" class="btn btn-sm w-full btn-gray mb-2" :disabled="store.state.explore.selected.length == 0">Delete Selected {{store.getters['explore/type']}}</button>
-    <button @click="store.commit('explore/undo', 'add'); store.commit('explore/step', 'manipulations'); store.commit('explore/flow', 'undo last addition')" type="button" class="btn btn-sm w-full btn-gray mb-4" :disabled="store.state.explore.diff.elementsToAdd.length == 0 || store.state.explore.lastaction != 'add'">Undo Last Addition</button>
-    <h6 class="text-lg text-dark-gray mb-2">Edit Display</h6>
+    <button @click="store.commit('explore/undo', 'add'); store.commit('explore/step', 'manipulations'); store.commit('explore/flow', 'undo last addition')" type="button" class="btn btn-sm w-full btn-gray mb-2" :disabled="store.state.explore.diff.elementsToAdd.length == 0 || store.state.explore.lastaction != 'add'">Undo Last Addition</button>
+    <h6 class="text-lg text-dark-gray my-2">Edit Display</h6>
     <button @click="store.commit('explore/runphysics', true)" type="button" class="btn btn-sm w-full btn-gray mb-2">Run Physics</button>
     <button @click="store.commit('explore/fit', true)" type="button" class="btn btn-sm w-full btn-gray mb-2">Reset Viewport</button>
-    <button @click="store.commit('explore/clear'); store.commit('explore/step', 'intro')" type="button" class="btn btn-sm w-full btn-gray mb-4">Clear Graph</button>
-    <h6 class="text-lg text-dark-gray mb-2">Export Graph</h6>
+    <button @click="store.commit('explore/clear'); store.commit('explore/step', 'intro')" type="button" class="btn btn-sm w-full btn-gray mb-2">Clear Graph</button>
+    <h6 class="text-lg text-dark-gray my-2">Export Graph</h6>
     <button @click="store.commit('explore/png', true)" type="button" class="btn btn-sm w-full btn-gray mb-2">Download Viewport as PNG</button>
     <button @click="DOWNLOAD(store.getters['explore/dataelements'], 'csv', 'elements')"type="button" class="btn btn-sm w-full btn-gray mb-2">Download Elements as CSV</button>
     <button @click="store.commit('explore/json', true)" type="button" class="btn btn-sm w-full btn-gray">Download Graph as JSON</button>

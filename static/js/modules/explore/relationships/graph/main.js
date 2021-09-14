@@ -539,8 +539,10 @@ new Vue({
             store.commit('explore/error', false)
             addData({
                 type: 'expandnode',
-                labels: mapLabels(self.labels),
-                ids: _.map(store.state.explore.selected, 'data.id'),
+                labels: mapLabels(this.labels),
+                ids: _.map(store.state.explore.selected, function(i) {
+                  return parseInt(i.data.id)
+                }),
                 pagination: this.pagination
             })
             store.commit('explore/step', 'actions')
@@ -581,7 +583,9 @@ new Vue({
             addData({
                 type: 'uncoverdonors',
                 labels: mapLabels(this.labels),
-                ids: _.map(store.state.explore.selected, 'data.id'),
+                ids: _.map(store.state.explore.selected, function(i) {
+                  return parseInt(i.data.id)
+                }),
                 minTransactionAmt: this.minTransactionAmt,
                 limit: this.limit
             })
