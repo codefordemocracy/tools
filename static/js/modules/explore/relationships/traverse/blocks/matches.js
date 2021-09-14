@@ -11,7 +11,7 @@ const matches = {
               <button class="dropdown-item" @click="unselectAllPage()" :disabled="numbranches > 0">Unselect All<template v-if="paginate"> on Page</template></button>
               <div class="dropdown-divider"></div>
             </template>
-            <button class="dropdown-item" @click="modals.download = true">Download Matches</button>
+            <button class="dropdown-item" @click="store.getters['auth/isVerified'] ? modals.download = true : store.commit('auth/verify', true)">Download Matches</button>
             <template v-if="interactions.selectable && paginate">
               <div class="dropdown-divider"></div>
               <button class="dropdown-item" @click="unselectAll()" :disabled="numbranches > 0">Unselect All</button>
@@ -144,7 +144,7 @@ const matches = {
         </div>
         <div slot="footer" class="flex justify-end">
           <button class="btn btn-sm btn-secondary mr-1" @click="modals.download = false">Cancel</button>
-          <button class="btn btn-sm btn-gray" @click="get(false, true); modals.download = false">Download Matches</button>
+          <button class="btn btn-sm btn-gray" @click="get(false, true); store.getters['auth/isVerified'] ? modals.download = false : store.commit('auth/verify', true)">Download Matches</button>
         </div>
       </modal>
     </div>

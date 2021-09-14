@@ -91,3 +91,21 @@ new Vue({
     }
   }
 })
+
+new Vue({
+  store,
+  el: '#verify',
+  methods: {
+    close() {
+      var self = this
+      axios.get('/api/user/active/')
+      .then(function(response) {
+        self.$store.commit('auth/profile', response.data)
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
+      this.$store.commit('auth/verify', false)
+    }
+  }
+})

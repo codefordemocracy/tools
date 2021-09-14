@@ -67,6 +67,20 @@
         <iframe slot="body" :src="store.state.auth.logout ? ACCOUNTURL + '/logout/?embed=true' : ''" width="100%" :height="window.innerHeight * 0.7" frameborder="0"></iframe>
       </modal>
     </div>
+    <div id="verify" v-cloak>
+      <modal :show="store.state.auth.verify" @cancel="close()">
+        <div slot="header">
+          <h5 class="modal-title">Verify Email</h5>
+          <p class="modal-subtitle">Before you can download any data, you must verify your email.</p>
+        </div>
+        <div slot="body">
+          <p class="text-xs">Please <a :href="ACCOUNTURL + '/portal/'" target="_blank">go to your account portal</a> and verify your email address. Once your email address has been verified, you will be able to download data from our platform.</p>
+        </div>
+        <div slot="footer" class="flex justify-end">
+          <button @click="close()" class="btn btn-sm btn-secondary">Close</button>
+        </div>
+      </modal>
+    </div>
     <!-- / modals -->
 
     <script src="//cdn.jsdelivr.net/npm/vue@2.6.12"></script>

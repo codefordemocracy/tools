@@ -39,7 +39,7 @@
       <button class="btn btn-sm btn-secondary" :class="store.state.workflow.tab > 1 && _.includes(store.state.workflow.valid, store.state.workflow.tab-1) ? 'visible' : 'invisible'" @click="store.state.workflow.tab--">&larr; Return to Previous Step</button>
       <button class="btn btn-sm btn-gray" :class="_.includes(store.state.workflow.valid, store.state.workflow.tab) ? 'visible' : 'invisible'" @click="store.state.workflow.tab++">Go to Next Step &rarr;</button>
       <template v-if="store.state.workflow.complete && store.state.workflow.tab == [[templates|length]]">
-        <button class="btn btn-sm btn-purple" @click="store.commit('auth/login', true)" v-if="store.state.auth.profile && _.isEmpty(store.state.auth.profile)">Log In to Continue</button>
+        <button class="btn btn-sm btn-purple" @click="store.commit('auth/login', true)" v-if="store.getters['auth/isLoaded'] && !store.getters['auth/isLoggedIn']">Log In to Continue</button>
         <button class="btn btn-sm btn-primary" :disabled="store.state.workflow.processing || store.state.workflow.success" @click="submit()" v-else>{{store.state.workflow.processing ? 'Processing...' : '[[action.capitalize() + ' ' + output.capitalize()]]'}}</button>
       </template>
     </div>

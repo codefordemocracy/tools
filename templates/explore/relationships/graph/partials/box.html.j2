@@ -63,8 +63,8 @@
     <button @click="store.commit('explore/fit', true)" type="button" class="btn btn-sm w-full btn-gray mb-2">Reset Viewport</button>
     <button @click="store.commit('explore/clear'); store.commit('explore/step', 'intro')" type="button" class="btn btn-sm w-full btn-gray mb-2">Clear Graph</button>
     <h6 class="text-lg text-dark-gray my-2">Export Graph</h6>
-    <button @click="store.commit('explore/png', true)" type="button" class="btn btn-sm w-full btn-gray mb-2">Download Viewport as PNG</button>
-    <button @click="DOWNLOAD(store.getters['explore/dataelements'], 'csv', 'elements')"type="button" class="btn btn-sm w-full btn-gray mb-2">Download Elements as CSV</button>
-    <button @click="store.commit('explore/json', true)" type="button" class="btn btn-sm w-full btn-gray">Download Graph as JSON</button>
+    <button @click="store.getters['auth/isVerified'] ? store.commit('explore/png', true) : store.commit('auth/verify', true)" type="button" class="btn btn-sm w-full btn-gray mb-2">Download Viewport as PNG</button>
+    <button @click="store.getters['auth/isVerified'] ? DOWNLOAD(store.getters['explore/dataelements'], 'csv', 'elements') : store.commit('auth/verify', true)" type="button" class="btn btn-sm w-full btn-gray mb-2">Download Elements as CSV</button>
+    <button @click="store.getters['auth/isVerified'] ? store.commit('explore/json', true) : store.commit('auth/verify', true)" type="button" class="btn btn-sm w-full btn-gray">Download Graph as JSON</button>
   </tab>
 </tabs>

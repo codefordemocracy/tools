@@ -9,7 +9,7 @@ const listsearcher = {
       <div class="flex sm:justify-end items-center sm:col-span-2">
         <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="all" value="all" v-model="settings.filters.visibility"><label for="all" class="mr-3">All Lists</label>
         <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="public" value="public" v-model="settings.filters.visibility"><label for="public" class="mr-3">Public Lists</label>
-        <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="hidden" value="hidden" v-model="settings.filters.visibility" :disabled="_.isEmpty(store.state.auth.profile)" :class="_.isEmpty(store.state.auth.profile) ? 'cursor-not-allowed border-gray-40' : ''"><label for="hidden" :class="_.isEmpty(store.state.auth.profile) ? 'cursor-not-allowed text-gray-40' : ''">Your Hidden Lists</label>
+        <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="hidden" value="hidden" v-model="settings.filters.visibility" :disabled="!store.getters['auth/isLoggedIn']" :class="!store.getters['auth/isLoggedIn'] ? 'cursor-not-allowed border-gray-40' : ''"><label for="hidden" :class="!store.getters['auth/isLoggedIn'] ? 'cursor-not-allowed text-gray-40' : ''">Your Hidden Lists</label>
       </div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">

@@ -10,11 +10,11 @@
       <p class="font-light text-sm text-muted mb-3">{{query.id}}</p>
       <div class="mb-5">
         <a :href="'/create/query/?action=clone&id=' + query.id" class="btn btn-sm btn-gray mb-2" target="_blank">Clone Query</a>
-        <button class="btn btn-sm btn-secondary mb-2" @click="results.download = 'csv'" :disabled="results.download == 'csv'">
+        <button class="btn btn-sm btn-secondary mb-2" @click="store.getters['auth/isVerified'] ? results.download = 'csv' : store.commit('auth/verify', true)" :disabled="results.download == 'csv'">
           <span v-if="results.download == 'csv'">Rows Processed: {{results.downloading | numbreviate}}<span v-if="results.count > 0"> of {{results.count | numbreviate}}</span></span>
           <span v-else>Download Results as CSV</span>
         </button>
-        <button class="btn btn-sm btn-secondary mb-2" @click="results.download = 'json'" :disabled="results.download == 'json'">
+        <button class="btn btn-sm btn-secondary mb-2" @click="store.getters['auth/isVerified'] ? results.download = 'json' : store.commit('auth/verify', true)" :disabled="results.download == 'json'">
           <span v-if="results.download == 'json'">Rows Processed: {{results.downloading | numbreviate}}<span v-if="results.count > 0"> of {{results.count | numbreviate}}</span></span>
           <span v-else>Download Results as JSON</span>
         </button>

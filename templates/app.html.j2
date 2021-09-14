@@ -19,10 +19,10 @@
         <a class="nav-link-chonk flex [[ 'active' if request.url_rule.endpoint == 'route_create_alert' ]]" href="[[ url_for('route_create_alert') ]]"><span class="nav-circle">D</span><span><small>CREATE AN</small><br/>Alert</span></a>
       </div>
       <div class="lg:flex lg:items-center lg:mr-1">
-        <template v-if="store.state.auth.profile">
+        <template v-if="store.getters['auth/isLoaded']">
           <div class="navbar-divider self-stretch lg:hidden"></div>
-          <a class="nav-link" href="javascript:void(0)" @click="store.commit('auth/login', true)" v-if="_.isEmpty(store.state.auth.profile)">Log In</a>
-          <a class="nav-link [[ 'active' if request.url_rule.endpoint == 'route_dashboard' ]]" href="[[ url_for('route_dashboard') ]]" v-else>@{{store.state.auth.profile.username}}</a>
+          <a class="nav-link [[ 'active' if request.url_rule.endpoint == 'route_dashboard' ]]" href="[[ url_for('route_dashboard') ]]" v-if="store.getters['auth/isLoggedIn']">@{{store.state.auth.profile.username}}</a>
+          <a class="nav-link" href="javascript:void(0)" @click="store.commit('auth/login', true)" v-else>Log In</a>
         </template>
         <div class="navbar-divider self-stretch lg:mx-2"></div>
         <a class="nav-link" href="https://docs.codefordemocracy.org/tools/" target="_blank">Documentation</a>

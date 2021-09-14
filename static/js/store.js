@@ -5,14 +5,40 @@ const authStore = {
   state: () => ({
     login: false,
     logout: false,
+    verify: false,
     profile: false
   }),
+  getters: {
+    isLoaded: state => {
+      return state.profile != false
+    },
+    isLoggedIn: state => {
+      return !_.isEmpty(state.profile)
+    },
+    isVerified: state => {
+      if (_.isEmpty(state.profile)) {
+        return false
+      }
+      return state.profile.verified
+    }
+  },
   mutations: {
     login (state, payload) {
       state.login = payload
     },
     logout (state, payload) {
       state.logout = payload
+    },
+    verify (state, payload) {
+      if (payload) {
+        if (_.isEmpty(state.profile)) {
+          state.login = true
+        } else {
+          state.verify = true
+        }
+      } else {
+        state.verify =false
+      }
     },
     profile (state, payload) {
       state.profile = payload
