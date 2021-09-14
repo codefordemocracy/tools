@@ -120,7 +120,7 @@ const matches = {
         </div>
         <div slot="footer" class="flex justify-end">
           <button class="btn btn-sm btn-secondary mr-1" @click="modals.refine = false">Cancel</button>
-          <button class="btn btn-sm btn-gray" @click="status.updating = true; get(true, false, false); status.refined = true; modals.refine = false">Update Matches</button>
+          <button class="btn btn-sm btn-gray" @click="status.updating = true; get(true, false); status.refined = true; modals.refine = false">Update Matches</button>
         </div>
       </modal>
       <modal :show="modals.download" @cancel="modals.download = false">
@@ -144,7 +144,7 @@ const matches = {
         </div>
         <div slot="footer" class="flex justify-end">
           <button class="btn btn-sm btn-secondary mr-1" @click="modals.download = false">Cancel</button>
-          <button class="btn btn-sm btn-gray" @click="get(false, true, false); modals.download = false">Download Matches</button>
+          <button class="btn btn-sm btn-gray" @click="get(false, true); modals.download = false">Download Matches</button>
         </div>
       </modal>
     </div>
@@ -263,7 +263,7 @@ const matches = {
       this.status.paging = true
       this.get()
     },
-    get(refine=false, download=false, inspect=false) {
+    get(refine=false, download=false) {
       var self = this
       let query = _.merge(this.api.payload, this.qs)
       if (this.status.refined == true) {
@@ -290,18 +290,6 @@ const matches = {
             downloadable.push(self.row(match))
           })
           DOWNLOAD(_.compact(downloadable), self.download.format, 'matches')
-        })
-        .catch(function(error) {
-          console.error(error)
-        })
-      } else if (inspect == true) {
-        query["limit"] = 1000
-        query["page"] = this.inspect.page
-        query["inspect"] = true
-        axios.post(this.api.endpoint, query)
-        .then(function(response) {
-          config = encodeURIComponent(_.map(response.data, 'config'))
-          window.open(ROOTURL + '/inspect/?source=config&string=' + config, '_blank')
         })
         .catch(function(error) {
           console.error(error)

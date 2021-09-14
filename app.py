@@ -654,7 +654,7 @@ def route_api_traverse_find():
             elif data["entity"] == "tweeter":
                 endpoint = "/graph/search/tweeters/"
                 qstring["username"] = term
-            if data.get("inspect") is True:
+            if data.get("config") is True:
                 elements.extend([{
                     "config": fernet.encrypt(path(endpoint, qstring).encode()).decode()
                 }])
@@ -697,7 +697,7 @@ def route_api_traverse_associations():
                     if data["sup_opp"] != "all":
                         qs["sup_opp"] = data["sup_opp"]
         endpoint = "/graph/traverse/associations/" + data["entity"] + "/" + data["entity2"] + "/"
-        if data.get("inspect") is True:
+        if data.get("config") is True:
             elements.append({
                 "config": fernet.encrypt(path(endpoint, qs).encode()).decode()
             })
@@ -740,7 +740,7 @@ def route_api_traverse_intersection():
                     if data["sup_opp"] != "all":
                         qs["sup_opp"] = data["sup_opp"]
         endpoint = "/graph/traverse/associations/" + data["entity"] + "/" + data["entity2"] + "/"
-        if data.get("inspect") is True:
+        if data.get("config") is True:
             elements.append({
                 "config": fernet.encrypt(path(endpoint, qs).encode()).decode()
             })
@@ -773,7 +773,7 @@ def route_api_traverse_intermediaries():
                     if data["sup_opp"] != "all":
                         qs["sup_opp"] = data["sup_opp"]
         endpoint = "/graph/traverse/intermediaries/" + data["entity"] + "/" + data["entity2"] + "/"
-        if data.get("inspect") is True:
+        if data.get("config") is True:
             elements.append({
                 "config": fernet.encrypt(path(endpoint, qs).encode()).decode()
             })
@@ -795,7 +795,7 @@ def route_api_traverse_contribution_contributor():
         qs["limit"] = str(data["limit"])
         qs["ids"] = str(data["ids"][0])
         endpoint = "/graph/traverse/relationships/contribution/contributor/"
-        if data.get("inspect") is True:
+        if data.get("config") is True:
             elements.append({
                 "config": fernet.encrypt(path(endpoint, qs).encode()).decode()
             })
@@ -817,7 +817,7 @@ def route_api_traverse_contribution_recipient():
         qs["limit"] = str(data["limit"])
         qs["ids"] = str(data["ids"][0])
         endpoint = "/graph/traverse/relationships/contribution/recipient/"
-        if data.get("inspect") is True:
+        if data.get("config") is True:
             elements.append({
                 "config": fernet.encrypt(path(endpoint, qs).encode()).decode()
             })
