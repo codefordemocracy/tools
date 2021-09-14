@@ -3,7 +3,7 @@ const querypaginator = {
     'querydisplayer': querydisplayer
   },
   template: `
-    <div>
+    <div :class="{'-mb-4': chunks.length == 1}">
       <div class="bg-xlight p-5 mb-4" v-for="query in chunks[page-1]">
         <querydisplayer :query="query" :hide="hide" :ratio="ratio"></querydisplayer>
         <div class="text-xs mt-3">

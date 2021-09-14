@@ -3,7 +3,7 @@ const vizpaginator = {
     'vizdisplayer': vizdisplayer
   },
   template: `
-    <div>
+    <div :class="{'-mb-4': chunks.length == 1}">
       <div class="bg-xlight p-5 mb-4" v-for="viz in chunks[page-1]">
         <vizdisplayer :viz="viz" :hide="hide" :ratio="ratio"></vizdisplayer>
         <div class="text-xs mt-3">

@@ -3,7 +3,7 @@ const alertpaginator = {
     'alertdisplayer': alertdisplayer
   },
   template: `
-    <div>
+    <div :class="{'-mb-4': chunks.length == 1}">
       <div class="bg-xlight p-5 mb-4" v-for="alert in chunks[page-1]">
         <alertdisplayer :alert="alert" :hide="hide" :ratio="ratio"></alertdisplayer>
         <div class="text-xs mt-3">

@@ -3,7 +3,7 @@ const listpaginator = {
     'listdisplayer': listdisplayer
   },
   template: `
-    <div>
+    <div :class="{'-mb-4': chunks.length == 1}">
       <div class="bg-xlight p-5 mb-4" v-for="list in chunks[page-1]">
         <listdisplayer :list="list" :hide="hide" :ratio="ratio"></listdisplayer>
         <div class="text-xs mt-3">

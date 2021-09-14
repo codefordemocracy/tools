@@ -36,7 +36,7 @@
         <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(filter('lists', filters.list.term, filters.list.visibility))">
           You don't have any {{filters.list.visibility == 'all' ? 'saved' : filters.list.visibility}} lists.
         </div>
-        <listpaginator :lists="filter('lists', filters.list.term, filters.list.visibility)" :hide="['visibility', 'created_by']" @toggle="toggleList" @confirm="confirmList"></listpaginator>
+        <listpaginator :lists="filter('lists', filters.list.term, filters.list.visibility)" :hide="['created_by']" @toggle="toggleList" @confirm="confirmList"></listpaginator>
       </tab>
       <tab name="Queries" class="p-5">
         <div class="form-full form-sm grid grid-cols-1 sm:grid-cols-3 gap-5 mb-5">
@@ -50,7 +50,7 @@
         <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(filter('queries', filters.query.term, filters.query.visibility))">
           You don't have any {{filters.query.visibility == 'all' ? 'saved' : filters.query.visibility}} queries.
         </div>
-        <querypaginator :queries="filter('queries', filters.query.term, filters.query.visibility)" :hide="['visibility', 'created_by']" @toggle="toggleQuery" @confirm="confirmQuery"></querypaginator>
+        <querypaginator :queries="filter('queries', filters.query.term, filters.query.visibility)" :hide="['created_by']" @toggle="toggleQuery" @confirm="confirmQuery"></querypaginator>
       </tab>
       <tab name="Visualizations" class="p-5">
         <div class="form-full form-sm grid grid-cols-1 sm:grid-cols-3 gap-5 mb-5">
@@ -59,7 +59,7 @@
         <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(filter('visualizations', filters.visualization.term))">
           You don't have any saved visualizations.
         </div>
-        <vizpaginator :visualizations="filter('visualizations', filters.visualization.term)" :hide="['visibility', 'created_by']" @confirm="confirmVisualization"></vizpaginator>
+        <vizpaginator :visualizations="filter('visualizations', filters.visualization.term)" :hide="['created_by']" @confirm="confirmVisualization"></vizpaginator>
       </tab>
       <tab name="Alerts" class="p-5">
         <div class="form-full form-sm grid grid-cols-1 sm:grid-cols-3 gap-5 mb-5">
@@ -68,7 +68,7 @@
         <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(filter('alerts', filters.alert.term))">
           You don't have any saved alerts.
         </div>
-        <alertpaginator :alerts="filter('alerts', filters.alert.term)" :hide="['visibility', 'created_by']" @confirm="confirmAlert"></alertpaginator>
+        <alertpaginator :alerts="filter('alerts', filters.alert.term)" :hide="['created_by']" @confirm="confirmAlert"></alertpaginator>
       </tab>
     </tabs>
   </template>
