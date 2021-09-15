@@ -308,7 +308,7 @@ const cytostyle = [{
 }, {
     'selector': 'node[label=\'Expenditure\']',
     'style': {
-        'content': function(ele) { return '$' + ele.data('properties').exp_amt.toLocaleString('en') },
+        'content': function(ele) { return '$' + ele.data('properties').transaction_amt.toLocaleString('en') },
         'background-color': '#e9c464',
         'border-color': '#e9c464'
     }
