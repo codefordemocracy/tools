@@ -49,7 +49,7 @@ const exploreStore = {
           }
           return 'Elements'
       },
-      label: (state) => {
+      labels: (state) => {
           return _.uniq(_.map(state.selected, 'data.label'))
       },
       dataelements: (state) => {

@@ -159,7 +159,11 @@ const network = {
                 if (self.$store.state.explore.selected.length > 0) {
                     contextMenu.showMenuItem('delete-selected');
                     contextMenu.hideMenuItem('select-all-nodes');
-                    contextMenu.showMenuItem('uncover-contributors');
+                    if (_.includes(self.$store.getters['explore/labels'], 'Committee')) {
+                        contextMenu.showMenuItem('uncover-contributors');
+                    } else {
+                        contextMenu.hideMenuItem('uncover-contributors');
+                    }
                     if (self.$store.getters['explore/type'] == 'Node') {
                         contextMenu.showMenuItem('node-expander');
                         contextMenu.hideMenuItem('nodes-expander');
