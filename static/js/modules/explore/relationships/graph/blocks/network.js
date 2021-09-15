@@ -124,6 +124,7 @@ const network = {
         this.$store.watch((state) => state.explore.elements, (newElements, oldElements) => {
 
             self.$store.commit('explore/diff', { newElements: newElements, oldElements: oldElements })
+            self.render = true
 
             // style selecting elements
             let styleSelected = function() {
@@ -142,7 +143,6 @@ const network = {
                 }
                 cy.layout({ name: self.$store.state.explore.layout }).run()
                 cy.elements().unlock()
-                self.render = true
             }
 
             // remove deleted elements
