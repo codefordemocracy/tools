@@ -76,10 +76,10 @@
         </div>
     </modal>
 </div>
-<div id="uncoverdonors" v-cloak>
-    <modal :show="store.state.explore.uncoverdonors" @cancel="cancel()">
+<div id="uncovercontributors" v-cloak>
+    <modal :show="store.state.explore.uncovercontributors" @cancel="cancel()">
         <div slot="header">
-            <h5 class="modal-title">Uncover Donors</h5>
+            <h5 class="modal-title">Uncover Contributors</h5>
             <p class="modal-subtitle">Expand the network to include contributors for the selected {{store.state.explore.selected.length == 1 ? 'node' : 'nodes'}} that meet the configured criteria.</p>
         </div>
         <div slot="body" class="form-sm form-full">
@@ -118,7 +118,7 @@
           </div>
           <div>
               <button type="button" @click="cancel()" class="btn btn-sm btn-secondary mr-1">Cancel</button>
-              <button type="button" @click="submit()" class="btn btn-sm btn-gray">Uncover Donors</button>
+              <button type="button" @click="submit()" class="btn btn-sm btn-gray">Uncover Contributors</button>
           </div>
         </div>
     </modal>

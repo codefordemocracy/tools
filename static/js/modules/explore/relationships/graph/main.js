@@ -32,7 +32,7 @@ const exploreStore = {
       runphysics: false,
       expandnode: false,
       smartselect: false,
-      uncoverdonors: false,
+      uncovercontributors: false,
   }),
   getters: {
       type: (state) => {
@@ -276,8 +276,8 @@ const exploreStore = {
       expandnode(state, payload) {
           state.expandnode = payload
       },
-      uncoverdonors(state, payload) {
-          state.uncoverdonors = payload
+      uncovercontributors(state, payload) {
+          state.uncovercontributors = payload
       },
       smartselect(state, payload) {
           state.smartselect = payload
@@ -553,7 +553,7 @@ new Vue({
 })
 
 new Vue({
-    el: '#uncoverdonors',
+    el: '#uncovercontributors',
     components: {
         'modal': modal,
         'toggle': toggle
@@ -577,13 +577,13 @@ new Vue({
             })
         },
         cancel() {
-            store.commit('explore/uncoverdonors', false)
+            store.commit('explore/uncovercontributors', false)
         },
         submit() {
             store.commit('explore/waiting', true)
             store.commit('explore/error', false)
             addData({
-                type: 'uncoverdonors',
+                type: 'uncovercontributors',
                 labels: mapLabels(this.labels),
                 ids: _.map(store.state.explore.selected, function(i) {
                   return parseInt(i.data.id)
@@ -592,7 +592,7 @@ new Vue({
                 pagination: this.pagination
             })
             store.commit('explore/step', 'actions')
-            store.commit('explore/flow', 'uncover donors')
+            store.commit('explore/flow', 'uncover contributors')
             this.cancel()
         }
     }

@@ -588,9 +588,9 @@ def route_api_graph():
             qs["ids"] = make_api_string_from_comma_separated_numerical_input(data["ids"])
             qs["labels"] = make_api_string_from_comma_separated_text_input(data["labels"])
             elements = utilities.elements2cy(get(path(endpoint, qs)))
-    elif data["type"] == "uncoverdonors":
+    elif data["type"] == "uncovercontributors":
         if len(data["ids"]) > 0:
-            endpoint = "/graph/uncover/donors/"
+            endpoint = "/graph/uncover/contributors/"
             qs["ids"] = make_api_string_from_comma_separated_numerical_input(data["ids"])
             qs["labels"] = make_api_string_from_comma_separated_text_input(data["labels"])
             qs["min_transaction_amt"] = data["min_transaction_amt"]

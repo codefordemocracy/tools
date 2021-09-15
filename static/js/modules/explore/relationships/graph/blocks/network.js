@@ -68,13 +68,13 @@ const network = {
                     }
                 },
                 {
-                    id: 'uncover-donors',
-                    content: 'Uncover Donors',
+                    id: 'uncover-contributors',
+                    content: 'Uncover Contributors',
                     selector: 'node',
                     coreAsWell: true,
                     show: false,
                     onClickFunction: function(e) {
-                        self.$store.commit('explore/uncoverdonors', true);
+                        self.$store.commit('explore/uncovercontributors', true);
                     }
                 },
                 {
@@ -159,7 +159,7 @@ const network = {
                 if (self.$store.state.explore.selected.length > 0) {
                     contextMenu.showMenuItem('delete-selected');
                     contextMenu.hideMenuItem('select-all-nodes');
-                    contextMenu.showMenuItem('uncover-donors');
+                    contextMenu.showMenuItem('uncover-contributors');
                     if (self.$store.getters['explore/type'] == 'Node') {
                         contextMenu.showMenuItem('node-expander');
                         contextMenu.hideMenuItem('nodes-expander');
@@ -183,7 +183,7 @@ const network = {
                 self.selectElement(cy.$(':selected').jsons());
                 contextMenu.hideMenuItem('node-expander');
                 contextMenu.hideMenuItem('nodes-expander');
-                contextMenu.hideMenuItem('uncover-donors');
+                contextMenu.hideMenuItem('uncover-contributors');
                 contextMenu.showMenuItem('select-all-nodes');
                 contextMenu.hideMenuItem('delete-selected');
             }, 100));
