@@ -88,7 +88,7 @@ const vizreviewer = {
       if (self.category != 'network') {
         let datawrapper = {
           source_name: 'Code for Democracy',
-          source_url: ROOTURL + '/view/query/?id=' + self.query.id + '&mode=popup',
+          source_url: ROOTURL + '/view/query/?id=' + self.query.id,
           data: ''
         }
         if (self.category == 'table') {
