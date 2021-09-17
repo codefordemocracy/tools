@@ -7,6 +7,7 @@ new Vue({
   components: {
     'tabs': tabbed.tabs,
     'tab': tabbed.tab,
+    'toggle': toggle,
     'listreviewer': listreviewer
   },
   data: {
@@ -25,6 +26,7 @@ new Vue({
       name: null,
       description: null
     },
+    exclude: false,
     preview: {
       include: [],
       exclude: []
@@ -81,11 +83,16 @@ C00027466
       if (!_.isNil(obj.include.ids)) {
         obj.include.ids = _.map(_.split(obj.include.ids, '\n'))
       }
-      if (!_.isNil(obj.exclude.terms)) {
-        obj.exclude.terms = _.map(_.split(obj.exclude.terms, ','))
-      }
-      if (!_.isNil(obj.exclude.ids)) {
-        obj.exclude.ids = _.map(_.split(obj.exclude.ids, '\n'))
+      if (this.exclude) {
+        if (!_.isNil(obj.exclude.terms)) {
+          obj.exclude.terms = _.map(_.split(obj.exclude.terms, ','))
+        }
+        if (!_.isNil(obj.exclude.ids)) {
+          obj.exclude.ids = _.map(_.split(obj.exclude.ids, '\n'))
+        }
+      } else {
+        obj.exclude.terms = null
+        obj.exclude.ids = null
       }
       return obj
     },
@@ -177,7 +184,11 @@ C00027466
           self.list.include.ids = self.list.include.ids.join('\n')
         }
         if (_.isUndefined(self.list.exclude)) {
-          self.list.exclude = {}
+          self.list.exclude = {
+            terms: null,
+            ids: null
+          }
+          self.exclude = false
         } else {
           if (!_.isNil(self.list.exclude.terms)) {
             self.list.exclude.terms = self.list.exclude.terms.join(', ')
