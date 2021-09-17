@@ -120,7 +120,7 @@ new Vue({
         if (this.build.category != 'network' && !_.isNull(this.review.datawrapper)) {
           store.commit('workflow/valid', 4)
         }
-        if (!_.isEmpty(this.save.name) && !_.isEmpty(this.save.description)) {
+        if (!_.isEmpty(this.save.name)) {
           store.commit('workflow/complete')
         }
       }

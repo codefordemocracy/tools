@@ -64,7 +64,7 @@ new Vue({
         if (!_.isEmpty(this.trigger.event) && !_.isEmpty(this.trigger.frequency)) {
           store.commit('workflow/valid', 2)
         }
-        if (!_.isEmpty(this.save.name) && !_.isEmpty(this.save.description)) {
+        if (!_.isEmpty(this.save.name)) {
           store.commit('workflow/complete')
         }
       }

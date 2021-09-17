@@ -124,7 +124,7 @@ new Vue({
           store.commit('workflow/valid', 3)
           store.commit('workflow/valid', 4)
         }
-        if (!_.isEmpty(this.build.visibility) && !_.isEmpty(this.build.name) && !_.isEmpty(this.build.description)) {
+        if (!_.isEmpty(this.build.visibility) && !_.isEmpty(this.build.name)) {
           store.commit('workflow/complete')
         }
       }
