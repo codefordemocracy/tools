@@ -29,7 +29,8 @@
           <input class="form-element sm:col-span-1" type="text" v-model="filters.list.term" placeholder="Filter lists by search term..."></input>
           <div class="flex sm:justify-end items-center sm:col-span-2 text-xs">
             <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="all" value="all" v-model="filters.list.visibility"><label for="all" class="mr-3">All Lists</label>
-            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="public" value="public" v-model="filters.list.visibility"><label for="public" class="mr-3">Public Lists</label>
+            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="public" value="public" v-model="filters.list.visibility" :disabled="!store.getters['auth/isVerified']" :class="!store.getters['auth/isVerified'] ? 'cursor-not-allowed border-gray-40' : ''"
+><label for="public" class="mr-3" :class="!store.getters['auth/isVerified'] ? 'cursor-not-allowed text-gray-40' : ''">Public Lists</label>
             <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="hidden" value="hidden" v-model="filters.list.visibility"><label for="hidden">Hidden Lists</label>
           </div>
         </div>
@@ -43,7 +44,8 @@
           <input class="form-element sm:col-span-1" type="text" v-model="filters.query.term" placeholder="Filter queries by search term..."></input>
           <div class="flex sm:justify-end items-center sm:col-span-2 text-xs">
             <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="all" value="all" v-model="filters.query.visibility"><label for="all" class="mr-3">All Queries</label>
-            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="public" value="public" v-model="filters.query.visibility"><label for="public" class="mr-3">Public Queries</label>
+            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="public" value="public" v-model="filters.query.visibility" :disabled="!store.getters['auth/isVerified']" :class="!store.getters['auth/isVerified'] ? 'cursor-not-allowed border-gray-40' : ''"
+><label for="public" class="mr-3" :class="!store.getters['auth/isVerified'] ? 'cursor-not-allowed text-gray-40' : ''">Public Queries</label>
             <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="hidden" value="hidden" v-model="filters.query.visibility"><label for="hidden">Hidden Queries</label>
           </div>
         </div>

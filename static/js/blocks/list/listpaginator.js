@@ -8,7 +8,7 @@ const listpaginator = {
         <listdisplayer :list="list" :hide="hide" :ratio="ratio"></listdisplayer>
         <div class="text-xs mt-3">
           <a :href="'/view/list/?id=' + list.id + '&mode=popup'" class="text-blue mr-3" v-if="_.includes(actions, 'view')" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-list-' + _.uniqueId(), ratio, window)">View Entities</a>
-          <a href="javascript:void(0)" @click="toggle(list)" class="text-purple mr-3" v-if="_.includes(actions, 'toggle')">Make <span v-if="list.visibility == 'public'">Hidden</span><span v-else>Public</span></a>
+          <a href="javascript:void(0)" @click="store.getters['auth/isVerified'] ? toggle(list) : store.commit('auth/verify', true)" class="text-purple mr-3" v-if="_.includes(actions, 'toggle')">Make <span v-if="list.visibility == 'public'">Hidden</span><span v-else>Public</span></a>
           <a :href="'/create/list/?action=clone&id=' + list.id" class="text-primary mr-3" v-if="_.includes(actions, 'clone')">Clone</a>
           <a :href="'/create/list/?action=edit&id=' + list.id" class="text-orange mr-3" v-if="_.includes(actions, 'edit')">Edit</a>
           <a href="javascript:void(0)" @click="confirm(list)" class="text-red" v-if="_.includes(actions, 'delete')">Delete</a>

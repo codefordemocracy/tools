@@ -3,7 +3,7 @@
     <label class="label">Visibility<span class="text-info">*</span></label>
     <p class="form-text-top">Public queries are visible to other users. Hidden queries are only visible to you.</p>
     <select class="form-element" v-model="save.visibility">
-      <option value="public">Public</option>
+      <option value="public" v-if="store.getters['auth/isVerified']">Public</option>
       <option value="hidden">Hidden</option>
     </select>
   </div>

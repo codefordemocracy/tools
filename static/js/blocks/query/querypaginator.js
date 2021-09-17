@@ -8,7 +8,7 @@ const querypaginator = {
         <querydisplayer :query="query" :hide="hide" :ratio="ratio"></querydisplayer>
         <div class="text-xs mt-3">
           <a :href="'/view/query/?id=' + query.id + '&mode=popup'" class="text-blue mr-3" v-if="_.includes(actions, 'view')" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-query-' + _.uniqueId(), ratio, window)">View Results</a>
-          <a href="javascript:void(0)" @click="toggle(query)" class="text-purple mr-3" v-if="_.includes(actions, 'toggle')">Make <span v-if="query.visibility == 'public'">Hidden</span><span v-else>Public</span></a>
+          <a href="javascript:void(0)" @click="store.getters['auth/isVerified'] ? toggle(query) = true : store.commit('auth/verify', true)" class="text-purple mr-3" v-if="_.includes(actions, 'toggle')">Make <span v-if="query.visibility == 'public'">Hidden</span><span v-else>Public</span></a>
           <a :href="'/create/query/?action=clone&id=' + query.id" class="text-primary mr-3" v-if="_.includes(actions, 'clone')">Clone</a>
           <a :href="'/create/query/?action=edit&id=' + query.id" class="text-orange mr-3" v-if="_.includes(actions, 'edit')">Edit</a>
           <a href="javascript:void(0)" @click="confirm(query)" class="text-red" v-if="_.includes(actions, 'delete')">Delete</a>
