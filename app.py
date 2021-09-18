@@ -152,14 +152,9 @@ def route_user(username):
 # connect to api
 #########################################################
 
-def path(endpoint, qs):
-    if len(qs) != 0:
-        endpoint = endpoint + "?" + urlencode(qs)
-    return endpoint
-
-def get(path):
+def post(endpoint, body):
     url = "https://api.codefordemocracy.org"
-    response = requests.get(url+path, auth=(client_id, client_secret), headers={'User-Agent': 'tools'})
+    response = requests.post(url+endpoint, data=json.dumps(body), auth=(client_id, client_secret), headers={'User-Agent': 'tools'})
     if response.status_code == 200:
         return json.loads(response.text)
     return []
@@ -171,26 +166,6 @@ def action(payload):
     if response.status_code == 200:
         return json.loads(response.text)
     return False
-
-#########################################################
-# helper functions
-#########################################################
-
-def make_api_string_from_comma_separated_text_input(setting):
-    setting = [s.strip() for s in setting if s.strip() != ""]
-    setting = json.dumps(setting)
-    setting = setting.replace("[\"", "")
-    setting = setting.replace("\", \"", ",")
-    setting = setting.replace("\"]", "")
-    setting = setting.replace("[]", "")
-    return setting
-
-def make_api_string_from_comma_separated_numerical_input(setting):
-    setting = json.dumps(setting)
-    setting = setting.replace("[", "")
-    setting = setting.replace("]", "")
-    setting = setting.replace(" ", "")
-    return setting
 
 #########################################################
 # formatting endpoints
@@ -213,81 +188,68 @@ def route_api_list_preview():
         "include": [],
         "exclude": []
     }
-    qs = dict()
-    qs["skip"] = 0
-    qs["limit"] = 500
+    body = {
+        "pagination": {
+            "skip": 0,
+            "limit": 500
+        }
+    }
     if data.get("subtype") is not None:
         endpoint = "/data/preview/" + data["subtype"] + "/"
         if data["subtype"] != data["type"]:
             endpoint = "/data/preview/" + data["type"] + "/" + data["subtype"] + "/"
         if data.get("include") is not None:
-            if data["include"].get("terms") is not None:
-                qs["include_terms"] = make_api_string_from_comma_separated_text_input(data["include"]["terms"])
-            if data["include"].get("ids") is not None:
-                qs["include_ids"] = make_api_string_from_comma_separated_text_input(data["include"]["ids"])
-            preview["include"] = get(path(endpoint, qs))
+            body["include"] = data["include"]
+            preview["include"] = post(endpoint, body)
         if data.get("exclude") is not None:
-            qs.pop("include_terms", None)
-            qs.pop("include_ids", None)
-            if data["exclude"].get("terms") is not None:
-                qs["include_terms"] = make_api_string_from_comma_separated_text_input(data["exclude"]["terms"])
-            if data["exclude"].get("ids") is not None:
-                qs["include_ids"] = make_api_string_from_comma_separated_text_input(data["exclude"]["ids"])
-            preview["exclude"] = get(path(endpoint, qs))
+            body.pop("include", None)
+            body["exclude"] = data["exclude"]
+            preview["exclude"] = post(endpoint, body)
     return jsonify(preview)
 
 @app.route("/api/list/review/table/", methods=["POST"])
 def route_api_list_review_table():
     data = request.get_json()
     elements = []
-    qs = dict()
-    qs["skip"] = 0
-    qs["limit"] = 500
+    body = {
+        "pagination": {
+            "skip": 0,
+            "limit": 500
+        }
+    }
     if data.get("pagination") is not None:
         if "skip" in data["pagination"]:
-            qs["skip"] = data["pagination"]["skip"]
+            body["pagination"]["skip"] = data["pagination"]["skip"]
         if "limit" in data["pagination"]:
-            qs["limit"] = data["pagination"]["limit"]
+            body["pagination"]["limit"] = data["pagination"]["limit"]
     if "list" in data:
         if data["list"].get("subtype") is not None:
             endpoint = "/data/preview/" + data["list"]["subtype"] + "/"
             if data["list"]["subtype"] != data["list"]["type"]:
                 endpoint = "/data/preview/" + data["list"]["type"] + "/" + data["list"]["subtype"] + "/"
             if data["list"].get("include") is not None:
-                if data["list"]["include"].get("terms") is not None:
-                    qs["include_terms"] = make_api_string_from_comma_separated_text_input(data["list"]["include"]["terms"])
-                if data["list"]["include"].get("ids") is not None:
-                    qs["include_ids"] = make_api_string_from_comma_separated_text_input(data["list"]["include"]["ids"])
+                body["include"] = data["list"]["include"]
             if data["list"].get("exclude") is not None:
-                if data["list"]["exclude"].get("terms") is not None:
-                    qs["exclude_terms"] = make_api_string_from_comma_separated_text_input(data["list"]["exclude"]["terms"])
-                if data["list"]["exclude"].get("ids") is not None:
-                    qs["exclude_ids"] = make_api_string_from_comma_separated_text_input(data["list"]["exclude"]["ids"])
-            elements = get(path(endpoint, qs))
+                body["exclude"] = data["list"]["exclude"]
+            elements = post(endpoint, body)
     return jsonify(elements)
 
 @app.route("/api/list/review/count/", methods=["POST"])
 def route_api_list_review_count():
     data = request.get_json()
     count = -1
-    qs = dict()
+    body = dict()
     if "list" in data:
         if data["list"].get("subtype") is not None:
             endpoint = "/data/preview/" + data["list"]["subtype"] + "/"
             if data["list"]["subtype"] != data["list"]["type"]:
                 endpoint = "/data/preview/" + data["list"]["type"] + "/" + data["list"]["subtype"] + "/"
             if data["list"].get("include") is not None:
-                if data["list"]["include"].get("terms") is not None:
-                    qs["include_terms"] = make_api_string_from_comma_separated_text_input(data["list"]["include"]["terms"])
-                if data["list"]["include"].get("ids") is not None:
-                    qs["include_ids"] = make_api_string_from_comma_separated_text_input(data["list"]["include"]["ids"])
+                body["include"] = data["list"]["include"]
             if data["list"].get("exclude") is not None:
-                if data["list"]["exclude"].get("terms") is not None:
-                    qs["exclude_terms"] = make_api_string_from_comma_separated_text_input(data["list"]["exclude"]["terms"])
-                if data["list"]["exclude"].get("ids") is not None:
-                    qs["exclude_ids"] = make_api_string_from_comma_separated_text_input(data["list"]["exclude"]["ids"])
-            qs["count"] = True
-            elements = get(path(endpoint, qs))
+                body["exclude"] = data["list"]["exclude"]
+            body["count"] = True
+            elements = post(endpoint, body)
             if "count" in elements[0]:
                 count = elements[0]["count"]
     return jsonify(count)
@@ -299,55 +261,48 @@ def route_api_list_review_count():
 @app.route("/api/query/results/table/", methods=["POST"])
 def route_api_query_results_table():
     data = request.get_json()
-    qs = dict()
+    body = dict()
     elements = []
     if data["query"].get("dates") is not None:
-        min_date = str(data["query"]["dates"]["min"])[:10]
-        max_date = str(data["query"]["dates"]["max"])[:10]
-        qs["min_year"] = min_date[:4]
-        qs["max_year"] = max_date[:4]
-        qs["min_month"] = min_date[5:7]
-        qs["max_month"] = max_date[5:7]
-        qs["min_day"] = min_date[8:10]
-        qs["max_day"] = max_date[8:10]
+        body["dates"] = {
+            "min": str(data["query"]["dates"]["min"])[:10],
+            "max": str(data["query"]["dates"]["max"])[:10]
+        }
     if data.get("sort") is not None:
         if data["sort"]["orderby"] != "none":
-            qs["orderby"] = data["sort"]["orderby"]
-        qs["orderdir"] = data["sort"]["orderdir"]
+            body["orderby"] = data["sort"]["orderby"]
+        body["orderdir"] = data["sort"]["orderdir"]
     if data.get("pagination") is not None:
+        body["pagination"] = dict()
         if "skip" in data["pagination"]:
-            qs["skip"] = data["pagination"]["skip"]
+            body["pagination"]["skip"] = data["pagination"]["skip"]
         if "limit" in data["pagination"]:
-            qs["limit"] = data["pagination"]["limit"]
+            body["pagination"]["limit"] = data["pagination"]["limit"]
     if data["query"].get("output") is not None:
         endpoint = "/data/calculate/recipe/" + data["query"]["output"] + "/"
         if "template" in data["query"] and "lists" in data["query"]:
-            qs["lists"] = make_api_string_from_comma_separated_text_input(data["query"]["lists"].values())
-            qs["template"] = data["query"]["template"]
-            elements = get(path(endpoint, qs))
+            body["lists"] = list(data["query"]["lists"].values())
+            body["template"] = data["query"]["template"]
+            elements = post(endpoint, body)
     return jsonify(elements)
 
 @app.route("/api/query/results/count/", methods=["POST"])
 def route_api_query_results_count():
     data = request.get_json()
-    qs = dict()
+    body = dict()
     count = -1
     if data["query"].get("dates") is not None:
-        min_date = str(data["query"]["dates"]["min"])[:10]
-        max_date = str(data["query"]["dates"]["max"])[:10]
-        qs["min_year"] = min_date[:4]
-        qs["max_year"] = max_date[:4]
-        qs["min_month"] = min_date[5:7]
-        qs["max_month"] = max_date[5:7]
-        qs["min_day"] = min_date[8:10]
-        qs["max_day"] = max_date[8:10]
+        body["dates"] = {
+            "min": str(data["query"]["dates"]["min"])[:10],
+            "max": str(data["query"]["dates"]["max"])[:10]
+        }
     if data["query"].get("output") is not None:
         endpoint = "/data/calculate/recipe/" + data["query"]["output"] + "/"
         if "template" in data["query"] and "lists" in data["query"]:
-            qs["lists"] = make_api_string_from_comma_separated_text_input(data["query"]["lists"].values())
-            qs["template"] = data["query"]["template"]
-            qs["count"] = True
-            elements = get(path(endpoint, qs))
+            body["lists"] = list(data["query"]["lists"].values())
+            body["template"] = data["query"]["template"]
+            body["count"] = True
+            elements = post(endpoint, body)
             if "count" in elements[0]:
                 count = elements[0]["count"]
     return jsonify(count)
@@ -355,24 +310,20 @@ def route_api_query_results_count():
 @app.route("/api/query/results/histogram/", methods=["POST"])
 def route_api_query_results_histogram():
     data = request.get_json()
-    qs = dict()
+    body = dict()
     buckets = []
     if data["query"].get("dates") is not None:
-        min_date = str(data["query"]["dates"]["min"])[:10]
-        max_date = str(data["query"]["dates"]["max"])[:10]
-        qs["min_year"] = min_date[:4]
-        qs["max_year"] = max_date[:4]
-        qs["min_month"] = min_date[5:7]
-        qs["max_month"] = max_date[5:7]
-        qs["min_day"] = min_date[8:10]
-        qs["max_day"] = max_date[8:10]
+        body["dates"] = {
+            "min": str(data["query"]["dates"]["min"])[:10],
+            "max": str(data["query"]["dates"]["max"])[:10]
+        }
     if data["query"].get("output") is not None:
         endpoint = "/data/calculate/recipe/" + data["query"]["output"] + "/"
         if "template" in data["query"] and "lists" in data["query"]:
-            qs["lists"] = make_api_string_from_comma_separated_text_input(data["query"]["lists"].values())
-            qs["template"] = data["query"]["template"]
-            qs["histogram"] = True
-            buckets = get(path(endpoint, qs))
+            body["lists"] = list(data["query"]["lists"].values())
+            body["template"] = data["query"]["template"]
+            body["histogram"] = True
+            buckets = post(endpoint, body)
     return jsonify(buckets)
 
 #########################################################
@@ -394,29 +345,27 @@ def route_api_visualization_aggregations_options():
 def route_api_visualization_aggregations_results():
     data = request.get_json()
     # get the data
-    qs = dict()
+    body = dict()
     elements = []
     if data["query"].get("dates") is not None:
-        min_date = str(data["query"]["dates"]["min"])[:10]
-        max_date = str(data["query"]["dates"]["max"])[:10]
-        qs["min_year"] = min_date[:4]
-        qs["max_year"] = max_date[:4]
-        qs["min_month"] = min_date[5:7]
-        qs["max_month"] = max_date[5:7]
-        qs["min_day"] = min_date[8:10]
-        qs["max_day"] = max_date[8:10]
+        body["dates"] = {
+            "min": str(data["query"]["dates"]["min"])[:10],
+            "max": str(data["query"]["dates"]["max"])[:10]
+        }
     if data["query"].get("output") is not None:
         endpoint = "/data/calculate/recipe/" + data["query"]["output"] + "/"
         if "template" in data["query"] and "lists" in data["query"]:
-            qs["lists"] = make_api_string_from_comma_separated_text_input(data["query"]["lists"].values())
-            qs["template"] = data["query"]["template"]
-            qs["skip"] = 0
-            qs["limit"] = 1000
-            results = get(path(endpoint, qs))
-            while len(results) == qs["limit"] or qs["skip"] == 0:
+            body["lists"] = list(data["query"]["lists"].values())
+            body["template"] = data["query"]["template"]
+            body["pagination"] = {
+                "skip": 0,
+                "limit": 1000
+            }
+            results = post(endpoint, body)
+            while len(results) == body["pagination"]["limit"] or body["pagination"]["skip"] == 0:
                 elements.extend(results)
-                qs["skip"] = len(elements)
-                results = get(path(endpoint, qs))
+                body["pagination"]["skip"] = len(elements)
+                results = post(endpoint, body)
     # calculate aggregations
     df = pd.json_normalize(elements)
     if len(data["aggregations"]["columns"]) > 0:
@@ -462,84 +411,83 @@ def route_api_visualization_aggregations_results():
 @app.route("/api/graph/", methods=["POST"])
 def route_api_graph():
     data = request.get_json()
-    qs = dict()
+    body = dict()
     elements = []
     if "dates" in data:
-        min_date = str(data["dates"]["min"])[:10]
-        max_date = str(data["dates"]["max"])[:10]
-        qs["min_year"] = min_date[:4]
-        qs["max_year"] = max_date[:4]
-        qs["min_month"] = min_date[5:7]
-        qs["max_month"] = max_date[5:7]
-        qs["min_day"] = min_date[8:10]
-        qs["max_day"] = max_date[8:10]
+        body["dates"] = {
+            "min": str(data["dates"]["min"])[:10],
+            "max": str(data["dates"]["max"])[:10]
+        }
     if "pagination" in data:
-        qs["skip"] = str((int(data["pagination"]["page"])-1)*int(data["pagination"]["limit"]))
-        qs["limit"] = str(data["pagination"]["limit"])
+        body["pagination"] = {
+            "skip": (int(data["pagination"]["page"])-1)*int(data["pagination"]["limit"]),
+            "limit": int(data["pagination"]["limit"])
+        }
     if data["type"] == "ids":
         endpoint = "/graph/find/elements/uuid/"
         if "nodes" in data:
-            qs["nodes"] = data["nodes"]
+            body["nodes"] = data["nodes"]
         if "edges" in data:
-            qs["edges"] = data["edges"]
-        elements = utilities.elements2cy(get(path(endpoint, qs)))
+            body["edges"] = data["edges"]
+        elements = utilities.elements2cy(post(endpoint, body))
     if data["type"] == "search":
+        body["attributes"] = dict()
         if "options" in data:
-            qs["context"] = data["options"]["context"]
+            body["context"] = data["options"]["context"]
         if data["flow"] == "candidates":
             endpoint = "/graph/search/candidates/"
             if len(data["parameters"]["cand_name"]) > 0:
-                qs["cand_name"] = data["parameters"]["cand_name"]
+                body["name"] = data["parameters"]["cand_name"]
             if data["parameters"]["cand_pty_affiliation"] != "all":
-                qs["cand_pty_affiliation"] = data["parameters"]["cand_pty_affiliation"]
+                body["attributes"]["cand_pty_affiliation"] = data["parameters"]["cand_pty_affiliation"]
             if data["parameters"]["cand_office"] != "all":
-                qs["cand_office"] = data["parameters"]["cand_office"]
+                body["attributes"]["cand_office"] = data["parameters"]["cand_office"]
             if data["parameters"]["cand_office_st"] != "all":
-                qs["cand_office_st"] = data["parameters"]["cand_office_st"]
+                body["attributes"]["cand_office_st"] = data["parameters"]["cand_office_st"]
             if data["parameters"]["cand_office_district"] != "all":
-                qs["cand_office_district"] = data["parameters"]["cand_office_district"]
+                body["attributes"]["cand_office_district"] = data["parameters"]["cand_office_district"]
             if data["parameters"]["cand_election_yr"] != "all":
-                qs["cand_election_yr"] = data["parameters"]["cand_election_yr"]
+                body["attributes"]["cand_election_yr"] = data["parameters"]["cand_election_yr"]
             if data["parameters"]["cand_ici"] != "all":
-                qs["cand_ici"] = data["parameters"]["cand_ici"]
-            elements = utilities.elements2cy(get(path(endpoint, qs)))
+                body["attributes"]["cand_ici"] = data["parameters"]["cand_ici"]
+            elements = utilities.elements2cy(post(endpoint, body))
         elif data["flow"] == "committees":
             endpoint = "/graph/search/committees/"
             if len(data["parameters"]["cmte_nm"]) > 0:
-                qs["cmte_nm"] = data["parameters"]["cmte_nm"]
+                body["name"] = data["parameters"]["cmte_nm"]
             if data["parameters"]["cmte_pty_affiliation"] != "all":
-                qs["cmte_pty_affiliation"] = data["parameters"]["cmte_pty_affiliation"]
+                body["attributes"]["cmte_pty_affiliation"] = data["parameters"]["cmte_pty_affiliation"]
             if data["parameters"]["cmte_dsgn"] != "all":
-                qs["cmte_dsgn"] = data["parameters"]["cmte_dsgn"]
+                body["attributes"]["cmte_dsgn"] = data["parameters"]["cmte_dsgn"]
             if data["parameters"]["cmte_tp"] != "all":
-                qs["cmte_tp"] = data["parameters"]["cmte_tp"]
-            elements = utilities.elements2cy(get(path(endpoint, qs)))
+                body["attributes"]["cmte_tp"] = data["parameters"]["cmte_tp"]
+            elements = utilities.elements2cy(post(endpoint, body))
         elif data["flow"] == "donors":
             endpoint = "/graph/search/donors/"
             if len(data["parameters"]["name"]) > 0:
-                qs["name"] = data["parameters"]["name"]
+                body["name"] = data["parameters"]["name"]
             if len(data["parameters"]["employer"]) > 0:
-                qs["employer"] = data["parameters"]["employer"]
+                body["attributes"]["employer"] = data["parameters"]["employer"]
             if len(data["parameters"]["occupation"]) > 0:
-                qs["occupation"] = data["parameters"]["occupation"]
+                body["attributes"]["occupation"] = data["parameters"]["occupation"]
             if data["parameters"]["state"] != "all":
-                qs["state"] = data["parameters"]["state"]
+                body["attributes"]["state"] = data["parameters"]["state"]
             if len(data["parameters"]["zip_code"]) > 0:
-                qs["zip_code"] = data["parameters"]["zip_code"]
+                body["attributes"]["zip_code"] = data["parameters"]["zip_code"]
             if data["parameters"]["entity_tp"] != "all":
-                qs["entity_tp"] = data["parameters"]["entity_tp"]
-            elements = utilities.elements2cy(get(path(endpoint, qs)))
+                body["attributes"]["entity_tp"] = data["parameters"]["entity_tp"]
+            elements = utilities.elements2cy(post(endpoint, body))
         elif data["flow"] == "payees":
             endpoint = "/graph/search/payees/"
             if len(data["parameters"]["name"]) > 0:
-                qs["name"] = data["parameters"]["name"]
-            elements = utilities.elements2cy(get(path(endpoint, qs)))
+                body["name"] = data["parameters"]["name"]
+            elements = utilities.elements2cy(post(endpoint, body))
         elif data["flow"] == "sources":
             endpoint = "/graph/search/sources/"
             if len(data["parameters"]["domain"]) > 0:
-                qs["domain"] = data["parameters"]["domain"]
-                qs["domain"] = utilities.strip_url(qs["domain"])
-                qs["domain"] = qs["domain"].split("www.",1)[1] if qs["domain"].startswith("www.") else qs["domain"]
+                body["domain"] = data["parameters"]["domain"]
+                body["domain"] = utilities.strip_url(body["domain"])
+                body["domain"] = body["domain"].split("www.",1)[1] if body["domain"].startswith("www.") else body["domain"]
             bias_score = []
             if data["parameters"]["bias_score"]["liberal"]:
                 bias_score.append(-3)
@@ -554,275 +502,270 @@ def route_api_graph():
                 bias_score.append(2)
                 bias_score.append(3)
             if len(bias_score) > 0:
-                bias_score = make_api_string_from_comma_separated_numerical_input(bias_score)
-                qs["bias_score"] = bias_score
+                body["attributes"]["bias_score"] = bias_score
             if data["parameters"]["factually_questionable_flag"]:
-                qs["factually_questionable_flag"] = 1
+                body["attributes"]["factually_questionable_flag"] = 1
             if data["parameters"]["conspiracy_flag"]:
-                qs["conspiracy_flag"] = 1
+                body["attributes"]["conspiracy_flag"] = 1
             if data["parameters"]["hate_group_flag"]:
-                qs["hate_group_flag"] = 1
+                body["attributes"]["hate_group_flag"] = 1
             if data["parameters"]["propaganda_flag"]:
-                qs["propaganda_flag"] = 1
+                body["attributes"]["propaganda_flag"] = 1
             if data["parameters"]["satire_flag"]:
-                qs["satire_flag"] = 1
-            elements = utilities.elements2cy(get(path(endpoint, qs)))
+                body["attributes"]["satire_flag"] = 1
+            elements = utilities.elements2cy(post(endpoint, body))
         elif data["flow"] == "tweeters":
             endpoint = "/graph/search/tweeters/"
             if len(data["parameters"]["username"]) > 0:
-                qs["username"] = data["parameters"]["username"]
-            elements = utilities.elements2cy(get(path(endpoint, qs)))
+                body["attributes"]["username"] = data["parameters"]["username"]
+            elements = utilities.elements2cy(post(endpoint, body))
         elif data["flow"] == "buyers":
             endpoint = "/graph/search/buyers/"
             if len(data["parameters"]["name"]) > 0:
-                qs["name"] = data["parameters"]["name"]
-            elements = utilities.elements2cy(get(path(endpoint, qs)))
+                body["name"] = data["parameters"]["name"]
+            elements = utilities.elements2cy(post(endpoint, body))
         elif data["flow"] == "pages":
             endpoint = "/graph/search/pages/"
             if len(data["parameters"]["name"]) > 0:
-                qs["name"] = data["parameters"]["name"]
-            elements = utilities.elements2cy(get(path(endpoint, qs)))
+                body["name"] = data["parameters"]["name"]
+            elements = utilities.elements2cy(post(endpoint, body))
     elif data["type"] == "expandnode":
         if len(data["labels"]) > 0:
             endpoint = "/graph/traverse/neighbors/"
-            qs["ids"] = make_api_string_from_comma_separated_numerical_input(data["ids"])
-            qs["labels"] = make_api_string_from_comma_separated_text_input(data["labels"])
-            elements = utilities.elements2cy(get(path(endpoint, qs)))
+            body["nodes"] = data["ids"]
+            body["labels"] = data["labels"]
+            elements = utilities.elements2cy(post(endpoint, body))
     elif data["type"] == "uncovercontributors":
         if len(data["ids"]) > 0:
             endpoint = "/graph/uncover/contributors/"
-            qs["ids"] = make_api_string_from_comma_separated_numerical_input(data["ids"])
-            qs["labels"] = make_api_string_from_comma_separated_text_input(data["labels"])
-            qs["min_transaction_amt"] = data["min_transaction_amt"]
-            elements = utilities.elements2cy(get(path(endpoint, qs)))
+            body["nodes"] = data["ids"]
+            body["labels"] = data["labels"]
+            body["min_transaction_amt"] = data["min_transaction_amt"]
+            elements = utilities.elements2cy(post(endpoint, body))
     return jsonify(elements)
 
 @app.route("/api/traverse/find/", methods=["POST"])
 def route_api_traverse_find():
     data = request.get_json()
-    qs = dict()
+    body = dict()
     elements = []
-    min_date = "2015-01-01"
-    qs["min_year"] = min_date[:4]
-    qs["min_month"] = min_date[5:7]
-    qs["min_day"] = min_date[8:10]
+    body["dates"] = {
+        "min": "2015-01-01"
+    }
     if len(data["term"]) > 0:
-        qs["skip"] = str((int(data["page"])-1)*int(data["limit"]))
-        qs["limit"] = str(data["limit"])
+        body["pagination"] = {
+            "skip": (int(data["pagination"]["page"])-1)*int(data["pagination"]["limit"]),
+            "limit": int(data["pagination"]["limit"])
+        }
         terms = re.split(" OR ", data["term"], flags=re.IGNORECASE)
         for term in terms:
-            qstring = qs.copy()
+            bstring = body.copy()
             if data["entity"] == "candidate":
                 endpoint = "/graph/search/candidates/"
-                qstring["cand_name"] = term
+                bstring["name"] = term
             elif data["entity"] == "committee":
                 endpoint = "/graph/search/committees/"
-                qstring["cmte_nm"] = term
+                bstring["name"] = term
             elif data["entity"] == "donor":
                 endpoint = "/graph/search/donors/"
                 if term.startswith("EMPLOYER:"):
                     term = term.split("EMPLOYER:", 1)[1]
-                    qstring["employer"] = term
+                    if "attributes" not in bstring:
+                        bstring["attributes"] = dict()
+                    bstring["attributes"]["employer"] = term
                 elif term.startswith("OCCUPATION:"):
                     term = term.split("OCCUPATION:", 1)[1]
-                    qstring["occupation"] = term
+                    if "attributes" not in bstring:
+                        bstring["attributes"] = dict()
+                    bstring["attributes"]["occupation"] = term
                 else:
-                    qstring["name"] = term
+                    bstring["name"] = term
             elif data["entity"] == "industry":
                 endpoint = "/graph/search/industries/"
-                qstring["name"] = term
+                bstring["name"] = term
             elif data["entity"] == "payee":
                 endpoint = "/graph/search/payees/"
-                qstring["name"] = term
+                bstring["name"] = term
             elif data["entity"] == "source":
                 endpoint = "/graph/search/sources/"
-                qstring["domain"] = term
-                qstring["domain"] = utilities.strip_url(qstring["domain"])
-                qstring["domain"] = qstring["domain"].split("www.",1)[1] if qstring["domain"].startswith("www.") else qstring["domain"]
+                bstring["domain"] = term
+                bstring["domain"] = utilities.strip_url(bstring["domain"])
+                bstring["domain"] = bstring["domain"].split("www.",1)[1] if bstring["domain"].startswith("www.") else bstring["domain"]
             elif data["entity"] == "buyer":
                 endpoint = "/graph/search/buyers/"
-                qstring["name"] = term
+                bstring["name"] = term
             elif data["entity"] == "page":
                 endpoint = "/graph/search/pages/"
-                qstring["name"] = term
+                bstring["name"] = term
             elif data["entity"] == "tweeter":
                 endpoint = "/graph/search/tweeters/"
-                qstring["username"] = term
+                bstring["username"] = term
             elif data["entity"] == "topic":
                 endpoint = "/graph/search/topics/"
-                qstring["name"] = term
+                bstring["name"] = term
             elif data["entity"] == "tweeter":
                 endpoint = "/graph/search/tweeters/"
-                qstring["username"] = term
-            if data.get("config") is True:
-                elements.extend([{
-                    "config": fernet.encrypt(path(endpoint, qstring).encode()).decode()
-                }])
-            else:
-                elements.extend(get(path(endpoint, qstring)))
+                bstring["username"] = term
+            elements.extend(post(endpoint, bstring))
     elements = [i for n, i in enumerate(elements) if i not in elements[n + 1:]]
     return jsonify(elements)
 
 @app.route("/api/traverse/associations/", methods=["POST"])
 def route_api_traverse_associations():
     data = request.get_json()
-    qs = dict()
+    body = dict()
     elements = []
     if "dates" in data:
-        min_date = str(data["dates"]["min"])[:10]
-        max_date = str(data["dates"]["max"])[:10]
-        qs["min_year"] = min_date[:4]
-        qs["max_year"] = max_date[:4]
-        qs["min_month"] = min_date[5:7]
-        qs["max_month"] = max_date[5:7]
-        qs["min_day"] = min_date[8:10]
-        qs["max_day"] = max_date[8:10]
+        body["dates"] = {
+            "min": str(data["dates"]["min"])[:10],
+            "max": str(data["dates"]["max"])[:10]
+        }
     else:
-        min_date = "2015-01-01"
-        qs["min_year"] = min_date[:4]
-        qs["min_month"] = min_date[5:7]
-        qs["min_day"] = min_date[8:10]
+        body["dates"] = {
+            "min": "2015-01-01"
+        }
     if len(data["ids"]) > 0:
-        qs["skip"] = str((int(data["page"])-1)*int(data["limit"]))
-        qs["limit"] = str(data["limit"])
-        qs["ids"] = make_api_string_from_comma_separated_numerical_input(data["ids"])
+        body["pagination"] = {
+            "skip": (int(data["pagination"]["page"])-1)*int(data["pagination"]["limit"]),
+            "limit": int(data["pagination"]["limit"])
+        }
+        body["nodes"] = {
+            "ids": data["ids"],
+        }
         if "intermediaries" in data:
-            qs["intermediaries"] = data["intermediaries"]
+            body["intermediaries"] = {
+                "type": data["intermediaries"]
+            }
             if data["intermediaries"] == "contribution":
                 if "direction" in data:
                     if data["direction"] != "all":
-                        qs["direction"] = data["direction"]
+                        body["intermediaries"]["contributions"] = {
+                            "direction": data["direction"]
+                        }
             elif data["intermediaries"] == "expenditure":
                 if "sup_opp" in data:
                     if data["sup_opp"] != "all":
-                        qs["sup_opp"] = data["sup_opp"]
+                        body["intermediaries"]["expenditure"] = {
+                            "sup_opp": data["sup_opp"]
+                        }
         endpoint = "/graph/traverse/associations/" + data["entity"] + "/" + data["entity2"] + "/"
-        if data.get("config") is True:
-            elements.append({
-                "config": fernet.encrypt(path(endpoint, qs).encode()).decode()
-            })
-        else:
-            elements = get(path(endpoint, qs))
+        elements = post(endpoint, body)
     return jsonify(elements)
 
 @app.route("/api/traverse/intersection/", methods=["POST"])
 def route_api_traverse_intersection():
     data = request.get_json()
-    qs = dict()
+    body = dict()
     elements = []
     if "dates" in data:
-        min_date = str(data["dates"]["min"])[:10]
-        max_date = str(data["dates"]["max"])[:10]
-        qs["min_year"] = min_date[:4]
-        qs["max_year"] = max_date[:4]
-        qs["min_month"] = min_date[5:7]
-        qs["max_month"] = max_date[5:7]
-        qs["min_day"] = min_date[8:10]
-        qs["max_day"] = max_date[8:10]
+        body["dates"] = {
+            "min": str(data["dates"]["min"])[:10],
+            "max": str(data["dates"]["max"])[:10]
+        }
     else:
-        min_date = "2015-01-01"
-        qs["min_year"] = min_date[:4]
-        qs["min_month"] = min_date[5:7]
-        qs["min_day"] = min_date[8:10]
+        body["dates"] = {
+            "min": "2015-01-01"
+        }
     if len(data["ids"]) > 0 and len(data["ids2"]) > 0:
-        qs["skip"] = str((int(data["page"])-1)*int(data["limit"]))
-        qs["limit"] = str(data["limit"])
-        qs["ids"] = make_api_string_from_comma_separated_numerical_input(data["ids"])
-        qs["ids2"] = make_api_string_from_comma_separated_numerical_input(data["ids2"])
+        body["pagination"] = {
+            "skip": (int(data["pagination"]["page"])-1)*int(data["pagination"]["limit"]),
+            "limit": int(data["pagination"]["limit"])
+        }
+        body["nodes"] = {
+            "ids": data["ids"],
+            "ids2": data["ids2"]
+        }
         if "intermediaries" in data:
-            qs["intermediaries"] = data["intermediaries"]
+            body["intermediaries"] = {
+                "type": data["intermediaries"]
+            }
             if data["intermediaries"] == "contribution":
                 if "direction" in data:
                     if data["direction"] != "all":
-                        qs["direction"] = data["direction"]
+                        body["intermediaries"]["contributions"] = {
+                            "direction": data["direction"]
+                        }
             elif data["intermediaries"] == "expenditure":
                 if "sup_opp" in data:
                     if data["sup_opp"] != "all":
-                        qs["sup_opp"] = data["sup_opp"]
+                        body["intermediaries"]["expenditure"] = {
+                            "sup_opp": data["sup_opp"]
+                        }
         endpoint = "/graph/traverse/associations/" + data["entity"] + "/" + data["entity2"] + "/"
-        if data.get("config") is True:
-            elements.append({
-                "config": fernet.encrypt(path(endpoint, qs).encode()).decode()
-            })
-        else:
-            elements = get(path(endpoint, qs))
+        elements = post(endpoint, body)
     return jsonify(elements)
 
 @app.route("/api/traverse/intermediaries/", methods=["POST"])
 def route_api_traverse_intermediaries():
     data = request.get_json()
-    qs = dict()
+    body = dict()
     elements = []
-    min_date = "2015-01-01"
-    qs["min_year"] = min_date[:4]
-    qs["min_month"] = min_date[5:7]
-    qs["min_day"] = min_date[8:10]
+    body["dates"] = {
+        "min": "2015-01-01"
+    }
     if len(data["ids"]) > 0 and len(data["ids2"]) > 0:
-        qs["skip"] = str((int(data["page"])-1)*int(data["limit"]))
-        qs["limit"] = str(data["limit"])
-        qs["ids"] = make_api_string_from_comma_separated_numerical_input(data["ids"])
-        qs["ids2"] = make_api_string_from_comma_separated_numerical_input(data["ids2"])
+        body["pagination"] = {
+            "skip": (int(data["pagination"]["page"])-1)*int(data["pagination"]["limit"]),
+            "limit": int(data["pagination"]["limit"])
+        }
+        body["nodes"] = {
+            "ids": data["ids"],
+            "ids2": data["ids2"]
+        }
         if "intermediaries" in data:
-            qs["intermediaries"] = data["intermediaries"]
+            body["intermediaries"] = {
+                "type": data["intermediaries"]
+            }
             if data["intermediaries"] == "contribution":
                 if "direction" in data:
                     if data["direction"] != "all":
-                        qs["direction"] = data["direction"]
+                        body["intermediaries"]["contributions"] = {
+                            "direction": data["direction"]
+                        }
             elif data["intermediaries"] == "expenditure":
                 if "sup_opp" in data:
                     if data["sup_opp"] != "all":
-                        qs["sup_opp"] = data["sup_opp"]
+                        body["intermediaries"]["expenditure"] = {
+                            "sup_opp": data["sup_opp"]
+                        }
         endpoint = "/graph/traverse/intermediaries/" + data["entity"] + "/" + data["entity2"] + "/"
-        if data.get("config") is True:
-            elements.append({
-                "config": fernet.encrypt(path(endpoint, qs).encode()).decode()
-            })
-        else:
-            elements = get(path(endpoint, qs))
+        elements = post(endpoint, body)
     return jsonify(elements)
 
 @app.route("/api/traverse/contribution/contributor/", methods=["POST"])
 def route_api_traverse_contribution_contributor():
     data = request.get_json()
-    qs = dict()
+    body = dict()
     elements = []
-    min_date = "2015-01-01"
-    qs["min_year"] = min_date[:4]
-    qs["min_month"] = min_date[5:7]
-    qs["min_day"] = min_date[8:10]
+    body["dates"] = {
+        "min": "2015-01-01"
+    }
     if len(data["ids"]) > 0:
-        qs["skip"] = str((int(data["page"])-1)*int(data["limit"]))
-        qs["limit"] = str(data["limit"])
-        qs["ids"] = str(data["ids"][0])
+        body["pagination"] = {
+            "skip": (int(data["pagination"]["page"])-1)*int(data["pagination"]["limit"]),
+            "limit": int(data["pagination"]["limit"])
+        }
+        body["nodes"] = data["ids"]
         endpoint = "/graph/traverse/relationships/contribution/contributor/"
-        if data.get("config") is True:
-            elements.append({
-                "config": fernet.encrypt(path(endpoint, qs).encode()).decode()
-            })
-        else:
-            elements = get(path(endpoint, qs))
+        elements = post(endpoint, body)
     return jsonify(elements)
 
 @app.route("/api/traverse/contribution/recipient/", methods=["POST"])
 def route_api_traverse_contribution_recipient():
     data = request.get_json()
-    qs = dict()
+    body = dict()
     elements = []
-    min_date = "2015-01-01"
-    qs["min_year"] = min_date[:4]
-    qs["min_month"] = min_date[5:7]
-    qs["min_day"] = min_date[8:10]
+    body["dates"] = {
+        "min": "2015-01-01"
+    }
     if len(data["ids"]) > 0:
-        qs["skip"] = str((int(data["page"])-1)*int(data["limit"]))
-        qs["limit"] = str(data["limit"])
-        qs["ids"] = str(data["ids"][0])
+        body["pagination"] = {
+            "skip": (int(data["pagination"]["page"])-1)*int(data["pagination"]["limit"]),
+            "limit": int(data["pagination"]["limit"])
+        }
+        body["nodes"] = data["ids"]
         endpoint = "/graph/traverse/relationships/contribution/recipient/"
-        if data.get("config") is True:
-            elements.append({
-                "config": fernet.encrypt(path(endpoint, qs).encode()).decode()
-            })
-        else:
-            elements = get(path(endpoint, qs))
+        elements = post(endpoint, body)
     return jsonify(elements)
 
 # documents
@@ -830,126 +773,120 @@ def route_api_traverse_contribution_recipient():
 @app.route("/api/browse/documents/", methods=["POST"])
 def route_api_browse_documents():
     data = request.get_json()
-    qs = {
+    body = {
         "histogram": False
     }
     elements = []
     if "term" in data:
         if data["term"] is not None:
             if len(data["term"]) > 0:
-                qs["text"] = str(data["term"])
+                body["text"] = data["term"]
     if "skip" in data and "limit" in data:
-        qs["skip"] = str(data["skip"])
-        qs["limit"] = str(data["limit"])
+        body["pagination"] = {
+            "skip": data["skip"],
+            "limit": data["limit"]
+        }
     if "dates" in data:
-        min_date = str(data["dates"]["min"])[:10]
-        max_date = str(data["dates"]["max"])[:10]
-        qs["min_year"] = min_date[:4]
-        qs["max_year"] = max_date[:4]
-        qs["min_month"] = min_date[5:7]
-        qs["max_month"] = max_date[5:7]
-        qs["min_day"] = min_date[8:10]
-        qs["max_day"] = max_date[8:10]
+        body["dates"] = {
+            "min": str(data["dates"]["min"])[:10],
+            "max": str(data["dates"]["max"])[:10]
+        }
     if "documents" in data:
         if data["documents"] == "articles":
             endpoint = "/documents/browse/news/articles/source/"
             if "group" in data:
                 endpoint = endpoint + data["group"] + "/"
-                docs = get(path(endpoint, qs))
+                docs = post(endpoint, body)
                 for doc in docs:
                     element = {}
-                    if "extracted" in doc["_source"]:
-                        if "title" in doc["_source"]["extracted"]:
-                            element["title"] = doc["_source"]["extracted"]["title"]
-                        if "text" in doc["_source"]["extracted"]:
-                            element["text"] = doc["_source"]["extracted"]["text"]
-                        if "date" in doc["_source"]["extracted"]:
-                            element["date"] = doc["_source"]["extracted"]["date"]
-                        if "url" in doc["_source"]["extracted"]:
-                            element["url"] = doc["_source"]["extracted"]["url"]
+                    if "extracted" in doc:
+                        if "title" in doc["extracted"]:
+                            element["title"] = doc["extracted"]["title"]
+                        if "text" in doc["extracted"]:
+                            element["text"] = doc["extracted"]["text"]
+                        if "date" in doc["extracted"]:
+                            element["date"] = doc["extracted"]["date"]
+                        if "url" in doc["extracted"]:
+                            element["url"] = doc["extracted"]["url"]
                     elements.append(element)
         elif data["documents"] == "tweets":
             endpoint = "/documents/browse/twitter/tweets/candidate/"
             if "group" in data:
                 endpoint = endpoint + data["group"] + "/"
-                docs = get(path(endpoint, qs))
+                docs = post(endpoint, body)
                 for doc in docs:
                     element = {}
-                    if "obj" in doc["_source"]:
-                        if "id" in doc["_source"]["obj"].get("tweet", {}):
-                            element["id"] = doc["_source"]["obj"]["tweet"]["id"]
-                            if "username" in doc["_source"]["obj"].get("author", {}):
-                                element["url"] = "https://twitter.com/" + doc["_source"]["obj"]["author"]["username"] + "/status/" + doc["_source"]["obj"]["tweet"]["id"]
-                        if "created_at" in doc["_source"]["obj"].get("tweet", {}):
-                            element["created_at"] = doc["_source"]["obj"]["tweet"]["created_at"]
-                        if "entities" in doc["_source"]["obj"].get("tweet", {}):
-                            if "hashtags" in doc["_source"]["obj"]["tweet"]["entities"]:
-                                if len(doc["_source"]["obj"]["tweet"]["entities"]["hashtags"]) > 0:
-                                    element["hashtags"] = [x["tag"] for x in doc["_source"]["obj"]["tweet"]["entities"]["hashtags"]]
-                    if "user_id" in doc["_source"]["obj"].get("author", {}):
-                        element["user_id"] = doc["_source"]["obj"]["author"]["user_id"]
-                    if "username" in doc["_source"]["obj"].get("author", {}):
-                        element["username"] = doc["_source"]["obj"]["author"]["username"]
+                    if "obj" in doc:
+                        if "id" in doc["obj"].get("tweet", {}):
+                            element["id"] = doc["obj"]["tweet"]["id"]
+                            if "username" in doc["obj"].get("author", {}):
+                                element["url"] = "https://twitter.com/" + doc["obj"]["author"]["username"] + "/status/" + doc["obj"]["tweet"]["id"]
+                        if "created_at" in doc["obj"].get("tweet", {}):
+                            element["created_at"] = doc["obj"]["tweet"]["created_at"]
+                        if "entities" in doc["obj"].get("tweet", {}):
+                            if "hashtags" in doc["obj"]["tweet"]["entities"]:
+                                if len(doc["obj"]["tweet"]["entities"]["hashtags"]) > 0:
+                                    element["hashtags"] = [x["tag"] for x in doc["obj"]["tweet"]["entities"]["hashtags"]]
+                    if "user_id" in doc["obj"].get("author", {}):
+                        element["user_id"] = doc["obj"]["author"]["user_id"]
+                    if "username" in doc["obj"].get("author", {}):
+                        element["username"] = doc["obj"]["author"]["username"]
                     elements.append(element)
         elif data["documents"] == "ads":
             endpoint = "/documents/browse/facebook/ads/"
-            docs = get(path(endpoint, qs))
+            docs = post(endpoint, body)
             for doc in docs:
                 element = {}
-                if "obj" in doc["_source"]:
-                    if "id" in doc["_source"]["obj"]:
-                        element["id"] = doc["_source"]["obj"]["id"]
-                    if "page_id" in doc["_source"]["obj"]:
-                        element["page_id"] = doc["_source"]["obj"]["page_id"]
-                    if "page_name" in doc["_source"]["obj"]:
-                        element["page_name"] = doc["_source"]["obj"]["page_name"]
-                    if "funding_entity" in doc["_source"]["obj"]:
-                        element["funding_entity"] = doc["_source"]["obj"]["funding_entity"]
-                    if "permalink" in doc["_source"]["obj"]:
-                        element["url"] = doc["_source"]["obj"]["permalink"]
-                    if "ad_creation_time" in doc["_source"]["obj"]:
-                        element["created_on"] = doc["_source"]["obj"]["ad_creation_time"]
-                    if "created" in doc["_source"]["obj"]:
-                        element["created_on"] = doc["_source"]["obj"]["created"]
+                if "obj" in doc:
+                    if "id" in doc["obj"]:
+                        element["id"] = doc["obj"]["id"]
+                    if "page_id" in doc["obj"]:
+                        element["page_id"] = doc["obj"]["page_id"]
+                    if "page_name" in doc["obj"]:
+                        element["page_name"] = doc["obj"]["page_name"]
+                    if "funding_entity" in doc["obj"]:
+                        element["funding_entity"] = doc["obj"]["funding_entity"]
+                    if "permalink" in doc["obj"]:
+                        element["url"] = doc["obj"]["permalink"]
+                    if "ad_creation_time" in doc["obj"]:
+                        element["created_on"] = doc["obj"]["ad_creation_time"]
+                    if "created" in doc["obj"]:
+                        element["created_on"] = doc["obj"]["created"]
                 elements.append(element)
     return jsonify(elements)
 
 @app.route("/api/browse/histogram/", methods=["POST"])
 def route_api_browse_histogram():
     data = request.get_json()
-    qs = {
+    body = {
         "histogram": True
     }
     elements = []
     if "term" in data:
         if data["term"] is not None:
             if len(data["term"]) > 0:
-                qs["text"] = str(data["term"])
+                body["text"] = data["term"]
     if "dates" in data:
-        min_date = str(data["dates"]["min"])[:10]
-        max_date = str(data["dates"]["max"])[:10]
-        qs["min_year"] = min_date[:4]
-        qs["max_year"] = max_date[:4]
-        qs["min_month"] = min_date[5:7]
-        qs["max_month"] = max_date[5:7]
-        qs["min_day"] = min_date[8:10]
-        qs["max_day"] = max_date[8:10]
+        body["dates"] = {
+            "min": str(data["dates"]["min"])[:10],
+            "max": str(data["dates"]["max"])[:10]
+        }
     if "documents" in data:
         if data["documents"] == "articles":
             endpoint = "/documents/browse/news/articles/source/"
             if "group" in data:
                 endpoint = endpoint + data["group"] + "/"
-                docs = get(path(endpoint, qs))
+                docs = post(endpoint, body)
                 elements.extend(docs)
         elif data["documents"] == "tweets":
             endpoint = "/documents/browse/twitter/tweets/candidate/"
             if "group" in data:
                 endpoint = endpoint + data["group"] + "/"
-                docs = get(path(endpoint, qs))
+                docs = post(endpoint, body)
                 elements.extend(docs)
         elif data["documents"] == "ads":
             endpoint = "/documents/browse/facebook/ads/"
-            docs = get(path(endpoint, qs))
+            docs = post(endpoint, body)
             elements.extend(docs)
     return jsonify(elements)
 

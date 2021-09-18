@@ -281,8 +281,10 @@ const matches = {
         }
       }
       if (download == true) {
-        query["limit"] = 1000
-        query["page"] = this.download.page
+        query.pagination = {
+          limit: 1000,
+          page: this.download.page
+        }
         axios.post(this.api.endpoint, query)
         .then(function(response) {
           let downloadable = []
@@ -295,8 +297,10 @@ const matches = {
           console.error(error)
         })
       } else {
-        query["limit"] = this.pagination.limit
-        query["page"] = this.pagination.page
+        query.pagination = {
+          limit: this.pagination.limit,
+          page: this.pagination.page
+        }
         axios.post(this.api.endpoint, query)
         .then(function(response) {
           self.matches = response.data

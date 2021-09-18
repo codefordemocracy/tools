@@ -556,7 +556,8 @@ new Vue({
     el: '#uncovercontributors',
     components: {
         'modal': modal,
-        'toggle': toggle
+        'toggle': toggle,
+        'datepicker': vuejsDatepicker,
     },
     data: {
         labels: {
@@ -567,7 +568,9 @@ new Vue({
         pagination: {
             limit: 30,
             page: 1
-        }
+        },
+        disabledDates: DATERANGES.disabledDates.datasets,
+        dates: DATERANGES.dates.datasets,
     },
     methods: {
         all(value) {
@@ -588,6 +591,10 @@ new Vue({
                 ids: _.map(store.state.explore.selected, function(i) {
                   return parseInt(i.data.id)
                 }),
+                dates: {
+                    min: moment(this.dates.min, 'YYYY-MM-DD').subtract(1, 'days').format('YYYY-MM-DD'),
+                    max: moment(this.dates.max, 'YYYY-MM-DD').subtract(1, 'days').format('YYYY-MM-DD')
+                },
                 min_transaction_amt: this.min_transaction_amt,
                 pagination: this.pagination
             })
@@ -674,7 +681,7 @@ new Vue({
         let edges = this.$route.query.edges
         if (!_.isUndefined(nodes) || !_.isUndefined(edges)) {
             store.commit('explore/loading', true)
-            addData({ type: 'ids', nodes: nodes, edges: edges })
+            addData({ type: 'ids', nodes: _.split(nodes, ','), edges: _.split(edges, ',') })
             store.commit('explore/step', 'start')
         }
     },
