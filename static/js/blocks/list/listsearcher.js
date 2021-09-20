@@ -100,7 +100,7 @@ const listsearcher = {
         let subtype = _.uniq(_.map(response.data, 'subtype'))
         let mapped = {}
         _.forEach(subtype, function(t) {
-          mapped[t] = _.filter(response.data, {subtype: t})
+          mapped[t] = _.orderBy(_.filter(response.data, {subtype: t}), ['visibility', 'featured'], ['desc', 'asc'])
         })
         self.preloaded = mapped
         // fill out selected for cloning and editing
