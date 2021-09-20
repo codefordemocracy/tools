@@ -69,13 +69,13 @@ const matches = {
                   <button @click="select(match.id)" :disabled="numbranches > 0" class="btn btn-sm btn-primary selectables" v-if="!_.includes(selected, match.id)">Select</button>
                   <button @click="unselect(match.id)" :disabled="numbranches > 0" class="btn btn-sm btn-red selectables" v-if="_.includes(selected, match.id)">Unselect</button>
                 </template>
-                <dropdown button="btn-sm btn-gray" text="Investigate" menu="right-0 text-right dropdown-menu-xs border border-secondary" @dropdown="dropdown">
-                  <button @click="intermediate(match)" class="dropdown-item" v-if="has.intermediaries">View Details</button>
-                  <button @click="expand(match)" class="dropdown-item" v-if="has.expansions">Expand Record</button>
-                  <button @click="search(match)" class="dropdown-item" v-if="has.search">New Search</button>
+                <dropdown button="btn-sm btn-gray" text="Investigate" menu="right-0 dropdown-menu-xs border border-secondary flex flex-col" @dropdown="dropdown">
+                  <button @click="intermediate(match)" class="dropdown-item text-right" v-if="has.intermediaries">View Details</button>
+                  <button @click="expand(match)" class="dropdown-item text-right" v-if="has.expansions">Expand Record</button>
+                  <button @click="search(match)" class="dropdown-item text-right" v-if="has.search">New Search</button>
                   <div class="dropdown-divider" v-if="countTrue([has.intermediaries, has.expansions, has.search]) > 0"></div>
-                  <button @click="POPUP(ROOTURL + '/explore/relationships/graph/?mode=popup&nodes=' + stringify(_.map(_.filter(matches, {element: 'node'}), 'properties.uuid')) + '&edges=' + match.properties.uuid, 'popup-' + _.uniqueId(), 1, window)" class="dropdown-item" v-if="match.element == 'edge'">View in Graph Tool</button>
-                  <button @click="POPUP(ROOTURL + '/explore/relationships/graph/?mode=popup&nodes=' + match.properties.uuid, 'popup-' + _.uniqueId(), 1, window)" class="dropdown-item" v-else>View in Graph Tool</button>
+                  <button @click="POPUP(ROOTURL + '/explore/relationships/graph/?mode=popup&nodes=' + stringify(_.map(_.filter(matches, {element: 'node'}), 'properties.uuid')) + '&edges=' + match.properties.uuid, 'popup-' + _.uniqueId(), 1, window)" class="dropdown-item text-right" v-if="match.element == 'edge'">View in Graph Tool</button>
+                  <button @click="POPUP(ROOTURL + '/explore/relationships/graph/?mode=popup&nodes=' + match.properties.uuid, 'popup-' + _.uniqueId(), 1, window)" class="dropdown-item text-right" v-else>View in Graph Tool</button>
                 </dropdown>
               </td>
             </tr>
