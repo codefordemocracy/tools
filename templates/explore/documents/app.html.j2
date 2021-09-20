@@ -51,18 +51,18 @@
       </div>
       <div class="form-group" :class="store.state.explore.first ? 'lg:col-span-3' : ''">
         <label class="label">Min Publication Date</label>
-        <datepicker v-model="dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates"></datepicker>
+        <datepicker v-model="dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates" :typeable="true" :required="true"></datepicker>
       </div>
       <div class="form-group" :class="store.state.explore.first ? 'lg:col-span-3' : ''">
         <label class="label">Max Publication Date</label>
-        <datepicker v-model="dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates"></datepicker>
+        <datepicker v-model="dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates" :typeable="true" :required="true"></datepicker>
       </div>
       <div class="form-group" :class="store.state.explore.first ? 'md:col-span-2 lg:col-span-10 lg:mb-0' : ''">
         <label class="label">Search Term</label>
         <typeahead ul="text-xs" input="form-element" v-model="term" :items="PLACEHOLDERS.topic"></typeahead>
       </div>
       <div :class="store.state.explore.first ? 'md:col-span-2 lg:pt-6' : ''">
-        <input type="submit" class="btn btn-gray mb-0" :value="button" :disabled="store.state.explore.loading"/>
+        <input type="submit" class="btn btn-gray mb-0" :value="button" :disabled="store.state.explore.loading || _.isNull(dates.min) || _.isNull(dates.max)" />
       </div>
     </form>
     <template v-if="!store.state.explore.first && store.state.explore.loaded">

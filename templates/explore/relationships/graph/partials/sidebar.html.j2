@@ -44,7 +44,7 @@
     <div class="p-3 bg-light mb-4" v-if="store.state.explore.advanced == false">
       <toggle v-model="search.options.context" :labels="{checked: 'Include', unchecked: 'Exclude'}" :width=78><span slot="text">Connected Nodes</span></toggle>
     </div>
-    <input type="submit" class="btn btn-gray" value="Search" />
+    <input type="submit" class="btn btn-gray" value="Search" :disabled="(_.isNull(search.dates.min) || _.isNull(search.dates.max)) && store.state.explore.flow != 'candidates'" />
   </form>
   <div class="text-right text-primary text-xs mt-1">
     <a href="javascript:void(0);" v-if="store.state.explore.advanced == false" @click="store.commit('explore/advanced', true)">Advanced +</a>

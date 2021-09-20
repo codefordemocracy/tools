@@ -84,12 +84,10 @@ const STATES = [
 const DATERANGES = {
   disabledDates: {
     documents: {
-      to: moment('2019-04-01', 'YYYY-MM-DD').toDate(),
-      from: moment().toDate()
+      to: moment('2019-01-01', 'YYYY-MM-DD').toDate()
     },
     datasets: {
-      to: moment('2007-01-01', 'YYYY-MM-DD').toDate(),
-      from: moment().toDate()
+      to: moment('2007-01-01', 'YYYY-MM-DD').toDate()
     }
   },
   dates: {

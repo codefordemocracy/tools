@@ -95,11 +95,11 @@ const matches = {
         <div slot="body" class="form-sm form-full pb-12 mb-5">
           <div class="form-group">
             <label class="label">Min <span v-if="intermediaries == 'contribution'">Contribution </span><span v-else-if="intermediaries == 'expenditure'">Expenditure </span>Date</label>
-            <datepicker v-model="refine.dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="refine.disabledDates"></datepicker>
+            <datepicker v-model="refine.dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="refine.disabledDates" :typeable="true" :required="true"></datepicker>
           </div>
           <div class="form-group">
             <label class="label">Max <span v-if="intermediaries == 'contribution'">Contribution </span><span v-else-if="intermediaries == 'expenditure'">Expenditure </span>Date</label>
-            <datepicker v-model="refine.dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="refine.disabledDates"></datepicker>
+            <datepicker v-model="refine.dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="refine.disabledDates" :typeable="true" :required="true"></datepicker>
           </div>
           <div class="form-group" v-if="intermediaries == 'contribution' && api.payload.entity != 'donor' && api.payload.entity2 != 'donor'">
             <label class="label">Direction of Contributions</label>
@@ -120,7 +120,7 @@ const matches = {
         </div>
         <div slot="footer" class="flex justify-end">
           <button class="btn btn-sm btn-secondary mr-1" @click="modals.refine = false">Cancel</button>
-          <button class="btn btn-sm btn-gray" @click="status.updating = true; get(true, false); status.refined = true; modals.refine = false">Update Matches</button>
+          <button class="btn btn-sm btn-gray" @click="status.updating = true; get(true, false); status.refined = true; modals.refine = false" :disabled="_.isNull(refine.dates.min) || _.isNull(refine.dates.max)">Update Matches</button>
         </div>
       </modal>
       <modal :show="modals.download" @cancel="modals.download = false">

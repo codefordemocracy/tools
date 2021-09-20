@@ -121,6 +121,8 @@ new Vue({
         }
         if (!_.isEmpty(this.build.lists) && !_.isEmpty(this.build.subtypes) && _.keys(this.build.lists).length == this.build.subtypes.length) {
           store.commit('workflow/valid', 2)
+        }
+        if (!_.isNull(this.filters.dates.min) && !_.isNull(this.filters.dates.max)) {
           store.commit('workflow/valid', 3)
           store.commit('workflow/valid', 4)
         }
