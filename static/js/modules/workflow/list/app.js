@@ -49,7 +49,10 @@ new Vue({
     placeholder() {
       if (this.list.subtype == 'committee') {
         return {
-          terms: 'Victory Fund, Leadership Committee, Joint Fundraising, ...',
+          terms: `Victory Fund
+Leadership Committee
+Joint Fundraising
+...`,
           ids: `C00000935
 C00075820
 C00042366
@@ -59,17 +62,25 @@ C00027466
         }
       } else if (this.list.subtype == 'employer') {
         return {
-          terms: 'Hospital, Bank, ...',
+          terms: `Hospital
+Bank
+...`,
           ids: ''
         }
       } else if (this.list.subtype == 'job') {
         return {
-          terms: 'Doctor, Software Engineer, Realtor, ...',
+          terms: `Doctor
+Software Engineer
+Realtor
+...`,
           ids: ''
         }
       } else if (this.list.subtype == 'topic') {
         return {
-          terms: 'Finance, Defense, Healthcare, ...',
+          terms: `Finance
+Defense
+Healthcare
+...`,
           ids: 'LAW, BUD, NAT, HCR, MMM, AVI, EDU, ...'
         }
       }
@@ -78,14 +89,14 @@ C00027466
     build() {
       let obj = _.cloneDeep(this.list)
       if (!_.isNil(obj.include.terms)) {
-        obj.include.terms = _.map(_.split(obj.include.terms, ','))
+        obj.include.terms = _.map(_.split(obj.include.terms, '\n'))
       }
       if (!_.isNil(obj.include.ids)) {
         obj.include.ids = _.map(_.split(obj.include.ids, '\n'))
       }
       if (this.exclude) {
         if (!_.isNil(obj.exclude.terms)) {
-          obj.exclude.terms = _.map(_.split(obj.exclude.terms, ','))
+          obj.exclude.terms = _.map(_.split(obj.exclude.terms, '\n'))
         }
         if (!_.isNil(obj.exclude.ids)) {
           obj.exclude.ids = _.map(_.split(obj.exclude.ids, '\n'))
@@ -178,7 +189,7 @@ C00027466
       .then(function(response) {
         self.list = response.data
         if (!_.isNil(self.list.include.terms)) {
-          self.list.include.terms = self.list.include.terms.join(', ')
+          self.list.include.terms = self.list.include.terms.join('\n')
         }
         if (!_.isNil(self.list.include.ids)) {
           self.list.include.ids = self.list.include.ids.join('\n')
@@ -191,7 +202,7 @@ C00027466
           self.exclude = false
         } else {
           if (!_.isNil(self.list.exclude.terms)) {
-            self.list.exclude.terms = self.list.exclude.terms.join(', ')
+            self.list.exclude.terms = self.list.exclude.terms.join('\n')
           }
           if (!_.isNil(self.list.exclude.ids)) {
             self.list.exclude.ids = self.list.exclude.ids.join('\n')
