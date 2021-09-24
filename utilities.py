@@ -25,8 +25,6 @@ def elements2cy(elements):
         if "properties" in element:
             if "sub_id" in element["properties"]:
                 element["properties"]["sub_id"] = int(element["properties"]["sub_id"])
-            if "uuid" in element["properties"]:
-                element["properties"]["uuid"] = element["properties"].pop("uuid")
         cy.append({
             "data": element
         })
