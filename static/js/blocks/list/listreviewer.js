@@ -6,7 +6,10 @@ const listreviewer = {
     <div>
       <p class="text-xs" v-if="_.isEmpty(table) && !loaded">Loading entities...</p>
       <p class="text-xs" v-else-if="_.isEmpty(table) && loaded">Your inclusion and exclusion criteria returned no entities.</p>
-      <datatable class="text-xs" :columns="_.keys(table[0])" :data="table" :count="count" :head="pagination.skip == 0 ? true : false" :options="{paginate: true, pagination: 'server', numpages: 0, limit: pagination.limit}" :paging="paging" @previous="previous" @next="next" v-else></datatable>
+      <div class="relative" v-else>
+        <datatable ref="datatable" class="text-xs" :columns="_.keys(table[0])" :data="table" :count="count" :head="pagination.skip == 0 ? true : false" :options="{paginate: true, pagination: 'server', numpages: 0, limit: pagination.limit}" :paging="paging" @previous="previous" @next="next"></datatable>
+        <div class="absolute top-0 right-0 -mt-5 -mr-5 bg-blue text-white text-xs px-2" v-if="more">&larr;<span class="px-3">scroll me</span>&rarr;</div>
+      </div>
     </div>
   `,
   props: {
@@ -34,7 +37,8 @@ const listreviewer = {
       downloading: {
         count: 0,
         status: false
-      }
+      },
+      more: false
     }
   },
   methods: {
@@ -97,6 +101,9 @@ const listreviewer = {
       }
       this.getResults(function(data) {
         self.table = data
+        Vue.nextTick(function () {
+          self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
+        })
       })
     },
     next() {
@@ -105,6 +112,9 @@ const listreviewer = {
       this.pagination.skip = this.pagination.skip + this.pagination.limit
       this.getResults(function(data) {
         self.table = data
+        Vue.nextTick(function () {
+          self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
+        })
       })
     }
   },
@@ -121,6 +131,9 @@ const listreviewer = {
     var self = this
     this.getResults(function(data) {
       self.table = data
+      Vue.nextTick(function () {
+        self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
+      })
     })
     this.getCount(function(data) {
       self.count = data

@@ -6,7 +6,10 @@ const vizreviewer = {
     <div>
       <p class="text-xs" v-if="!loaded">Loading...</p>
       <p class="text-xs" v-else-if="loaded && formatted.count == 0">The settings you configured did not produce any rows of data.</p>
-      <datatable class="text-xs" :count="formatted.count" :columns="_.keys(formatted.pages[0][0])" :data="formatted.pages" :head="true" :options="{paginate: true, pagination: 'client', numpages: formatted.pages.length, limit: 20}" v-else></datatable>
+      <div class="relative" v-else>
+        <datatable ref="datatable" class="text-xs" :count="formatted.count" :columns="_.keys(formatted.pages[0][0])" :data="formatted.pages" :head="true" :options="{paginate: true, pagination: 'client', numpages: formatted.pages.length, limit: 20}"></datatable>
+        <div class="absolute top-0 right-0 -mt-5 -mr-5 bg-blue text-white text-xs px-2" v-if="more">&larr;<span class="px-3">scroll me</span>&rarr;</div>
+      </div>
     </div>
   `,
   props: {
@@ -45,7 +48,8 @@ const vizreviewer = {
       downloading: {
         count: 0,
         status: false
-      }
+      },
+      more: false
     }
   },
   methods: {
@@ -84,6 +88,9 @@ const vizreviewer = {
     .then(function(response) {
       self.formatted = response.data
       self.loaded = true
+      Vue.nextTick(function () {
+        self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
+      })
       // create datastring for datawrapper
       if (self.category != 'network') {
         let datawrapper = {
