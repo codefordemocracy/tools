@@ -102,8 +102,6 @@ const vizreviewer = {
           datawrapper.type = 'tables'
         } else if (self.category == 'chart') {
           datawrapper.type = 'd3-bars'
-        } else if (self.category == 'map') {
-          datawrapper.type = 'd3-maps-choropleth'
         }
         if (self.formatted.count > 0) {
           datawrapper.data += _.join(_.keys(self.formatted.pages[0][0]), ';')

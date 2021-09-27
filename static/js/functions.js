@@ -31,7 +31,9 @@ const POPUP = function(url, name, ratio, main) {
 const DATAWRAPPER = function(settings, title, description) {
   if (!_.isUndefined(settings)) {
     settings.title = title
-    settings.description = description
+    if (!_.isNull(description)) {
+      settings.description = description
+    }
     let form = document.createElement('form')
     form.setAttribute('method', 'post')
     form.setAttribute('target', '_blank')
