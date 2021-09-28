@@ -378,7 +378,8 @@ new Vue({
                 cmte_nm: '',
                 cmte_pty_affiliation: 'all',
                 cmte_dsgn: 'all',
-                cmte_tp: 'all'
+                cmte_tp: 'all',
+                org_tp: 'all'
             },
             donors: {
                 name: '',

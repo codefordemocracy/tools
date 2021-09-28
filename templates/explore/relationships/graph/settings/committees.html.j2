@@ -30,6 +30,18 @@
     </select>
   </div>
   <div class="form-group">
+    <label class="label">Interest Group Category</label>
+    <select class="form-element select" v-model="search.committees.org_tp" >
+      <option value="all">All</option>
+      <option value="C">Corporation</option>
+      <option value="L">Labor organization</option>
+      <option value="M">Membership organization</option>
+      <option value="T">Trade association</option>
+      <option value="V">Cooperative</option>
+      <option value="W">Corporation without capital stock</option>
+    </select>
+  </div>
+  <div class="form-group">
     <label class="label">Limit</label>
     <p class="form-text-top">Number of results returned per search.</p>
     <input class="form-element" v-model="search.pagination.limit" type="number" min="0" max="300" />
