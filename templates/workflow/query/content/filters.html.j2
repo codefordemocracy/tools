@@ -1,14 +1,8 @@
-<tabs @placeholder="store.commit('waitlist/modal', true)">
-  <tab name="Terms & IDs" :placeholder="true" class="p-5">
-    <div class="flex justify-center items-center text-xs text-dark px-5 py-10">This feature is coming soon.</div>
-  </tab>
-  <tab name="Categorical Filters" :placeholder="true" class="p-5">
-
-  </tab>
-  <tab name="Numerical Filters" :placeholder="true" class="p-5">
-
-  </tab>
+<tabs>
   <tab name="Date Filters" :selected="true" class="p-5">
     {% include "/workflow/query/tabs/filters/date.html.j2" %}
+  </tab>
+  <tab name="Numerical Filters" class="p-5">
+    {% include "/workflow/query/tabs/filters/numerical.html.j2" %}
   </tab>
 </tabs>

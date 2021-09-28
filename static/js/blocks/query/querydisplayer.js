@@ -14,6 +14,12 @@ const querydisplayer = {
       <li v-if="!_.includes(hide, 'subtypes')"><strong>Subtypes:</strong> {{query.subtypes.join(', ')}}</li>
       <li v-if="!_.includes(hide, 'lists')"><strong>Lists:</strong><span v-for="(id, i) in query.lists"><span v-if="i != 'a'">,</span> <a class="text-primary" :href="'/view/list/?id=' + id + '&mode=popup'" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-view-list-' + _.uniqueId(), ratio, window)">{{id}}</a></span></li>
       <li v-if="!_.includes(hide, 'dates')"><strong>Dates:</strong> {{query.dates.min.split('T')[0]}} to {{query.dates.max.split('T')[0]}}</li>
+      <template v-if="!_.includes(hide, 'filters') && !_.isNil(query.filters)">
+        <template v-if="!_.isNil(query.filters.amount)">
+          <li v-if="!_.isNil(query.filters.amount.min)"><strong>Min Transaction Amount:</strong> {{'$' + query.filters.amount.min | currency}}</li>
+          <li v-if="!_.isNil(query.filters.amount.max)"><strong>Max Transaction Amount:</strong> {{'$' + query.filters.amount.max | currency}}</li>
+        </template>
+      </template>
     </ul>
   `,
   props: {

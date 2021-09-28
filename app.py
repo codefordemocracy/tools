@@ -268,6 +268,8 @@ def route_api_query_results_table():
             "min": str(data["query"]["dates"]["min"])[:10],
             "max": str(data["query"]["dates"]["max"])[:10]
         }
+    if data["query"].get("filters") is not None:
+        body["filters"] = data["query"]["filters"]
     if data.get("sort") is not None:
         if data["sort"]["orderby"] != "none":
             body["orderby"] = data["sort"]["orderby"]
@@ -296,6 +298,8 @@ def route_api_query_results_count():
             "min": str(data["query"]["dates"]["min"])[:10],
             "max": str(data["query"]["dates"]["max"])[:10]
         }
+    if data["query"].get("filters") is not None:
+        body["filters"] = data["query"]["filters"]
     if data["query"].get("output") is not None:
         endpoint = "/data/calculate/recipe/" + data["query"]["output"] + "/"
         if "template" in data["query"] and "lists" in data["query"]:
@@ -317,6 +321,8 @@ def route_api_query_results_histogram():
             "min": str(data["query"]["dates"]["min"])[:10],
             "max": str(data["query"]["dates"]["max"])[:10]
         }
+    if data["query"].get("filters") is not None:
+        body["filters"] = data["query"]["filters"]
     if data["query"].get("output") is not None:
         endpoint = "/data/calculate/recipe/" + data["query"]["output"] + "/"
         if "template" in data["query"] and "lists" in data["query"]:

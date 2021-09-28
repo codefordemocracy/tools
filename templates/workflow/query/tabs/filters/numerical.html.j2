@@ -1,0 +1,18 @@
+<div class="form-full form-sm grid grid-cols-1 sm:grid-cols-2 gap-5" v-if="recipe.selected.output == 'contribution'">
+  <div>
+    <label class="label">Min Transaction Amount</label>
+    <div class="input-group">
+      <div class="input-group-prepend">$</div>
+      <input class="input-group-element" v-model="filters.numerical.amount.min" type="number" step="0.01" />
+    </div>
+  </div>
+  <div>
+    <label class="label">Max Transaction Amount</label>
+    <div class="input-group">
+      <div class="input-group-prepend">$</div>
+      <input class="input-group-element" v-model="filters.numerical.amount.max" type="number" step="0.01" />
+    </div>
+  </div>
+  <p class="text-xs text-muted">Tip: You can filter for refunds by entering <code class="text-pink">0</code> as the <em>Max Transaction Amount</em>.</p>
+</div>
+<p class="text-xs" v-else>There are no numerical filters available for {{recipe.selected.output}} recipes.</p>

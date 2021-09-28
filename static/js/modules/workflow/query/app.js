@@ -31,7 +31,13 @@ new Vue({
     },
     filters: {
       disabledDates: DATERANGES.disabledDates.datasets,
-      dates: DATERANGES.dates.datasets
+      dates: DATERANGES.dates.datasets,
+      numerical: {
+        amount: {
+          min: null,
+          max: null
+        }
+      }
     },
     results: {
       count: -1,
@@ -65,6 +71,19 @@ new Vue({
           obj.lists[s] = self.lists.config[s].selected.id
         }
       })
+      if (this.recipe.selected.output == 'contribution') {
+        if (!_.isEmpty(this.filters.numerical.amount.min) || !_.isEmpty(this.filters.numerical.amount.max)) {
+          obj.filters = {
+            amount: {}
+          }
+          if (!_.isEmpty(this.filters.numerical.amount.min)) {
+            obj.filters.amount.min = this.filters.numerical.amount.min
+          }
+          if (!_.isEmpty(this.filters.numerical.amount.max)) {
+            obj.filters.amount.max = this.filters.numerical.amount.max
+          }
+        }
+      }
       return obj
     },
     buildable() {
@@ -174,6 +193,11 @@ new Vue({
         self.save.visibility = response.data.visibility
         self.save.name = response.data.name
         self.save.description = response.data.description
+        if (!_.isUndefined(response.data.filters)) {
+          if (!_.isUndefined(response.data.filters.amount)) {
+            self.filters.numerical.amount = response.data.filters.amount
+          }
+        }
       })
       .catch(function(error) {
         console.error(error)
