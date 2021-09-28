@@ -451,10 +451,11 @@ def route_api_graph():
                 body["attributes"]["cand_office_st"] = data["parameters"]["cand_office_st"]
             if data["parameters"]["cand_office_district"] != "all":
                 body["attributes"]["cand_office_district"] = data["parameters"]["cand_office_district"]
-            if data["parameters"]["cand_election_yr"] != "all":
-                body["attributes"]["cand_election_yr"] = data["parameters"]["cand_election_yr"]
             if data["parameters"]["cand_ici"] != "all":
                 body["attributes"]["cand_ici"] = data["parameters"]["cand_ici"]
+            if data["parameters"]["cand_election_yr"] is not None:
+                if len(data["parameters"]["cand_election_yr"]) > 0:
+                    body["attributes"]["cand_election_yr"] = data["parameters"]["cand_election_yr"]
             elements = utilities.elements2cy(post(endpoint, body))
         elif data["flow"] == "committees":
             endpoint = "/graph/search/committees/"
@@ -466,6 +467,8 @@ def route_api_graph():
                 body["attributes"]["cmte_dsgn"] = data["parameters"]["cmte_dsgn"]
             if data["parameters"]["cmte_tp"] != "all":
                 body["attributes"]["cmte_tp"] = data["parameters"]["cmte_tp"]
+            if data["parameters"]["org_tp"] != "all":
+                body["attributes"]["org_tp"] = data["parameters"]["org_tp"]
             elements = utilities.elements2cy(post(endpoint, body))
         elif data["flow"] == "donors":
             endpoint = "/graph/search/donors/"

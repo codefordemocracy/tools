@@ -79,6 +79,67 @@ const STATES = [
   {label: 'Wyoming (WY)', value: 'WY'}
 ]
 
+/* Categories */
+
+const OPTIONS_PTY_AFFILIATION = [
+  {label: 'Democrat (DEM)', value: 'DEM'},
+  {label: 'Republican (REP)', value: 'REP'}
+]
+
+const OPTIONS_CAND_OFFICE = [
+  {label: 'House (H)', value: 'H'},
+  {label: 'Senate (S)', value: 'S'},
+  {label: 'President (P)', value: 'P'}
+]
+
+const OPTIONS_CAND_ICI = [
+  {label: 'Incumbent (I)', value: 'I'},
+  {label: 'Challenger (C)', value: 'C'},
+  {label: 'Open Seat (O)', value: 'O'}
+]
+
+const OPTIONS_CMTE_DSGN = [
+  {label: 'Authorized by a candidate (A)', value: 'A'},
+  {label: 'Leadership PAC (D)', value: 'D'},
+  {label: 'Joint fundraiser (J)', value: 'J'},
+  {label: 'Lobbyist/Registrant PAC (B)', value: 'B'},
+  {label: 'Principal campaign committee of a candidate (P)', value: 'P'},
+  {label: 'Unauthorized (U)', value: 'U'}
+]
+
+const OPTIONS_CMTE_TP = [
+  {label: 'House (H)', value: 'H'},
+  {label: 'Senate (S)', value: 'S'},
+  {label: 'Presidential (P)', value: 'P'},
+  {label: 'PAC - qualified (Q)', value: 'Q'},
+  {label: 'PAC - nonqualified (N)', value: 'N'},
+  {label: 'PAC with non-contribution account - qualified (W)', value: 'W'},
+  {label: 'PAC with non-contribution account - nonqualified (V)', value: 'V'},
+  {label: 'Independent expenditure-only (Super PACs) (O)', value: 'O'},
+  {label: 'Independent expenditor (person or group) (I)', value: 'I'},
+  {label: 'Single-candidate independent expenditure (U)', value: 'U'},
+  {label: 'Party - qualified (Y)', value: 'Y'},
+  {label: 'Party - nonqualified (X)', value: 'X'},
+  {label: 'National party nonfederal account (Z)', value: 'Z'},
+  {label: 'Electioneering communication (E)', value: 'E'},
+  {label: 'Communication cost (C)', value: 'C'},
+  {label: 'Delegate committee (D)', value: 'D'}
+]
+
+const OPTIONS_ORG_TP = [
+  {label: 'Corporation (C)', value: 'C'},
+  {label: 'Labor organization (L)', value: 'L'},
+  {label: 'Membership organization (M)', value: 'M'},
+  {label: 'Trade association (T)', value: 'T'},
+  {label: 'Cooperative (V)', value: 'V'},
+  {label: 'Corporation without capital stock (W)', value: 'W'}
+]
+
+const OPTIONS_ENTITY_TP = [
+  {label: 'Individual (IND)', value: 'IND'},
+  {label: 'Organization (ORG)', value: 'ORG'}
+]
+
 /* Dates */
 
 const DATERANGES = {

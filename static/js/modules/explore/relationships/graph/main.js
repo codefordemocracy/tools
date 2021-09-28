@@ -371,8 +371,8 @@ new Vue({
                 cand_office: 'all',
                 cand_office_st: 'all',
                 cand_office_district: 'all',
-                cand_election_yr: 'all',
-                cand_ici: 'all'
+                cand_ici: 'all',
+                cand_election_yr: null,
             },
             committees: {
                 cmte_nm: '',

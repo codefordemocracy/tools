@@ -8,37 +8,29 @@
   <div class="form-group">
     <label class="label">Party Affiliation</label>
     <select class="form-element select" v-model="search.committees.cmte_pty_affiliation" >
-      {% include "/explore/relationships/graph/snippets/parties.html.j2" %}
+      <option value="all">All</option>
+      <option :value="x.value" v-for="x in OPTIONS_PTY_AFFILIATION">{{x.label}}</option>
     </select>
   </div>
   <div class="form-group">
     <label class="label">Committee Designation</label>
     <select class="form-element select" v-model="search.committees.cmte_dsgn" >
       <option value="all">All</option>
-      <option value="A">Authorized by a candidate</option>
-      <option value="D">Leadership PAC</option>
-      <option value="J">Joint fundraiser</option>
-      <option value="B">Lobbyist/Registrant PAC</option>
-      <option value="P">Principal campaign committee of a candidate</option>
-      <option value="U">Unauthorized</option>
+      <option :value="x.value" v-for="x in OPTIONS_CMTE_DSGN">{{x.label}}</option>
     </select>
   </div>
   <div class="form-group">
     <label class="label">Committee Type</label>
     <select class="form-element select" v-model="search.committees.cmte_tp" >
-      {% include "/explore/relationships/graph/snippets/committees.html.j2" %}
+      <option value="all">All</option>
+      <option :value="x.value" v-for="x in OPTIONS_CMTE_TP">{{x.label}}</option>
     </select>
   </div>
   <div class="form-group">
     <label class="label">Interest Group Category</label>
     <select class="form-element select" v-model="search.committees.org_tp" >
       <option value="all">All</option>
-      <option value="C">Corporation</option>
-      <option value="L">Labor organization</option>
-      <option value="M">Membership organization</option>
-      <option value="T">Trade association</option>
-      <option value="V">Cooperative</option>
-      <option value="W">Corporation without capital stock</option>
+      <option :value="x.value" v-for="x in OPTIONS_ORG_TP">{{x.label}}</option>
     </select>
   </div>
   <div class="form-group">

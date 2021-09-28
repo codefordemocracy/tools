@@ -8,47 +8,41 @@
   <div class="form-group">
     <label class="label">Party Affiliation</label>
     <select class="form-element select" v-model="search.candidates.cand_pty_affiliation" >
-      {% include "/explore/relationships/graph/snippets/parties.html.j2" %}
+      <option value="all">All</option>
+      <option :value="x.value" v-for="x in OPTIONS_PTY_AFFILIATION">{{x.label}}</option>
     </select>
   </div>
   <div class="form-group">
     <label class="label">Office</label>
     <select class="form-element select" v-model="search.candidates.cand_office" >
       <option value="all">All</option>
-      <option value="H">House</option>
-      <option value="S">Senate</option>
-      <option value="P">President</option>
+      <option :value="x.value" v-for="x in OPTIONS_CAND_OFFICE">{{x.label}}</option>
     </select>
   </div>
   <div class="form-group">
     <label class="label">State</label>
     <select class="form-element select" v-model="search.candidates.cand_office_st" :disabled="search.candidates.office == 'P'">
-      {% include "/explore/relationships/graph/snippets/states.html.j2" %}
+      <option value="all">All</option>
+      <option :value="x.value" v-for="x in STATES">{{x.label}}</option>
     </select>
   </div>
   <div class="form-group">
     <label class="label">District</label>
     <select class="form-element select" v-model="search.candidates.cand_office_district" :disabled="search.candidates.office == 'P' || search.candidates.office == 'S'">
-      {% include "/explore/relationships/graph/snippets/districts.html.j2" %}
-    </select>
-  </div>
-  <div class="form-group">
-    <label class="label">Election Year</label>
-    <select class="form-element select" v-model="search.candidates.cand_election_yr">
       <option value="all">All</option>
-      <option value="2020">2020</option>
-      <option value="2018">2018</option>
-      <option value="2016">2016</option>
+      <option :value="_.padStart(x, 2, '0')" v-for="x in _.range(54)">{{_.padStart(x, 2, '0')}}</option>
     </select>
   </div>
   <div class="form-group">
     <label class="label">Status</label>
     <select class="form-element select" v-model="search.candidates.cand_ici">
       <option value="all">All</option>
-      <option value="I">Incumbent</option>
-      <option value="C">Challenger</option>
-      <option value="O">Open Seat</option>
+      <option :value="x.value" v-for="x in OPTIONS_CAND_ICI">{{x.label}}</option>
     </select>
+  </div>
+  <div class="form-group">
+    <label class="label">Election Year</label>
+    <input class="form-element" v-model="search.candidates.cand_election_yr" type="number" min="1900" :max="2100" />
   </div>
   <div class="form-group">
     <label class="label">Limit</label>
