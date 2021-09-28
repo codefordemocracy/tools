@@ -270,10 +270,9 @@ def route_api_query_results_table():
         }
     if data["query"].get("filters") is not None:
         body["filters"] = data["query"]["filters"]
-    if data.get("sort") is not None:
-        if data["sort"]["orderby"] != "none":
-            body["orderby"] = data["sort"]["orderby"]
-        body["orderdir"] = data["sort"]["orderdir"]
+    if data["query"].get("orderby") is not None and data["query"].get("orderdir") is not None:
+        body["orderby"] = data["query"]["orderby"]
+        body["orderdir"] = data["query"]["orderdir"]
     if data.get("pagination") is not None:
         body["pagination"] = dict()
         if "skip" in data["pagination"]:

@@ -6,10 +6,30 @@ const resultstable = {
     <div>
       <p class="text-xs" v-if="_.isEmpty(table) && !loaded">Loading results...</p>
       <p class="text-xs" v-else-if="_.isEmpty(table) && loaded">This query returned no results.</p>
-      <div class="relative" v-else>
-        <datatable ref="datatable" class="text-xs" :columns="_.keys(table[0])" :data="table" :count="count" :head="pagination.skip == 0 ? true : false" :options="{paginate: true, pagination: 'server', numpages: 0, limit: pagination.limit}" :paging="paging" @previous="previous" @next="next"></datatable>
-        <div class="absolute top-0 right-0 -mt-5 -mr-5 bg-blue text-white text-xs px-2" v-if="more">&larr;<span class="px-3">scroll me</span>&rarr;</div>
-      </div>
+      <template v-else>
+        <div class="flex flex-col sm:flex-row form form-sm bg-secondary p-3 mb-5 -mt-5 -mx-5">
+          <div class="grid grid-cols-2 sm:grid-cols-none sm:flex gap-3 items-center mb-3 sm:mb-0">
+            <label class="label text-dark mb-0 flex-shrink-0"><span class="text-dark">Order By:</span></label>
+            <select class="form-element sm:pr-12" v-model="query.orderby" @change="setOrder">
+              <option :value="undefined">None</option>
+              <option value="date" v-if="_.includes(['article', 'ad', 'contribution', 'lobbying', '990'], query.output)">Date</option>
+              <option value="amount" v-if="_.includes(['contribution'], query.output)">Amount</option>
+            </select>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-none sm:flex gap-3 items-center mb-3 sm:mb-0 sm:mx-5">
+            <label class="label mb-0 flex-shrink-0"><span class="text-dark">Direction:</span></label>
+            <select class="form-element sm:pr-12" v-model="query.orderdir" :disabled="_.isEmpty(query.orderby)">
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
+            </select>
+          </div>
+          <button class="btn btn-white flex-shrink-0" @click="orderResults()">Sort Results</button>
+        </div>
+        <div class="relative">
+          <datatable ref="datatable" class="text-xs" :columns="_.keys(table[0])" :data="table" :count="count" :head="pagination.skip == 0 ? true : false" :options="{paginate: true, pagination: 'server', numpages: 0, limit: pagination.limit}" :paging="paging" @previous="previous" @next="next"></datatable>
+          <div class="absolute top-0 right-0 -mt-5 -mr-5 bg-blue text-white text-xs px-2" v-if="more">&larr;<span class="px-3">scroll me</span>&rarr;</div>
+        </div>
+      </template>
     </div>
   `,
   props: {
@@ -115,6 +135,17 @@ const resultstable = {
         Vue.nextTick(function () {
           self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
         })
+      })
+    },
+    setOrder() {
+      if(_.isEmpty(this.query.orderdir)) {
+        this.query.orderdir = 'asc'
+      }
+    },
+    orderResults() {
+      var self = this
+      this.getResults(function(data) {
+        self.table = data
       })
     }
   },
