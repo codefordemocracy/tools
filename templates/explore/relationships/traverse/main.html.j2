@@ -17,7 +17,7 @@
         <typeahead ul="text-xs" class="col-span-9 md:col-span-7" input="form-element w-full" v-model="term" :items="PLACEHOLDERS[entity]" :disabled="!_.isEmpty(store.state.explore.branches)"></typeahead>
         <input type="submit" class="col-span-3 md:col-span-2 btn btn-sm btn-gray" value="Search" :disabled="_.isEmpty(term) || !_.isEmpty(store.state.explore.branches)" />
       </div>
-      <p class="mt-5 text-xs text-muted">Tip: You can combine multiple search terms by entering <code class="text-pink font-extralight">term1 OR term2</code>.<span v-if="entity=='donor'"> You can also filter on <code class="text-pink">EMPLOYER:term</code> or <code class="text-pink">OCCUPATION:term</code>.</span></p>
+      <p class="mt-5 text-xs text-muted">Tip: You can combine multiple search terms by entering <code class="text-pink">term1 OR term2</code>.<span v-if="entity=='donor'"> You can also filter on <code class="text-pink">EMPLOYER:term</code> or <code class="text-pink">OCCUPATION:term</code>.</span></p>
     </form>
   </div>
   <div v-else>
