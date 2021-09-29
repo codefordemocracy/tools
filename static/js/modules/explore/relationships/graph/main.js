@@ -367,27 +367,27 @@ new Vue({
         search: {
             candidates: {
                 cand_name: '',
-                cand_pty_affiliation: 'all',
-                cand_office: 'all',
-                cand_office_st: 'all',
-                cand_office_district: 'all',
-                cand_ici: 'all',
-                cand_election_yr: null,
+                cand_pty_affiliation: null,
+                cand_office: null,
+                cand_office_st: null,
+                cand_office_district: null,
+                cand_ici: null,
+                cand_election_yr: '',
             },
             committees: {
                 cmte_nm: '',
-                cmte_pty_affiliation: 'all',
-                cmte_dsgn: 'all',
-                cmte_tp: 'all',
-                org_tp: 'all'
+                cmte_pty_affiliation: null,
+                cmte_dsgn: null,
+                cmte_tp: null,
+                org_tp: null
             },
             donors: {
                 name: '',
                 employer: '',
                 occupation: '',
-                state: 'all',
+                state: null,
                 zip_code: '',
-                entity_tp: 'all'
+                entity_tp: null
             },
             payees: {
                 name: ''

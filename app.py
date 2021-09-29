@@ -443,31 +443,30 @@ def route_api_graph():
             endpoint = "/graph/search/candidates/"
             if len(data["parameters"]["cand_name"]) > 0:
                 body["name"] = data["parameters"]["cand_name"]
-            if data["parameters"]["cand_pty_affiliation"] != "all":
+            if data["parameters"]["cand_pty_affiliation"] is not None:
                 body["attributes"]["cand_pty_affiliation"] = data["parameters"]["cand_pty_affiliation"]
-            if data["parameters"]["cand_office"] != "all":
+            if data["parameters"]["cand_office"] is not None:
                 body["attributes"]["cand_office"] = data["parameters"]["cand_office"]
-            if data["parameters"]["cand_office_st"] != "all":
+            if data["parameters"]["cand_office_st"] is not None:
                 body["attributes"]["cand_office_st"] = data["parameters"]["cand_office_st"]
-            if data["parameters"]["cand_office_district"] != "all":
+            if data["parameters"]["cand_office_district"] is not None:
                 body["attributes"]["cand_office_district"] = data["parameters"]["cand_office_district"]
-            if data["parameters"]["cand_ici"] != "all":
+            if data["parameters"]["cand_ici"] is not None:
                 body["attributes"]["cand_ici"] = data["parameters"]["cand_ici"]
-            if data["parameters"]["cand_election_yr"] is not None:
-                if len(data["parameters"]["cand_election_yr"]) > 0:
-                    body["attributes"]["cand_election_yr"] = data["parameters"]["cand_election_yr"]
+            if len(data["parameters"]["cand_election_yr"]) > 0:
+                body["attributes"]["cand_election_yr"] = data["parameters"]["cand_election_yr"]
             elements = utilities.elements2cy(post(endpoint, body))
         elif data["flow"] == "committees":
             endpoint = "/graph/search/committees/"
             if len(data["parameters"]["cmte_nm"]) > 0:
                 body["name"] = data["parameters"]["cmte_nm"]
-            if data["parameters"]["cmte_pty_affiliation"] != "all":
+            if data["parameters"]["cmte_pty_affiliation"] is not None:
                 body["attributes"]["cmte_pty_affiliation"] = data["parameters"]["cmte_pty_affiliation"]
-            if data["parameters"]["cmte_dsgn"] != "all":
+            if data["parameters"]["cmte_dsgn"] is not None:
                 body["attributes"]["cmte_dsgn"] = data["parameters"]["cmte_dsgn"]
-            if data["parameters"]["cmte_tp"] != "all":
+            if data["parameters"]["cmte_tp"] is not None:
                 body["attributes"]["cmte_tp"] = data["parameters"]["cmte_tp"]
-            if data["parameters"]["org_tp"] != "all":
+            if data["parameters"]["org_tp"] is not None:
                 body["attributes"]["org_tp"] = data["parameters"]["org_tp"]
             elements = utilities.elements2cy(post(endpoint, body))
         elif data["flow"] == "donors":
@@ -478,11 +477,11 @@ def route_api_graph():
                 body["attributes"]["employer"] = data["parameters"]["employer"]
             if len(data["parameters"]["occupation"]) > 0:
                 body["attributes"]["occupation"] = data["parameters"]["occupation"]
-            if data["parameters"]["state"] != "all":
+            if data["parameters"]["state"] is not None:
                 body["attributes"]["state"] = data["parameters"]["state"]
             if len(data["parameters"]["zip_code"]) > 0:
                 body["attributes"]["zip_code"] = data["parameters"]["zip_code"]
-            if data["parameters"]["entity_tp"] != "all":
+            if data["parameters"]["entity_tp"] is not None:
                 body["attributes"]["entity_tp"] = data["parameters"]["entity_tp"]
             elements = utilities.elements2cy(post(endpoint, body))
         elif data["flow"] == "payees":
@@ -646,13 +645,13 @@ def route_api_traverse_associations():
             }
             if data["intermediaries"] == "contribution":
                 if "direction" in data:
-                    if data["direction"] != "all":
+                    if data["direction"] is not None:
                         body["intermediaries"]["contributions"] = {
                             "direction": data["direction"]
                         }
             elif data["intermediaries"] == "expenditure":
                 if "sup_opp" in data:
-                    if data["sup_opp"] != "all":
+                    if data["sup_opp"] is not None:
                         body["intermediaries"]["expenditure"] = {
                             "sup_opp": data["sup_opp"]
                         }
@@ -689,13 +688,13 @@ def route_api_traverse_intersection():
             }
             if data["intermediaries"] == "contribution":
                 if "direction" in data:
-                    if data["direction"] != "all":
+                    if data["direction"] is not None:
                         body["intermediaries"]["contributions"] = {
                             "direction": data["direction"]
                         }
             elif data["intermediaries"] == "expenditure":
                 if "sup_opp" in data:
-                    if data["sup_opp"] != "all":
+                    if data["sup_opp"] is not None:
                         body["intermediaries"]["expenditure"] = {
                             "sup_opp": data["sup_opp"]
                         }
@@ -726,13 +725,13 @@ def route_api_traverse_intermediaries():
             }
             if data["intermediaries"] == "contribution":
                 if "direction" in data:
-                    if data["direction"] != "all":
+                    if data["direction"] is not None:
                         body["intermediaries"]["contributions"] = {
                             "direction": data["direction"]
                         }
             elif data["intermediaries"] == "expenditure":
                 if "sup_opp" in data:
-                    if data["sup_opp"] != "all":
+                    if data["sup_opp"] is not None:
                         body["intermediaries"]["expenditure"] = {
                             "sup_opp": data["sup_opp"]
                         }

@@ -8,35 +8,35 @@
   <div class="form-group">
     <label class="label">Party Affiliation</label>
     <select class="form-element" v-model="search.candidates.cand_pty_affiliation">
-      <option value="all">All</option>
+      <option :value="null">All</option>
       <option :value="x.value" v-for="x in OPTIONS_PTY_AFFILIATION">{{x.label}}</option>
     </select>
   </div>
   <div class="form-group">
     <label class="label">Office</label>
     <select class="form-element" v-model="search.candidates.cand_office">
-      <option value="all">All</option>
+      <option :value="null">All</option>
       <option :value="x.value" v-for="x in OPTIONS_CAND_OFFICE">{{x.label}}</option>
     </select>
   </div>
   <div class="form-group">
     <label class="label">State</label>
     <select class="form-element" v-model="search.candidates.cand_office_st" :disabled="search.candidates.office == 'P'">
-      <option value="all">All</option>
+      <option :value="null">All</option>
       <option :value="x.value" v-for="x in STATES">{{x.label}}</option>
     </select>
   </div>
   <div class="form-group">
     <label class="label">District</label>
     <select class="form-element" v-model="search.candidates.cand_office_district" :disabled="search.candidates.office == 'P' || search.candidates.office == 'S'">
-      <option value="all">All</option>
+      <option :value="null">All</option>
       <option :value="_.padStart(x, 2, '0')" v-for="x in _.range(54)">{{_.padStart(x, 2, '0')}}</option>
     </select>
   </div>
   <div class="form-group">
     <label class="label">Status</label>
     <select class="form-element" v-model="search.candidates.cand_ici">
-      <option value="all">All</option>
+      <option :value="null">All</option>
       <option :value="x.value" v-for="x in OPTIONS_CAND_ICI">{{x.label}}</option>
     </select>
   </div>
