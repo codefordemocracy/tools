@@ -1,14 +1,11 @@
-<tabs @placeholder="store.commit('waitlist/modal', true)">
+<tabs>
   <tab name="Terms & IDs" :selected="true" class="p-5">
     {% include "/workflow/list/tabs/include/terms.html.j2" %}
   </tab>
-  <tab name="Categorical Filters" :placeholder="true" class="p-5">
-
+  <tab name="Categorical Filters" class="p-5">
+    {% include "/workflow/list/tabs/include/categorical.html.j2" %}
   </tab>
-  <tab name="Numerical Filters" :placeholder="true" class="p-5">
-
-  </tab>
-  <tab name="Date Filters" :placeholder="true" class="p-5">
-
+  <tab name="Numerical Filters" class="p-5">
+    {% include "/workflow/list/tabs/include/numerical.html.j2" %}
   </tab>
 </tabs>

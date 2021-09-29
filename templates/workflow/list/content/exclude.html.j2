@@ -1,17 +1,14 @@
 <div class="bg-white border border-secondary px-5 py-3 mb-5">
   <toggle v-model="exclude" :labels="{checked: 'yes', unchecked: 'no'}" :width=55><span slot="text">Add Exclusion Rules</span></toggle>
 </div>
-<tabs @placeholder="store.commit('waitlist/modal', true)" v-if="exclude">
+<tabs v-if="exclude">
   <tab name="Terms & IDs" :selected="true" class="p-5">
     {% include "/workflow/list/tabs/exclude/terms.html.j2" %}
   </tab>
-  <tab name="Categorical Filters" :placeholder="true" class="p-5">
-
+  <tab name="Categorical Filters" class="p-5">
+    {% include "/workflow/list/tabs/exclude/categorical.html.j2" %}
   </tab>
-  <tab name="Numerical Filters" :placeholder="true" class="p-5">
-
-  </tab>
-  <tab name="Date Filters" :placeholder="true" class="p-5">
-
+  <tab name="Numerical Filters" class="p-5">
+    {% include "/workflow/list/tabs/exclude/numerical.html.j2" %}
   </tab>
 </tabs>

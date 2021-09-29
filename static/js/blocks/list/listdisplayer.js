@@ -11,10 +11,16 @@ const listdisplayer = {
       <li v-if="!_.includes(hide, 'created_at')"><strong>Created at:</strong> {{moment(list.created_at).local()}}</li>
       <li v-if="!_.includes(hide, 'created_by')"><strong>Created by:</strong> <a class="text-primary" :href="'/user/' + list.created_by + '/?mode=popup'" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-user-' + _.uniqueId(), ratio, window)">{{list.created_by}}</a></li>
       <li v-if="!_.includes(hide, 'cloned_from') && !_.isNil(list.cloned_from)"><strong>Cloned from:</strong> <a class="text-primary" :href="'/view/list/?id=' + list.cloned_from + '&mode=popup'" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-view-list-' + _.uniqueId(), ratio, window)">{{list.cloned_from}}</a></li>
-      <li v-if="!_.includes(hide, 'include.terms') && !_.isEmpty(list.include.terms)"><strong>Included Terms:</strong> {{list.include.terms.join(', ')}}</li>
-      <li v-if="!_.includes(hide, 'include.ids') && !_.isEmpty(list.include.ids)"><strong>Included IDs:</strong> {{list.include.ids.join(', ')}}</li>
-      <li v-if="!_.includes(hide, 'exclude.terms') && !_.isUndefined(list.exclude) && !_.isEmpty(list.exclude.terms)"><strong>Excluded Terms:</strong> {{list.exclude.terms.join(', ')}}</li>
-      <li v-if="!_.includes(hide, 'exclude.ids') && !_.isUndefined(list.exclude) && !_.isEmpty(list.exclude.ids)"><strong>Excluded IDs:</strong> {{list.exclude.ids.join(', ')}}</li>
+      <template v-if="!_.includes(hide, 'include')">
+        <li v-if="!_.includes(hide, 'include.terms') && !_.isEmpty(list.include.terms)"><strong>Included Terms:</strong> {{list.include.terms.join(', ')}}</li>
+        <li v-if="!_.includes(hide, 'include.ids') && !_.isEmpty(list.include.ids)"><strong>Included IDs:</strong> {{list.include.ids.join(', ')}}</li>
+        <li v-if="!_.includes(hide, 'include.filters') && !_.isEmpty(list.include.filters)"><strong>Filters:</strong> {{mapFilter(list.include.filters).join(', ')}}</li>
+      </template>
+      <template v-if="!_.includes(hide, 'exclude') && !_.isUndefined(list.exclude)">
+        <li v-if="!_.includes(hide, 'exclude.terms') && !_.isEmpty(list.exclude.terms)"><strong>Excluded Terms:</strong> {{list.exclude.terms.join(', ')}}</li>
+        <li v-if="!_.includes(hide, 'exclude.ids') && !_.isEmpty(list.exclude.ids)"><strong>Excluded IDs:</strong> {{list.exclude.ids.join(', ')}}</li>
+        <li v-if="!_.includes(hide, 'exclude.filters') && !_.isEmpty(list.exclude.filters)"><strong>Filters:</strong> {{mapFilter(list.exclude.filters).join(', ')}}</li>
+      </template>
     </ul>
   `,
   props: {
@@ -26,6 +32,13 @@ const listdisplayer = {
     ratio: {
       type: Number,
       default: 0.7
+    }
+  },
+  methods: {
+    mapFilter(filters) {
+      return _.map(_.keys(filters), function(k) {
+        return k + '=' + filters[k]
+      })
     }
   }
 }

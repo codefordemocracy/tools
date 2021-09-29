@@ -27,6 +27,50 @@ new Vue({
       description: null
     },
     exclude: false,
+    filters: {
+      include: {
+        candidate: {
+          cand_pty_affiliation: null,
+          cand_office: null,
+          cand_office_st: null,
+          cand_office_district: null,
+          cand_ici: null,
+          cand_election_yr: ''
+        },
+        donor: {
+          state: null,
+          entity_tp: null,
+          zip_code: ''
+        },
+        committee: {
+          cmte_pty_affiliation: null,
+          cmte_dsgn: null,
+          cmte_tp: null,
+          org_tp: null
+        }
+      },
+      exclude: {
+        candidate: {
+          cand_pty_affiliation: null,
+          cand_office: null,
+          cand_office_st: null,
+          cand_office_district: null,
+          cand_ici: null,
+          cand_election_yr: null
+        },
+        donor: {
+          state: null,
+          entity_tp: null,
+          zip_code: null
+        },
+        committee: {
+          cmte_pty_affiliation: null,
+          cmte_dsgn: null,
+          cmte_tp: null,
+          org_tp: null
+        }
+      }
+    },
     preview: {
       include: [],
       exclude: []
@@ -87,6 +131,7 @@ Healthcare
       return ''
     },
     build() {
+      var self = this
       let obj = _.cloneDeep(this.list)
       if (!_.isNil(obj.include.terms)) {
         obj.include.terms = _.map(_.split(obj.include.terms, '\n'))
@@ -94,12 +139,28 @@ Healthcare
       if (!_.isNil(obj.include.ids)) {
         obj.include.ids = _.map(_.split(obj.include.ids, '\n'))
       }
+      if (!_.isUndefined(this.filters.include[obj.subtype])) {
+        obj.include.filters = {}
+        _.forEach(_.keys(this.filters.include[obj.subtype]), function(k) {
+          if (!_.isEmpty(self.filters.include[obj.subtype][k])) {
+            obj.include.filters[k] = self.filters.include[obj.subtype][k]
+          }
+        })
+      }
       if (this.exclude) {
         if (!_.isNil(obj.exclude.terms)) {
           obj.exclude.terms = _.map(_.split(obj.exclude.terms, '\n'))
         }
         if (!_.isNil(obj.exclude.ids)) {
           obj.exclude.ids = _.map(_.split(obj.exclude.ids, '\n'))
+        }
+        if (!_.isUndefined(this.filters.exclude[obj.subtype])) {
+          obj.exclude.filters = {}
+          _.forEach(_.keys(this.filters.exclude[obj.subtype]), function(k) {
+            if (!_.isEmpty(self.filters.exclude[obj.subtype][k])) {
+              obj.exclude.filters[k] = self.filters.exclude[obj.subtype][k]
+            }
+          })
         }
       } else {
         obj.exclude.terms = null
@@ -151,8 +212,8 @@ Healthcare
         // set properties based on type
         if (_.includes(['job', 'topic'], this.list.type)) {
           this.list.subtype = this.list.type
-        } else if (!_.isNull(this.list.subtype) && !_.includes(this.subtypes, this.list.subtype)) {
-          this.list.subtype = null
+        } else if (_.isNull(this.list.subtype) || !_.includes(this.subtypes, this.list.subtype)) {
+          this.list.subtype = this.subtypes[0]
         }
         // set properties based on subtype
         if (_.includes(['donor', 'employer', 'job'], this.list.subtype)) {
@@ -194,6 +255,12 @@ Healthcare
         if (!_.isNil(self.list.include.ids)) {
           self.list.include.ids = self.list.include.ids.join('\n')
         }
+        if (!_.isUndefined(self.list.include.filters)) {
+          _.forEach(_.keys(self.list.include.filters), function(k) {
+            self.filters.include[self.list.subtype][k] = self.list.include.filters[k]
+          })
+          self.list.include = _.omit(self.list.include, 'filters')
+        }
         if (_.isUndefined(self.list.exclude)) {
           self.list.exclude = {
             terms: null,
@@ -206,6 +273,12 @@ Healthcare
           }
           if (!_.isNil(self.list.exclude.ids)) {
             self.list.exclude.ids = self.list.exclude.ids.join('\n')
+          }
+          if (!_.isUndefined(self.list.exclude.filters)) {
+            _.forEach(_.keys(self.list.exclude.filters), function(k) {
+              self.filters.exclude[self.list.subtype][k] = self.list.exclude.filters[k]
+            })
+            self.list.exclude = _.omit(self.list.exclude, 'filters')
           }
         }
       })
