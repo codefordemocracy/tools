@@ -7,28 +7,28 @@
 <div v-if="store.state.explore.advanced == true">
   <div class="form-group">
     <label class="label">Party Affiliation</label>
-    <select class="form-element select" v-model="search.committees.cmte_pty_affiliation" >
+    <select class="form-element" v-model="search.committees.cmte_pty_affiliation">
       <option value="all">All</option>
       <option :value="x.value" v-for="x in OPTIONS_PTY_AFFILIATION">{{x.label}}</option>
     </select>
   </div>
   <div class="form-group">
     <label class="label">Committee Designation</label>
-    <select class="form-element select" v-model="search.committees.cmte_dsgn" >
+    <select class="form-element" v-model="search.committees.cmte_dsgn">
       <option value="all">All</option>
       <option :value="x.value" v-for="x in OPTIONS_CMTE_DSGN">{{x.label}}</option>
     </select>
   </div>
   <div class="form-group">
     <label class="label">Committee Type</label>
-    <select class="form-element select" v-model="search.committees.cmte_tp" >
+    <select class="form-element" v-model="search.committees.cmte_tp">
       <option value="all">All</option>
       <option :value="x.value" v-for="x in OPTIONS_CMTE_TP">{{x.label}}</option>
     </select>
   </div>
   <div class="form-group">
     <label class="label">Interest Group Category</label>
-    <select class="form-element select" v-model="search.committees.org_tp" >
+    <select class="form-element" v-model="search.committees.org_tp">
       <option value="all">All</option>
       <option :value="x.value" v-for="x in OPTIONS_ORG_TP">{{x.label}}</option>
     </select>

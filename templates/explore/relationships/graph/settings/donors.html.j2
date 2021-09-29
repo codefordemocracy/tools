@@ -15,7 +15,7 @@
   </div>
   <div class="form-group">
     <label class="label">State</label>
-    <select class="form-element select" v-model="search.donors.state">
+    <select class="form-element" v-model="search.donors.state">
       <option value="all">All</option>
       <option :value="x.value" v-for="x in STATES">{{x.label}}</option>
     </select>
@@ -26,7 +26,7 @@
   </div>
   <div class="form-group">
     <label class="label">Entity Type</label>
-    <select class="form-element select" v-model="search.donors.entity_tp" >
+    <select class="form-element" v-model="search.donors.entity_tp">
       <option value="all">All</option>
       <option :value="x.value" v-for="x in OPTIONS_ENTITY_TP">{{x.label}}</option>
     </select>

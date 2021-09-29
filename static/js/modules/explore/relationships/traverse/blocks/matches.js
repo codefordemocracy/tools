@@ -103,7 +103,7 @@ const matches = {
           </div>
           <div class="form-group" v-if="intermediaries == 'contribution' && api.payload.entity != 'donor' && api.payload.entity2 != 'donor'">
             <label class="label">Direction of Contributions</label>
-            <select v-model="refine.direction" class="form-element select pr-3">
+            <select v-model="refine.direction" class="form-element pr-3">
               <option value="all">All</option>
               <option value="receipts">Receipts</option>
               <option value="disbursements">Disbursements</option>
@@ -111,7 +111,7 @@ const matches = {
           </div>
           <div class="form-group" v-if="intermediaries == 'expenditure'">
             <label class="label">Support vs. Oppose</label>
-            <select v-model="refine.sup_opp" class="form-element select pr-3">
+            <select v-model="refine.sup_opp" class="form-element pr-3">
               <option value="all">All</option>
               <option value="S">Support</option>
               <option value="O">Oppose</option>
@@ -131,7 +131,7 @@ const matches = {
         <div slot="body" class="form-sm form-full pb-12 mb-5">
           <div class="form-group">
             <label class="label">Format</label>
-            <select v-model="download.format" class="form-element select pr-3">
+            <select v-model="download.format" class="form-element pr-3">
               <option value="csv">CSV</option>
               <option value="json">JSON</option>
             </select>
