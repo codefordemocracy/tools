@@ -357,6 +357,8 @@ def route_api_visualization_aggregations_results():
             "min": str(data["query"]["dates"]["min"])[:10],
             "max": str(data["query"]["dates"]["max"])[:10]
         }
+    if data["query"].get("filters") is not None:
+        body["filters"] = data["query"]["filters"]
     if data["query"].get("output") is not None:
         endpoint = "/data/calculate/recipe/" + data["query"]["output"] + "/"
         if "template" in data["query"] and "lists" in data["query"]:
