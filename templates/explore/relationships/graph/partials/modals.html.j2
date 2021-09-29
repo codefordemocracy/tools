@@ -7,7 +7,7 @@
         <div slot="body">
             <div class="form-group">
                 <label class="label">Labels</label>
-                <div class="grid grid-cols-3 gap-1.5 text-xs text-center text-white">
+                <div class="grid grid-cols-2 gap-1.5 text-xs text-center text-white">
                     <div class="grid grid cols-1 gap-1.5">
                       <div class="rounded-full px-3 py-1" style="background-color: #005bae;">Candidate</div>
                       <div class="rounded-full px-3 py-1" style="background-color: #282252;">Committee</div>
@@ -19,25 +19,19 @@
                       <div class="rounded-full px-3 py-1" style="background-color: #357045;">Payee</div>
                       <div class="rounded-full px-3 py-1" style="background-color: #54B59F;">Party</div>
                       <div class="rounded-full px-3 py-1" style="background-color: #78CADB;">Race</div>
-                    </div>
-                    <div class="grid grid cols-1 gap-1.5">
                       <div class="rounded-full px-3 py-1" style="background-color: #4b5b82;">Tweeter</div>
                       <div class="rounded-full px-3 py-1" style="background-color: #2a2831;">Tweet</div>
                       <div class="rounded-full px-3 py-1" style="background-color: #55356e;">Hashtag</div>
+                    </div>
+                    <div class="grid grid cols-1 gap-1.5">
                       <div class="rounded-full px-3 py-1" style="background-color: #c57385;">Annotation</div>
                       <div class="rounded-full px-3 py-1" style="background-color: #b43f34;">Link</div>
                       <div class="rounded-full px-3 py-1" style="background-color: #d78a64;">Domain</div>
                       <div class="rounded-full px-3 py-1" style="background-color: #dbc699;">Source</div>
-                      <div class="rounded-full px-3 py-1" style="background-color: #5b675d;">Ad</div>
-                      <div class="rounded-full px-3 py-1" style="background-color: #97a8a3;">Message</div>
-                      <div class="rounded-full px-3 py-1" style="background-color: #bebebe;">Buyer</div>
-                    </div>
-                    <div class="grid grid cols-1 gap-1.5">
+                      <div class="rounded-full px-3 py-1" style="background-color: #2f4f4f;">Ad</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #8fbc8f;">Message</div>
+                      <div class="rounded-full px-3 py-1" style="background-color: #696969;">Buyer</div>
                       <div class="rounded-full px-3 py-1" style="background-color: #002167;">Page</div>
-                      <div class="rounded-full px-3 py-1" style="background-color: #000019;">Bill</div>
-                      <div class="rounded-full px-3 py-1" style="background-color: #16004a;">Vote</div>
-                      <div class="rounded-full px-3 py-1" style="background-color: #990040;">Jurisdiction</div>
-                      <div class="rounded-full px-3 py-1" style="background-color: #7b0000;">Member</div>
                       <div class="rounded-full px-3 py-1" style="background-color: #9f3500;">Zip</div>
                       <div class="rounded-full px-3 py-1" style="background-color: #9a7d1d;">State</div>
                       <div class="rounded-full px-3 py-1" style="background-color: #002f09;">Year</div>
@@ -161,20 +155,16 @@
                       <toggle class="mb-1" :sync="true" v-model="labels.tweeter"><span slot="text">Tweeter</span></toggle>
                       <toggle class="mb-1" :sync="true" v-model="labels.tweet"><span slot="text">Tweet</span></toggle>
                       <toggle class="mb-1" :sync="true" v-model="labels.hashtag"><span slot="text">Hashtag</span></toggle>
-                      <toggle class="mb-1" :sync="true" v-model="labels.annotation"><span slot="text">Annotation</span></toggle>
-                      <toggle class="mb-1" :sync="true" v-model="labels.link"><span slot="text">Link</span></toggle>
                   </div>
                   <div>
+                      <toggle class="mb-1" :sync="true" v-model="labels.annotation"><span slot="text">Annotation</span></toggle>
+                      <toggle class="mb-1" :sync="true" v-model="labels.link"><span slot="text">Link</span></toggle>
                       <toggle class="mb-1" :sync="true" v-model="labels.domain"><span slot="text">Domain</span></toggle>
                       <toggle class="mb-1" :sync="true" v-model="labels.source"><span slot="text">Source</span></toggle>
                       <toggle class="mb-1" :sync="true" v-model="labels.ad"><span slot="text">Ad</span></toggle>
                       <toggle class="mb-1" :sync="true" v-model="labels.message"><span slot="text">Message</span></toggle>
                       <toggle class="mb-1" :sync="true" v-model="labels.buyer"><span slot="text">Buyer</span></toggle>
                       <toggle class="mb-1" :sync="true" v-model="labels.page"><span slot="text">Page</span></toggle>
-                      <toggle class="mb-1" :sync="true" v-model="labels.bill"><span slot="text">Bill</span></toggle>
-                      <toggle class="mb-1" :sync="true" v-model="labels.vote"><span slot="text">Vote</span></toggle>
-                      <toggle class="mb-1" :sync="true" v-model="labels.jurisdiction"><span slot="text">Jurisdiction</span></toggle>
-                      <toggle class="mb-1" :sync="true" v-model="labels.member"><span slot="text">Member</span></toggle>
                       <toggle class="mb-1" :sync="true" v-model="labels.zip"><span slot="text">Zip</span></toggle>
                       <toggle class="mb-1" :sync="true" v-model="labels.state"><span slot="text">State</span></toggle>
                       <toggle class="mb-1" :sync="true" v-model="labels.year"><span slot="text">Year</span></toggle>
@@ -251,20 +241,16 @@
                         <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.tweeter"><span slot="text">Tweeter</span></toggle>
                         <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.tweet"><span slot="text">Tweet</span></toggle>
                         <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.hashtag"><span slot="text">Hashtag</span></toggle>
-                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.annotation"><span slot="text">Annotation</span></toggle>
-                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.link"><span slot="text">Link</span></toggle>
                     </div>
                     <div>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.annotation"><span slot="text">Annotation</span></toggle>
+                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.link"><span slot="text">Link</span></toggle>
                         <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.domain"><span slot="text">Domain</span></toggle>
                         <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.source"><span slot="text">Source</span></toggle>
                         <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.ad"><span slot="text">Ad</span></toggle>
                         <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.message"><span slot="text">Message</span></toggle>
                         <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.buyer"><span slot="text">Buyer</span></toggle>
                         <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.page"><span slot="text">Page</span></toggle>
-                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.bill"><span slot="text">Bill</span></toggle>
-                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.vote"><span slot="text">Vote</span></toggle>
-                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.jurisdiction"><span slot="text">Jurisdiction</span></toggle>
-                        <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.member"><span slot="text">Member</span></toggle>
                         <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.zip"><span slot="text">Zip</span></toggle>
                         <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.state"><span slot="text">State</span></toggle>
                         <toggle class="mb-1" :sync="true" :labels="{checked: 'Select', unchecked: 'Exclude'}" v-model="filter.labels.year"><span slot="text">Year</span></toggle>

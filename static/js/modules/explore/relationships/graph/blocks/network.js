@@ -390,22 +390,22 @@ const cytostyle = [{
     'selector': 'node[label=\'Ad\']',
     'style': {
         'content': 'data(properties.uuid)',
-        'background-color': '#5b675d',
-        'border-color': '#5b675d'
+        'background-color': '#2f4f4f',
+        'border-color': '#2f4f4f'
     }
 }, {
     'selector': 'node[label=\'Message\']',
     'style': {
         'content': 'data(properties.simhash)',
-        'background-color': '#97a8a3',
-        'border-color': '#97a8a3'
+        'background-color': '#8fbc8f',
+        'border-color': '#8fbc8f'
     }
 }, {
     'selector': 'node[label=\'Buyer\']',
     'style': {
         'content': 'data(properties.name)',
-        'background-color': '#bebebe',
-        'border-color': '#bebebe'
+        'background-color': '#696969',
+        'border-color': '#696969'
     }
 }, {
     'selector': 'node[label=\'Page\']',
@@ -413,34 +413,6 @@ const cytostyle = [{
         'content': 'data(properties.name)',
         'background-color': '#002167',
         'border-color': '#002167'
-    }
-}, {
-    'selector': 'node[label=\'Bill\']',
-    'style': {
-        'content': 'data(properties.name)',
-        'background-color': '#000019',
-        'border-color': '#000019'
-    }
-}, {
-    'selector': 'node[label=\'Vote\']',
-    'style': {
-        'content': 'data(properties.name)',
-        'background-color': '#16004a',
-        'border-color': '#16004a'
-    }
-}, {
-    'selector': 'node[label=\'Jurisdiction\']',
-    'style': {
-        'content': 'data(properties.name)',
-        'background-color': '#990040',
-        'border-color': '#990040'
-    }
-}, {
-    'selector': 'node[label=\'Member\']',
-    'style': {
-        'content': 'data(properties.name)',
-        'background-color': '#7b0000',
-        'border-color': '#7b0000'
     }
 }, {
     'selector': 'node[label=\'Zip\']',
