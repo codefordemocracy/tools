@@ -204,7 +204,7 @@ Healthcare
     }
   },
   watch: {
-    list: {
+    build: {
       deep: true,
       handler() {
         store.commit('workflow/reset')
@@ -224,7 +224,7 @@ Healthcare
         if (!_.isNull(this.list.type)) {
           store.commit('workflow/valid', 1)
         }
-        if (!_.isEmpty(this.list.subtype) && !(_.isEmpty(_.get(this.list.include, 'terms')) && _.isEmpty(_.get(this.list.include, 'ids')))) {
+        if (!_.isEmpty(this.list.subtype) && !(_.isEmpty(_.get(this.build.include, 'terms')) && _.isEmpty(_.get(this.build.include, 'ids')) && _.isEmpty(_.get(this.build.include, 'filters')))) {
           this.slowpeek()
           store.commit('workflow/valid', 2)
           store.commit('workflow/valid', 3)

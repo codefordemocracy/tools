@@ -1,12 +1,12 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-  <div class="form-full form-sm form-nosubmit preview-form-wrapper">
+  <div class="form-full form-sm preview-form-wrapper">
     <div class="form-group" v-if="_.includes([null, 'candidate', 'donor', 'committee', 'employer', 'job', 'topic'], list.subtype)">
-      <label class="label">Terms</label>
+      <label class="label">Terms<span class="text-info">**</span></label>
       <p class="form-text-top">Enter one term or phrase per line.</p>
       <textarea class="form-element" rows=5 v-model="list.exclude.terms" :placeholder="placeholder.terms"></textarea>
     </div>
     <div class="form-group" v-if="_.includes([null, 'candidate', 'committee', 'topic'], list.subtype)">
-      <label class="label">IDs</label>
+      <label class="label">IDs<span class="text-info">**</span></label>
       <p class="form-text-top">
         Paste one ID per line.
         <span v-if="list.subtype == 'candidate'">Use Candidate IDs provided by the FEC.</span>
@@ -15,6 +15,7 @@
       </p>
       <textarea class="form-element" rows=10 v-model="list.exclude.ids" :placeholder="placeholder.ids"></textarea>
     </div>
+    <p class="text-xs text-muted"><span class="text-info">**</span>At least one of these fields must be filled out.</p>
   </div>
   <div class="bg-light p-3 relative overflow-scroll text-xs my-1 md:item-stretch preview-pre-wrapper">
     <small class="rounded-sm bg-gray-80 text-white p-1 absolute top-1 right-1 leading-none">PREVIEW</small>

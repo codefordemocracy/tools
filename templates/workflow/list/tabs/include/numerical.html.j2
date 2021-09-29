@@ -1,15 +1,16 @@
-<div class="form-full form-sm form-nosubmit" v-if="_.includes(['candidate', 'donor'], list.subtype)">
+<div class="form-full form-sm" v-if="_.includes(['candidate', 'donor'], list.subtype)">
   <template v-if="list.subtype == 'candidate'">
     <div class="form-group">
-      <label class="label">Election Year</label>
+      <label class="label">Election Year<span class="text-info">**</span></label>
       <input class="form-element" v-model="filters.include.candidate.cand_election_yr" type="number" min="1900" :max="2100" />
     </div>
   </template>
   <template v-if="list.subtype == 'donor'">
     <div class="form-group">
-      <label class="label">Zip Code</label>
+      <label class="label">Zip Code<span class="text-info">**</span></label>
       <input class="form-element" v-model="filters.include.donor.zip_code" type="number" min="0" max="99999" />
     </div>
   </template>
+  <p class="text-xs text-muted"><span class="text-info">**</span>At least one of these fields must be filled out.</p>
 </div>
 <p class="text-xs" v-else>There are no numerical filters available for {{list.subtype}} lists.</p>
