@@ -82,7 +82,7 @@ const listreviewer = {
         all = _.concat(all, response)
         self.downloading.count = all.length
         self.$emit('downloading', self.downloading.count)
-        if (response.length < limit) {
+        if (response.length == 0) {
           DOWNLOAD(all, format, 'results')
           self.downloading.status = false
           self.$emit('downloading', false)
