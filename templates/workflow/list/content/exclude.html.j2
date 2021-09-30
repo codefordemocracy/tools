@@ -1,7 +1,7 @@
 <div class="bg-white border border-secondary px-5 py-3 mb-5">
   <toggle v-model="exclude" :labels="{checked: 'yes', unchecked: 'no'}" :width=55><span slot="text">Add Exclusion Rules</span></toggle>
 </div>
-<tabs v-if="exclude">
+<tabs v-if="exclude" :overflow="true">
   <tab name="Terms & IDs" :selected="true" class="p-5">
     {% include "/workflow/list/tabs/exclude/terms.html.j2" %}
   </tab>
