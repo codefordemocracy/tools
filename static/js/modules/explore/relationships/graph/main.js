@@ -385,9 +385,9 @@ new Vue({
                 name: '',
                 employer: '',
                 occupation: '',
+                entity_tp: null,
                 state: null,
-                zip_code: '',
-                entity_tp: null
+                zip_code: ''
             },
             payees: {
                 name: ''

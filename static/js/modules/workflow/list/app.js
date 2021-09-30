@@ -39,8 +39,8 @@ new Vue({
           cand_election_yr: ['']
         },
         donor: {
-          state: null,
           entity_tp: null,
+          state: null,
           zip_code: ['']
         },
         committee: {
@@ -60,8 +60,8 @@ new Vue({
           cand_election_yr: ['']
         },
         donor: {
-          state: null,
           entity_tp: null,
+          state: null,
           zip_code: ['']
         },
         committee: {

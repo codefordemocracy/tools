@@ -479,12 +479,12 @@ def route_api_graph():
                 body["attributes"]["employer"] = data["parameters"]["employer"]
             if len(data["parameters"]["occupation"]) > 0:
                 body["attributes"]["occupation"] = data["parameters"]["occupation"]
+            if data["parameters"]["entity_tp"] is not None:
+                body["attributes"]["entity_tp"] = data["parameters"]["entity_tp"]
             if data["parameters"]["state"] is not None:
                 body["attributes"]["state"] = data["parameters"]["state"]
             if len(data["parameters"]["zip_code"]) > 0:
                 body["attributes"]["zip_code"] = data["parameters"]["zip_code"]
-            if data["parameters"]["entity_tp"] is not None:
-                body["attributes"]["entity_tp"] = data["parameters"]["entity_tp"]
             elements = utilities.elements2cy(post(endpoint, body))
         elif data["flow"] == "payees":
             endpoint = "/graph/search/payees/"

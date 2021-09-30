@@ -20,15 +20,35 @@
       <label class="label">Status<span class="text-info">**</span></label>
       <multiselect class="text-xs" v-model="filters.include.candidate.cand_ici" :options="makeOptions(OPTIONS_CAND_ICI)" :custom-label="x => findLabel(x, OPTIONS_CAND_ICI)" :multiple="true" :allow-empty="true"></multiselect>
     </div>
+    <div class="form-group">
+      <label class="label">Election Year<span class="text-info">**</span></label>
+      <template v-for="(item, index) in filters.include.candidate.cand_election_yr">
+        <input class="form-element" v-model="filters.include.candidate.cand_election_yr[index]" type="number" min="1900" max="2100" :class="index > 0 ? 'mt-1' : ''"/>
+      </template>
+      <div class="flex justify-end text-xs mt-2">
+        <button class="text-primary" @click="filters.include.candidate.cand_election_yr.push('')">Add Election Year</button>
+        <button class="text-red ml-4" @click="filters.include.candidate.cand_election_yr = _.compact(filters.include.candidate.cand_election_yr)">Remove Empty Values</button>
+      </div>
+    </div>
   </template>
   <template v-if="list.subtype == 'donor'">
+    <div class="form-group">
+      <label class="label">Entity Type<span class="text-info">**</span></label>
+      <multiselect class="text-xs" v-model="filters.include.donor.entity_tp" :options="makeOptions(OPTIONS_ENTITY_TP)" :custom-label="x => findLabel(x, OPTIONS_ENTITY_TP)" :multiple="true" :allow-empty="true"></multiselect>
+    </div>
     <div class="form-group">
       <label class="label">State<span class="text-info">**</span></label>
       <multiselect class="text-xs" v-model="filters.include.donor.state" :options="makeOptions(STATES)" :custom-label="x => findLabel(x, STATES)" :multiple="true" :allow-empty="true"></multiselect>
     </div>
     <div class="form-group">
-      <label class="label">Entity Type<span class="text-info">**</span></label>
-      <multiselect class="text-xs" v-model="filters.include.donor.entity_tp" :options="makeOptions(OPTIONS_ENTITY_TP)" :custom-label="x => findLabel(x, OPTIONS_ENTITY_TP)" :multiple="true" :allow-empty="true"></multiselect>
+      <label class="label">Zip Code<span class="text-info">**</span></label>
+      <template v-for="(item, index) in filters.include.donor.zip_code">
+        <input class="form-element" v-model="filters.include.donor.zip_code[index]" type="number" min="1900" max="2100" :class="index > 0 ? 'mt-1' : ''"/>
+      </template>
+      <div class="flex justify-end text-xs mt-2">
+        <button class="text-primary" @click="filters.include.donor.zip_code.push('')">Add Election Year</button>
+        <button class="text-red ml-4" @click="filters.include.donor.zip_code = _.compact(filters.include.donor.zip_code)">Remove Empty Values</button>
+      </div>
     </div>
   </template>
   <template v-if="list.subtype == 'committee'">
