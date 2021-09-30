@@ -8,6 +8,7 @@ new Vue({
     'tabs': tabbed.tabs,
     'tab': tabbed.tab,
     'toggle': toggle,
+    'multiselect': window.VueMultiselect.default,
     'listreviewer': listreviewer
   },
   data: {
@@ -35,12 +36,12 @@ new Vue({
           cand_office_st: null,
           cand_office_district: null,
           cand_ici: null,
-          cand_election_yr: ''
+          cand_election_yr: ['']
         },
         donor: {
           state: null,
           entity_tp: null,
-          zip_code: ''
+          zip_code: ['']
         },
         committee: {
           cmte_pty_affiliation: null,
@@ -56,12 +57,12 @@ new Vue({
           cand_office_st: null,
           cand_office_district: null,
           cand_ici: null,
-          cand_election_yr: null
+          cand_election_yr: ['']
         },
         donor: {
           state: null,
           entity_tp: null,
-          zip_code: null
+          zip_code: ['']
         },
         committee: {
           cmte_pty_affiliation: null,
@@ -143,7 +144,7 @@ Healthcare
         obj.include.filters = {}
         _.forEach(_.keys(this.filters.include[obj.subtype]), function(k) {
           if (!_.isEmpty(self.filters.include[obj.subtype][k])) {
-            obj.include.filters[k] = self.filters.include[obj.subtype][k]
+            obj.include.filters[k] = _.compact(self.filters.include[obj.subtype][k])
           }
         })
       }
@@ -158,7 +159,7 @@ Healthcare
           obj.exclude.filters = {}
           _.forEach(_.keys(this.filters.exclude[obj.subtype]), function(k) {
             if (!_.isEmpty(self.filters.exclude[obj.subtype][k])) {
-              obj.exclude.filters[k] = self.filters.exclude[obj.subtype][k]
+              obj.exclude.filters[k] = _.compact(self.filters.exclude[obj.subtype][k])
             }
           })
         }
@@ -179,6 +180,12 @@ Healthcare
     }
   },
   methods: {
+    makeOptions(options) {
+      return _.map(options, 'value')
+    },
+    findLabel(x, options) {
+      return _.filter(options, {value: x})[0].label
+    },
     peek() {
       var self = this
       // get preview

@@ -2,86 +2,53 @@
   <template v-if="list.subtype == 'candidate'">
     <div class="form-group">
       <label class="label">Party Affiliation<span class="text-info">**</span></label>
-      <select class="form-element" v-model="filters.exclude.candidate.cand_pty_affiliation">
-        <option :value="null">All</option>
-        <option :value="x.value" v-for="x in OPTIONS_PTY_AFFILIATION">{{x.label}}</option>
-      </select>
+      <multiselect class="text-xs" v-model="filters.exclude.candidate.cand_pty_affiliation" :options="makeOptions(OPTIONS_PTY_AFFILIATION)" :custom-label="x => findLabel(x, OPTIONS_PTY_AFFILIATION)" :multiple="true" :allow-empty="true"></multiselect>
     </div>
     <div class="form-group">
       <label class="label">Office<span class="text-info">**</span></label>
-      <select class="form-element" v-model="filters.exclude.candidate.cand_office">
-        <option :value="null">All</option>
-        <option :value="x.value" v-for="x in OPTIONS_CAND_OFFICE">{{x.label}}</option>
-      </select>
+      <multiselect class="text-xs" v-model="filters.exclude.candidate.cand_office" :options="makeOptions(OPTIONS_CAND_OFFICE)" :custom-label="x => findLabel(x, OPTIONS_CAND_OFFICE)" :multiple="true" :allow-empty="true"></multiselect>
     </div>
     <div class="form-group">
       <label class="label">State<span class="text-info">**</span></label>
-      <select class="form-element" v-model="filters.exclude.candidate.cand_office_st" :disabled="filters.exclude.candidate.office == 'P'">
-        <option :value="null">All</option>
-        <option :value="x.value" v-for="x in STATES">{{x.label}}</option>
-      </select>
+      <multiselect class="text-xs" v-model="filters.exclude.candidate.cand_office_st" :options="makeOptions(STATES)" :custom-label="x => findLabel(x, STATES)" :multiple="true" :allow-empty="true"></multiselect>
     </div>
     <div class="form-group">
       <label class="label">District<span class="text-info">**</span></label>
-      <select class="form-element" v-model="filters.exclude.candidate.cand_office_district" :disabled="filters.exclude.candidate.office == 'P' || filters.exclude.candidate.office == 'S'">
-        <option :value="null">All</option>
-        <option :value="_.padStart(x, 2, '0')" v-for="x in _.range(54)">{{_.padStart(x, 2, '0')}}</option>
-      </select>
+      <multiselect class="text-xs" v-model="filters.exclude.candidate.cand_office_district" :options="_.map(_.range(54), function(x) {return _.padStart(x, 2, '0')})" :multiple="true" :allow-empty="true"></multiselect>
     </div>
     <div class="form-group">
       <label class="label">Status<span class="text-info">**</span></label>
-      <select class="form-element" v-model="filters.exclude.candidate.cand_ici">
-        <option :value="null">All</option>
-        <option :value="x.value" v-for="x in OPTIONS_CAND_ICI">{{x.label}}</option>
-      </select>
+      <multiselect class="text-xs" v-model="filters.exclude.candidate.cand_ici" :options="makeOptions(OPTIONS_CAND_ICI)" :custom-label="x => findLabel(x, OPTIONS_CAND_ICI)" :multiple="true" :allow-empty="true"></multiselect>
     </div>
   </template>
   <template v-if="list.subtype == 'donor'">
     <div class="form-group">
       <label class="label">State<span class="text-info">**</span></label>
-      <select class="form-element" v-model="filters.exclude.donor.state">
-        <option :value="null">All</option>
-        <option :value="x.value" v-for="x in STATES">{{x.label}}</option>
-      </select>
+      <multiselect class="text-xs" v-model="filters.exclude.donor.state" :options="makeOptions(STATES)" :custom-label="x => findLabel(x, STATES)" :multiple="true" :allow-empty="true"></multiselect>
     </div>
     <div class="form-group">
       <label class="label">Entity Type<span class="text-info">**</span></label>
-      <select class="form-element" v-model="filters.exclude.donor.entity_tp">
-        <option :value="null">All</option>
-        <option :value="x.value" v-for="x in OPTIONS_ENTITY_TP">{{x.label}}</option>
-      </select>
+      <multiselect class="text-xs" v-model="filters.exclude.donor.entity_tp" :options="makeOptions(OPTIONS_ENTITY_TP)" :custom-label="x => findLabel(x, OPTIONS_ENTITY_TP)" :multiple="true" :allow-empty="true"></multiselect>
     </div>
   </template>
   <template v-if="list.subtype == 'committee'">
     <div class="form-group">
       <label class="label">Party Affiliation<span class="text-info">**</span></label>
-      <select class="form-element" v-model="filters.exclude.committee.cmte_pty_affiliation">
-        <option :value="null">All</option>
-        <option :value="x.value" v-for="x in OPTIONS_PTY_AFFILIATION">{{x.label}}</option>
-      </select>
+      <multiselect class="text-xs" v-model="filters.exclude.committee.cmte_pty_affiliation" :options="makeOptions(OPTIONS_PTY_AFFILIATION)" :custom-label="x => findLabel(x, OPTIONS_PTY_AFFILIATION)" :multiple="true" :allow-empty="true"></multiselect>
     </div>
     <div class="form-group">
       <label class="label">Committee Designation<span class="text-info">**</span></label>
-      <select class="form-element" v-model="filters.exclude.committee.cmte_dsgn">
-        <option :value="null">All</option>
-        <option :value="x.value" v-for="x in OPTIONS_CMTE_DSGN">{{x.label}}</option>
-      </select>
+      <multiselect class="text-xs" v-model="filters.exclude.committee.cmte_dsgn" :options="makeOptions(OPTIONS_CMTE_DSGN)" :custom-label="x => findLabel(x, OPTIONS_CMTE_DSGN)" :multiple="true" :allow-empty="true"></multiselect>
     </div>
     <div class="form-group">
       <label class="label">Committee Type<span class="text-info">**</span></label>
-      <select class="form-element" v-model="filters.exclude.committee.cmte_tp">
-        <option :value="null">All</option>
-        <option :value="x.value" v-for="x in OPTIONS_CMTE_TP">{{x.label}}</option>
-      </select>
+      <multiselect class="text-xs" v-model="filters.exclude.committee.cmte_tp" :options="makeOptions(OPTIONS_CMTE_TP)" :custom-label="x => findLabel(x, OPTIONS_CMTE_TP)" :multiple="true" :allow-empty="true"></multiselect>
     </div>
     <div class="form-group">
       <label class="label">Interest Group Category<span class="text-info">**</span></label>
-      <select class="form-element" v-model="filters.exclude.committee.org_tp">
-        <option :value="null">All</option>
-        <option :value="x.value" v-for="x in OPTIONS_ORG_TP">{{x.label}}</option>
-      </select>
+      <multiselect class="text-xs" v-model="filters.exclude.committee.org_tp" :options="makeOptions(OPTIONS_ORG_TP)" :custom-label="x => findLabel(x, OPTIONS_ORG_TP)" :multiple="true" :allow-empty="true"></multiselect>
     </div>
   </template>
-  <p class="text-xs text-muted"><span class="text-info">**</span>At least one of these fields must be filled out.</p>
+  <p class="text-xs text-muted"><span class="text-info">**</span>At least one of these fields must be filled out across all tabs.</p>
 </div>
 <p class="text-xs" v-else>There are no categorical filters available for {{list.subtype}} lists.</p>
