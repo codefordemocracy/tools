@@ -134,10 +134,10 @@ Healthcare
       var self = this
       let obj = _.cloneDeep(this.list)
       if (!_.isNil(obj.include.terms)) {
-        obj.include.terms = _.map(_.split(obj.include.terms, '\n'))
+        obj.include.terms = _.compact(_.split(obj.include.terms, '\n'))
       }
       if (!_.isNil(obj.include.ids)) {
-        obj.include.ids = _.map(_.split(obj.include.ids, '\n'))
+        obj.include.ids = _.compact(_.split(obj.include.ids, '\n'))
       }
       if (!_.isUndefined(this.filters.include[obj.subtype])) {
         obj.include.filters = {}
@@ -149,10 +149,10 @@ Healthcare
       }
       if (this.exclude) {
         if (!_.isNil(obj.exclude.terms)) {
-          obj.exclude.terms = _.map(_.split(obj.exclude.terms, '\n'))
+          obj.exclude.terms = _.compact(_.split(obj.exclude.terms, '\n'))
         }
         if (!_.isNil(obj.exclude.ids)) {
-          obj.exclude.ids = _.map(_.split(obj.exclude.ids, '\n'))
+          obj.exclude.ids = _.compact(_.split(obj.exclude.ids, '\n'))
         }
         if (!_.isUndefined(this.filters.exclude[obj.subtype])) {
           obj.exclude.filters = {}
@@ -170,6 +170,12 @@ Healthcare
     },
     buildable() {
       return _.intersection(store.state.workflow.valid, [1,2,3]).length == 3
+    },
+    textinputs() {
+      return {
+        include: this.list.include,
+        exclude: this.list.exclude
+      }
     }
   },
   methods: {
@@ -204,6 +210,14 @@ Healthcare
     }
   },
   watch: {
+    textinputs: {
+      deep: true,
+      handler() {
+        if (!_.isEmpty(this.list.subtype) && !(_.isEmpty(_.get(this.build.include, 'terms')) && _.isEmpty(_.get(this.build.include, 'ids')))) {
+          this.slowpeek()
+        }
+      }
+    },
     build: {
       deep: true,
       handler() {
@@ -220,12 +234,11 @@ Healthcare
           this.list.include.ids = null
           this.list.exclude.ids = null
         }
-        // validate and preview
+        // validate steps
         if (!_.isNull(this.list.type)) {
           store.commit('workflow/valid', 1)
         }
         if (!_.isEmpty(this.list.subtype) && !(_.isEmpty(_.get(this.build.include, 'terms')) && _.isEmpty(_.get(this.build.include, 'ids')) && _.isEmpty(_.get(this.build.include, 'filters')))) {
-          this.slowpeek()
           store.commit('workflow/valid', 2)
           store.commit('workflow/valid', 3)
           store.commit('workflow/valid', 4)

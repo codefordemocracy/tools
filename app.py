@@ -202,7 +202,6 @@ def route_api_list_preview():
             body["include"] = data["include"]
             preview["include"] = post(endpoint, body)
         if data.get("exclude") is not None:
-            body.pop("include", None)
             body["exclude"] = data["exclude"]
             preview["exclude"] = post(endpoint, body)
     return jsonify(preview)
