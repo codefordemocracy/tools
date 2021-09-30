@@ -1,4 +1,4 @@
-<div class="form-full form-sm grid grid-cols-1 sm:grid-cols-2 gap-5">
+<div class="form-full form-sm grid grid-cols-1 sm:grid-cols-2 gap-5 overflow-visible">
   <div>
     <label class="label">Min Date<span class="text-info">*</span></label>
     <datepicker v-model="filters.dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="filters.disabledDates" :typeable="true" :required="true"></datepicker>
@@ -7,5 +7,5 @@
     <label class="label">Max Date<span class="text-info">*</span></label>
     <datepicker v-model="filters.dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="filters.disabledDates" :typeable="true" :required="true"></datepicker>
   </div>
-  <p class="text-xs text-muted sm:col-span-2 h-52"><span class="text-info">*</span>This field is required.</p>
+  <p class="text-xs text-muted sm:col-span-2"><span class="text-info">*</span>This field is required.</p>
 </div>
