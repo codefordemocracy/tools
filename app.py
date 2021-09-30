@@ -230,7 +230,8 @@ def route_api_list_review_table():
             if data["list"].get("include") is not None:
                 body["include"] = data["list"]["include"]
             if data["list"].get("exclude") is not None:
-                body["exclude"] = data["list"]["exclude"]
+                if data["list"]["exclude"].get("terms") is not None or data["list"]["exclude"].get("ids") is not None or data["list"]["exclude"].get("filters") is not None:
+                    body["exclude"] = data["list"]["exclude"]
             elements = post(endpoint, body)
     return jsonify(elements)
 
