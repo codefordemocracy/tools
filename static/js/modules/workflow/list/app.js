@@ -144,7 +144,10 @@ Healthcare
         obj.include.filters = {}
         _.forEach(_.keys(this.filters.include[obj.subtype]), function(k) {
           if (!_.isEmpty(self.filters.include[obj.subtype][k])) {
-            obj.include.filters[k] = _.compact(self.filters.include[obj.subtype][k])
+            let filters = _.compact(self.filters.include[obj.subtype][k])
+            if (!_.isEmpty(filters)) {
+              obj.include.filters[k] = filters
+            }
           }
         })
       }
@@ -158,8 +161,9 @@ Healthcare
         if (!_.isUndefined(this.filters.exclude[obj.subtype])) {
           obj.exclude.filters = {}
           _.forEach(_.keys(this.filters.exclude[obj.subtype]), function(k) {
-            if (!_.isEmpty(self.filters.exclude[obj.subtype][k])) {
-              obj.exclude.filters[k] = _.compact(self.filters.exclude[obj.subtype][k])
+            let filters = _.compact(self.filters.exclude[obj.subtype][k])
+            if (!_.isEmpty(filters)) {
+              obj.exclude.filters[k] = filters
             }
           })
         }
