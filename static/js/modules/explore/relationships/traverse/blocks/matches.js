@@ -205,8 +205,8 @@ const matches = {
       refine: {
         disabledDates: DATERANGES.disabledDates.datasets,
         dates: DATERANGES.dates.datasets,
-        direction: 'all',
-        sup_opp: 'all'
+        direction: null,
+        sup_opp: null
       },
       download: {
         format: 'csv',
