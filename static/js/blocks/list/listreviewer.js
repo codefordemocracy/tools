@@ -4,7 +4,8 @@ const listreviewer = {
   },
   template: `
     <div>
-      <p class="text-xs" v-if="_.isEmpty(table) && !loaded">Loading entities...</p>
+      <p class="text-xs" v-if="_.isEmpty(table) && error">An error has occurred.</p>
+      <p class="text-xs" v-else-if="_.isEmpty(table) && !loaded">Loading entities<span class="blink">...</span></p>
       <p class="text-xs" v-else-if="_.isEmpty(table) && loaded">Your inclusion and exclusion criteria returned no entities.</p>
       <div class="relative" v-else>
         <datatable ref="datatable" class="text-xs" :columns="_.keys(table[0])" :data="table" :count="count" :head="pagination.skip == 0 ? true : false" :options="{paginate: true, pagination: 'server', numpages: 0, limit: pagination.limit}" :paging="paging" @previous="previous" @next="next"></datatable>
@@ -33,6 +34,7 @@ const listreviewer = {
         limit: 20
       },
       loaded: false,
+      error: false,
       paging: false,
       downloading: {
         count: 0,
@@ -44,6 +46,7 @@ const listreviewer = {
   methods: {
     getResults(callback, pagination=null) {
       this.loaded = false
+      this.error = false
       if (_.isNull(pagination)) {
         pagination = this.pagination
       }
@@ -51,12 +54,13 @@ const listreviewer = {
       // get results table
       axios.post('/api/list/review/table/', {list: this.list, pagination: pagination})
       .then(function(response) {
-        this.loaded = true
+        self.loaded = true
         self.paging = false
         callback(response.data)
       })
       .catch(function(error) {
         console.error(error)
+        self.error = true
       })
     },
     getCount(callback) {

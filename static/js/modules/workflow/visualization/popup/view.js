@@ -19,6 +19,7 @@ new Vue({
   },
   data: {
     loaded: false,
+    error: false,
     visualization: {},
     query: null,
     review: {
@@ -65,6 +66,7 @@ new Vue({
       })
       .catch(function(error) {
         console.error(error)
+        self.error = true
       })
     }
   }

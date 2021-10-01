@@ -20,6 +20,7 @@ new Vue({
   },
   data: {
     loaded: false,
+    error: false,
     query: {},
     results: {
       count: -1,
@@ -58,6 +59,7 @@ new Vue({
       })
       .catch(function(error) {
         console.error(error)
+        self.error = true
       })
     }
   }

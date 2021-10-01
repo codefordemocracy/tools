@@ -4,7 +4,8 @@ const resultstable = {
   },
   template: `
     <div>
-      <p class="text-xs" v-if="_.isEmpty(table) && !loaded">Loading results...</p>
+      <p class="text-xs" v-if="_.isEmpty(table) && error">An error has occurred.</p>
+      <p class="text-xs" v-else-if="_.isEmpty(table) && !loaded">Loading results<span class="blink">...</span></p>
       <p class="text-xs" v-else-if="_.isEmpty(table) && loaded">This query returned no results.</p>
       <template v-else>
         <div class="flex flex-col sm:flex-row form form-sm bg-secondary p-3 mb-5 -mt-5 -mx-5">
@@ -53,6 +54,7 @@ const resultstable = {
         limit: 20
       },
       loaded: false,
+      error: false,
       paging: false,
       downloading: {
         count: 0,
@@ -64,6 +66,7 @@ const resultstable = {
   methods: {
     getResults(callback, pagination=null) {
       this.loaded = false
+      this.error = false
       if (_.isNull(pagination)) {
         pagination = this.pagination
       }
@@ -71,12 +74,13 @@ const resultstable = {
       // get results table
       axios.post('/api/query/results/table/', {query: this.query, pagination: pagination})
       .then(function(response) {
-        this.loaded = true
+        self.loaded = true
         self.paging = false
         callback(response.data)
       })
       .catch(function(error) {
         console.error(error)
+        self.error = true
       })
     },
     getCount(callback) {
@@ -121,9 +125,11 @@ const resultstable = {
       }
       this.getResults(function(data) {
         self.table = data
-        Vue.nextTick(function () {
-          self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
-        })
+        if (!_.isUndefined(self.$refs.datatable)) {
+          Vue.nextTick(function () {
+            self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
+          })
+        }
       })
     },
     next() {
@@ -132,9 +138,11 @@ const resultstable = {
       this.pagination.skip = this.pagination.skip + this.pagination.limit
       this.getResults(function(data) {
         self.table = data
-        Vue.nextTick(function () {
-          self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
-        })
+        if (!_.isUndefined(self.$refs.datatable)) {
+          Vue.nextTick(function () {
+            self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
+          })
+        }
       })
     },
     setOrder() {
@@ -162,9 +170,11 @@ const resultstable = {
     var self = this
     this.getResults(function(data) {
       self.table = data
-      Vue.nextTick(function () {
-        self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
-      })
+      if (!_.isUndefined(self.$refs.datatable)) {
+        Vue.nextTick(function () {
+          self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
+        })
+      }
     })
     this.getCount(function(data) {
       self.count = data

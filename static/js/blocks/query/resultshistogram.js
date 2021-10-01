@@ -4,7 +4,8 @@ const resultshistogram = {
   },
   template: `
     <div>
-      <p class="text-xs" v-if="_.isEmpty(buckets) && !loaded">Loading histogram...</p>
+      <p class="text-xs" v-if="_.isEmpty(buckets) && error">An error has occurred.</p>
+      <p class="text-xs" v-else-if="_.isEmpty(buckets) && !loaded">Loading histogram<span class="blink">...</span></p>
       <p class="text-xs" v-else-if="_.isEmpty(buckets) && loaded">A histogram could not be built for this query.</p>
       <plot class="-m-5" :id="_.uniqueId('histogram')" :settings="histogram" v-else></plot>
     </div>
@@ -20,7 +21,8 @@ const resultshistogram = {
   data() {
     return {
       buckets: [],
-      loaded: false
+      loaded: false,
+      error: false,
     }
   },
   computed: {
@@ -70,9 +72,11 @@ const resultshistogram = {
     axios.post('/api/query/results/histogram/', {query: this.query})
     .then(function(response) {
       self.buckets = response.data
+      self.loaded = true
     })
     .catch(function(error) {
       console.error(error)
+      self.error = true
     })
   }
 }

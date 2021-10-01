@@ -4,7 +4,8 @@ const vizreviewer = {
   },
   template: `
     <div>
-      <p class="text-xs" v-if="!loaded">Loading...</p>
+      <p class="text-xs" v-if="error">An error has occurred.</p>
+      <p class="text-xs" v-else-if="!loaded">Loading<span class="blink">...</span></p>
       <p class="text-xs" v-else-if="loaded && formatted.count == 0">The settings you configured did not produce any rows of data.</p>
       <div class="relative" v-else>
         <datatable ref="datatable" class="text-xs" :count="formatted.count" :columns="_.keys(formatted.pages[0][0])" :data="formatted.pages" :head="true" :options="{paginate: true, pagination: 'client', numpages: formatted.pages.length, limit: 20}"></datatable>
@@ -41,6 +42,7 @@ const vizreviewer = {
   data() {
     return {
       loaded: false,
+      error: false,
       formatted: {
         count: null,
         pages: []
@@ -116,6 +118,7 @@ const vizreviewer = {
     })
     .catch(function(error) {
       console.error(error)
+      self.error = true
     })
   }
 }

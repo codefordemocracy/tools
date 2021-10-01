@@ -19,6 +19,7 @@ new Vue({
   },
   data: {
     loaded: false,
+    error: false,
     list: {},
     review: {
       count: -1,
@@ -57,6 +58,7 @@ new Vue({
       })
       .catch(function(error) {
         console.error(error)
+        self.error = true
       })
     }
   }

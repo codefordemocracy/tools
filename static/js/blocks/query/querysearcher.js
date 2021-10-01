@@ -18,7 +18,8 @@ const querysearcher = {
           <span class="text-left">{{query.name}}</span>
           <i class="fas fa-check-circle ml-4" :class="settings.selected.id == query.id ? '' : 'invisible'"></i>
         </button>
-        <p v-if="_.isEmpty(preloaded)">Loading...</p>
+        <p v-if="error">An error has occurred.</p>
+        <p v-else-if="_.isEmpty(preloaded)">Loading queries<span class="blink">...</span></p>
         <p v-else-if="!_.isEmpty(preloaded) && options.length == 0">There are no queries matching your search criteria.</p>
       </div>
       <div>
@@ -49,7 +50,9 @@ const querysearcher = {
   },
   data() {
     return {
-      preloaded: {}
+      preloaded: {},
+      loaded: false,
+      error: false
     }
   },
   computed: {
@@ -83,6 +86,7 @@ const querysearcher = {
     axios.post('/api/queries/')
     .then(function(response) {
       self.preloaded = _.orderBy(response.data, ['visibility', 'featured'], ['desc', 'asc'])
+      self.loaded = true
       // fill out selected for cloning and editing
       if (!_.isUndefined(self.settings.selected.id) && _.isUndefined(self.settings.selected.created_at)) {
         self.settings.selected = _.filter(response.data, function(l) {
@@ -92,6 +96,7 @@ const querysearcher = {
     })
     .catch(function(error) {
       console.error(error)
+      self.error = true
     })
   }
 }

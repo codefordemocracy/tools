@@ -18,7 +18,8 @@ const listsearcher = {
           <span class="text-left">{{list.name}}</span>
           <i class="fas fa-check-circle ml-4" :class="!_.isNull(sequence) && settings.selected.id == list.id ? '' : 'invisible'"></i>
         </button>
-        <p v-if="_.isEmpty(preloaded) && !_.isNull(this.subtype)">Loading...</p>
+        <p v-if="error">An error has occurred.</p>
+        <p v-else-if="_.isEmpty(preloaded) && !_.isNull(this.subtype)">Loading lists<span class="blink">...</span></p>
         <p v-else-if="_.isEmpty(preloaded) && _.isNull(this.subtype)">Lists that match your search criteria will show up here.</p>
         <p v-else-if="!_.isEmpty(preloaded) && options.length == 0">There are no lists matching your search criteria.</p>
       </div>
@@ -60,7 +61,9 @@ const listsearcher = {
   },
   data() {
     return {
-      preloaded: {}
+      preloaded: {},
+      loaded: false,
+      error: false
     }
   },
   computed: {
@@ -103,6 +106,7 @@ const listsearcher = {
           mapped[t] = _.orderBy(_.filter(response.data, {subtype: t}), ['visibility', 'featured'], ['desc', 'asc'])
         })
         self.preloaded = mapped
+        self.loaded = true
         // fill out selected for cloning and editing
         if (!_.isUndefined(self.settings.selected.id) && _.isUndefined(self.settings.selected.created_at)) {
           self.settings.selected = _.filter(response.data, function(l) {
@@ -112,6 +116,7 @@ const listsearcher = {
       })
       .catch(function(error) {
         console.error(error)
+        self.error = true
       })
     }
   }

@@ -18,6 +18,7 @@ new Vue({
   },
   data: {
     loaded: false,
+    error: false,
     alert: {}
   },
   computed: {
@@ -38,6 +39,7 @@ new Vue({
       })
       .catch(function(error) {
         console.error(error)
+        self.error = true
       })
     }
   }
