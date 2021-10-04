@@ -125,11 +125,11 @@ const resultstable = {
       }
       this.getResults(function(data) {
         self.table = data
-        if (!_.isUndefined(self.$refs.datatable)) {
-          Vue.nextTick(function () {
+        Vue.nextTick(function () {
+          if (!_.isUndefined(self.$refs.datatable)) {
             self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
-          })
-        }
+          }
+        })
       })
     },
     next() {
@@ -138,11 +138,11 @@ const resultstable = {
       this.pagination.skip = this.pagination.skip + this.pagination.limit
       this.getResults(function(data) {
         self.table = data
-        if (!_.isUndefined(self.$refs.datatable)) {
-          Vue.nextTick(function () {
+        Vue.nextTick(function () {
+          if (!_.isUndefined(self.$refs.datatable)) {
             self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
-          })
-        }
+          }
+        })
       })
     },
     setOrder() {
@@ -170,11 +170,11 @@ const resultstable = {
     var self = this
     this.getResults(function(data) {
       self.table = data
-      if (!_.isUndefined(self.$refs.datatable)) {
-        Vue.nextTick(function () {
+      Vue.nextTick(function () {
+        if (!_.isUndefined(self.$refs.datatable)) {
           self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
-        })
-      }
+        }
+      })
     })
     this.getCount(function(data) {
       self.count = data

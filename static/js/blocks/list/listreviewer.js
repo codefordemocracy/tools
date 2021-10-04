@@ -106,7 +106,9 @@ const listreviewer = {
       this.getResults(function(data) {
         self.table = data
         Vue.nextTick(function () {
-          self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
+          if (!_.isUndefined(self.$refs.datatable)) {
+            self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
+          }
         })
       })
     },
@@ -117,7 +119,9 @@ const listreviewer = {
       this.getResults(function(data) {
         self.table = data
         Vue.nextTick(function () {
-          self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
+          if (!_.isUndefined(self.$refs.datatable)) {
+            self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
+          }
         })
       })
     }
@@ -136,7 +140,9 @@ const listreviewer = {
     this.getResults(function(data) {
       self.table = data
       Vue.nextTick(function () {
-        self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
+        if (!_.isUndefined(self.$refs.datatable)) {
+          self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
+        }
       })
     })
     this.getCount(function(data) {
