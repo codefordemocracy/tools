@@ -7,7 +7,10 @@ const resultshistogram = {
       <p class="text-xs" v-if="_.isEmpty(buckets) && error">An error has occurred.</p>
       <p class="text-xs" v-else-if="_.isEmpty(buckets) && !loaded">Loading histogram<span class="blink">...</span></p>
       <p class="text-xs" v-else-if="_.isEmpty(buckets) && loaded">A histogram could not be built for this query.</p>
-      <plot class="-m-5" :id="_.uniqueId('histogram')" :settings="histogram" v-else></plot>
+      <div class="relative" v-else>
+        <plot class="-m-5" :id="_.uniqueId('histogram')" :settings="histogram"></plot>
+        <div class="absolute top-0 right-0 -mr-5 bg-blue text-white text-xs px-2"># of {{documents}} over time</div>
+      </div>
     </div>
   `,
   props: {
@@ -26,6 +29,18 @@ const resultshistogram = {
     }
   },
   computed: {
+    documents() {
+      if (this.query.output == 'contribution') {
+        return 'contributions'
+      }
+      else if (this.query.output == 'ad') {
+        return 'ads'
+      }
+      else if (this.query.output == 'article') {
+        return 'articles'
+      }
+      return 'filings'
+    },
     histogram() {
       return {
         data: [
