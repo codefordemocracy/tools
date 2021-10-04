@@ -94,39 +94,23 @@ new Vue({
     placeholder() {
       if (this.list.subtype == 'committee') {
         return {
-          terms: `Victory Fund
-Leadership Committee
-Joint Fundraising
-...`,
-          ids: `C00000935
-C00075820
-C00042366
-C00027466
-...
-          `
+          terms: ["Victory Fund ", "Leadership Committee ", "Joint Fundraising ", "..."].join('\n'),
+          ids: ["C00000935 ", "C00075820 ", "C00075820 ", "C00042366 ", "C00027466 ", "..."].join('\n')
         }
       } else if (this.list.subtype == 'employer') {
         return {
-          terms: `Hospital
-Bank
-...`,
+          terms: ["Hospital ", "Bank ", "..."].join('\n'),
           ids: ''
         }
       } else if (this.list.subtype == 'job') {
         return {
-          terms: `Doctor
-Software Engineer
-Realtor
-...`,
+          terms: ["Doctor ", "Software Engineer ", "Realtor ", "..."].join('\n'),
           ids: ''
         }
       } else if (this.list.subtype == 'topic') {
         return {
-          terms: `Finance
-Defense
-Healthcare
-...`,
-          ids: 'LAW, BUD, NAT, HCR, MMM, AVI, EDU, ...'
+          terms: ["Finance ", "Defense ", "Healthcare ", "..."].join('\n'),
+          ids: ["LAW ", "BUD ", "NAT ", "HCR ", "MMM ", "AVI ", "EDU ", "..."].join('\n')
         }
       }
       return ''
