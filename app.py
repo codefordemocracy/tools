@@ -247,7 +247,8 @@ def route_api_list_review_count():
             if data["list"].get("include") is not None:
                 body["include"] = data["list"]["include"]
             if data["list"].get("exclude") is not None:
-                body["exclude"] = data["list"]["exclude"]
+                if data["list"]["exclude"].get("terms") is not None or data["list"]["exclude"].get("ids") is not None or data["list"]["exclude"].get("filters") is not None:
+                    body["exclude"] = data["list"]["exclude"]
             body["count"] = True
             elements = post(endpoint, body)
             if "count" in elements[0]:
