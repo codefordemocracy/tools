@@ -289,19 +289,40 @@ const RECIPES = [{
   tags: ['lobbying'],
   template: 'wLvp',
   subtypes: ["employer"],
+  configurables: `Find lobbying disclosures for lobbying conducted by <configurable value="TiHlDe7JBzAXsc1xhlIL" :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of lobbying disclosures for lobbying done by firms in the selected list.`
+}, {
+  output: 'lobbying',
+  tags: ['lobbying'],
+  template: 'kMER',
+  subtypes: ["employer"],
+  configurables: `Find lobbying disclosures for lobbying conducted on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of lobbying disclosures for lobbying done on behalf of organizations in the selected list.`
+}, {
+  output: 'lobbying',
+  tags: ['lobbying'],
+  template: 'MJdb',
+  subtypes: ["topic"],
+  configurables: `Find lobbying disclosures for lobbying related to <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of lobbying disclosures for lobbying related to issues in the selected list.`
+}, {
+  output: 'lobbying',
+  tags: ['lobbying'],
+  template: 'PLWg',
+  subtypes: ["employer"],
   configurables: `Find lobbying activity conducted by <configurable value="TiHlDe7JBzAXsc1xhlIL" :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of lobbying activity done by firms in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
-  template: 'kMER',
+  template: 'QJeb',
   subtypes: ["employer"],
   configurables: `Find lobbying activity conducted on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of lobbying activity done on behalf of organizations in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
-  template: 'MJdb',
+  template: 'nNKT',
   subtypes: ["topic"],
   configurables: `Find lobbying activity related to <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of lobbying activity related to issues in the selected list.`
@@ -310,43 +331,43 @@ const RECIPES = [{
   tags: ['campfin', 'lobbying'],
   template: 'PjyR',
   subtypes: ["employer"],
-  configurables: `Find contributions by lobbyists employed by <configurable value="TiHlDe7JBzAXsc1xhlIL" :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of contributions by lobbyists affiliated with lobbying activity done by firms in the selected list.`
+  configurables: `Find contributions by lobbying firms who are <configurable value="TiHlDe7JBzAXsc1xhlIL" :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of contributions by lobbying firms in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['campfin', 'lobbying'],
   template: 'WGb3',
   subtypes: ["employer"],
-  configurables: `Find contributions by lobbyists lobbying on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of contributions by lobbyists affiliated with lobbying activity done on behalf of organizations in the selected list.`
+  configurables: `Find contributions by lobbying firms lobbying on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of contributions by lobbying firms affiliated with lobbying activity done on behalf of organizations in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['campfin', 'lobbying'],
   template: 'MK93',
   subtypes: ["topic"],
-  configurables: `Find contributions by lobbyists lobbying on <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of contributions by lobbyists affiliated with lobbying activity related to issues in the selected list.`
+  configurables: `Find contributions by lobbying firms lobbying on <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of contributions by lobbying firms affiliated with lobbying activity related to issues in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
   template: 'V5Gh',
   subtypes: ["employer"],
-  configurables: `Find honorary expenses associated with lobbying activity conducted by <configurable value="TiHlDe7JBzAXsc1xhlIL" :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of honorary expenses in filings with lobbying activity done by firms in the selected list.`
+  configurables: `Find honorary expenses associated with lobbying firms who are <configurable value="TiHlDe7JBzAXsc1xhlIL" :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of honorary expenses in filings by registrants in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
   template: '3Nrt',
   subtypes: ["employer"],
-  configurables: `Find honorary expenses associated with lobbying activity conducted on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of honorary expenses in filings with lobbying activity done on behalf of organizations in the selected list.`
+  configurables: `Find honorary expenses associated with lobbying firms conducted on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of honorary expenses in filings by registrants with lobbying activity done on behalf of organizations in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
   template: 'Q23x',
   subtypes: ["topic"],
-  configurables: `Find honorary expenses associated with lobbying activity related to <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of honorary expenses in filings with lobbying activity related to issues in the selected list.`
+  configurables: `Find honorary expenses associated with lobbying firms related to <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of honorary expenses in filings by registrants with lobbying activity related to issues in the selected list.`
 }, {
   output: '990',
   tags: ['tax'],
