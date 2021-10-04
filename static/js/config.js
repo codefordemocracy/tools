@@ -153,11 +153,11 @@ const DATERANGES = {
   },
   dates: {
     documents: {
-      min: moment().subtract(3, 'months').format('YYYY-MM-DD'),
-      max: moment().format('YYYY-MM-DD')
+      min: moment().subtract(3, 'months').toDate(),
+      max: moment().toDate()
     },
     datasets: {
-      min: moment('2021-01-01', 'YYYY-MM-DD').toDate(),
+      min: moment().subtract(3, 'months').toDate(),
       max: moment().toDate()
     }
   }
