@@ -1,18 +1,18 @@
 <div class="bg-white border border-secondary p-5">
   <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
-    <button class="btn px-5 py-10 text-sm rounded-sm uppercase" :class="category == 'table' ? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="category = 'table'">
+    <button class="btn px-3 py-10 text-sm rounded-sm uppercase" :class="category == 'table' ? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="category = 'table'">
       <i class="fas fa-table icon-box-icon icon-box-icon-average mb-3"></i><br/>
       Table
     </button>
-    <button class="btn px-5 py-10 text-sm rounded-sm uppercase" :class="category == 'chart'? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="category = 'chart'">
+    <button class="btn px-3 py-10 text-sm rounded-sm uppercase" :class="category == 'chart'? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="category = 'chart'">
       <i class="fas fa-chart-bar icon-box-icon icon-box-icon-large mb-3"></i><br/>
       Chart
     </button>
-    <button class="btn px-5 py-10 text-sm rounded-sm uppercase" :class="category == 'map' ? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="store.commit('waitlist/modal', true)">
+    <button class="btn px-3 py-10 text-sm rounded-sm uppercase" :class="category == 'map' ? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="store.commit('waitlist/modal', true)">
       <i class="fas fa-globe-americas icon-box-icon icon-box-icon-average mb-3"></i><br/>
       Map
     </button>
-    <button class="btn px-5 py-10 text-sm rounded-sm uppercase" :class="category == 'network' ? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="store.commit('waitlist/modal', true)">
+    <button class="btn px-3 py-10 text-sm rounded-sm uppercase" :class="category == 'network' ? 'btn-primary' : 'btn-secondary hover:bg-gray-40 hover:text-black'" @click="store.commit('waitlist/modal', true)">
       <i class="fas fa-project-diagram icon-box-icon icon-box-icon-smallest mb-3"></i><br/>
       Network
     </button>
