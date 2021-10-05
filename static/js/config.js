@@ -349,6 +349,20 @@ const RECIPES = [{
   interpretation: `This recipe produces a list of contributions by lobbying firms affiliated with lobbying activity related to issues in the selected list.`
 }, {
   output: 'lobbying',
+  tags: ['campfin', 'lobbying'],
+  template: 'rXwv',
+  subtypes: ["employer"],
+  configurables: `Find contributions by lobbyists lobbying on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of contributions by lobbyists lobbying on behalf of organizations in the selected list.`
+}, {
+  output: 'lobbying',
+  tags: ['campfin', 'lobbying'],
+  template: 'i5xq',
+  subtypes: ["topic"],
+  configurables: `Find contributions by lobbyists lobbying on <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of contributions by lobbyists lobbying on issues in the selected list.`
+}, {
+  output: 'lobbying',
   tags: ['lobbying'],
   template: 'V5Gh',
   subtypes: ["employer"],
@@ -359,15 +373,29 @@ const RECIPES = [{
   tags: ['lobbying'],
   template: '3Nrt',
   subtypes: ["employer"],
-  configurables: `Find honorary expenses associated with lobbying firms conducted on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `Find honorary expenses associated with lobbying firms lobbying on on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of honorary expenses in filings by registrants with lobbying activity done on behalf of organizations in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
   template: 'Q23x',
   subtypes: ["topic"],
-  configurables: `Find honorary expenses associated with lobbying firms related to <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `Find honorary expenses associated with lobbying firms lobbying on <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of honorary expenses in filings by registrants with lobbying activity related to issues in the selected list.`
+}, {
+  output: 'lobbying',
+  tags: ['lobbying'],
+  template: 'JCXA',
+  subtypes: ["employer"],
+  configurables: `Find honorary expenses associated with lobbyists lobbying on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of honorary expenses in filings by lobbyists lobbying on behalf of organizations in the selected list.`
+}, {
+  output: 'lobbying',
+  tags: ['lobbying'],
+  template: '7EyP',
+  subtypes: ["topic"],
+  configurables: `Find honorary expenses associated with lobbyists lobbying on <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of honorary expenses in filings by lobbyists lobbying on issues in the selected list.`
 }, {
   output: '990',
   tags: ['tax'],
