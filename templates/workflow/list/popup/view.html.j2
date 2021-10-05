@@ -8,7 +8,7 @@
     <div class="bg-white border border-secondary p-5 mb-5">
       <h3 class="text-xl font-light text-dark-gray">{{list.name}}</h3>
       <p class="font-light text-sm text-muted mb-3">{{list.id}}</p>
-      <div class="mb-5">
+      <div class="mb-3">
         <a :href="'/create/list/?action=clone&id=' + list.id" class="btn btn-sm btn-gray mb-2" target="_blank">Clone List</a>
         <button class="btn btn-sm btn-secondary mb-2" @click="store.getters['auth/isVerified'] ? review.download = 'csv' : store.commit('auth/verify', true)" :disabled="review.download == 'csv'">
           <span v-if="review.download == 'csv'">Rows Processed: {{review.downloading | numbreviate}}<span v-if="review.count > 0"> of {{review.count | numbreviate}}</span></span>
@@ -19,6 +19,7 @@
           <span v-else>Download Entities as JSON</span>
         </button>
       </div>
+      <p class="text-xs mb-5">(You can download up to 10K entities in the list for use in other applications. If you need more, <a href="https://codefordemocracy.org/contact/" target="_blank">contact us</a> for a bulk export.)</p>
       <div class="bg-xlight text-dark text-xs p-3">
         <listdisplayer :list="list" :hide="['visibility', 'name', 'id']" :ratio="ratio"></listdisplayer>
       </div>

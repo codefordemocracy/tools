@@ -8,7 +8,7 @@
     <div class="bg-white border border-secondary p-5">
       <h3 class="text-xl font-light text-dark-gray">{{visualization.name}}</h3>
       <p class="font-light text-sm text-muted mb-3">{{visualization.id}}</p>
-      <div class="mb-5">
+      <div class="mb-3">
         <a :href="'/create/visualization/?action=clone&id=' + visualization.id" class="btn btn-sm btn-gray mb-2" target="_blank">Clone Visualization</a>
         <template v-if="!_.isNull(review.datawrapper)">
           <button class="btn btn-sm btn-secondary mb-2" @click="DATAWRAPPER(review.datawrapper, visualization.name, visualization.description)">Send to Datawrapper</button>
@@ -22,6 +22,7 @@
           </button>
         </template>
       </div>
+      <p class="text-xs mt-3 mb-5">(You can download up to 10K rows of data for use in other applications. If you need more, <a href="https://codefordemocracy.org/contact/" target="_blank">contact us</a> for a bulk export.)</p>
       <div class="bg-xlight text-dark text-xs p-3">
         <vizdisplayer :viz="visualization" :hide="['visibility', 'name', 'id']" :ratio="ratio"></vizdisplayer>
       </div>

@@ -8,7 +8,7 @@
     <div class="bg-white border border-secondary p-5 mb-5">
       <h3 class="text-xl font-light text-dark-gray">{{query.name}}</h3>
       <p class="font-light text-sm text-muted mb-3">{{query.id}}</p>
-      <div class="mb-5">
+      <div class="mb-3">
         <a :href="'/create/query/?action=clone&id=' + query.id" class="btn btn-sm btn-gray mb-2" target="_blank">Clone Query</a>
         <button class="btn btn-sm btn-secondary mb-2" @click="store.getters['auth/isVerified'] ? results.download = 'csv' : store.commit('auth/verify', true)" :disabled="results.download == 'csv'">
           <span v-if="results.download == 'csv'">Rows Processed: {{results.downloading | numbreviate}}<span v-if="results.count > 0"> of {{results.count | numbreviate}}</span></span>
@@ -19,6 +19,7 @@
           <span v-else>Download Results as JSON</span>
         </button>
       </div>
+      <p class="text-xs mb-5">(You can download up to 10K results for use in other applications. If you need more, <a href="https://codefordemocracy.org/contact/" target="_blank">contact us</a> for a bulk export.)</p>
       <div class="bg-xlight text-dark text-xs p-3">
         <querydisplayer :query="query" :hide="['visibility', 'name', 'id']" :ratio="ratio"></querydisplayer>
       </div>
