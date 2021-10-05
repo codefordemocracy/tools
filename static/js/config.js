@@ -350,6 +350,13 @@ const RECIPES = [{
 }, {
   output: 'lobbying',
   tags: ['campfin', 'lobbying'],
+  template: 'A3ue',
+  subtypes: ["donor"],
+  configurables: `Find contributions by lobbyists in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of contributions by lobbyists in the selected list.`
+}, {
+  output: 'lobbying',
+  tags: ['campfin', 'lobbying'],
   template: 'rXwv',
   subtypes: ["employer"],
   configurables: `Find contributions by lobbyists lobbying on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
@@ -382,6 +389,13 @@ const RECIPES = [{
   subtypes: ["topic"],
   configurables: `Find honorary expenses associated with lobbying firms lobbying on <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of honorary expenses in filings by registrants with lobbying activity related to issues in the selected list.`
+}, {
+  output: 'lobbying',
+  tags: ['lobbying'],
+  template: 'Hsqk',
+  subtypes: ["donor"],
+  configurables: `Find honorary expenses associated with lobbyists in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of honorary expenses in filings by lobbyists in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
