@@ -216,7 +216,7 @@ const matches = {
   },
   computed: {
     intermediaries() {
-      if (!_.isUndefined(this.qs.intermediaries)){
+      if (!_.isNil(this.qs.intermediaries)){
         return this.qs.intermediaries
       } else {
         return _.get(_.get(this.$store.state.explore.intermediaries, this.api.payload.entity), this.api.payload.entity2)

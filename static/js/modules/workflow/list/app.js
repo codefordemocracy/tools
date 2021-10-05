@@ -124,7 +124,7 @@ new Vue({
       if (!_.isNil(obj.include.ids)) {
         obj.include.ids = _.compact(_.split(obj.include.ids, '\n'))
       }
-      if (!_.isUndefined(this.filters.include[obj.subtype])) {
+      if (!_.isNil(this.filters.include[obj.subtype])) {
         obj.include.filters = {}
         _.forEach(_.keys(this.filters.include[obj.subtype]), function(k) {
           if (!_.isEmpty(self.filters.include[obj.subtype][k])) {
@@ -142,7 +142,7 @@ new Vue({
         if (!_.isNil(obj.exclude.ids)) {
           obj.exclude.ids = _.compact(_.split(obj.exclude.ids, '\n'))
         }
-        if (!_.isUndefined(this.filters.exclude[obj.subtype])) {
+        if (!_.isNil(this.filters.exclude[obj.subtype])) {
           obj.exclude.filters = {}
           _.forEach(_.keys(this.filters.exclude[obj.subtype]), function(k) {
             let filters = _.compact(self.filters.exclude[obj.subtype][k])
@@ -249,11 +249,11 @@ new Vue({
     // create debounced preview function for new lists
     this.slowpeek = _.debounce(this.peek, 2000)
     // get id for edit or clone workflow
-    if (_.includes(['edit', 'clone'], this.$route.query.action) && !_.isUndefined(this.$route.query.id)) {
+    if (_.includes(['edit', 'clone'], this.$route.query.action) && !_.isNil(this.$route.query.id)) {
       this.list.id = this.$route.query.id
     }
     // load data for edit or clone workflow
-    if (!_.isUndefined(this.$route.query.id)) {
+    if (!_.isNil(this.$route.query.id)) {
       axios.post('/api/list/meta/', {id: this.$route.query.id})
       .then(function(response) {
         self.list = response.data
@@ -263,13 +263,13 @@ new Vue({
         if (!_.isNil(self.list.include.ids)) {
           self.list.include.ids = self.list.include.ids.join('\n')
         }
-        if (!_.isUndefined(self.list.include.filters)) {
+        if (!_.isNil(self.list.include.filters)) {
           _.forEach(_.keys(self.list.include.filters), function(k) {
             self.filters.include[self.list.subtype][k] = self.list.include.filters[k]
           })
           self.list.include = _.omit(self.list.include, 'filters')
         }
-        if (_.isUndefined(self.list.exclude)) {
+        if (_.isNil(self.list.exclude)) {
           self.list.exclude = {
             terms: null,
             ids: null
@@ -282,7 +282,7 @@ new Vue({
           if (!_.isNil(self.list.exclude.ids)) {
             self.list.exclude.ids = self.list.exclude.ids.join('\n')
           }
-          if (!_.isUndefined(self.list.exclude.filters)) {
+          if (!_.isNil(self.list.exclude.filters)) {
             _.forEach(_.keys(self.list.exclude.filters), function(k) {
               self.filters.exclude[self.list.subtype][k] = self.list.exclude.filters[k]
             })

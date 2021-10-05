@@ -50,7 +50,7 @@ new Vue({
       if (!_.isEmpty(this.visualization.id)) {
         obj.id = this.visualization.id
       }
-      if (!_.isUndefined(this.query)) {
+      if (!_.isNil(this.query)) {
         obj.query = this.query.selected.id
       }
       return obj
@@ -111,7 +111,7 @@ new Vue({
         if (!_.isNull(this.build.category)) {
           store.commit('workflow/valid', 1)
         }
-        if (!_.isUndefined(this.query)) {
+        if (!_.isNil(this.query)) {
           store.commit('workflow/valid', 2)
         }
         if (_.isEmpty(this.aggregations.settings.columns) || !_.isEmpty(this.aggregations.settings.groupby)) {
@@ -129,7 +129,7 @@ new Vue({
       deep: true,
       handler() {
         var self = this
-        if (!_.isUndefined(this.query)) {
+        if (!_.isNil(this.query)) {
           // get potential aggregations
           axios.post('/api/query/results/table/', {query: this.query.selected, pagination: {skip: 0, limit: 100}})
           .then(function(response) {
@@ -157,11 +157,11 @@ new Vue({
   created() {
     var self = this
     // get id for edit or clone workflow
-    if (_.includes(['edit', 'clone'], this.$route.query.action) && !_.isUndefined(this.$route.query.id)) {
+    if (_.includes(['edit', 'clone'], this.$route.query.action) && !_.isNil(this.$route.query.id)) {
       this.visualization.id = this.$route.query.id
     }
     // load data for edit or clone workflow
-    if (!_.isUndefined(this.$route.query.id)) {
+    if (!_.isNil(this.$route.query.id)) {
       axios.post('/api/visualization/meta/', {id: this.$route.query.id})
       .then(function(response) {
         self.category = response.data.category

@@ -16,7 +16,7 @@ const listdisplayer = {
         <li v-if="!_.includes(hide, 'include.ids') && !_.isEmpty(list.include.ids)"><strong>Included IDs:</strong> {{list.include.ids.join(', ')}}</li>
         <li v-if="!_.includes(hide, 'include.filters') && !_.isEmpty(list.include.filters)"><strong>Filters:</strong> {{mapFilter(list.include.filters).join(', ')}}</li>
       </template>
-      <template v-if="!_.includes(hide, 'exclude') && !_.isUndefined(list.exclude)">
+      <template v-if="!_.includes(hide, 'exclude') && !_.isNil(list.exclude)">
         <li v-if="!_.includes(hide, 'exclude.terms') && !_.isEmpty(list.exclude.terms)"><strong>Excluded Terms:</strong> {{list.exclude.terms.join(', ')}}</li>
         <li v-if="!_.includes(hide, 'exclude.ids') && !_.isEmpty(list.exclude.ids)"><strong>Excluded IDs:</strong> {{list.exclude.ids.join(', ')}}</li>
         <li v-if="!_.includes(hide, 'exclude.filters') && !_.isEmpty(list.exclude.filters)"><strong>Filters:</strong> {{mapFilter(list.exclude.filters).join(', ')}}</li>

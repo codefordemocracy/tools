@@ -126,7 +126,7 @@ new Vue({
     }
   },
   created() {
-    if (!_.isUndefined(this.$route.query.entity) && !_.isUndefined(this.$route.query.term)) {
+    if (!_.isNil(this.$route.query.entity) && !_.isNil(this.$route.query.term)) {
       this.entity = this.$route.query.entity
       this.term = this.$route.query.term
     }

@@ -91,7 +91,7 @@ const vizreviewer = {
       self.formatted = response.data
       self.loaded = true
       Vue.nextTick(function () {
-        if (!_.isUndefined(self.$refs.datatable)) {
+        if (!_.isNil(self.$refs.datatable)) {
           self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
         }
       })

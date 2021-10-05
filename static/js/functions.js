@@ -29,7 +29,7 @@ const POPUP = function(url, name, ratio, main) {
 
 // Send to datawrapper
 const DATAWRAPPER = function(settings, title, description) {
-  if (!_.isUndefined(settings)) {
+  if (!_.isNil(settings)) {
     settings.title = title
     if (!_.isNull(description)) {
       settings.description = description

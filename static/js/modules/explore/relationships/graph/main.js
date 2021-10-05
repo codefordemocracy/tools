@@ -672,7 +672,7 @@ new Vue({
     mounted() {
         let nodes = this.$route.query.nodes
         let edges = this.$route.query.edges
-        if (!_.isUndefined(nodes) || !_.isUndefined(edges)) {
+        if (!_.isNil(nodes) || !_.isNil(edges)) {
             store.commit('explore/loading', true)
             addData({ type: 'ids', nodes: _.split(nodes, ','), edges: _.split(edges, ',') })
             store.commit('explore/step', 'start')

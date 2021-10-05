@@ -52,7 +52,7 @@ new Vue({
   created() {
     var self = this
     // load data for view workflow
-    if (!_.isUndefined(this.$route.query.id)) {
+    if (!_.isNil(this.$route.query.id)) {
       axios.post('/api/query/meta/', {id: this.$route.query.id})
       .then(function(response) {
         self.query = response.data

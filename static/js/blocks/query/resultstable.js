@@ -126,7 +126,7 @@ const resultstable = {
       this.getResults(function(data) {
         self.table = data
         Vue.nextTick(function () {
-          if (!_.isUndefined(self.$refs.datatable)) {
+          if (!_.isNil(self.$refs.datatable)) {
             self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
           }
         })
@@ -139,7 +139,7 @@ const resultstable = {
       this.getResults(function(data) {
         self.table = data
         Vue.nextTick(function () {
-          if (!_.isUndefined(self.$refs.datatable)) {
+          if (!_.isNil(self.$refs.datatable)) {
             self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
           }
         })
@@ -171,7 +171,7 @@ const resultstable = {
     this.getResults(function(data) {
       self.table = data
       Vue.nextTick(function () {
-        if (!_.isUndefined(self.$refs.datatable)) {
+        if (!_.isNil(self.$refs.datatable)) {
           self.more = self.$refs.datatable.$refs.table.offsetWidth > self.$refs.datatable.$el.clientWidth
         }
       })

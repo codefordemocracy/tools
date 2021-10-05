@@ -28,8 +28,8 @@ const listsearcher = {
           Details about the <span v-if="!_.isNull(sequence)">List Selected for Slot {{_.toUpper(sequence)}}</span><span v-else>Selected List</span>
         </div>
         <div class="bg-xlight text-dark p-3">
-          <listdisplayer :list="settings.selected" v-if="!_.isUndefined(settings.selected.created_at)"></listdisplayer>
-          <p v-else-if="!_.isNull(sequence) && !_.isUndefined(settings.selected.id) && _.isUndefined(settings.selected.created_at)">Please wait while we load details for the list selected for Slot {{_.toUpper(sequence)}}.</p>
+          <listdisplayer :list="settings.selected" v-if="!_.isNil(settings.selected.created_at)"></listdisplayer>
+          <p v-else-if="!_.isNull(sequence) && !_.isNil(settings.selected.id) && _.isNil(settings.selected.created_at)">Please wait while we load details for the list selected for Slot {{_.toUpper(sequence)}}.</p>
           <p v-else-if="!_.isNull(sequence)">You have not yet selected a list for Slot {{_.toUpper(sequence)}}.</p>
           <p v-else>Select a list to view its details.</p>
         </div>
@@ -108,7 +108,7 @@ const listsearcher = {
         self.preloaded = mapped
         self.loaded = true
         // fill out selected for cloning and editing
-        if (!_.isUndefined(self.settings.selected.id) && _.isUndefined(self.settings.selected.created_at)) {
+        if (!_.isNil(self.settings.selected.id) && _.isNil(self.settings.selected.created_at)) {
           self.settings.selected = _.filter(response.data, function(l) {
             return l.id == self.settings.selected.id
           })[0]

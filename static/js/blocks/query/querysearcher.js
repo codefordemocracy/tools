@@ -27,8 +27,8 @@ const querysearcher = {
           Details about the Selected Query
         </div>
         <div class="bg-xlight text-dark p-3">
-          <querydisplayer :query="settings.selected" v-if="!_.isUndefined(settings.selected.created_at)"></querydisplayer>
-          <p v-if="_.isUndefined(settings.selected.id)">Select a query to view its details.</p>
+          <querydisplayer :query="settings.selected" v-if="!_.isNil(settings.selected.created_at)"></querydisplayer>
+          <p v-if="_.isNil(settings.selected.id)">Select a query to view its details.</p>
         </div>
       </div>
     </div>
@@ -88,7 +88,7 @@ const querysearcher = {
       self.preloaded = _.orderBy(response.data, ['visibility', 'featured'], ['desc', 'asc'])
       self.loaded = true
       // fill out selected for cloning and editing
-      if (!_.isUndefined(self.settings.selected.id) && _.isUndefined(self.settings.selected.created_at)) {
+      if (!_.isNil(self.settings.selected.id) && _.isNil(self.settings.selected.created_at)) {
         self.settings.selected = _.filter(response.data, function(l) {
           return l.id == self.settings.selected.id
         })[0]

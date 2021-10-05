@@ -33,7 +33,7 @@ new Vue({
       if (!_.isEmpty(this.alert.id)) {
         obj.id = this.alert.id
       }
-      if (!_.isUndefined(this.query)) {
+      if (!_.isNil(this.query)) {
         obj.query = this.query.selected.id
       }
       return obj
@@ -58,7 +58,7 @@ new Vue({
         store.commit('workflow/reset')
         store.commit('workflow/clear')
         // validate
-        if (!_.isUndefined(this.query)) {
+        if (!_.isNil(this.query)) {
           store.commit('workflow/valid', 1)
         }
         if (!_.isEmpty(this.trigger.event) && !_.isEmpty(this.trigger.frequency)) {
@@ -73,11 +73,11 @@ new Vue({
   created() {
     var self = this
     // get id for edit or clone workflow
-    if (_.includes(['edit', 'clone'], this.$route.query.action) && !_.isUndefined(this.$route.query.id)) {
+    if (_.includes(['edit', 'clone'], this.$route.query.action) && !_.isNil(this.$route.query.id)) {
       this.alert.id = this.$route.query.id
     }
     // load data for edit or clone workflow
-    if (!_.isUndefined(this.$route.query.id)) {
+    if (!_.isNil(this.$route.query.id)) {
       axios.post('/api/alert/meta/', {id: this.$route.query.id})
       .then(function(response) {
         self.query = {

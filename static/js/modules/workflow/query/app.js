@@ -67,7 +67,7 @@ new Vue({
         obj.id = this.query.id
       }
       _.forEach(_.keys(this.lists.config), function(s) {
-        if (!_.isUndefined(self.lists.config[s])) {
+        if (!_.isNil(self.lists.config[s])) {
           obj.lists[s] = self.lists.config[s].selected.id
         }
       })
@@ -167,11 +167,11 @@ new Vue({
       console.error(error)
     })
     // get id for edit or clone workflow
-    if (_.includes(['edit', 'clone'], this.$route.query.action) && !_.isUndefined(this.$route.query.id)) {
+    if (_.includes(['edit', 'clone'], this.$route.query.action) && !_.isNil(this.$route.query.id)) {
       this.query.id = this.$route.query.id
     }
     // load data for edit or clone workflow
-    if (!_.isUndefined(this.$route.query.id)) {
+    if (!_.isNil(this.$route.query.id)) {
       axios.post('/api/query/meta/', {id: this.$route.query.id})
       .then(function(response) {
         self.recipe.selected = _.filter(RECIPES, function(r) {
@@ -193,8 +193,8 @@ new Vue({
         self.save.visibility = response.data.visibility
         self.save.name = response.data.name
         self.save.description = response.data.description
-        if (!_.isUndefined(response.data.filters)) {
-          if (!_.isUndefined(response.data.filters.amount)) {
+        if (!_.isNil(response.data.filters)) {
+          if (!_.isNil(response.data.filters.amount)) {
             self.filters.numerical.amount = response.data.filters.amount
           }
         }

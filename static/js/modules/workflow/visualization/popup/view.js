@@ -51,7 +51,7 @@ new Vue({
   created() {
     var self = this
     // load data for view workflow
-    if (!_.isUndefined(this.$route.query.id)) {
+    if (!_.isNil(this.$route.query.id)) {
       axios.post('/api/visualization/meta/', {id: this.$route.query.id})
       .then(function(response) {
         self.visualization = response.data

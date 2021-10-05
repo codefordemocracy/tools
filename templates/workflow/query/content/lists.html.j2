@@ -18,5 +18,5 @@
   </div>
 </div>
 <div class="bg-white border border-secondary p-5 text-xs">
-  <listsearcher :subtype="_.isNull(recipe.selected.template) ? undefined : recipe.selected.subtypes[lists.slot]" :sequence="getSequence(lists.slot)" :settings="!_.isUndefined(lists.config[getSequence(lists.slot)]) ? lists.config[getSequence(lists.slot)] : undefined" @change="updateLists"></listsearcher>
+  <listsearcher :subtype="_.isNull(recipe.selected.template) ? undefined : recipe.selected.subtypes[lists.slot]" :sequence="getSequence(lists.slot)" :settings="!_.isNil(lists.config[getSequence(lists.slot)]) ? lists.config[getSequence(lists.slot)] : undefined" @change="updateLists"></listsearcher>
 </div>
