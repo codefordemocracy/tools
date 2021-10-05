@@ -170,196 +170,196 @@ const RECIPES = [{
   tags: ['campfin'],
   template: 'ReqQ',
   subtypes: ["committee"],
-  configurables: `Find contributions from <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `contributions from <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of contributions from contributor committees in the selected list.`
 }, {
   output: 'contribution',
   tags: ['campfin'],
   template: 'VqHR',
   subtypes: ["committee"],
-  configurables: `Find contributions from committees to <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `contributions from committees to <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of committee contributions to recipient committees in the selected list.`
 }, {
   output: 'contribution',
   tags: ['campfin'],
   template: 'DXhw',
   subtypes: ["candidate"],
-  configurables: `Find contributions from committees to <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `contributions from committees to <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of committee contributions to recipient candidates in the selected list.`
 }, {
   output: 'contribution',
   tags: ['campfin'],
   template: 'dFMy',
   subtypes: ["committee"],
-  configurables: `Find contributions from individual donors to <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `contributions from individual donors to <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of individual contributions to recipient committees in the selected list.`
 }, {
   output: 'contribution',
   tags: ['campfin'],
   template: 'KWYZ',
   subtypes: ["candidate"],
-  configurables: `Find contributions from individual donors to <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `contributions from individual donors to <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of individual contributions to recipient candidates in the selected list.`
 }, {
   output: 'contribution',
   tags: ['campfin'],
   template: 'IQL2',
   subtypes: ["committee", "committee"],
-  configurables: `Find contributions from <configurable :settings="settings(0)" @click="click(0)"></configurable> to <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
+  configurables: `contributions from <configurable :settings="settings(0)" @click="click(0)"></configurable> to <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
   interpretation: `This recipe produces a list of contributions from contributor committees to recipient committees.`
 }, {
   output: 'contribution',
   tags: ['campfin'],
   template: 'WK3K',
   subtypes: ["committee", "candidate"],
-  configurables: `Find contributions from <configurable :settings="settings(0)" @click="click(0)"></configurable> to <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
+  configurables: `contributions from <configurable :settings="settings(0)" @click="click(0)"></configurable> to <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
   interpretation: `This recipe produces a list of contributions from contributor committees to recipient candidates.`
 }, {
   output: 'contribution',
   tags: ['campfin'],
   template: 'NcFz',
   subtypes: ["donor"],
-  configurables: `Find contributions from individual donors in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `contributions from individual donors in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of contributions from individual donors in the selected list.`
 }, {
   output: 'contribution',
   tags: ['campfin'],
   template: 'm4YC',
   subtypes: ["employer"],
-  configurables: `Find contributions from individual donors employed by <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `contributions from individual donors employed by <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of contributions from individual donors who were employed by employers in the selected list at the time the contribution was made.`
 }, {
   output: 'contribution',
   tags: ['campfin'],
   template: 'Bs5W',
   subtypes: ["employer", "committee"],
-  configurables: `Find contributions from individual donors employed by <configurable :settings="settings(0)" @click="click(0)"></configurable> to <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
+  configurables: `contributions from individual donors employed by <configurable :settings="settings(0)" @click="click(0)"></configurable> to <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
   interpretation: `This recipe produces a list of contributions from individual donors who were employed by employers in the first selected list at the time the contribution was made, to committees in the second selected list.`
 }, {
   output: 'contribution',
   tags: ['campfin'],
   template: 'KR64',
   subtypes: ["employer", "candidate"],
-  configurables: `Find contributions from individual donors employed by <configurable :settings="settings(0)" @click="click(0)"></configurable> to <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
+  configurables: `contributions from individual donors employed by <configurable :settings="settings(0)" @click="click(0)"></configurable> to <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
   interpretation: `This recipe produces a list of contributions from individual donors who were employed by employers in the first selected list at the time the contribution was made, to candidates in the second selected list.`
 }, {
   output: 'contribution',
   tags: ['campfin'],
   template: '7v4P',
   subtypes: ["job"],
-  configurables: `Find contributions from individual donors who work as <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `contributions from individual donors who work as <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of contributions from individual donors who held a job in the selected list at the time the contribution was made.`
 }, {
   output: 'contribution',
   tags: ['campfin'],
   template: '6peF',
   subtypes: ["job", "committee"],
-  configurables: `Find contributions from individual donors who work as <configurable :settings="settings(0)" @click="click(0)"></configurable> to <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
+  configurables: `contributions from individual donors who work as <configurable :settings="settings(0)" @click="click(0)"></configurable> to <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
   interpretation: `This recipe produces a list of contributions from individual donors who held a job in the first selected list at the time the contribution was made to committees in the second selected list.`
 }, {
   output: 'contribution',
   tags: ['campfin'],
   template: 'F7Xn',
   subtypes: ["job", "candidate"],
-  configurables: `Find contributions from individual donors who work as <configurable :settings="settings(0)" @click="click(0)"></configurable> to <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
+  configurables: `contributions from individual donors who work as <configurable :settings="settings(0)" @click="click(0)"></configurable> to <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
   interpretation: `This recipe produces a list of contributions from individual donors who held a job in the first selected list at the time the contribution was made to candidates in the second selected list.`
 }, {
   output: 'contribution',
   tags: ['campfin'],
   template: 'T5xv',
   subtypes: ["job", "employer"],
-  configurables: `Find contributions from individual donors who work as <configurable :settings="settings(0)" @click="click(0)"></configurable> for <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
+  configurables: `contributions from individual donors who work as <configurable :settings="settings(0)" @click="click(0)"></configurable> for <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
   interpretation: `This recipe produces a list of contributions from individual donors who held a job in the first selected list at an employer in the second selected list at the time the contribution was made.`
 }, {
   output: 'contribution',
   tags: ['campfin'],
   template: 'F2mS',
   subtypes: ["job", "employer", "committee"],
-  configurables: `Find contributions from individual donors who work as <configurable :settings="settings(0)" @click="click(0)"></configurable> for <configurable :settings="settings(1)" @click="click(1)"></configurable> to <configurable :settings="settings(2)" @click="click(2)"></configurable>`,
+  configurables: `contributions from individual donors who work as <configurable :settings="settings(0)" @click="click(0)"></configurable> for <configurable :settings="settings(1)" @click="click(1)"></configurable> to <configurable :settings="settings(2)" @click="click(2)"></configurable>`,
   interpretation: `This recipe produces a list of contributions from individual donors who held a job in the first selected list at an employer in the second selected list at the time the contribution was made to committees in the third selected list.`
 }, {
   output: 'contribution',
   tags: ['campfin'],
   template: 'gXjA',
   subtypes: ["job", "employer", "candidate"],
-  configurables: `Find contributions from individual donors who work as <configurable :settings="settings(0)" @click="click(0)"></configurable> for <configurable :settings="settings(1)" @click="click(1)"></configurable> to <configurable :settings="settings(2)" @click="click(2)"></configurable>`,
+  configurables: `contributions from individual donors who work as <configurable :settings="settings(0)" @click="click(0)"></configurable> for <configurable :settings="settings(1)" @click="click(1)"></configurable> to <configurable :settings="settings(2)" @click="click(2)"></configurable>`,
   interpretation: `This recipe produces a list of contributions from individual donors who held a job in the first selected list at an employer in the second selected list at the time the contribution was made to candidates in the third selected list.`
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
   template: 'wLvp',
   subtypes: ["employer"],
-  configurables: `Find lobbying disclosures for lobbying conducted by <configurable value="TiHlDe7JBzAXsc1xhlIL" :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `lobbying disclosures for lobbying conducted by <configurable value="TiHlDe7JBzAXsc1xhlIL" :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of lobbying disclosures for lobbying done by firms in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
   template: 'kMER',
   subtypes: ["employer"],
-  configurables: `Find lobbying disclosures for lobbying conducted on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `lobbying disclosures for lobbying conducted on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of lobbying disclosures for lobbying done on behalf of organizations in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
   template: 'MJdb',
   subtypes: ["topic"],
-  configurables: `Find lobbying disclosures for lobbying related to <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `lobbying disclosures for lobbying related to <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of lobbying disclosures for lobbying related to issues in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
   template: 'PLWg',
   subtypes: ["employer"],
-  configurables: `Find lobbying activity conducted by <configurable value="TiHlDe7JBzAXsc1xhlIL" :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `lobbying activity conducted by <configurable value="TiHlDe7JBzAXsc1xhlIL" :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of lobbying activity done by firms in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
   template: 'QJeb',
   subtypes: ["employer"],
-  configurables: `Find lobbying activity conducted on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `lobbying activity conducted on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of lobbying activity done on behalf of organizations in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
   template: 'nNKT',
   subtypes: ["topic"],
-  configurables: `Find lobbying activity related to <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `lobbying activity related to <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of lobbying activity related to issues in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['campfin', 'lobbying'],
   template: 'PjyR',
   subtypes: ["employer"],
-  configurables: `Find contributions by lobbying firms who are <configurable value="TiHlDe7JBzAXsc1xhlIL" :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `contributions by lobbying firms who are <configurable value="TiHlDe7JBzAXsc1xhlIL" :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of contributions by lobbying firms in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['campfin', 'lobbying'],
   template: 'WGb3',
   subtypes: ["employer"],
-  configurables: `Find contributions by lobbying firms lobbying on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `contributions by lobbying firms lobbying on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of contributions by lobbying firms affiliated with lobbying activity done on behalf of organizations in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['campfin', 'lobbying'],
   template: 'MK93',
   subtypes: ["topic"],
-  configurables: `Find contributions by lobbying firms lobbying on <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `contributions by lobbying firms lobbying on <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of contributions by lobbying firms affiliated with lobbying activity related to issues in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['campfin', 'lobbying'],
   template: 'A3ue',
   subtypes: ["donor"],
-  configurables: `Find contributions by lobbyists in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `contributions by lobbyists in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of contributions by lobbyists in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['campfin', 'lobbying'],
   template: 'rXwv',
   subtypes: ["employer"],
-  configurables: `Find contributions by lobbyists lobbying on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `contributions by lobbyists lobbying on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of contributions by lobbyists lobbying on behalf of organizations in the selected list.`,
   warning: 'This recipe may produce an unusual number of false negatives. Interpret results with caution.'
 }, {
@@ -367,7 +367,7 @@ const RECIPES = [{
   tags: ['campfin', 'lobbying'],
   template: 'i5xq',
   subtypes: ["topic"],
-  configurables: `Find contributions by lobbyists lobbying on <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `contributions by lobbyists lobbying on <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of contributions by lobbyists lobbying on issues in the selected list.`,
   warning: 'This recipe may produce an unusual number of false negatives. Interpret results with caution.'
 }, {
@@ -375,35 +375,35 @@ const RECIPES = [{
   tags: ['lobbying'],
   template: 'V5Gh',
   subtypes: ["employer"],
-  configurables: `Find honorary expenses associated with lobbying firms who are <configurable value="TiHlDe7JBzAXsc1xhlIL" :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `honorary expenses associated with lobbying firms who are <configurable value="TiHlDe7JBzAXsc1xhlIL" :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of honorary expenses in filings by registrants in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
   template: '3Nrt',
   subtypes: ["employer"],
-  configurables: `Find honorary expenses associated with lobbying firms lobbying on on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `honorary expenses associated with lobbying firms lobbying on on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of honorary expenses in filings by registrants with lobbying activity done on behalf of organizations in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
   template: 'Q23x',
   subtypes: ["topic"],
-  configurables: `Find honorary expenses associated with lobbying firms lobbying on <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `honorary expenses associated with lobbying firms lobbying on <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of honorary expenses in filings by registrants with lobbying activity related to issues in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
   template: 'Hsqk',
   subtypes: ["donor"],
-  configurables: `Find honorary expenses associated with lobbyists in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `honorary expenses associated with lobbyists in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of honorary expenses in filings by lobbyists in the selected list.`
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
   template: 'JCXA',
   subtypes: ["employer"],
-  configurables: `Find honorary expenses associated with lobbyists lobbying on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `honorary expenses associated with lobbyists lobbying on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of honorary expenses in filings by lobbyists lobbying on behalf of organizations in the selected list.`,
   warning: 'This recipe may produce an unusual number of false negatives. Interpret results with caution.'
 }, {
@@ -411,7 +411,7 @@ const RECIPES = [{
   tags: ['lobbying'],
   template: '7EyP',
   subtypes: ["topic"],
-  configurables: `Find honorary expenses associated with lobbyists lobbying on <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `honorary expenses associated with lobbyists lobbying on <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of honorary expenses in filings by lobbyists lobbying on issues in the selected list.`,
   warning: 'This recipe may produce an unusual number of false negatives. Interpret results with caution.'
 }, {
@@ -419,7 +419,7 @@ const RECIPES = [{
   tags: ['tax'],
   template: 'GCv2',
   subtypes: ["committee"],
-  configurables: `Find 990 filings that mention committees in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `990 filings that mention committees in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of IRS 990 filings that mention the committees in the selected list.`,
   warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
@@ -427,7 +427,7 @@ const RECIPES = [{
   tags: ['tax'],
   template: 'P34n',
   subtypes: ["employer"],
-  configurables: `Find 990 filings that mention organizations in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `990 filings that mention organizations in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of IRS 990 filings that mention the organizations in the selected list.`,
   warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
@@ -435,7 +435,7 @@ const RECIPES = [{
   tags: ['tax'],
   template: 'K23r',
   subtypes: ["donor"],
-  configurables: `Find 990 filings that mention people in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `990 filings that mention people in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of IRS 990 filings that mention the people in the selected list.`,
   warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
@@ -443,7 +443,7 @@ const RECIPES = [{
   tags: ['narrative'],
   template: 'D3WE',
   subtypes: ["committee"],
-  configurables: `Find Facebook ads purchased by entities affiliated with <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `Facebook ads purchased by entities affiliated with <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of Facebook ads where the buyer or page is in the selected list.`,
   warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
@@ -451,7 +451,7 @@ const RECIPES = [{
   tags: ['narrative'],
   template: 'BuW8',
   subtypes: ["committee"],
-  configurables: `Find Facebook ads that mention committees in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `Facebook ads that mention committees in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of Facebook ads related to committees in the selected list.`,
   warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
@@ -459,7 +459,7 @@ const RECIPES = [{
   tags: ['narrative'],
   template: 'P2HG',
   subtypes: ["employer"],
-  configurables: `Find Facebook ads that mention organizations in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `Facebook ads that mention organizations in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of Facebook ads related to organizations in the selected list.`,
   warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
@@ -467,7 +467,7 @@ const RECIPES = [{
   tags: ['narrative'],
   template: 'N7Jk',
   subtypes: ["donor"],
-  configurables: `Find Facebook ads that mention people in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `Facebook ads that mention people in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of Facebook ads related to people in the selected list.`,
   warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
@@ -475,7 +475,7 @@ const RECIPES = [{
   tags: ['narrative'],
   template: '8HcR',
   subtypes: ["topic"],
-  configurables: `Find Facebook ads with text about <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `Facebook ads with text about <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of Facebook ads related to issues in the selected list.`,
   warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
@@ -483,7 +483,7 @@ const RECIPES = [{
   tags: ['narrative'],
   template: 'PMYZ',
   subtypes: ["committee"],
-  configurables: `Find news articles that mention committees in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `news articles that mention committees in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of news articles related to committees in the selected list.`,
   warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
@@ -491,7 +491,7 @@ const RECIPES = [{
   tags: ['narrative'],
   template: 'WdMv',
   subtypes: ["employer"],
-  configurables: `Find news articles that mention organizations in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `news articles that mention organizations in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of news articles related to organizations in the selected list.`,
   warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
@@ -499,7 +499,7 @@ const RECIPES = [{
   tags: ['narrative'],
   template: 'RasK',
   subtypes: ["donor"],
-  configurables: `Find news articles that mention people in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `news articles that mention people in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of news articles related to people in the selected list.`,
   warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
@@ -507,7 +507,7 @@ const RECIPES = [{
   tags: ['narrative'],
   template: 'GSmB',
   subtypes: ["topic"],
-  configurables: `Find news articles with text about <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  configurables: `news articles with text about <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of news articles related to issues in the selected list.`,
   warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }]

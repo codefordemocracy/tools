@@ -1,11 +1,8 @@
 var concatrecipes = ""
 _.forEach(RECIPES, function(r) {
   concatrecipes +=
-    `<template v-if="recipe.template == '` + r.template + `'">` +
-      `<span>` + r.configurables + `</span>` +
-      `<p v-if="version == 'results'">` +
-        + r.interpretation +
-      `</p>` +
+    `<template v-if="recipe.template == '` + r.template + `'">`
+      + `<span v-if="version=='results'">You are seeing the results for</span><span v-else>Find</span> ` + r.configurables + `<span v-if="version=='results'">. ` + r.interpretation + `</span>` +
     `</template>`
 })
 
@@ -33,8 +30,10 @@ const configuration = {
       default: 'list'
     },
     lists: {
-      type: Array,
-      default: []
+      type: Object,
+      default: function () {
+        return {}
+      }
     },
     prefill: {
       type: Array,
@@ -55,9 +54,6 @@ const configuration = {
         sequence: ['a', 'b', 'c', 'd', 'e', 'f'][index],
         unformatted: this.unformatted
       }
-    },
-    click(index) {
-      this.$emit('click', index)
     }
   }
 }

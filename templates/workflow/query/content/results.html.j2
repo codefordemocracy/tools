@@ -1,5 +1,8 @@
 <template v-if="!_.isEmpty(_.filter(RECIPES, {template: build.template}))">
-  <div class="alert alert-warning mb-5" v-if="!_.isUndefined(_.filter(RECIPES, {template: build.template})[0].warning)"><strong>WARNING:</strong> {{_.filter(RECIPES, {template: build.template})[0].warning}}</div>
+  <div class="alert alert-warning mb-5" v-if="!_.isNil(_.filter(RECIPES, {template: build.template})[0].warning)"><strong>WARNING:</strong> {{_.filter(RECIPES, {template: build.template})[0].warning}}</div>
+  <div class="bg-gray-55 p-5 text-xs text-white mb-5 leading-normal" v-if="buildable">
+    <configuration :recipe="_.filter(RECIPES, {template: build.template})[0]" :lists="build.lists" version="results"></configuration>
+  </div>
 </template>
 <div class="bg-white border border-secondary p-5 mb-5">
   <resultshistogram :query="build" v-if="buildable"></resultshistogram>
