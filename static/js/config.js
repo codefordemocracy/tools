@@ -360,14 +360,16 @@ const RECIPES = [{
   template: 'rXwv',
   subtypes: ["employer"],
   configurables: `Find contributions by lobbyists lobbying on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of contributions by lobbyists lobbying on behalf of organizations in the selected list.`
+  interpretation: `This recipe produces a list of contributions by lobbyists lobbying on behalf of organizations in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false negatives. Interpret results with caution.'
 }, {
   output: 'lobbying',
   tags: ['campfin', 'lobbying'],
   template: 'i5xq',
   subtypes: ["topic"],
   configurables: `Find contributions by lobbyists lobbying on <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of contributions by lobbyists lobbying on issues in the selected list.`
+  interpretation: `This recipe produces a list of contributions by lobbyists lobbying on issues in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false negatives. Interpret results with caution.'
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
@@ -402,96 +404,110 @@ const RECIPES = [{
   template: 'JCXA',
   subtypes: ["employer"],
   configurables: `Find honorary expenses associated with lobbyists lobbying on behalf of clients who are <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of honorary expenses in filings by lobbyists lobbying on behalf of organizations in the selected list.`
+  interpretation: `This recipe produces a list of honorary expenses in filings by lobbyists lobbying on behalf of organizations in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false negatives. Interpret results with caution.'
 }, {
   output: 'lobbying',
   tags: ['lobbying'],
   template: '7EyP',
   subtypes: ["topic"],
   configurables: `Find honorary expenses associated with lobbyists lobbying on <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of honorary expenses in filings by lobbyists lobbying on issues in the selected list.`
+  interpretation: `This recipe produces a list of honorary expenses in filings by lobbyists lobbying on issues in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false negatives. Interpret results with caution.'
 }, {
   output: '990',
   tags: ['tax'],
   template: 'GCv2',
   subtypes: ["committee"],
   configurables: `Find 990 filings that mention committees in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of IRS 990 filings that mention the committees in the selected list.`
+  interpretation: `This recipe produces a list of IRS 990 filings that mention the committees in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
   output: '990',
   tags: ['tax'],
   template: 'P34n',
   subtypes: ["employer"],
   configurables: `Find 990 filings that mention organizations in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of IRS 990 filings that mention the organizations in the selected list.`
+  interpretation: `This recipe produces a list of IRS 990 filings that mention the organizations in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
   output: '990',
   tags: ['tax'],
   template: 'K23r',
   subtypes: ["donor"],
   configurables: `Find 990 filings that mention people in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of IRS 990 filings that mention the people in the selected list.`
+  interpretation: `This recipe produces a list of IRS 990 filings that mention the people in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
   output: 'ad',
   tags: ['narrative'],
   template: 'D3WE',
   subtypes: ["committee"],
   configurables: `Find Facebook ads purchased by entities affiliated with <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of Facebook ads where the buyer or page is in the selected list.`
+  interpretation: `This recipe produces a list of Facebook ads where the buyer or page is in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
   output: 'ad',
   tags: ['narrative'],
   template: 'BuW8',
   subtypes: ["committee"],
   configurables: `Find Facebook ads that mention committees in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of Facebook ads related to committees in the selected list.`
+  interpretation: `This recipe produces a list of Facebook ads related to committees in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
   output: 'ad',
   tags: ['narrative'],
   template: 'P2HG',
   subtypes: ["employer"],
   configurables: `Find Facebook ads that mention organizations in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of Facebook ads related to organizations in the selected list.`
+  interpretation: `This recipe produces a list of Facebook ads related to organizations in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
   output: 'ad',
   tags: ['narrative'],
   template: 'N7Jk',
   subtypes: ["donor"],
   configurables: `Find Facebook ads that mention people in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of Facebook ads related to people in the selected list.`
+  interpretation: `This recipe produces a list of Facebook ads related to people in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
   output: 'ad',
   tags: ['narrative'],
   template: '8HcR',
   subtypes: ["topic"],
   configurables: `Find Facebook ads with text about <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of Facebook ads related to issues in the selected list.`
+  interpretation: `This recipe produces a list of Facebook ads related to issues in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
   output: 'article',
   tags: ['narrative'],
   template: 'PMYZ',
   subtypes: ["committee"],
   configurables: `Find news articles that mention committees in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of news articles related to committees in the selected list.`
+  interpretation: `This recipe produces a list of news articles related to committees in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
   output: 'article',
   tags: ['narrative'],
   template: 'WdMv',
   subtypes: ["employer"],
   configurables: `Find news articles that mention organizations in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of news articles related to organizations in the selected list.`
+  interpretation: `This recipe produces a list of news articles related to organizations in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
   output: 'article',
   tags: ['narrative'],
   template: 'RasK',
   subtypes: ["donor"],
   configurables: `Find news articles that mention people in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of news articles related to people in the selected list.`
+  interpretation: `This recipe produces a list of news articles related to people in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
   output: 'article',
   tags: ['narrative'],
   template: 'GSmB',
   subtypes: ["topic"],
   configurables: `Find news articles with text about <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
-  interpretation: `This recipe produces a list of news articles related to issues in the selected list.`
+  interpretation: `This recipe produces a list of news articles related to issues in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }]

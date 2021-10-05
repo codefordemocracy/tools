@@ -24,6 +24,9 @@
         <querydisplayer :query="query" :hide="['visibility', 'name', 'id']" :ratio="ratio"></querydisplayer>
       </div>
     </div>
+    <template v-if="!_.isEmpty(_.filter(RECIPES, {template: query.template}))">
+      <div class="alert alert-warning mb-5" v-if="!_.isUndefined(_.filter(RECIPES, {template: query.template})[0].warning)"><strong>WARNING:</strong> {{_.filter(RECIPES, {template: query.template})[0].warning}}</div>
+    </template>
     <div class="bg-white border border-secondary p-5 mb-5">
       <resultshistogram :query="query"></resultshistogram>
     </div>
