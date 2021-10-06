@@ -14,12 +14,13 @@ const resultstable = {
             <select class="form-element sm:pr-12" v-model="query.orderby" @change="setOrder">
               <option :value="undefined">None</option>
               <option value="date" v-if="_.includes(['article', 'ad', 'contribution', 'lobbying', '990'], query.output)">Date</option>
-              <option value="amount" v-if="_.includes(['contribution'], query.output)">Amount</option>
+              <option value="amount" v-if="_.includes(['contribution', 'lobbying'], query.output) && !_.includes(['wLvp', 'kMER', 'MJdb', 'PLWg', 'QJeb', 'nNKT'], query.template)">Amount</option>
             </select>
           </div>
           <div class="grid grid-cols-2 sm:grid-cols-none sm:flex gap-3 items-center mb-3 sm:mb-0 sm:mx-5">
             <label class="label mb-0 flex-shrink-0"><span class="text-dark">Direction:</span></label>
-            <select class="form-element sm:pr-12" v-model="query.orderdir" :disabled="_.isEmpty(query.orderby)">
+            <select class="form-element sm:pr-12" v-model="query.orderdir" :disabled="_.isUndefined(query.orderby)">
+              <option :value="undefined">None</option>
               <option value="asc">Ascending</option>
               <option value="desc">Descending</option>
             </select>
@@ -146,7 +147,9 @@ const resultstable = {
       })
     },
     setOrder() {
-      if(_.isEmpty(this.query.orderdir)) {
+      if (_.isUndefined(this.query.orderby)) {
+        this.query.orderdir = undefined
+      } else if (_.isNil(this.query.orderdir)) {
         this.query.orderdir = 'asc'
       }
     },
