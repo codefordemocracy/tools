@@ -107,21 +107,21 @@ new Vue({
       handler() {
         store.commit('workflow/reset')
         store.commit('workflow/clear')
-        // validate
+        // validate steps
         if (!_.isNull(this.build.category)) {
           store.commit('workflow/valid', 1)
-        }
-        if (!_.isNil(this.query)) {
-          store.commit('workflow/valid', 2)
-        }
-        if (_.isEmpty(this.aggregations.settings.columns) || !_.isEmpty(this.aggregations.settings.groupby)) {
-          store.commit('workflow/valid', 3)
-        }
-        if (this.build.category != 'network' && !_.isNull(this.review.datawrapper)) {
-          store.commit('workflow/valid', 4)
-        }
-        if (!_.isEmpty(this.save.name)) {
-          store.commit('workflow/complete')
+          if (!_.isNil(this.query)) {
+            store.commit('workflow/valid', 2)
+            if (_.isEmpty(this.aggregations.settings.columns) || !_.isEmpty(this.aggregations.settings.groupby)) {
+              store.commit('workflow/valid', 3)
+              if (this.build.category != 'network' && !_.isNull(this.review.datawrapper)) {
+                store.commit('workflow/valid', 4)
+                if (!_.isEmpty(this.save.name)) {
+                  store.commit('workflow/complete')
+                }
+              }
+            }
+          }
         }
       }
     },

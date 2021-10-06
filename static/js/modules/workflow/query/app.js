@@ -137,16 +137,16 @@ new Vue({
         // validate steps
         if (!_.isNull(this.build.template)) {
           store.commit('workflow/valid', 1)
-        }
-        if (!_.isEmpty(this.build.lists) && !_.isEmpty(this.build.subtypes) && _.keys(this.build.lists).length == this.build.subtypes.length) {
-          store.commit('workflow/valid', 2)
-        }
-        if (!_.isNull(this.filters.dates.min) && !_.isNull(this.filters.dates.max)) {
-          store.commit('workflow/valid', 3)
-          store.commit('workflow/valid', 4)
-        }
-        if (!_.isEmpty(this.build.visibility) && !_.isEmpty(this.build.name)) {
-          store.commit('workflow/complete')
+          if (!_.isEmpty(this.build.lists) && !_.isEmpty(this.build.subtypes) && _.keys(this.build.lists).length == this.build.subtypes.length) {
+            store.commit('workflow/valid', 2)
+            if (!_.isNull(this.filters.dates.min) && !_.isNull(this.filters.dates.max)) {
+              store.commit('workflow/valid', 3)
+              store.commit('workflow/valid', 4)
+              if (!_.isEmpty(this.build.visibility) && !_.isEmpty(this.build.name)) {
+                store.commit('workflow/complete')
+              }
+            }
+          }
         }
       }
     }

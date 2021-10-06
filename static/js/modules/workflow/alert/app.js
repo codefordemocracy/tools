@@ -57,15 +57,15 @@ new Vue({
       handler() {
         store.commit('workflow/reset')
         store.commit('workflow/clear')
-        // validate
+        // validate steps
         if (!_.isNil(this.query)) {
           store.commit('workflow/valid', 1)
-        }
-        if (!_.isEmpty(this.trigger.event) && !_.isEmpty(this.trigger.frequency)) {
-          store.commit('workflow/valid', 2)
-        }
-        if (!_.isEmpty(this.save.name)) {
-          store.commit('workflow/complete')
+          if (!_.isEmpty(this.trigger.event) && !_.isEmpty(this.trigger.frequency)) {
+            store.commit('workflow/valid', 2)
+            if (!_.isEmpty(this.save.name)) {
+              store.commit('workflow/complete')
+            }
+          }
         }
       }
     }
