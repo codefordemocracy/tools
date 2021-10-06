@@ -54,6 +54,9 @@ const configuration = {
         sequence: ['a', 'b', 'c', 'd', 'e', 'f'][index],
         unformatted: this.unformatted
       }
+    },
+    click(index) {
+      this.$emit('click', index)
     }
   }
 }
