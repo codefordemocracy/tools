@@ -447,6 +447,14 @@ const RECIPES = [{
   interpretation: `This recipe produces a list of IRS 990 filings that mention the candidates in the selected list.`,
   warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
+  output: '990',
+  tags: ['tax'],
+  template: '9q84',
+  subtypes: ["topic"],
+  configurables: `990 filings with text about <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of IRS 990 filings related to issues in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
+}, {
   output: 'ad',
   tags: ['narrative'],
   template: 'D3WE',
