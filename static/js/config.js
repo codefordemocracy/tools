@@ -543,3 +543,7 @@ const RECIPES = [{
   interpretation: `This recipe produces a list of news articles related to issues in the selected list.`,
   warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }]
+
+/* Alerts */
+
+const MAX_ACTIVE_ALERTS = 20

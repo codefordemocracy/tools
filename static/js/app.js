@@ -109,3 +109,13 @@ new Vue({
     }
   }
 })
+
+new Vue({
+  store,
+  el: '#limit',
+  methods: {
+    close() {
+      this.$store.commit('auth/limit', false)
+    }
+  }
+})

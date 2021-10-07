@@ -71,11 +71,25 @@
       <modal :show="store.state.auth.verify" @cancel="close()">
         <div slot="header">
           <h5 class="modal-title">Verify Email</h5>
-          <p class="modal-subtitle">Before you can download data or create public objects, you must verify your email.</p>
+          <p class="modal-subtitle">Before you can download data, create public objects, or activate alerts, you must verify your email address so we know how to contact you.</p>
         </div>
         <div slot="body">
           <p class="text-xs mb-3">Please <a :href="ACCOUNTURL + '/portal/'" target="_blank">go to your account portal</a> and verify your email address.</p>
-          <p class="text-xs">Once your email address has been verified, you will be able to download data from our platform and create lists and queries for public consumption.</p>
+          <p class="text-xs">Once your email address has been verified, you will be able to download data from our platform, create lists and queries for public consumption, and activate alerts.</p>
+        </div>
+        <div slot="footer" class="flex justify-end">
+          <button @click="close()" class="btn btn-sm btn-secondary">Close</button>
+        </div>
+      </modal>
+    </div>
+    <div id="limit" v-cloak>
+      <modal :show="store.state.auth.limit" @cancel="close()">
+        <div slot="header">
+          <h5 class="modal-title">You've Reached Your Active Alerts Limit</h5>
+          <p class="modal-subtitle">You can have up to {{MAX_ACTIVE_ALERTS}} active alerts at any time.</p>
+        </div>
+        <div slot="body">
+          <p class="text-xs">Please <a href="[[ url_for('route_dashboard') ]]" target="_blank">go to your dashboard</a> and deactivate an existing active alert in order to activate additional alerts. <a href="https://codefordemocracy.org/contact/" target="_blank">Contact us</a> if you need to have more than {{MAX_ACTIVE_ALERTS}} alerts at time.</p>
         </div>
         <div slot="footer" class="flex justify-end">
           <button @click="close()" class="btn btn-sm btn-secondary">Close</button>

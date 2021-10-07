@@ -28,10 +28,10 @@
         <div class="form-full form-sm grid grid-cols-1 sm:grid-cols-3 gap-5 mb-5">
           <input class="form-element sm:col-span-1" type="text" v-model="filters.list.term" placeholder="Filter lists by search term..."></input>
           <div class="flex sm:justify-end items-center sm:col-span-2 text-xs">
-            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="all" value="all" v-model="filters.list.visibility"><label for="all" class="mr-3">All Lists</label>
-            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="public" value="public" v-model="filters.list.visibility" :disabled="!store.getters['auth/isVerified']" :class="!store.getters['auth/isVerified'] ? 'cursor-not-allowed border-gray-40' : ''"
-><label for="public" class="mr-3" :class="!store.getters['auth/isVerified'] ? 'cursor-not-allowed text-gray-40' : ''">Public Lists</label>
-            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="hidden" value="hidden" v-model="filters.list.visibility"><label for="hidden">Hidden Lists</label>
+            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="lists_all" value="all" v-model="filters.list.visibility"><label for="lists_all" class="mr-3">All Lists</label>
+            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="lists_public" value="public" v-model="filters.list.visibility" :disabled="!store.getters['auth/isVerified']" :class="!store.getters['auth/isVerified'] ? 'cursor-not-allowed border-gray-40' : ''"
+><label for="lists_public" class="mr-3" :class="!store.getters['auth/isVerified'] ? 'cursor-not-allowed text-gray-40' : ''">Public Lists</label>
+            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="lists_hidden" value="hidden" v-model="filters.list.visibility"><label for="lists_hidden">Hidden Lists</label>
           </div>
         </div>
         <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(filter('lists', filters.list.term, filters.list.visibility))">
@@ -43,10 +43,10 @@
         <div class="form-full form-sm grid grid-cols-1 sm:grid-cols-3 gap-5 mb-5">
           <input class="form-element sm:col-span-1" type="text" v-model="filters.query.term" placeholder="Filter queries by search term..."></input>
           <div class="flex sm:justify-end items-center sm:col-span-2 text-xs">
-            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="all" value="all" v-model="filters.query.visibility"><label for="all" class="mr-3">All Queries</label>
-            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="public" value="public" v-model="filters.query.visibility" :disabled="!store.getters['auth/isVerified']" :class="!store.getters['auth/isVerified'] ? 'cursor-not-allowed border-gray-40' : ''"
-><label for="public" class="mr-3" :class="!store.getters['auth/isVerified'] ? 'cursor-not-allowed text-gray-40' : ''">Public Queries</label>
-            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="hidden" value="hidden" v-model="filters.query.visibility"><label for="hidden">Hidden Queries</label>
+            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="queries_all" value="all" v-model="filters.query.visibility"><label for="queries_all" class="mr-3">All Queries</label>
+            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="queries_public" value="public" v-model="filters.query.visibility" :disabled="!store.getters['auth/isVerified']" :class="!store.getters['auth/isVerified'] ? 'cursor-not-allowed border-gray-40' : ''"
+><label for="queries_public" class="mr-3" :class="!store.getters['auth/isVerified'] ? 'cursor-not-allowed text-gray-40' : ''">Public Queries</label>
+            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="queries_hidden" value="hidden" v-model="filters.query.visibility"><label for="queries_hidden">Hidden Queries</label>
           </div>
         </div>
         <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(filter('queries', filters.query.term, filters.query.visibility))">
@@ -66,11 +66,17 @@
       <tab name="Alerts" class="p-5">
         <div class="form-full form-sm grid grid-cols-1 sm:grid-cols-3 gap-5 mb-5">
           <input class="form-element sm:col-span-1" type="text" v-model="filters.alert.term" placeholder="Filter alerts by search term..."></input>
+          <div class="flex sm:justify-end items-center sm:col-span-2 text-xs">
+            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="alerts_all" value="all" v-model="filters.alert.active"><label for="alerts_all" class="mr-3">All Alerts</label>
+            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="alerts_active" :value="true" v-model="filters.alert.active" :disabled="!store.getters['auth/isVerified']" :class="!store.getters['auth/isVerified'] ? 'cursor-not-allowed border-gray-40' : ''"
+><label for="alerts_active" class="mr-3" :class="!store.getters['auth/isVerified'] ? 'cursor-not-allowed text-gray-40' : ''">Active Alerts</label>
+            <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="alerts_inactive" :value="false" v-model="filters.alert.active"><label for="alerts_inactive">Inactive Alerts</label>
+          </div>
         </div>
-        <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(filter('alerts', filters.alert.term))">
-          You don't have any saved alerts.
+        <div class="bg-xlight text-xs p-3" v-if="_.isEmpty(filter('alerts', filters.alert.term, filters.alert.active))">
+          You don't have any <span v-if="filters.alert.active == 'all'">saved</span><span v-else>{{filters.alert.active ? 'active' : 'inactive'}}</span> alerts.
         </div>
-        <alertpaginator :alerts="filter('alerts', filters.alert.term)" :hide="['created_by']" @confirm="confirmAlert"></alertpaginator>
+        <alertpaginator :alerts="filter('alerts', filters.alert.term, filters.alert.active)" :hide="['created_by']" @toggle="toggleAlert" @confirm="confirmAlert"></alertpaginator>
       </tab>
     </tabs>
   </template>
@@ -116,7 +122,7 @@
   </modal>
   <modal :show="confirm.alert.modal" @cancel="confirm.alert.modal = false">
     <div slot="header">
-      <h5 class="modal-title">Confirm Query Deletion</h5>
+      <h5 class="modal-title">Confirm Alert Deletion</h5>
       <p class="modal-subtitle">Are you sure you want to delete this alert?</p>
     </div>
     <div slot="body">

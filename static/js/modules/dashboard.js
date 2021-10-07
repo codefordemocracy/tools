@@ -38,6 +38,7 @@ new Vue({
         term: null
       },
       alert: {
+        active: 'all',
         term: null
       }
     },
@@ -65,10 +66,14 @@ new Vue({
     }
   },
   methods: {
-    filter(elements, term, visibility='all') {
+    filter(elements, term, f='all') {
       let opts = this[elements]
-      if (visibility != 'all') {
-        opts = _.filter(opts, {visibility: this.filters.list.visibility})
+      if (f != 'all') {
+        if (elements == 'alerts') {
+          opts = _.filter(opts, {active: f})
+        } else {
+          opts = _.filter(opts, {visibility: f})
+        }
       }
       if (!_.isEmpty(term)) {
         opts = _.filter(opts, function(x) {
@@ -141,6 +146,34 @@ new Vue({
       .catch(function(error) {
         console.error(error)
       })
+    },
+    toggleAlertProceed(alert) {
+      var self = this
+      axios.post('/api/alert/toggle/', {id: alert.id})
+      .then(function(response) {
+        self.alerts = response.data
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
+    },
+    toggleAlert(alert) {
+      var self = this
+      if (alert.active == false) {
+        axios.get('/api/user/active/alerts/count/active/')
+        .then(function(response) {
+          if (response.data >= MAX_ACTIVE_ALERTS) {
+            self.$store.commit('auth/limit', true)
+          } else {
+            self.toggleAlertProceed(alert)
+          }
+        })
+        .catch(function(error) {
+          console.error(error)
+        })
+      } else {
+        this.toggleAlertProceed(alert)
+      }
     },
     confirmAlert(alert) {
       this.confirm.alert.modal = true

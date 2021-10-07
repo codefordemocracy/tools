@@ -6,6 +6,7 @@ const authStore = {
     login: false,
     logout: false,
     verify: false,
+    limit: false,
     profile: false
   }),
   getters: {
@@ -39,6 +40,9 @@ const authStore = {
       } else {
         state.verify =false
       }
+    },
+    limit (state, payload) {
+      state.limit = payload
     },
     profile (state, payload) {
       state.profile = payload

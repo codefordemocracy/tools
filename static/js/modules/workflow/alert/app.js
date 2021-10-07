@@ -19,6 +19,7 @@ new Vue({
       frequency: 'weekly'
     },
     save: {
+      active: false,
       name: null,
       description: null
     }
@@ -27,6 +28,7 @@ new Vue({
     build() {
       let obj = {
         trigger: this.trigger,
+        active: this.save.active,
         name: this.save.name,
         description: this.save.description
       }
@@ -43,12 +45,30 @@ new Vue({
     updateQuery(payload) {
       this.query = payload
     },
-    submit() {
+    submitProceed() {
       let endpoint = '/api/alert/create/'
       if (this.$route.query.action == 'edit') {
         endpoint = '/api/alert/edit/'
       }
       this.$store.dispatch('workflow/submit', {endpoint: endpoint, payload: this.build})
+    },
+    submit() {
+      var self = this
+      if (this.build.active == true) {
+        axios.get('/api/user/active/alerts/count/active/')
+        .then(function(response) {
+          if (response.data >= MAX_ACTIVE_ALERTS) {
+            self.$store.commit('auth/limit', true)
+          } else {
+            self.submitProceed()
+          }
+        })
+        .catch(function(error) {
+          console.error(error)
+        })
+      } else {
+        this.submitProceed()
+      }
     }
   },
   watch: {
@@ -68,34 +88,6 @@ new Vue({
           }
         }
       }
-    }
-  },
-  created() {
-    var self = this
-    // get id for edit or clone workflow
-    if (_.includes(['edit', 'clone'], this.$route.query.action) && !_.isNil(this.$route.query.id)) {
-      this.alert.id = this.$route.query.id
-    }
-    // load data for edit or clone workflow
-    if (!_.isNil(this.$route.query.id)) {
-      axios.post('/api/alert/meta/', {id: this.$route.query.id})
-      .then(function(response) {
-        self.query = {
-          filters: {
-            visibility: 'all',
-            term: null
-          },
-          selected: {
-            id: response.data.query
-          }
-        }
-        self.trigger = response.data.trigger
-        self.save.name = response.data.name
-        self.save.description = response.data.description
-      })
-      .catch(function(error) {
-        console.error(error)
-      })
     }
   }
 })

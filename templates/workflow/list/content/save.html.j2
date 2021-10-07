@@ -1,7 +1,7 @@
 <div class="bg-white border border-secondary p-5 form-full form-sm">
   <div class="form-group">
     <label class="label">Visibility<span class="text-info">*</span></label>
-    <p class="form-text-top">Public lists are visible to other users. Hidden lists are only visible to you.</p>
+    <p class="form-text-top">Public lists are visible to other users. Hidden lists are only visible to you. <span v-if="!store.getters['auth/isVerified']">You must <a href="javascript:void(0)" @click="store.commit('auth/verify', true)">verify your account</a> before you can create public lists.</span></p>
     <select class="form-element" v-model="list.visibility">
       <option value="public" v-if="store.getters['auth/isVerified']">Public</option>
       <option value="hidden">Hidden</option>

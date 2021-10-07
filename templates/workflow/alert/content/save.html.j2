@@ -1,5 +1,13 @@
 <div class="bg-white border border-secondary p-5 form-full form-sm">
   <div class="form-group">
+    <label class="label">Activation<span class="text-info">*</span></label>
+    <p class="form-text-top">Do you want to activate this alert immediately? You can always save the alert and activate it later. You can have up to {{MAX_ACTIVE_ALERTS}} active alerts at any time. <span v-if="!store.getters['auth/isVerified']">You must <a href="javascript:void(0)" @click="store.commit('auth/verify', true)">verify your account</a> before you can activate alerts.</span></p>
+    <select class="form-element" v-model="save.active">
+      <option :value="true" v-if="store.getters['auth/isVerified']">Activate Now</option>
+      <option :value="false">Save for Later</option>
+    </select>
+  </div>
+  <div class="form-group">
     <label class="label">Name<span class="text-info">*</span></label>
     <p class="form-text-top">Enter a name for the alert.</p>
     <input class="form-element" type="text" v-model="save.name" placeholder="Short Name"></input>

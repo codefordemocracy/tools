@@ -100,18 +100,11 @@ def route_view_visualization():
 
 @app.route("/create/alert/", methods=["GET"])
 def route_create_alert():
-    action = request.args.get("action")
-    id = request.args.get("id")
-    if action == "edit" and id is not None:
-        workflow = "Edit Alert"
-    elif action == "clone" and id is not None:
-        workflow = "Clone Alert"
-    else:
-        action = "create"
-        workflow = "Create an Alert"
+    action = "create"
+    workflow = "Create an Alert"
     output = "alert"
     templates = [{"step": 1, "slug": "query"}, {"step": 2, "slug": "trigger"}, {"step": 3, "slug": "save"}]
-    return render_template("workflow.html.j2", workflow=workflow, output=output, templates=templates, action=action, id=id)
+    return render_template("workflow.html.j2", workflow=workflow, output=output, templates=templates, action=action, id=None)
 
 @app.route("/view/alert/", methods=["GET"])
 def route_view_alert():
@@ -922,7 +915,7 @@ def route_api_user_active():
     profile = action({"task": "get_active_user", "token": request.cookies.get('cfd')})
     return jsonify(profile)
 
-# dashboard
+# dashboard and workflow
 
 @app.route("/api/user/active/lists/", methods=["GET"])
 def route_api_user_active_lists():
@@ -943,6 +936,11 @@ def route_api_user_active_visualizations():
 def route_api_user_active_alerts():
     alerts = action({"task": "get_active_user_alerts", "token": request.cookies.get('cfd')})
     return jsonify(alerts)
+
+@app.route("/api/user/active/alerts/count/active/", methods=["GET"])
+def route_api_user_active_alerts_count_active():
+    count = action({"task": "count_active_user_alerts", "token": request.cookies.get('cfd')})
+    return jsonify(count)
 
 # list
 
@@ -1060,11 +1058,11 @@ def route_api_alert_create():
     response = action({"task": "create_alert", "token": request.cookies.get('cfd'), "data": data})
     return jsonify(response)
 
-@app.route("/api/alert/edit/", methods=["POST"])
-def route_api_alert_edit():
+@app.route("/api/alert/toggle/", methods=["POST"])
+def route_api_alert_toggle():
     data = request.get_json()
-    response = action({"task": "edit_alert", "token": request.cookies.get('cfd'), "data": data})
-    return jsonify(response)
+    action({"task": "toggle_alert", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return route_api_user_active_alerts()
 
 @app.route("/api/alert/delete/", methods=["POST"])
 def route_api_alert_delete():

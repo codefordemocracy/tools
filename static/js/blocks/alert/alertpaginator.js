@@ -7,8 +7,7 @@ const alertpaginator = {
       <div class="bg-xlight p-5 mb-4" v-for="alert in chunks[page-1]">
         <alertdisplayer :alert="alert" :hide="hide" :ratio="ratio"></alertdisplayer>
         <div class="text-xs mt-3">
-          <a :href="'/create/alert/?action=clone&id=' + alert.id" class="text-primary mr-3" v-if="_.includes(actions, 'clone')">Clone</a>
-          <a :href="'/create/alert/?action=edit&id=' + alert.id" class="text-orange mr-3" v-if="_.includes(actions, 'edit')">Edit</a>
+          <a href="javascript:void(0)" @click="store.getters['auth/isVerified'] ? toggle(alert) : store.commit('auth/verify', true)" class="text-purple mr-3" v-if="_.includes(actions, 'toggle')"><span v-if="alert.active == true">Deactivate</span><span v-else>Activate</span></a>
           <a href="javascript:void(0)" @click="confirm(alert)" class="text-red" v-if="_.includes(actions, 'delete')">Delete</a>
         </div>
       </div>
@@ -26,7 +25,7 @@ const alertpaginator = {
     },
     actions: {
       type: Array,
-      default: ['clone', 'edit', 'delete']
+      default: ['toggle', 'delete']
     },
     alerts: {
       type: Array,
@@ -52,6 +51,9 @@ const alertpaginator = {
     }
   },
   methods: {
+    toggle(alert) {
+      this.$emit('toggle', alert)
+    },
     confirm(alert) {
       this.$emit('confirm', alert)
     }
