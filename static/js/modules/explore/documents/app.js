@@ -62,7 +62,7 @@ new Vue({
     disabledDates: DATERANGES.disabledDates.documents,
     documents: 'articles',
     group: 'questionable',
-    dates: DATERANGES.dates.documents,
+    dates: DATERANGES.dates.fixed,
     term: null
   },
   computed: {

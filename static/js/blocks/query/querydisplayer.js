@@ -14,7 +14,7 @@ const querydisplayer = {
       <li v-if="!_.includes(hide, 'created_at')"><strong>Created at:</strong> {{moment(query.created_at).local()}}</li>
       <li v-if="!_.includes(hide, 'created_by')"><strong>Created by:</strong> <a class="text-primary" :href="'/user/' + query.created_by + '/?mode=popup'" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-user-' + _.uniqueId(), ratio, window)">{{query.created_by}}</a></li>
       <li v-if="!_.includes(hide, 'cloned_from') && !_.isNil(query.cloned_from)"><strong>Cloned from:</strong> <a class="text-primary" :href="'/view/query/?id=' + query.cloned_from + '&mode=popup'" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-view-query-' + _.uniqueId(), ratio, window)">{{query.cloned_from}}</a></li>
-      <li v-if="!_.includes(hide, 'dates')"><strong>Dates:</strong> {{query.dates.min.split('T')[0]}} to {{query.dates.max.split('T')[0]}}</li>
+      <li v-if="!_.includes(hide, 'dates')"><strong>Dates:</strong> {{query.dates.min.split('T')[0]}} to {{_.isNil(query.dates.max) ? 'TODAY' : query.dates.max.split('T')[0]}}</li>
       <template v-if="!_.includes(hide, 'filters') && !_.isNil(query.filters)">
         <template v-if="!_.includes(hide, 'filters.amount') && !_.isNil(query.filters.amount)">
           <li v-if="!_.isNil(query.filters.amount.min)"><strong>Min Transaction Amount:</strong> {{'$' + query.filters.amount.min | currency}}</li>

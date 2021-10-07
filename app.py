@@ -266,9 +266,10 @@ def route_api_query_results_table():
     elements = []
     if data["query"].get("dates") is not None:
         body["dates"] = {
-            "min": str(data["query"]["dates"]["min"])[:10],
-            "max": str(data["query"]["dates"]["max"])[:10]
+            "min": str(data["query"]["dates"]["min"])[:10]
         }
+        if data["query"]["dates"].get("max") is not None:
+            body["dates"]["max"] = str(data["query"]["dates"]["max"])[:10]
     if data["query"].get("filters") is not None:
         body["filters"] = data["query"]["filters"]
     if data["query"].get("orderby") is not None and data["query"].get("orderdir") is not None:
@@ -295,9 +296,10 @@ def route_api_query_results_count():
     count = -1
     if data["query"].get("dates") is not None:
         body["dates"] = {
-            "min": str(data["query"]["dates"]["min"])[:10],
-            "max": str(data["query"]["dates"]["max"])[:10]
+            "min": str(data["query"]["dates"]["min"])[:10]
         }
+        if data["query"]["dates"].get("max") is not None:
+            body["dates"]["max"] = str(data["query"]["dates"]["max"])[:10]
     if data["query"].get("filters") is not None:
         body["filters"] = data["query"]["filters"]
     if data["query"].get("output") is not None:
@@ -318,9 +320,10 @@ def route_api_query_results_histogram():
     buckets = []
     if data["query"].get("dates") is not None:
         body["dates"] = {
-            "min": str(data["query"]["dates"]["min"])[:10],
-            "max": str(data["query"]["dates"]["max"])[:10]
+            "min": str(data["query"]["dates"]["min"])[:10]
         }
+        if data["query"]["dates"].get("max") is not None:
+            body["dates"]["max"] = str(data["query"]["dates"]["max"])[:10]
     if data["query"].get("filters") is not None:
         body["filters"] = data["query"]["filters"]
     if data["query"].get("output") is not None:

@@ -416,7 +416,7 @@ new Vue({
             tweeters: {
                 username: ''
             },
-            dates: DATERANGES.dates.datasets,
+            dates: DATERANGES.dates.fixed,
             pagination: {
                 limit: 30,
                 page: 1
@@ -567,7 +567,7 @@ new Vue({
             page: 1
         },
         disabledDates: DATERANGES.disabledDates.datasets,
-        dates: DATERANGES.dates.datasets,
+        dates: DATERANGES.dates.fixed,
     },
     methods: {
         all(value) {

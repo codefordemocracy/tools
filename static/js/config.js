@@ -152,13 +152,13 @@ const DATERANGES = {
     }
   },
   dates: {
-    documents: {
+    fixed: {
       min: moment().subtract(4, 'months').toDate(),
       max: moment().toDate()
     },
-    datasets: {
+    open: {
       min: moment().subtract(4, 'months').toDate(),
-      max: moment().toDate()
+      max: null
     }
   }
 }

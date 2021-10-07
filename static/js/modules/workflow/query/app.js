@@ -31,7 +31,7 @@ new Vue({
     },
     filters: {
       disabledDates: DATERANGES.disabledDates.datasets,
-      dates: DATERANGES.dates.datasets,
+      dates: DATERANGES.dates.open,
       numerical: {
         amount: {
           min: null,
@@ -139,7 +139,7 @@ new Vue({
           store.commit('workflow/valid', 1)
           if (!_.isEmpty(this.build.lists) && !_.isEmpty(this.build.subtypes) && _.keys(this.build.lists).length == this.build.subtypes.length) {
             store.commit('workflow/valid', 2)
-            if (!_.isNull(this.filters.dates.min) && !_.isNull(this.filters.dates.max)) {
+            if (!_.isNull(this.filters.dates.min)) {
               store.commit('workflow/valid', 3)
               store.commit('workflow/valid', 4)
               if (!_.isEmpty(this.build.visibility) && !_.isEmpty(this.build.name)) {

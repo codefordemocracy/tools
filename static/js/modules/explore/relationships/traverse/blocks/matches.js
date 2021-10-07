@@ -204,7 +204,7 @@ const matches = {
       },
       refine: {
         disabledDates: DATERANGES.disabledDates.datasets,
-        dates: DATERANGES.dates.datasets,
+        dates: DATERANGES.dates.fixed,
         direction: null,
         sup_opp: null
       },
