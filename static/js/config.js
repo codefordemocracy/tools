@@ -439,6 +439,14 @@ const RECIPES = [{
   interpretation: `This recipe produces a list of IRS 990 filings that mention the people in the selected list.`,
   warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
+  output: '990',
+  tags: ['tax'],
+  template: 'mFF7',
+  subtypes: ["candidate"],
+  configurables: `990 filings that mention people in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of IRS 990 filings that mention the candidates in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
+}, {
   output: 'ad',
   tags: ['narrative'],
   template: 'D3WE',
@@ -473,6 +481,14 @@ const RECIPES = [{
 }, {
   output: 'ad',
   tags: ['narrative'],
+  template: 'Jphg',
+  subtypes: ["candidate"],
+  configurables: `Facebook ads that mention people in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of Facebook ads related to candidates in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
+}, {
+  output: 'ad',
+  tags: ['narrative'],
   template: '8HcR',
   subtypes: ["topic"],
   configurables: `Facebook ads with text about <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
@@ -501,6 +517,14 @@ const RECIPES = [{
   subtypes: ["donor"],
   configurables: `news articles that mention people in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of news articles related to people in the selected list.`,
+  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
+}, {
+  output: 'article',
+  tags: ['narrative'],
+  template: 'EBli',
+  subtypes: ["candidate"],
+  configurables: `news articles that mention people in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
+  interpretation: `This recipe produces a list of news articles related to candidates in the selected list.`,
   warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
 }, {
   output: 'article',
