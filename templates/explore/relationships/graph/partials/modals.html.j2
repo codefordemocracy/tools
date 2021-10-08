@@ -95,11 +95,11 @@
             <div v-if="store.state.explore.advanced == true" class="mt-2">
                 <div class="form-group">
                   <label class="label">Min Date for Contributions</label>
-                  <datepicker v-model="dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates" :typeable="true" :required="true"></datepicker>
+                  <datepicker v-model="dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates" :typeable="true" :required="true" :use-utc="true"></datepicker>
                 </div>
                 <div class="form-group">
                   <label class="label">Max Date for Contributions</label>
-                  <datepicker v-model="dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates" :typeable="true" :required="true"></datepicker>
+                  <datepicker v-model="dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates" :typeable="true" :required="true" :use-utc="true"></datepicker>
                 </div>
                 <div class="form-group">
                     <label class="label">Limit</label>

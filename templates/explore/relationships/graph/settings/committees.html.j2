@@ -50,11 +50,11 @@
     </div>
     <div class="form-group" v-if="search.options.context">
       <label class="label">Min Date for Contributions</label>
-      <datepicker v-model="search.dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates" :typeable="true" :required="true"></datepicker>
+      <datepicker v-model="search.dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates" :typeable="true" :required="true" :use-utc="true"></datepicker>
     </div>
     <div class="form-group mb-0" v-if="search.options.context">
       <label class="label">Max Date for Contributions</label>
-      <datepicker v-model="search.dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates" :typeable="true" :required="true"></datepicker>
+      <datepicker v-model="search.dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="disabledDates" :typeable="true" :required="true" :use-utc="true"></datepicker>
     </div>
   </div>
 </div>

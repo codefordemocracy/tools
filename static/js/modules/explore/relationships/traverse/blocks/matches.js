@@ -95,11 +95,11 @@ const matches = {
         <div slot="body" class="form-sm form-full pb-12 mb-5">
           <div class="form-group">
             <label class="label">Min <span v-if="intermediaries == 'contribution'">Contribution </span><span v-else-if="intermediaries == 'expenditure'">Expenditure </span>Date</label>
-            <datepicker v-model="refine.dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="refine.disabledDates" :typeable="true" :required="true"></datepicker>
+            <datepicker v-model="refine.dates.min" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="refine.disabledDates" :typeable="true" :required="true" :use-utc="true"></datepicker>
           </div>
           <div class="form-group">
             <label class="label">Max <span v-if="intermediaries == 'contribution'">Contribution </span><span v-else-if="intermediaries == 'expenditure'">Expenditure </span>Date</label>
-            <datepicker v-model="refine.dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="refine.disabledDates" :typeable="true" :required="true"></datepicker>
+            <datepicker v-model="refine.dates.max" calendar-class="datepicker" format="yyyy-MM-dd" input-class="form-element" :disabled-dates="refine.disabledDates" :typeable="true" :required="true" :use-utc="true"></datepicker>
           </div>
           <div class="form-group" v-if="intermediaries == 'contribution' && api.payload.entity != 'donor' && api.payload.entity2 != 'donor'">
             <label class="label">Direction of Contributions</label>
@@ -268,8 +268,8 @@ const matches = {
       let query = _.merge(this.api.payload, this.qs)
       if (this.status.refined == true) {
         query["dates"] = {
-          min: moment(this.refine.dates.min, 'YYYY-MM-DD').format('YYYY-MM-DD'),
-          max: moment(this.refine.dates.max, 'YYYY-MM-DD').format('YYYY-MM-DD')
+          min: moment(this.refine.dates.min, 'YYYY-MM-DD').toDate(),
+          max: moment(this.refine.dates.max, 'YYYY-MM-DD').toDate()
         }
         query["direction"] = this.refine.direction
         query["sup_opp"] = this.refine.sup_opp

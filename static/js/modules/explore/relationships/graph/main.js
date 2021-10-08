@@ -435,8 +435,8 @@ new Vue({
                 flow: store.state.explore.flow,
                 parameters: this.search[store.state.explore.flow],
                 dates: {
-                    min: moment(this.search.dates.min, 'YYYY-MM-DD').subtract(1, 'days').format('YYYY-MM-DD'),
-                    max: moment(this.search.dates.max, 'YYYY-MM-DD').subtract(1, 'days').format('YYYY-MM-DD')
+                    min: moment(this.search.dates.min, 'YYYY-MM-DD').toDate(),
+                    max: moment(this.search.dates.max, 'YYYY-MM-DD').toDate()
                 },
                 pagination: this.search.pagination,
                 options: this.search.options
@@ -589,8 +589,8 @@ new Vue({
                   return parseInt(i.data.id)
                 }),
                 dates: {
-                    min: moment(this.dates.min, 'YYYY-MM-DD').subtract(1, 'days').format('YYYY-MM-DD'),
-                    max: moment(this.dates.max, 'YYYY-MM-DD').subtract(1, 'days').format('YYYY-MM-DD')
+                    min: moment(this.dates.min, 'YYYY-MM-DD').toDate(),
+                    max: moment(this.dates.max, 'YYYY-MM-DD').toDate()
                 },
                 min_transaction_amt: this.min_transaction_amt,
                 pagination: this.pagination
