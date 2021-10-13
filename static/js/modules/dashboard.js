@@ -86,7 +86,17 @@ new Vue({
       var self = this
       axios.post('/api/list/toggle/', {id: list.id})
       .then(function(response) {
-        self.lists = response.data
+        if (_.get(response.data, 'id')) {
+          _.forEach(self.lists, function(obj) {
+            if (obj.id == list.id) {
+              if (obj.visibility == 'public') {
+                obj.visibility = 'hidden'
+              } else {
+                obj.visibility = 'public'
+              }
+            }
+          })
+        }
       })
       .catch(function(error) {
         console.error(error)
@@ -101,7 +111,11 @@ new Vue({
       var self = this
       axios.post('/api/list/delete/', {id: this.confirm.list.id})
       .then(function(response) {
-        self.lists = response.data
+        if (_.get(response.data, 'id')) {
+          self.lists = _.filter(self.lists, function(obj) {
+            return obj.id != self.confirm.list.id
+          })
+        }
       })
       .catch(function(error) {
         console.error(error)
@@ -111,7 +125,17 @@ new Vue({
       var self = this
       axios.post('/api/query/toggle/', {id: query.id})
       .then(function(response) {
-        self.queries = response.data
+        if (_.get(response.data, 'id')) {
+          _.forEach(self.queries, function(obj) {
+            if (obj.id == query.id) {
+              if (obj.visibility == 'public') {
+                obj.visibility = 'hidden'
+              } else {
+                obj.visibility = 'public'
+              }
+            }
+          })
+        }
       })
       .catch(function(error) {
         console.error(error)
@@ -126,7 +150,11 @@ new Vue({
       var self = this
       axios.post('/api/query/delete/', {id: this.confirm.query.id})
       .then(function(response) {
-        self.queries = response.data
+        if (_.get(response.data, 'id')) {
+          self.queries = _.filter(self.queries, function(obj) {
+            return obj.id != self.confirm.query.id
+          })
+        }
       })
       .catch(function(error) {
         console.error(error)
@@ -141,7 +169,11 @@ new Vue({
       var self = this
       axios.post('/api/visualization/delete/', {id: this.confirm.visualization.id})
       .then(function(response) {
-        self.visualizations = response.data
+        if (_.get(response.data, 'id')) {
+          self.visualizations = _.filter(self.visualizations, function(obj) {
+            return obj.id != self.confirm.visualization.id
+          })
+        }
       })
       .catch(function(error) {
         console.error(error)
@@ -151,7 +183,13 @@ new Vue({
       var self = this
       axios.post('/api/alert/toggle/', {id: alert.id})
       .then(function(response) {
-        self.alerts = response.data
+        if (_.get(response.data, 'id')) {
+          _.forEach(self.alerts, function(obj) {
+            if (obj.id == alert.id) {
+              obj.active = !obj.active
+            }
+          })
+        }
       })
       .catch(function(error) {
         console.error(error)
@@ -184,7 +222,11 @@ new Vue({
       var self = this
       axios.post('/api/alert/delete/', {id: this.confirm.alert.id})
       .then(function(response) {
-        self.alerts = response.data
+        if (_.get(response.data, 'id')) {
+          self.alerts = _.filter(self.alerts, function(obj) {
+            return obj.id != self.confirm.alert.id
+          })
+        }
       })
       .catch(function(error) {
         console.error(error)

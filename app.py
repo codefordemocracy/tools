@@ -971,14 +971,14 @@ def route_api_list_edit():
 @app.route("/api/list/toggle/", methods=["POST"])
 def route_api_list_toggle():
     data = request.get_json()
-    action({"task": "toggle_list", "token": request.cookies.get('cfd'), "id": data.get("id")})
-    return route_api_user_active_lists()
+    response = action({"task": "toggle_list", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return jsonify(response)
 
 @app.route("/api/list/delete/", methods=["POST"])
 def route_api_list_delete():
     data = request.get_json()
-    action({"task": "delete_list", "token": request.cookies.get('cfd'), "id": data.get("id")})
-    return route_api_user_active_lists()
+    response = action({"task": "delete_list", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return jsonify(response)
 
 # query
 
@@ -1009,14 +1009,14 @@ def route_api_query_edit():
 @app.route("/api/query/toggle/", methods=["POST"])
 def route_api_query_toggle():
     data = request.get_json()
-    action({"task": "toggle_query", "token": request.cookies.get('cfd'), "id": data.get("id")})
-    return route_api_user_active_queries()
+    response = action({"task": "toggle_query", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return jsonify(response)
 
 @app.route("/api/query/delete/", methods=["POST"])
 def route_api_query_delete():
     data = request.get_json()
-    action({"task": "delete_query", "token": request.cookies.get('cfd'), "id": data.get("id")})
-    return route_api_user_active_queries()
+    response = action({"task": "delete_query", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return jsonify(response)
 
 # visualization
 
@@ -1041,8 +1041,8 @@ def route_api_visualization_edit():
 @app.route("/api/visualization/delete/", methods=["POST"])
 def route_api_visualization_delete():
     data = request.get_json()
-    action({"task": "delete_visualization", "token": request.cookies.get('cfd'), "id": data.get("id")})
-    return route_api_user_active_visualizations()
+    response = action({"task": "delete_visualization", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return jsonify(response)
 
 # alert
 
@@ -1061,14 +1061,14 @@ def route_api_alert_create():
 @app.route("/api/alert/toggle/", methods=["POST"])
 def route_api_alert_toggle():
     data = request.get_json()
-    action({"task": "toggle_alert", "token": request.cookies.get('cfd'), "id": data.get("id")})
-    return route_api_user_active_alerts()
+    response = action({"task": "toggle_alert", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return jsonify(response)
 
 @app.route("/api/alert/delete/", methods=["POST"])
 def route_api_alert_delete():
     data = request.get_json()
-    action({"task": "delete_alert", "token": request.cookies.get('cfd'), "id": data.get("id")})
-    return route_api_user_active_alerts()
+    response = action({"task": "delete_alert", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    return jsonify(response)
 
 if __name__ == "__main__":
     app.run(debug=True)
