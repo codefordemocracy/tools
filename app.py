@@ -947,7 +947,7 @@ def route_api_user_active_alerts_count_active():
 @app.route("/api/lists/", methods=["POST"])
 def route_api_lists():
     data = request.get_json()
-    lists = action({"task": "get_lists", "token": request.cookies.get('cfd')})
+    lists = action({"task": "get_lists", "token": request.cookies.get('cfd'), "data": data})
     return jsonify(lists)
 
 @app.route("/api/list/meta/", methods=["POST"])
@@ -985,7 +985,7 @@ def route_api_list_delete():
 @app.route("/api/queries/", methods=["POST"])
 def route_api_queries():
     data = request.get_json()
-    queries = action({"task": "get_queries", "token": request.cookies.get('cfd')})
+    queries = action({"task": "get_queries", "token": request.cookies.get('cfd'), "data": data})
     return jsonify(queries)
 
 @app.route("/api/query/meta/", methods=["POST"])
