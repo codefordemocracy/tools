@@ -18,6 +18,7 @@ new Vue({
     category: null,
     query: undefined,
     aggregations: {
+      warning: false,
       options: [],
       settings: {
         columns: [],
@@ -140,6 +141,17 @@ new Vue({
             .catch(function(err) {
               console.error(err)
             })
+          })
+          .catch(function(error) {
+            console.error(error)
+          })
+          // see if count exceeds 10K
+          self.aggregations.warning = false
+          axios.post('/api/query/results/count/', {query: this.query.selected})
+          .then(function(response) {
+            if (response.data > 10000) {
+              self.aggregations.warning = true
+            }
           })
           .catch(function(error) {
             console.error(error)
