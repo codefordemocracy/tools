@@ -1,3 +1,4 @@
+<div class="alert alert-warning mb-5" v-if="review.warning"><strong>WARNING:</strong> The dataset you are attempting to visualize is very large, which may result in poor user experiences.</div>
 <div class="bg-white border border-secondary p-5">
   <vizreviewer :category="category" :query="query.selected" :aggregations="build.aggregations" @datawrapper="updateDatawrapper" :download="review.download" @downloading="downloadingData" v-if="buildable"></vizreviewer>
   <div class="flex justify-center items-center text-xs text-dark px-5 py-10" v-else>The preview of your formatted query results will show up here.</div>

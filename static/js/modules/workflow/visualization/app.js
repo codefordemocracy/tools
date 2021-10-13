@@ -27,6 +27,7 @@ new Vue({
       }
     },
     review: {
+      warning: false,
       datawrapper: null,
       download: false,
       downloading: 0
@@ -66,6 +67,9 @@ new Vue({
     },
     updateDatawrapper(payload) {
       this.review.datawrapper = payload
+      if (_.size(payload.data) > 250000) {
+        this.review.warning = true
+      }
     },
     downloadingData(payload) {
       if (payload == false) {
@@ -163,6 +167,7 @@ new Vue({
       deep: true,
       handler() {
         this.review.datawrapper = null
+        this.review.warning = false
       }
     }
   },
