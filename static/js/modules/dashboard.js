@@ -231,41 +231,50 @@ new Vue({
       .catch(function(error) {
         console.error(error)
       })
+    },
+    loadObjects() {
+      var self = this
+      // get lists
+      axios.get('/api/user/active/lists/')
+      .then(function(response) {
+        self.lists = response.data
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
+      // get queries
+      axios.get('/api/user/active/queries/')
+      .then(function(response) {
+        self.queries = response.data
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
+      // get visualizations
+      axios.get('/api/user/active/visualizations/')
+      .then(function(response) {
+        self.visualizations = response.data
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
+      // get alerts
+      axios.get('/api/user/active/alerts/')
+      .then(function(response) {
+        self.alerts = response.data
+      })
+      .catch(function(error) {
+        console.error(error)
+      })
     }
   },
   created() {
     var self = this
-    // get lists
-    axios.get('/api/user/active/lists/')
-    .then(function(response) {
-      self.lists = response.data
-    })
-    .catch(function(error) {
-      console.error(error)
-    })
-    // get queries
-    axios.get('/api/user/active/queries/')
-    .then(function(response) {
-      self.queries = response.data
-    })
-    .catch(function(error) {
-      console.error(error)
-    })
-    // get visualizations
-    axios.get('/api/user/active/visualizations/')
-    .then(function(response) {
-      self.visualizations = response.data
-    })
-    .catch(function(error) {
-      console.error(error)
-    })
-    // get alerts
-    axios.get('/api/user/active/alerts/')
-    .then(function(response) {
-      self.alerts = response.data
-    })
-    .catch(function(error) {
-      console.error(error)
+    this.loadObjects()
+    this.$store.watch((state) => store.state.auth.profile.email, (newValue, oldValue) => {
+      if (!_.isUndefined(newValue)) {
+        self.loadObjects()
+      }
     })
   }
 })

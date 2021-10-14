@@ -84,6 +84,34 @@ const listsearcher = {
       return opts || []
     }
   },
+  methods: {
+    loadObjects() {
+      var self = this
+      // get lists
+      if (!_.isNull(this.subtype)) {
+        axios.post('/api/lists/')
+        .then(function(response) {
+          let subtype = _.uniq(_.map(response.data, 'subtype'))
+          let mapped = {}
+          _.forEach(subtype, function(t) {
+            mapped[t] = _.orderBy(_.filter(response.data, {subtype: t}), ['visibility', 'featured'], ['desc', 'asc'])
+          })
+          self.preloaded = mapped
+          self.loaded = true
+          // fill out selected for cloning and editing
+          if (!_.isNil(self.settings.selected.id) && _.isNil(self.settings.selected.created_at)) {
+            self.settings.selected = _.filter(response.data, function(l) {
+              return l.id == self.settings.selected.id
+            })[0]
+          }
+        })
+        .catch(function(error) {
+          console.error(error)
+          self.error = true
+        })
+      }
+    }
+  },
   watch: {
     settings: {
       deep: true,
@@ -96,28 +124,11 @@ const listsearcher = {
   },
   created() {
     var self = this
-    // get lists
-    if (!_.isNull(this.subtype)) {
-      axios.post('/api/lists/')
-      .then(function(response) {
-        let subtype = _.uniq(_.map(response.data, 'subtype'))
-        let mapped = {}
-        _.forEach(subtype, function(t) {
-          mapped[t] = _.orderBy(_.filter(response.data, {subtype: t}), ['visibility', 'featured'], ['desc', 'asc'])
-        })
-        self.preloaded = mapped
-        self.loaded = true
-        // fill out selected for cloning and editing
-        if (!_.isNil(self.settings.selected.id) && _.isNil(self.settings.selected.created_at)) {
-          self.settings.selected = _.filter(response.data, function(l) {
-            return l.id == self.settings.selected.id
-          })[0]
-        }
-      })
-      .catch(function(error) {
-        console.error(error)
-        self.error = true
-      })
-    }
+    this.loadObjects()
+    this.$store.watch((state) => store.state.auth.profile.email, (newValue, oldValue) => {
+      if (!_.isUndefined(newValue)) {
+        self.loadObjects()
+      }
+    })
   }
 }

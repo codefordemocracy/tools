@@ -70,6 +70,27 @@ const querysearcher = {
       return opts || []
     }
   },
+  methods: {
+    loadObjects() {
+      var self = this
+      // get queries
+      axios.post('/api/queries/')
+      .then(function(response) {
+        self.preloaded = _.orderBy(response.data, ['visibility', 'featured'], ['desc', 'asc'])
+        self.loaded = true
+        // fill out selected for cloning and editing
+        if (!_.isNil(self.settings.selected.id) && _.isNil(self.settings.selected.created_at)) {
+          self.settings.selected = _.filter(response.data, function(l) {
+            return l.id == self.settings.selected.id
+          })[0]
+        }
+      })
+      .catch(function(error) {
+        console.error(error)
+        self.error = true
+      })
+    }
+  },
   watch: {
     settings: {
       deep: true,
@@ -82,21 +103,11 @@ const querysearcher = {
   },
   created() {
     var self = this
-    // get queries
-    axios.post('/api/queries/')
-    .then(function(response) {
-      self.preloaded = _.orderBy(response.data, ['visibility', 'featured'], ['desc', 'asc'])
-      self.loaded = true
-      // fill out selected for cloning and editing
-      if (!_.isNil(self.settings.selected.id) && _.isNil(self.settings.selected.created_at)) {
-        self.settings.selected = _.filter(response.data, function(l) {
-          return l.id == self.settings.selected.id
-        })[0]
+    this.loadObjects()
+    this.$store.watch((state) => store.state.auth.profile.email, (newValue, oldValue) => {
+      if (!_.isUndefined(newValue)) {
+        self.loadObjects()
       }
-    })
-    .catch(function(error) {
-      console.error(error)
-      self.error = true
     })
   }
 }
