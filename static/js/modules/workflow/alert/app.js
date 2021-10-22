@@ -89,5 +89,15 @@ new Vue({
         }
       }
     }
+  },
+  created() {
+    var self = this
+    this.$store.watch((state) => store.state.auth.profile.email, (newValue, oldValue) => {
+      if (!_.isUndefined(newValue) && self.$store.getters['auth/isVerified']) {
+        self.save.active = true
+      } else {
+        self.save.active = false
+      }
+    })
   }
 })

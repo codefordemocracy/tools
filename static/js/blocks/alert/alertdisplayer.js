@@ -12,6 +12,8 @@ const alertdisplayer = {
         <li><strong>Trigger Event:</strong> {{alert.trigger.event.replace('_', ' ')}}</li>
         <li><strong>Trigger Frequency:</strong> {{alert.trigger.frequency}}</li>
       </template>
+      <li v-if="!_.includes(hide, 'last_checked') && !_.isNil(alert.last_checked)"><strong>Last Checked:</strong> {{moment(alert.last_checked).local()}}</li>
+      <li v-if="!_.includes(hide, 'last_alerted') && !_.isNil(alert.last_alerted)"><strong>Last Alerted:</strong> {{moment(alert.last_alerted).local()}}</li>
     </ul>
   `,
   props: {

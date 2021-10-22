@@ -265,6 +265,8 @@ def route_api_query_results_table():
             body["dates"]["max"] = str(data["query"]["dates"]["max"])[:10]
     if data["query"].get("filters") is not None:
         body["filters"] = data["query"]["filters"]
+    if data["query"].get("freshness") is not None:
+        body["freshness"] = data["query"]["freshness"]
     if data["query"].get("orderby") is not None and data["query"].get("orderdir") is not None:
         body["orderby"] = data["query"]["orderby"]
         body["orderdir"] = data["query"]["orderdir"]
@@ -295,6 +297,8 @@ def route_api_query_results_count():
             body["dates"]["max"] = str(data["query"]["dates"]["max"])[:10]
     if data["query"].get("filters") is not None:
         body["filters"] = data["query"]["filters"]
+    if data["query"].get("freshness") is not None:
+        body["freshness"] = data["query"]["freshness"]
     if data["query"].get("output") is not None:
         endpoint = "/data/calculate/recipe/" + data["query"]["output"] + "/"
         if "template" in data["query"] and "lists" in data["query"]:
@@ -319,6 +323,8 @@ def route_api_query_results_histogram():
             body["dates"]["max"] = str(data["query"]["dates"]["max"])[:10]
     if data["query"].get("filters") is not None:
         body["filters"] = data["query"]["filters"]
+    if data["query"].get("freshness") is not None:
+        body["freshness"] = data["query"]["freshness"]
     if data["query"].get("output") is not None:
         endpoint = "/data/calculate/recipe/" + data["query"]["output"] + "/"
         if "template" in data["query"] and "lists" in data["query"]:

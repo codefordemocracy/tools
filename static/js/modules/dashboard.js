@@ -11,6 +11,7 @@ const store = new Vuex.Store({
 
 new Vue({
   store,
+  router,
   el: '#main',
   components: {
     'tabs': tabbed.tabs,
@@ -21,6 +22,7 @@ new Vue({
     'alertpaginator': alertpaginator
   },
   data: {
+    tab: 'lists',
     lists: false,
     queries: false,
     visualizations: false,
@@ -276,5 +278,8 @@ new Vue({
         self.loadObjects()
       }
     })
+    if (_.includes(['lists', 'queries', 'visualizations', 'alerts'], this.$route.query.tab)) {
+      this.tab = this.$route.query.tab
+    }
   }
 })

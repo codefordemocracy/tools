@@ -24,7 +24,7 @@
       <p class="text-xs">Please wait, we're loading your saved objects<span class="blink">...</span></p>
     </div>
     <tabs v-else>
-      <tab name="Lists" class="p-5" :selected="true">
+      <tab name="Lists" class="p-5" :selected="tab == 'lists'">
         <div class="form-full form-sm grid grid-cols-1 sm:grid-cols-3 gap-5 mb-5">
           <input class="form-element sm:col-span-1" type="text" v-model="filters.list.term" placeholder="Filter lists by search term..."></input>
           <div class="flex sm:justify-end items-center sm:col-span-2 text-xs">
@@ -39,7 +39,7 @@
         </div>
         <listpaginator :lists="filter('lists', filters.list.term, filters.list.visibility)" :hide="['created_by']" @toggle="toggleList" @confirm="confirmList"></listpaginator>
       </tab>
-      <tab name="Queries" class="p-5">
+      <tab name="Queries" class="p-5" :selected="tab == 'queries'">
         <div class="form-full form-sm grid grid-cols-1 sm:grid-cols-3 gap-5 mb-5">
           <input class="form-element sm:col-span-1" type="text" v-model="filters.query.term" placeholder="Filter queries by search term..."></input>
           <div class="flex sm:justify-end items-center sm:col-span-2 text-xs">
@@ -54,7 +54,7 @@
         </div>
         <querypaginator :queries="filter('queries', filters.query.term, filters.query.visibility)" :hide="['created_by']" @toggle="toggleQuery" @confirm="confirmQuery"></querypaginator>
       </tab>
-      <tab name="Visualizations" class="p-5">
+      <tab name="Visualizations" class="p-5" :selected="tab == 'visualizations'">
         <div class="form-full form-sm grid grid-cols-1 sm:grid-cols-3 gap-5 mb-5">
           <input class="form-element sm:col-span-1" type="text" v-model="filters.visualization.term" placeholder="Filter visualizations by search term..."></input>
         </div>
@@ -63,7 +63,7 @@
         </div>
         <vizpaginator :visualizations="filter('visualizations', filters.visualization.term)" :hide="['created_by']" @confirm="confirmVisualization"></vizpaginator>
       </tab>
-      <tab name="Alerts" class="p-5">
+      <tab name="Alerts" class="p-5" :selected="tab == 'alerts'">
         <div class="form-full form-sm grid grid-cols-1 sm:grid-cols-3 gap-5 mb-5">
           <input class="form-element sm:col-span-1" type="text" v-model="filters.alert.term" placeholder="Filter alerts by search term..."></input>
           <div class="flex sm:justify-end items-center sm:col-span-2 text-xs">

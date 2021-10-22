@@ -5,6 +5,7 @@
 
 <div id="main" class="bg-light p-5 flex flex-col min-h-screen" v-cloak>
   <template v-if="!_.isEmpty(query)">
+    <div class="alert alert-info mb-5" v-if="!_.isNil(query.freshness)"><strong>NOTE:</strong> You are viewing results from data indexed after {{moment(query.freshness).local()}}. <a class="underline" :href="'/view/query/?id=' + query.id">Click here</a> to view all results for this query.</div>
     <div class="bg-white border border-secondary p-5 mb-5">
       <h3 class="text-xl font-light text-dark-gray">{{query.name}}</h3>
       <p class="font-light text-sm text-muted mb-3">{{query.id}}</p>

@@ -56,6 +56,9 @@ new Vue({
       axios.post('/api/query/meta/', {id: this.$route.query.id})
       .then(function(response) {
         self.query = response.data
+        if (!_.isEmpty(self.query) && !_.isNil(self.$route.query.freshness)) {
+          self.query.freshness = self.$route.query.freshness
+        }
         self.loaded = true
       })
       .catch(function(error) {
