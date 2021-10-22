@@ -16,7 +16,7 @@ new Vue({
     query: undefined,
     trigger: {
       event: 'new_results',
-      frequency: 'weekly'
+      frequency: 'daily'
     },
     save: {
       active: false,
