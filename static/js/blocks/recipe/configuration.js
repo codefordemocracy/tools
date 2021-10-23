@@ -2,7 +2,7 @@ var concatrecipes = ""
 _.forEach(RECIPES, function(r) {
   concatrecipes +=
     `<template v-if="recipe.template == '` + r.template + `'">`
-      + `<span v-if="version=='results'">You are seeing the results for</span><span v-else>Find</span> ` + r.configurables + `<span v-if="version=='results'">. ` + r.interpretation + `</span>` +
+      + `<span v-if="version=='results'">You are seeing the results for</span><span v-else>Find</span> ` + r.configurables + `<span v-if="version=='results'">. ` + r.interpretation + ` <a href="https://docs.codefordemocracy.org/data/methodology" class="underline" target="_blank">View our data methodology</a> to read more about our data sources and coverage.</span>` +
     `</template>`
 })
 
