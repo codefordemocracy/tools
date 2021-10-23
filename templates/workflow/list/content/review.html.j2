@@ -1,3 +1,4 @@
+<div class="alert alert-warning mb-5" v-if="numclauses > 1000"><strong>WARNING:</strong> You are attempting to create a list defined by more than 1000 terms or IDs. Lists of this size may cause unexpected errors.</div>
 <div class="bg-white border border-secondary p-5">
   <listreviewer :list="build" :download="review.download" @downloading="downloadingEntities" @count="countEntities" v-if="buildable"></listreviewer>
   <div class="flex justify-center items-center text-xs text-dark px-5 py-10" v-else>The entities in your list will show up here.</div>

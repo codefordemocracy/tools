@@ -165,6 +165,22 @@ new Vue({
         include: this.list.include,
         exclude: this.list.exclude
       }
+    },
+    numclauses() {
+      let count = 0
+      if (!_.isNil(this.build.include.terms)) {
+        count += this.build.include.terms.length
+      }
+      if (!_.isNil(this.build.include.ids)) {
+        count += this.build.include.ids.length
+      }
+      if (!_.isNil(this.build.exclude.terms)) {
+        count += this.build.exclude.terms.length
+      }
+      if (!_.isNil(this.build.exclude.ids)) {
+        count += this.build.exclude.ids.length
+      }
+      return count
     }
   },
   methods: {
