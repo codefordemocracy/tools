@@ -14,13 +14,18 @@ const querysearcher = {
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
       <div class="form-full form-sm -mb-2">
-        <button class="btn flex justify-between items-center" :class="settings.selected.id == query.id ? 'btn-primary' : 'btn-secondary'" v-for="query in options" @click="settings.selected = query">
+        <button class="btn flex justify-between items-center" :class="settings.selected.id == query.id ? 'btn-primary' : 'btn-secondary'" v-for="query in _.slice(options, 10*(page-1), 10*page)" @click="settings.selected = query">
           <span class="text-left">{{query.name}}</span>
           <i class="fas fa-check-circle ml-4" :class="settings.selected.id == query.id ? '' : 'invisible'"></i>
         </button>
         <p v-if="error">An error has occurred.</p>
         <p v-else-if="_.isEmpty(preloaded)">Loading queries<span class="blink">...</span></p>
         <p v-else-if="!_.isEmpty(preloaded) && options.length == 0">There are no queries matching your search criteria.</p>
+        <div class="flex justify-between items-center py-2" v-if="options.length > 10">
+          <button class="btn p-0 w-auto mb-0" @click="page--" :disabled="page == 1">&larr; Previous Page</button>
+          <div class="text-gray text-xs">Page {{page}} of {{Math.ceil(options.length/10)}}</div>
+          <button class="btn p-0 w-auto ml-3 mb-0" @click="page++" :disabled="page == Math.ceil(options.length/10)">Next Page &rarr;</button>
+        </div>
       </div>
       <div>
         <div class="bg-gray-55 text-white uppercase px-3 py-1">
@@ -52,7 +57,8 @@ const querysearcher = {
     return {
       preloaded: {},
       loaded: false,
-      error: false
+      error: false,
+      page: 1
     }
   },
   computed: {

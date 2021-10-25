@@ -14,7 +14,7 @@ const listsearcher = {
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
       <div class="form-full form-sm -mb-2">
-        <button class="btn flex justify-between items-center" :class="settings.selected.id == list.id ? 'btn-primary' : 'btn-secondary'" v-for="list in options" @click="settings.selected = list">
+        <button class="btn flex justify-between items-center" :class="settings.selected.id == list.id ? 'btn-primary' : 'btn-secondary'" v-for="list in _.slice(options, 10*(page-1), 10*page)" @click="settings.selected = list">
           <span class="text-left">{{list.name}}</span>
           <i class="fas fa-check-circle ml-4" :class="!_.isNull(sequence) && settings.selected.id == list.id ? '' : 'invisible'"></i>
         </button>
@@ -22,6 +22,11 @@ const listsearcher = {
         <p v-else-if="_.isEmpty(preloaded) && !_.isNull(this.subtype)">Loading lists<span class="blink">...</span></p>
         <p v-else-if="_.isEmpty(preloaded) && _.isNull(this.subtype)">Lists that match your search criteria will show up here.</p>
         <p v-else-if="!_.isEmpty(preloaded) && options.length == 0">There are no lists matching your search criteria.</p>
+        <div class="flex justify-between items-center py-2" v-if="options.length > 10">
+          <button class="btn p-0 w-auto mb-0" @click="page--" :disabled="page == 1">&larr; Previous Page</button>
+          <div class="text-gray text-xs">Page {{page}} of {{Math.ceil(options.length/10)}}</div>
+          <button class="btn p-0 w-auto ml-3 mb-0" @click="page++" :disabled="page == Math.ceil(options.length/10)">Next Page &rarr;</button>
+        </div>
       </div>
       <div>
         <div class="bg-gray-55 text-white uppercase px-3 py-1">
@@ -63,7 +68,8 @@ const listsearcher = {
     return {
       preloaded: {},
       loaded: false,
-      error: false
+      error: false,
+      page: 1
     }
   },
   computed: {
