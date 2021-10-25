@@ -9,6 +9,7 @@ function getMailchimp(json) {
 
 new Vue({
   store,
+  router,
   el: '#navbar',
   data: {
     open: false

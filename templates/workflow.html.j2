@@ -24,10 +24,10 @@
   <div class="mb-2">
     <template v-if="_.includes(store.state.workflow.valid, store.state.workflow.tab-1)">
       {% if action == "edit" and id != None %}
-        <div class="alert alert-warning mb-5"><strong>WARNING:</strong> You are editing the [[output]] with ID <a class="underline" :href="'/view/[[output]]/?id=[[id]]&mode=popup'" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-view-list-' + _.uniqueId(), 0.7, window)">[[id]]</a>.</div>
+        <div class="alert alert-warning mb-5"><strong>WARNING:</strong> You are editing the [[output]] with ID <a class="underline" :href="'/view/[[output]]/?id=[[id]]'" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-view-list-' + _.uniqueId(), 0.7, window)">[[id]]</a>.</div>
       {% endif %}
       {% if action == "clone" and id != None %}
-        <div class="alert alert-info mb-5"><strong>NOTE:</strong> Your [[output]] has been pre-populated with settings cloned from the [[output]] with ID <a class="underline" :href="'/view/[[output]]/?id=[[id]]&mode=popup'" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-view-list-' + _.uniqueId(), 0.7, window)">[[id]]</a>.</div>
+        <div class="alert alert-info mb-5"><strong>NOTE:</strong> Your [[output]] has been pre-populated with settings cloned from the [[output]] with ID <a class="underline" :href="'/view/[[output]]/?id=[[id]]'" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-view-list-' + _.uniqueId(), 0.7, window)">[[id]]</a>.</div>
       {% endif %}
     </template>
     {% for template in templates %}

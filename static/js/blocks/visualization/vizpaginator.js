@@ -7,7 +7,7 @@ const vizpaginator = {
       <div class="bg-xlight p-5 mb-4" v-for="viz in chunks[page-1]">
         <vizdisplayer :viz="viz" :hide="hide" :ratio="ratio"></vizdisplayer>
         <div class="text-xs mt-3">
-          <a :href="'/view/visualization/?id=' + viz.id + '&mode=popup'" class="text-blue mr-3" v-if="_.includes(actions, 'view')" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-viz-' + _.uniqueId(), ratio, window)">View Details</a>
+          <a :href="'/view/visualization/?id=' + viz.id" class="text-blue mr-3" v-if="_.includes(actions, 'view')" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-viz-' + _.uniqueId(), ratio, window)">View Details</a>
           <a :href="'/create/visualization/?action=clone&id=' + viz.id" class="text-primary mr-3" v-if="_.includes(actions, 'clone')">Clone</a>
           <a :href="'/create/visualization/?action=edit&id=' + viz.id" class="text-orange mr-3" v-if="_.includes(actions, 'edit')">Edit</a>
           <a href="javascript:void(0)" @click="confirm(viz)" class="text-red" v-if="_.includes(actions, 'delete')">Delete</a>

@@ -31,6 +31,15 @@ def inject_now():
     return { "now": datetime.datetime.now() }
 
 #########################################################
+# front end helpers
+#########################################################
+
+def get_mode(request):
+    if request.referrer is not None and ("codefordemocracy.org" in request.referrer or "127.0.0.1" in request.referrer):
+        return "popup"
+    return None
+
+#########################################################
 # serve front end
 #########################################################
 
@@ -55,8 +64,7 @@ def route_create_list():
 
 @app.route("/view/list/", methods=["GET"])
 def route_view_list():
-    mode = request.args.get("mode")
-    return render_template("workflow/list/popup/view.html.j2", mode=mode)
+    return render_template("workflow/list/popup/view.html.j2", mode=get_mode(request))
 
 @app.route("/create/query/", methods=["GET"])
 def route_create_query():
@@ -75,8 +83,7 @@ def route_create_query():
 
 @app.route("/view/query/", methods=["GET"])
 def route_view_query():
-    mode = request.args.get("mode")
-    return render_template("workflow/query/popup/view.html.j2", mode=mode)
+    return render_template("workflow/query/popup/view.html.j2", mode=get_mode(request))
 
 @app.route("/create/visualization/", methods=["GET"])
 def route_create_visualization():
@@ -95,8 +102,7 @@ def route_create_visualization():
 
 @app.route("/view/visualization/", methods=["GET"])
 def route_view_visualization():
-    mode = request.args.get("mode")
-    return render_template("workflow/visualization/popup/view.html.j2", mode=mode)
+    return render_template("workflow/visualization/popup/view.html.j2", mode=get_mode(request))
 
 @app.route("/create/alert/", methods=["GET"])
 def route_create_alert():
@@ -108,29 +114,24 @@ def route_create_alert():
 
 @app.route("/view/alert/", methods=["GET"])
 def route_view_alert():
-    mode = request.args.get("mode")
-    return render_template("workflow/alert/popup/view.html.j2", mode=mode)
+    return render_template("workflow/alert/popup/view.html.j2", mode=get_mode(request))
 
 @app.route("/explore/lists/", methods=["GET"])
 def route_explore_lists():
-    mode = request.args.get("mode")
-    return render_template("explore/lists/app.html.j2", mode=mode)
+    return render_template("explore/lists/app.html.j2", mode=get_mode(request))
 
 @app.route("/explore/relationships/", methods=["GET"])
 @app.route("/explore/relationships/graph/", methods=["GET"])
 def route_explore_relationships_graph():
-    mode = request.args.get("mode")
-    return render_template("explore/relationships/graph/main.html.j2", mode=mode)
+    return render_template("explore/relationships/graph/main.html.j2", mode=get_mode(request))
 
 @app.route("/explore/relationships/traverse/", methods=["GET"])
 def route_explore_relationships_traverse():
-    mode = request.args.get("mode")
-    return render_template("explore/relationships/traverse/main.html.j2", mode=mode)
+    return render_template("explore/relationships/traverse/main.html.j2", mode=get_mode(request))
 
 @app.route("/explore/documents/", methods=["GET"])
 def route_explore_documents():
-    mode = request.args.get("mode")
-    return render_template("explore/documents/app.html.j2", mode=mode)
+    return render_template("explore/documents/app.html.j2", mode=get_mode(request))
 
 @app.route("/dashboard/", methods=["GET"])
 def route_dashboard():
@@ -138,8 +139,7 @@ def route_dashboard():
 
 @app.route("/user/<username>/", methods=["GET"])
 def route_user(username):
-    mode = request.args.get("mode")
-    return render_template("user.html.j2", username=username, mode=mode)
+    return render_template("user.html.j2", username=username, mode=get_mode(request))
 
 #########################################################
 # connect to api

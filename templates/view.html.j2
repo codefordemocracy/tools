@@ -1,0 +1,17 @@
+{% extends "index.html.j2" %} {% block html %}
+
+{% if mode != "popup" %}
+  <div class="navbar text-xs p-1"><a class="text-white" href="/">&larr; tools.codefordemocracy.org</a></div>
+{% endif %}
+
+<div id="main" class="bg-light p-5 text-dark flex flex-col min-h-screen">
+
+  {% block app %}{% endblock %}
+
+  {% if mode != "popup" %}
+    <p class="text-xs pt-5 mt-auto">[[copyright()]]</p>
+  {% endif %}
+
+</div>
+
+{% endblock %}

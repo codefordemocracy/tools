@@ -1,9 +1,9 @@
-{% extends "index.html.j2" %}
+{% extends "view.html.j2" %}
 {% block title %}View Query | {% endblock %}
 
-{% block html %}
+{% block app %}
 
-<div id="main" class="bg-light p-5 flex flex-col min-h-screen" v-cloak>
+<template v-cloak>
   <template v-if="!_.isEmpty(query)">
     <div class="alert alert-info mb-5" v-if="!_.isNil(query.freshness)"><strong>NOTE:</strong> You are viewing results from data indexed after {{moment(query.freshness).local()}}. <a class="underline" :href="'/view/query/?id=' + query.id">Click here</a> to view all results for this query.</div>
     <div class="bg-white border border-secondary p-5 mb-5">
@@ -41,10 +41,7 @@
   <div class="bg-white border border-secondary p-5" v-else-if="loaded">
     <p class="text-xs">This query could not be found. <span v-if="!store.getters['auth/isLoggedIn']">Perhaps you need to <a href="javascript:void(0)" @click="store.commit('auth/login', true)">log in</a> to view it.</span><span v-else>You might not have the necessary permissions to view it, or it could have been deleted.</span></p>
   </div>
-  {% if mode != "popup" %}
-    <p class="text-xs pt-5 mt-auto">[[copyright()]]</p>
-  {% endif %}
-</div>
+</template>
 
 {% endblock %}
 {% block scripts %}

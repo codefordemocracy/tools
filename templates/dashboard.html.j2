@@ -10,7 +10,7 @@
       <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center" v-else>
         <div class="pb-5 lg:pb-0">
           <h5 class="text-xl font-light text-white">Welcome, {{store.state.auth.profile.email}}!</h5>
-          <p class="text-xs font-light text-gray-40">(This is your private dashboard. <a class="text-white" :href="'/user/' + store.state.auth.profile.username + '/?mode=popup'" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-user-' + _.uniqueId(), 0.7, window)">Click here</a> to view your public profile.)</p>
+          <p class="text-xs font-light text-gray-40">(This is your private dashboard. <a class="text-white" :href="'/user/' + store.state.auth.profile.username + '/'" v-on:click.prevent="POPUP(event.currentTarget.href, 'popup-user-' + _.uniqueId(), 0.7, window)">Click here</a> to view your public profile.)</p>
         </div>
         <div>
           <a :href="ACCOUNTURL + '/portal/'" class="btn btn-sm btn-white mr-1" target="_blank">Manage Your Account</a>

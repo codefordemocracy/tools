@@ -1,9 +1,9 @@
-{% extends "index.html.j2" %}
+{% extends "view.html.j2" %}
 {% block title %}View Visualization | {% endblock %}
 
-{% block html %}
+{% block app %}
 
-<div id="main" class="bg-light p-5 flex flex-col min-h-screen" v-cloak>
+<template v-cloak>
   <template v-if="!_.isEmpty(visualization)">
     <div class="bg-white border border-secondary p-5">
       <h3 class="text-xl font-light text-dark-gray">{{visualization.name}}</h3>
@@ -34,10 +34,7 @@
   <div class="bg-white border border-secondary p-5" v-else-if="loaded">
     <p class="text-xs">This visualization could not be found. <span v-if="!store.getters['auth/isLoggedIn']">Perhaps you need to <a href="javascript:void(0)" @click="store.commit('auth/login', true)">log in</a> to view it.</span><span v-else>You might not have the necessary permissions to view it, or it could have been deleted.</span></p>
   </div>
-  {% if mode != "popup" %}
-    <p class="text-xs pt-5 mt-auto">[[copyright()]]</p>
-  {% endif %}
-</div>
+</template>
 
 {% endblock %}
 {% block scripts %}

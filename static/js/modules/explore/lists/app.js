@@ -34,7 +34,7 @@ new Vue({
       return [this.type]
     },
     ratio() {
-      if (this.$route.query.mode == 'popup') {
+      if (_.includes(document.referrer, 'codefordemocracy.org') || _.includes(document.referrer, '127.0.0.1')) {
         return 1
       }
     }

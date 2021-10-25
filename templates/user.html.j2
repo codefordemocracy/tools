@@ -1,6 +1,6 @@
-{% extends "index.html.j2" %} {% block title %}@[[username]] | {% endblock %} {% block html %}
+{% extends "view.html.j2" %} {% block title %}@[[username]] | {% endblock %} {% block app %}
 
-<div id="main" class="bg-light p-5 text-dark flex flex-col min-h-screen" v-if="!_.isEmpty(user.username)" v-cloak>
+<template v-if="!_.isEmpty(user.username)" v-cloak>
   <div class="bg-gray-55 text-white p-5 mb-5 flex flex-col lg:flex-row lg:justify-between lg:items-center">
     <div class="pb-5 lg:pb-0">
       <h5 v-if="!_.isEmpty(user.name)" class="text-xl font-light">{{user.name}}</h5>
@@ -30,10 +30,7 @@
     </div>
     <querypaginator :queries="user.queries" :hide="['visibility', 'created_by']" :actions="['view', 'clone']" :ratio="ratio"></listpaginator>
   </div>
-  {% if mode != "popup" %}
-    <p class="text-xs pt-5 mt-auto">[[copyright()]]</p>
-  {% endif %}
-</div>
+</template>
 
 {% endblock %}
 {% block scripts %}
