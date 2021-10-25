@@ -5,14 +5,16 @@
     <p class="form-text-top">Select the type of event that will trigger the alert.</p>
     <select class="form-element" v-model="trigger.event">
       <option value="new_results">New results available</option>
+      <option value="no_results">No results found</option>
     </select>
   </div>
   <div class="form-group">
     <label class="label">Max Frequency<span class="text-info">*</span></label>
     <p class="form-text-top">Enter the maximum frequency of alerts you will receive. If you choose to receive weekly alerts, you will receive up to one alert each week even if the trigger event occurs daily.</p>
     <select class="form-element" v-model="trigger.frequency">
-      <option value="daily">Daily</option>
+      <option value="daily" v-if="trigger.event == 'new_results'">Daily</option>
       <option value="weekly">Weekly</option>
+      <option value="monthly">Monthly</option>
     </select>
   </div>
   <p class="text-xs text-muted"><span class="text-info">*</span>This field is required.</p>

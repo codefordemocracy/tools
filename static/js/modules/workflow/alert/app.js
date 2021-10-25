@@ -72,6 +72,14 @@ new Vue({
     }
   },
   watch: {
+    trigger: {
+      deep: true,
+      handler() {
+        if (this.trigger.event == 'no_results' && this.trigger.frequency == 'daily') {
+          this.trigger.frequency = 'weekly'
+        }
+      }
+    },
     build: {
       deep: true,
       handler() {
