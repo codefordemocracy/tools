@@ -7,9 +7,9 @@ const querysearcher = {
     <div class="form-full form-sm grid grid-cols-1 sm:grid-cols-3 gap-5 mb-5">
       <input class="form-element sm:col-span-1" type="text" v-model="settings.filters.term" placeholder="Filter queries by search term..."></input>
       <div class="flex sm:justify-end items-center sm:col-span-2">
-        <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="all" value="all" v-model="settings.filters.visibility"><label for="all" class="mr-3">All Queries</label>
-        <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="public" value="public" v-model="settings.filters.visibility"><label for="public" class="mr-3">Public Queries</label>
-        <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="hidden" value="hidden" v-model="settings.filters.visibility" :disabled="!store.getters['auth/isLoggedIn']" :class="!store.getters['auth/isLoggedIn'] ? 'cursor-not-allowed border-gray-40' : ''"><label for="hidden" :class="!store.getters['auth/isLoggedIn'] ? 'cursor-not-allowed text-gray-40' : ''">Your Hidden Queries</label>
+        <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="all" value="all" v-model="settings.filters.visibility"><label for="all" class="mr-3">All <span class="hidden sm:inline">Queries</span></label>
+        <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="public" value="public" v-model="settings.filters.visibility"><label for="public" class="mr-3">Public <span class="hidden sm:inline">Queries</span></label>
+        <input type="radio" class="text-green focus:ring-green focus:ring-opacity-0 mr-1" id="hidden" value="hidden" v-model="settings.filters.visibility" :disabled="!store.getters['auth/isLoggedIn']" :class="!store.getters['auth/isLoggedIn'] ? 'cursor-not-allowed border-gray-40' : ''"><label for="hidden" :class="!store.getters['auth/isLoggedIn'] ? 'cursor-not-allowed text-gray-40' : ''"><span class="hidden sm:inline">Your</span> Hidden <span class="hidden sm:inline">Queries</span></label>
       </div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
