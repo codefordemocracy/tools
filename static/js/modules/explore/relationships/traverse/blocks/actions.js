@@ -13,26 +13,28 @@ const actions = {
             <input type="submit" class="btn btn-gray px-3 md:px-5 lg:px-7" value="Go"></button>
           </form>
         </div>
-        <div class="bg-light p-5 col-span-2 md:col-span-1" :class="{'disabledbox': !next.associations}">
-          <h4 class="text-dark-gray mb-2">Find Associations</h4>
-          <p class="text-xs mb-3" v-if="!next.associations">This action is not available for {{mentity}}s.</p>
-          <p class="text-xs mb-3" v-else>Discover which other entities {{selected.length == 1 ? 'this ' + mentity + ' is' : 'these ' + pluralize(mentity) + ' are'}} connected to.</p>
-          <form class="flex form-sm" @submit.prevent="action('associations')">
-            <select v-model="settings.associations" class="form-element dimmable flex-1 mr-1" :disabled="!next.associations">
-              <option v-for="entity in entities" :value="entity">{{_.startCase(pluralize(entity))}}</option>
-            </select>
-            <input type="submit" class="btn btn-gray px-3 md:px-5 lg:px-7" value="Go" :disabled="!next.associations"></button>
-          </form>
-        </div>
-        <div class="bg-light p-5 col-span-2 md:col-span-1" :class="{'disabledbox': !next.intersection}">
-          <h4 class="text-dark-gray mb-2">Compute Intersection</h4>
-          <p class="text-xs mb-3" v-if="!next.intersection">This action is not available for {{mentity}}s.</p>
-          <p class="text-xs mb-3" v-else>Discover associations shared by {{selected.length == 1 ? 'this' : 'these'}} and the below {{mentity}}.</p>
-          <form class="flex form-sm" @submit.prevent="action('intersection')">
-            <typeahead ul="text-xs" class="flex-1 mr-1" input="form-element w-full dimmable" v-model="settings.intersection" :items="PLACEHOLDERS[mentity]" :disabled="!next.intersection"></typeahead>
-            <input type="submit" class="btn btn-gray px-3 md:px-5 lg:px-7" value="Go" :disabled="_.isEmpty(settings.intersection) || !next.intersection"></button>
-          </form>
-        </div>
+        <template v-else>
+          <div class="bg-light p-5 col-span-2 md:col-span-1" :class="{'disabledbox': !next.associations}">
+            <h4 class="text-dark-gray mb-2">Find Associations</h4>
+            <p class="text-xs mb-3" v-if="!next.associations">This action is not available for {{mentity}}s.</p>
+            <p class="text-xs mb-3" v-else>Discover which other entities {{selected.length == 1 ? 'this ' + mentity + ' is' : 'these ' + pluralize(mentity) + ' are'}} connected to.</p>
+            <form class="flex form-sm" @submit.prevent="action('associations')">
+              <select v-model="settings.associations" class="form-element dimmable flex-1 mr-1" :disabled="!next.associations">
+                <option v-for="entity in entities" :value="entity">{{_.startCase(pluralize(entity))}}</option>
+              </select>
+              <input type="submit" class="btn btn-gray px-3 md:px-5 lg:px-7" value="Go" :disabled="!next.associations"></button>
+            </form>
+          </div>
+          <div class="bg-light p-5 col-span-2 md:col-span-1" :class="{'disabledbox': !next.intersection}">
+            <h4 class="text-dark-gray mb-2">Compute Intersection</h4>
+            <p class="text-xs mb-3" v-if="!next.intersection">This action is not available for {{mentity}}s.</p>
+            <p class="text-xs mb-3" v-else>Discover associations shared by {{selected.length == 1 ? 'this' : 'these'}} and the below {{mentity}}.</p>
+            <form class="flex form-sm" @submit.prevent="action('intersection')">
+              <typeahead ul="text-xs" class="flex-1 mr-1" input="form-element w-full dimmable" v-model="settings.intersection" :items="PLACEHOLDERS[mentity]" :disabled="!next.intersection"></typeahead>
+              <input type="submit" class="btn btn-gray px-3 md:px-5 lg:px-7" value="Go" :disabled="_.isEmpty(settings.intersection) || !next.intersection"></button>
+            </form>
+          </div>
+        </template>
       </div>
     </div>
   `,
