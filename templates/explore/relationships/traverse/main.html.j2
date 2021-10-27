@@ -23,9 +23,7 @@
   <div v-else>
     <branch :id="branch.id" :settings="branch.settings" :branches="branch.branches" @destroy="clear" v-for="branch in store.state.explore.branches"></branch>
   </div>
-  {% if mode != "popup" %}
-    <p class="text-xs pt-9 sm:text-center">[[copyright()]]</p>
-  {% endif %}
+  <p class="text-xs pt-9 sm:text-center">[[copyright()]]</p>
   <div id="router"></div>
 </div>
 

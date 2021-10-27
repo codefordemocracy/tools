@@ -118,20 +118,20 @@ def route_view_alert():
 
 @app.route("/explore/lists/", methods=["GET"])
 def route_explore_lists():
-    return render_template("explore/lists/app.html.j2", mode=get_mode(request))
+    return render_template("explore/lists/app.html.j2")
 
 @app.route("/explore/relationships/", methods=["GET"])
 @app.route("/explore/relationships/graph/", methods=["GET"])
 def route_explore_relationships_graph():
-    return render_template("explore/relationships/graph/main.html.j2", mode=get_mode(request))
+    return render_template("explore/relationships/graph/main.html.j2")
 
 @app.route("/explore/relationships/traverse/", methods=["GET"])
 def route_explore_relationships_traverse():
-    return render_template("explore/relationships/traverse/main.html.j2", mode=get_mode(request))
+    return render_template("explore/relationships/traverse/main.html.j2")
 
 @app.route("/explore/documents/", methods=["GET"])
 def route_explore_documents():
-    return render_template("explore/documents/app.html.j2", mode=get_mode(request))
+    return render_template("explore/documents/app.html.j2")
 
 @app.route("/dashboard/", methods=["GET"])
 def route_dashboard():

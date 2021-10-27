@@ -92,9 +92,7 @@
       </div>
     </template>
   </template>
-  {% if mode != "popup" %}
-    <p class="text-xs pt-5" :class="store.state.first ? 'mt-auto' : 'sm:text-center'">[[copyright()]]</p>
-  {% endif %}
+  <p class="text-xs pt-5" :class="store.state.first ? 'mt-auto' : 'sm:text-center'">[[copyright()]]</p>
 </div>
 
 {% endblock %}

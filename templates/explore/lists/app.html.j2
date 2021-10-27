@@ -28,9 +28,7 @@
   <div class="mt-5" v-if="!_.isEmpty(list)">
     <a :href="'/create/list/?action=clone&id=' + list.id" class="btn btn-sm btn-gray float-right" target="_blank">Clone Selected List</a>
   </div>
-  {% if mode != "popup" %}
-    <p class="text-xs pt-5 mt-auto">[[copyright()]]</p>
-  {% endif %}
+  <p class="text-xs pt-5 mt-auto">[[copyright()]]</p>
 </div>
 
 {% endblock %}
