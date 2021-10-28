@@ -6,9 +6,9 @@ const ACCOUNTURL = 'https://account.codefordemocracy.org'
 /* Placeholders */
 
 const PLACEHOLDERS = {
-  candidate: ['Trump, Donald', 'Weld, Bill', 'Biden, Joseph', 'Warren, Elizabeth', 'Sanders, Bernard', 'Harris, Kamala', 'Buttigieg, Pete', 'O’Rourke, Robert Beto', 'Yang, Andrew', 'Booker, Cory', 'Klobuchar, Amy', 'McConnell, Mitch', 'Pelosi, Nancy'],
+  candidate: ['Donald Trump', 'Bill Weld', 'Joseph Biden', 'Elizabeth Warren', 'Bernard Sanders', 'Kamala Harris', 'Pete Buttigieg', 'Robert Beto O’Rourke', 'Andrew Yang', 'Cory Booker', 'Amy Klobuchar', 'Mitch McConnell', 'Nancy Pelosi'],
   committee: ['DCCC', 'NRCC', 'DSCC', 'NRSC', 'Northrop Grumman', 'Comcast'],
-  donor: ['Adelson, Sheldon', 'Bloomberg, Michael', 'Steyer, Thomas', 'Uihlein, Richard', 'Sussman, Donald', 'Simons, James', 'Soros, George', 'Bezos, Jeffrey', 'Hoffman, Reid'],
+  donor: ['Sheldon Adelson', 'Michael Bloomberg', 'Thomas Steyer', 'Richard Uihlein', 'Donald Sussman', 'James Simons', 'George Soros', 'Jeffrey Bezos', 'Reid Hoffman'],
   payee: ['Google', 'YouTube', 'Facebook', 'Twitter'],
   employer: ['Facebook', 'Google', 'Amazon', 'Apple', 'Microsoft'],
   job: ['CEO', 'CTO', 'CTO', 'Chairman', 'President'],
