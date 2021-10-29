@@ -415,6 +415,66 @@ const RECIPES = [{
   interpretation: `This recipe produces a list of honorary expenses in filings by lobbyists lobbying on issues in the selected list.`,
   warning: 'This recipe may produce an unusual number of false negatives. Interpret results with caution.'
 }, {
+  output: 'expenditure',
+  tags: ['campfin'],
+  template: 'qSMe',
+  subtypes: ["committee"],
+  configurables: `independent expenditures by <configurable :settings="settings(0)" @click="click(0)"></configurable></configurable>`,
+  interpretation: `This recipe produces a list of independent expenditures by committees in the selected list.`,
+  warning: 'This recipe may produce an unusual number of duplicated records. Interpret results with caution.'
+}, {
+  output: 'expenditure',
+  tags: ['campfin'],
+  template: 'kKSg',
+  subtypes: ["committee"],
+  configurables: `independent expenditures that pay <configurable :settings="settings(0)" @click="click(0)"></configurable></configurable>`,
+  interpretation: `This recipe produces a list of independent expenditures that paid committees in the selected list.`,
+  warning: 'This recipe may produce an unusual number of duplicated records. Interpret results with caution.'
+}, {
+  output: 'expenditure',
+  tags: ['campfin'],
+  template: 'Ft9G',
+  subtypes: ["employer"],
+  configurables: `independent expenditures that pay <configurable :settings="settings(0)" @click="click(0)"></configurable></configurable>`,
+  interpretation: `This recipe produces a list of independent expenditures that paid employers in the selected list.`,
+  warning: 'This recipe may produce an unusual number of duplicated records. Interpret results with caution.'
+}, {
+  output: 'expenditure',
+  tags: ['campfin'],
+  template: 'ZfYW',
+  subtypes: ["candidate"],
+  configurables: `independent expenditures that identify <configurable :settings="settings(0)" @click="click(0)"></configurable></configurable>`,
+  interpretation: `This recipe produces a list of independent expenditures that identify candidates in the selected list.`,
+  warning: 'This recipe may produce an unusual number of duplicated records. Interpret results with caution.'
+}, {
+  output: 'expenditure',
+  tags: ['campfin'],
+  template: 'MJAh',
+  subtypes: ["committee"],
+  configurables: `operating expenditures by <configurable :settings="settings(0)" @click="click(0)"></configurable></configurable>`,
+  interpretation: `This recipe produces a list of operating expenditures by committees in the selected list.`,
+}, {
+  output: 'expenditure',
+  tags: ['campfin'],
+  template: 'RncJ',
+  subtypes: ["committee"],
+  configurables: `operating expenditures that pay <configurable :settings="settings(0)" @click="click(0)"></configurable></configurable>`,
+  interpretation: `This recipe produces a list of operating expenditures that paid committees in the selected list.`,
+}, {
+  output: 'expenditure',
+  tags: ['campfin'],
+  template: 'Wq88',
+  subtypes: ["employer"],
+  configurables: `operating expenditures that pay <configurable :settings="settings(0)" @click="click(0)"></configurable></configurable>`,
+  interpretation: `This recipe produces a list of operating expenditures that paid employers in the selected list.`,
+}, {
+  output: 'expenditure',
+  tags: ['campfin'],
+  template: 'Mtr2',
+  subtypes: ["donor"],
+  configurables: `operating expenditures that pay <configurable :settings="settings(0)" @click="click(0)"></configurable></configurable>`,
+  interpretation: `This recipe produces a list of operating expenditures that paid donors in the selected list.`,
+}, {
   output: '990',
   tags: ['tax'],
   template: 'GCv2',
