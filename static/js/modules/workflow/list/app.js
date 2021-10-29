@@ -87,7 +87,7 @@ new Vue({
       if (this.list.type == 'person') {
         return ['candidate', 'donor']
       } else if (this.list.type == 'organization') {
-        return ['committee', 'employer']
+        return ['committee', 'employer', 'source']
       }
       return []
     },
@@ -101,6 +101,11 @@ new Vue({
         return {
           terms: ["Hospital ", "Bank ", "..."].join('\n'),
           ids: ''
+        }
+      } else if (this.list.subtype == 'source') {
+        return {
+          terms: ["CNN ", "Reuters ", "Breitbart ", "The Federalist ", "..."].join('\n'),
+          ids: ["cnn.com ", "reuters.com ", "breitbart.com ", "thefederalist.com ", "..."].join('\n')
         }
       } else if (this.list.subtype == 'job') {
         return {

@@ -569,7 +569,7 @@ const RECIPES = [{
   subtypes: ["committee"],
   configurables: `news articles that mention committees in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of news articles related to committees in the selected list.`,
-  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
+  warning: 'This recipe may produce an unusual number of false positives and false negatives. Interpret results with caution.'
 }, {
   output: 'article',
   tags: ['narrative'],
@@ -577,7 +577,7 @@ const RECIPES = [{
   subtypes: ["employer"],
   configurables: `news articles that mention organizations in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of news articles related to organizations in the selected list.`,
-  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
+  warning: 'This recipe may produce an unusual number of false positives and false negatives. Interpret results with caution.'
 }, {
   output: 'article',
   tags: ['narrative'],
@@ -585,7 +585,7 @@ const RECIPES = [{
   subtypes: ["donor"],
   configurables: `news articles that mention people in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of news articles related to people in the selected list.`,
-  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
+  warning: 'This recipe may produce an unusual number of false positives and false negatives. Interpret results with caution.'
 }, {
   output: 'article',
   tags: ['narrative'],
@@ -593,7 +593,7 @@ const RECIPES = [{
   subtypes: ["candidate"],
   configurables: `news articles that mention people in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of news articles related to candidates in the selected list.`,
-  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
+  warning: 'This recipe may produce an unusual number of false positives and false negatives. Interpret results with caution.'
 }, {
   output: 'article',
   tags: ['narrative'],
@@ -601,7 +601,47 @@ const RECIPES = [{
   subtypes: ["topic"],
   configurables: `news articles with text about <configurable :settings="settings(0)" @click="click(0)"></configurable>`,
   interpretation: `This recipe produces a list of news articles related to issues in the selected list.`,
-  warning: 'This recipe may produce an unusual number of false positives. Interpret results with caution.'
+  warning: 'This recipe may produce an unusual number of false positives and false negatives. Interpret results with caution.'
+}, {
+  output: 'article',
+  tags: ['narrative'],
+  template: 'hSaE',
+  subtypes: ["committee", "source"],
+  configurables: `news articles that mention committees in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable> that were published by <configurable :settings="settings(1)" @click="click(1)"></configurable> `,
+  interpretation: `This recipe produces a list of news articles related to committees in the second selected list by news sources in the second list.`,
+  warning: 'This recipe may produce an unusual number of false positives and false negatives. Interpret results with caution.'
+}, {
+  output: 'article',
+  tags: ['narrative'],
+  template: 'PqAA',
+  subtypes: ["employer", "source"],
+  configurables: `news articles that mention organizations in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable> that were published by <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
+  interpretation: `This recipe produces a list of news articles related to organizations in the second selected list by news sources in the second list.`,
+  warning: 'This recipe may produce an unusual number of false positives and false negatives. Interpret results with caution.'
+}, {
+  output: 'article',
+  tags: ['narrative'],
+  template: 'FBRq',
+  subtypes: ["donor", "source"],
+  configurables: `news articles that mention people in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable> that were published by <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
+  interpretation: `This recipe produces a list of news articles related to people in the first selected list by news sources in the second list.`,
+  warning: 'This recipe may produce an unusual number of false positives and false negatives. Interpret results with caution.'
+}, {
+  output: 'article',
+  tags: ['narrative'],
+  template: 'CpsR',
+  subtypes: ["candidate", "source"],
+  configurables: `news articles that mention people in the list of <configurable :settings="settings(0)" @click="click(0)"></configurable> that were published by <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
+  interpretation: `This recipe produces a list of news articles related to candidates in the first selected list by news sources in the second list.`,
+  warning: 'This recipe may produce an unusual number of false positives and false negatives. Interpret results with caution.'
+}, {
+  output: 'article',
+  tags: ['narrative'],
+  template: '2uJX',
+  subtypes: ["topic", "source"],
+  configurables: `news articles with text about <configurable :settings="settings(0)" @click="click(0)"></configurable> that were published by <configurable :settings="settings(1)" @click="click(1)"></configurable>`,
+  interpretation: `This recipe produces a list of news articles related to issues in the first selected list by news sources in the second list.`,
+  warning: 'This recipe may produce an unusual number of false positives and false negatives. Interpret results with caution.'
 }]
 
 /* Alerts */
