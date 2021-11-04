@@ -1,15 +1,11 @@
 {% extends "app.html.j2" %}
 {% block app %}
 
-<div class="bg-light p-5 flex flex-col justify-center items-center md:min-h-full">
-  <div class="max-w-6xl my-auto grid grid-cols-1 md:grid-cols-2 gap-5 pb-12 text-darker">
-    <div class="alert alert-info md:col-span-2 relative">
-      <div class="block flex justify-center items-center absolute -top-1.5 -left-1.5">
-        <span class="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-cyan-dark opacity-75"></span>
-        <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-dark"></span>
-      </div>
-      <strong>TIP:</strong> First time? Book a <a class="underline" href="https://savvycal.com/codefordemocracy/training" target="_blank">training session</a> or check out our <a class="underline" href="https://docs.codefordemocracy.org/tools/tutorials" target="_blank">step-by-step tutorials</a>.
-    </div>
+<div class="bg-light flex flex-col justify-center items-center md:min-h-full">
+  <div class="alert alert-info w-full rounded-none">
+    <strong>TIP:</strong> Not sure where to start? Book a <a class="underline" href="https://savvycal.com/codefordemocracy/training" target="_blank">training session</a> or check out our <a class="underline" href="https://docs.codefordemocracy.org/tools/tutorials" target="_blank">step-by-step tutorials</a>.
+  </div>
+  <div class="max-w-6xl my-auto grid grid-cols-1 md:grid-cols-2 gap-5 text-darker p-5">
     <div class="bg-white border border-secondary p-5">
       <h4 class="label">Workflow A</h4>
       <h2 class="text-2xl font-light text-dark-gray mb-2">Create a List</h2>
@@ -35,7 +31,7 @@
       <a href="[[ url_for('route_create_alert') ]]" class="btn btn-sm btn-gray">Launch Workflow &rarr;</a>
     </div>
   </div>
-  <p class="text-xs pt-5 lg:text-center">[[copyright()]]</p>
+  <p class="text-xs px-5 pb-5 lg:text-center">[[copyright()]]</p>
 </div>
 
 {% endblock %}
