@@ -299,15 +299,18 @@ new Vue({
         } else {
           if (!_.isNil(self.list.exclude.terms)) {
             self.list.exclude.terms = self.list.exclude.terms.join('\n')
+            self.exclude = true
           }
           if (!_.isNil(self.list.exclude.ids)) {
             self.list.exclude.ids = self.list.exclude.ids.join('\n')
+            self.exclude = true
           }
           if (!_.isNil(self.list.exclude.filters)) {
             _.forEach(_.keys(self.list.exclude.filters), function(k) {
               self.filters.exclude[self.list.subtype][k] = self.list.exclude.filters[k]
             })
             self.list.exclude = _.omit(self.list.exclude, 'filters')
+            self.exclude = true
           }
         }
       })
