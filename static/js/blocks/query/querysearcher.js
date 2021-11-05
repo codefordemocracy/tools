@@ -21,7 +21,7 @@ const querysearcher = {
         <p v-if="error">An error has occurred.</p>
         <p v-else-if="_.isEmpty(preloaded)">Loading queries<span class="blink">...</span></p>
         <p v-else-if="!_.isEmpty(preloaded) && options.length == 0">There are no queries matching your search criteria.</p>
-        <div class="flex justify-between items-center py-2" v-if="options.length > 10">
+        <div class="flex justify-between items-center py-2" v-if="!_.isEmpty(preloaded) && options.length > 0">
           <button class="btn p-0 w-auto mb-0" @click="page--" :disabled="page == 1">&larr; Previous Page</button>
           <div class="text-gray text-xs">Page {{page}} of {{Math.ceil(options.length/10)}}</div>
           <button class="btn p-0 w-auto ml-3 mb-0" @click="page++" :disabled="page == Math.ceil(options.length/10)">Next Page &rarr;</button>
