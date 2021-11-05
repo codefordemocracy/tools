@@ -18,7 +18,7 @@
           <span v-if="review.download == 'json'">Rows Processed: {{review.downloading | numbreviate}}<span v-if="review.count > 0"> of {{review.count | numbreviate}}</span></span>
           <span v-else>Download Entities as JSON</span>
         </button>
-        <button class="btn btn-sm btn-light mb-2" @click="copy"><span v-if="copied">Copied!</span><i class="fas fa-link" v-else></i></button>
+        <button class="btn btn-sm btn-light mb-2" @click="copy" v-if="list.visibility == 'hidden'"><span v-if="copied">Copied!</span><i class="fas fa-link" v-else></i></button>
       </div>
       <p class="text-xs mb-5">(You can download up to 10K entities in the list for use in other applications. If you need more, <a href="https://codefordemocracy.org/contact/" target="_blank">contact us</a> for a bulk export.)</p>
       <div class="bg-xlight text-dark text-xs p-3">
