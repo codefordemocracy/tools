@@ -22,6 +22,7 @@ new Vue({
   data: {
     loaded: false,
     error: false,
+    copied: false,
     query: {},
     results: {
       count: -1,
@@ -47,13 +48,21 @@ new Vue({
     },
     countResults(payload) {
       this.results.count = payload
+    },
+    copy() {
+      var self = this
+      GENSHARELINK(this.$route)
+      this.copied = true;
+      _.delay(function() {
+        self.copied = false;
+      }, 3000)
     }
   },
   created() {
     var self = this
     // load data for view workflow
     if (!_.isNil(this.$route.query.id)) {
-      axios.post('/api/query/meta/', {id: this.$route.query.id})
+      axios.post('/api/query/meta/', this.$route.query)
       .then(function(response) {
         self.query = response.data
         if (!_.isEmpty(self.query) && !_.isNil(self.$route.query.freshness)) {

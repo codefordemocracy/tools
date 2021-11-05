@@ -171,6 +171,18 @@ def route_api_format_flat():
     return make_response(json.dumps(df.to_json(orient='records'), default=utilities.convert))
 
 #########################################################
+# share endpoints
+#########################################################
+
+@app.route("/api/generate/link/", methods=["POST"])
+def route_api_generate_link():
+    data = request.get_json()
+    path = data.get("fullPath")
+    if "id" in data.get("query"):
+        path += "&string=" + fernet.encrypt(data["query"]["id"].encode("utf-8")).decode("utf-8")
+    return jsonify(path)
+
+#########################################################
 # list endpoints
 #########################################################
 
@@ -963,7 +975,7 @@ def route_api_lists():
 @app.route("/api/list/meta/", methods=["POST"])
 def route_api_list_meta():
     data = request.get_json()
-    list = action({"task": "get_list_meta", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    list = action({"task": "get_list_meta", "token": request.cookies.get('cfd'), "id": data.get("id"), "string": data.get("string")})
     return jsonify(list)
 
 @app.route("/api/list/create/", methods=["POST"])
@@ -1001,7 +1013,7 @@ def route_api_queries():
 @app.route("/api/query/meta/", methods=["POST"])
 def route_api_query_meta():
     data = request.get_json()
-    query = action({"task": "get_query_meta", "token": request.cookies.get('cfd'), "id": data.get("id")})
+    query = action({"task": "get_query_meta", "token": request.cookies.get('cfd'), "id": data.get("id"), "string": data.get("string")})
     return jsonify(query)
 
 @app.route("/api/query/create/", methods=["POST"])

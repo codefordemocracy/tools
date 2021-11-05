@@ -19,6 +19,7 @@
           <span v-if="results.download == 'json'">Rows Processed: {{results.downloading | numbreviate}}<span v-if="results.count > 0"> of {{results.count | numbreviate}}</span></span>
           <span v-else>Download Results as JSON</span>
         </button>
+        <button class="btn btn-sm btn-light mb-2" @click="copy"><span v-if="copied">Copied!</span><i class="fas fa-link" v-else></i></button>
       </div>
       <p class="text-xs mb-5">(You can download up to 10K results for use in other applications. If you need more, <a href="https://codefordemocracy.org/contact/" target="_blank">contact us</a> for a bulk export.)</p>
       <div class="bg-xlight text-dark text-xs p-3">

@@ -50,3 +50,27 @@ const DATAWRAPPER = function(settings, title, description) {
     document.body.removeChild(form)
   }
 }
+
+// Copy text to clipboard
+const COPY = function(payload) {
+  let el = document.createElement('textarea')
+  el.value = payload
+  el.setAttribute('readonly', '')
+  el.style.position = 'absolute'
+  el.style.left = '-9999px'
+  document.body.appendChild(el)
+  el.select()
+  document.execCommand('copy')
+  document.body.removeChild(el)
+}
+
+// Generate sharelink
+const GENSHARELINK = function(route) {
+  axios.post('/api/generate/link/', route)
+  .then(function(response) {
+    COPY(ROOTURL + response.data)
+  })
+  .catch(function(error) {
+    console.error(error)
+  })
+}
