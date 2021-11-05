@@ -449,6 +449,14 @@ const RECIPES = [{
 }, {
   output: 'expenditure',
   tags: ['campfin'],
+  template: 'FEzU',
+  subtypes: ["topic"],
+  configurables: `independent expenditures that mention <configurable :settings="settings(0)" @click="click(0)"></configurable></configurable>`,
+  interpretation: `This recipe produces a list of independent expenditures that mention topics in the selected list as the purpose.`,
+  warning: 'This recipe may produce an unusual number of duplicated records. Interpret results with caution.'
+}, {
+  output: 'expenditure',
+  tags: ['campfin'],
   template: 'MJAh',
   subtypes: ["committee"],
   configurables: `operating expenditures by <configurable :settings="settings(0)" @click="click(0)"></configurable></configurable>`,
@@ -474,6 +482,14 @@ const RECIPES = [{
   subtypes: ["donor"],
   configurables: `operating expenditures that pay <configurable :settings="settings(0)" @click="click(0)"></configurable></configurable>`,
   interpretation: `This recipe produces a list of operating expenditures that paid donors in the selected list.`,
+}, {
+  output: 'expenditure',
+  tags: ['campfin'],
+  template: '8ErS',
+  subtypes: ["topic"],
+  configurables: `operating expenditures that mention <configurable :settings="settings(0)" @click="click(0)"></configurable></configurable>`,
+  interpretation: `This recipe produces a list of operating expenditures that mention topics in the selected list as the purpose.`,
+  warning: 'This recipe may produce an unusual number of duplicated records. Interpret results with caution.'
 }, {
   output: '990',
   tags: ['tax'],
