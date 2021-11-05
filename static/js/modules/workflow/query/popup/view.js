@@ -68,6 +68,9 @@ new Vue({
         if (!_.isEmpty(self.query) && !_.isNil(self.$route.query.freshness)) {
           self.query.freshness = self.$route.query.freshness
         }
+        if (!_.isUndefined(response.data.name)) {
+          document.title = response.data.name + " | " + document.title
+        }
         self.loaded = true
       })
       .catch(function(error) {

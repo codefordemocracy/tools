@@ -63,6 +63,9 @@ new Vue({
       axios.post('/api/list/meta/', this.$route.query)
       .then(function(response) {
         self.list = response.data
+        if (!_.isUndefined(response.data.name)) {
+          document.title = response.data.name + " | " + document.title
+        }
         self.loaded = true
       })
       .catch(function(error) {

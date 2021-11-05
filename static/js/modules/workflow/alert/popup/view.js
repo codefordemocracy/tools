@@ -35,6 +35,9 @@ new Vue({
       axios.post('/api/alert/meta/', {id: this.$route.query.id})
       .then(function(response) {
         self.alert = response.data
+        if (!_.isUndefined(response.data.name)) {
+          document.title = response.data.name + " | " + document.title
+        }
         self.loaded = true
       })
       .catch(function(error) {

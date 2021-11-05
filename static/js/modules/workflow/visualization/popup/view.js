@@ -62,6 +62,9 @@ new Vue({
         .catch(function(err) {
           console.error(err)
         })
+        if (!_.isUndefined(response.data.name)) {
+          document.title = response.data.name + " | " + document.title
+        }
         self.loaded = true
       })
       .catch(function(error) {
