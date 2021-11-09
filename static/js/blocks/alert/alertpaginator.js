@@ -3,7 +3,7 @@ const alertpaginator = {
     'alertdisplayer': alertdisplayer
   },
   template: `
-    <div :class="{'-mb-4': chunks.length == 1}">
+    <div>
       <div class="bg-xlight p-5 mb-4" v-for="alert in chunks[page-1]">
         <alertdisplayer :alert="alert" :hide="hide" :ratio="ratio"></alertdisplayer>
         <div class="text-xs mt-3">
@@ -11,7 +11,7 @@ const alertpaginator = {
           <a href="javascript:void(0)" @click="confirm(alert)" class="text-red" v-if="_.includes(actions, 'delete')">Delete</a>
         </div>
       </div>
-      <div class="flex justify-between items-center" v-if="chunks.length > 1">
+      <div class="flex justify-between items-center">
         <button class="btn text-gray btn-sm" @click="page--" :disabled="page == 1">&larr; Previous<span class="hidden md:inline"> Page</span></button>
         <span class="text-xs">Page {{page}} of {{chunks.length}}</span>
         <button class="btn text-gray btn-sm pl-3" @click="page++" :disabled="page == chunks.length">Next<span class="hidden md:inline"> Page</span> &rarr;</button>
