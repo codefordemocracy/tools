@@ -35,7 +35,7 @@ new Vue({
       if (!_.isEmpty(this.alert.id)) {
         obj.id = this.alert.id
       }
-      if (!_.isNil(this.query)) {
+      if (!_.isUndefined(this.query) && !_.isNil(this.query.selected.id)) {
         obj.query = this.query.selected.id
       }
       return obj
@@ -107,5 +107,17 @@ new Vue({
         self.save.active = false
       }
     })
+    // get query id
+    if (!_.isNil(this.$route.query.query)) {
+      this.query = {
+        filters: {
+          visibility: 'all',
+          term: null
+        },
+        selected: {
+          id: this.$route.query.query
+        }
+      }
+    }
   }
 })
