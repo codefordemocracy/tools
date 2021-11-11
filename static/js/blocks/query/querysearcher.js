@@ -33,7 +33,8 @@ const querysearcher = {
         </div>
         <div class="bg-xlight text-dark p-3">
           <querydisplayer :query="settings.selected" v-if="!_.isNil(settings.selected.created_at)"></querydisplayer>
-          <p v-if="_.isNil(settings.selected.id)">Select a query to view its details.</p>
+          <p v-else-if="_.isNil(settings.selected.id)">Select a query to view its details.</p>
+          <p v-else>Loading<span class="blink">...</span></p>
         </div>
       </div>
     </div>
@@ -55,6 +56,7 @@ const querysearcher = {
   },
   data() {
     return {
+      preset: null,
       preloaded: {},
       loaded: false,
       error: false,
@@ -65,6 +67,15 @@ const querysearcher = {
     options() {
       var self = this
       let opts = this.preloaded
+      // show the passed in id first
+      if (!_.isNull(this.preset)) {
+        opts = _.concat(_.filter(this.preloaded, function(x) {
+          return x.id == self.settings.selected.id
+        }), _.filter(this.preloaded, function(x) {
+          return x.id != self.settings.selected.id
+        }))
+      }
+      // process filters
       if (this.settings.filters.visibility != 'all') {
         opts = _.filter(opts, {visibility: this.settings.filters.visibility})
       }
@@ -115,5 +126,9 @@ const querysearcher = {
         self.loadObjects()
       }
     })
+    // if there was an id passed in
+    if (!_.isEmpty(this.settings.selected)) {
+      this.preset = this.settings.selected.id
+    }
   }
 }
