@@ -66,7 +66,7 @@ new Vue({
       .then(function(response) {
         self.query = response.data
         if (!_.isEmpty(self.query) && !_.isNil(self.$route.query.freshness)) {
-          self.query.freshness = self.$route.query.freshness
+          self.query.freshness = _.replace(self.$route.query.freshness, ' ', '+')
         }
         if (!_.isUndefined(response.data.name)) {
           document.title = response.data.name + " | " + document.title
