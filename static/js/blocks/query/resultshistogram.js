@@ -33,13 +33,16 @@ const resultshistogram = {
       if (this.query.output == 'contribution') {
         return 'contributions'
       }
+      else if (this.query.output == 'expenditure') {
+        return 'expenditures'
+      }
       else if (this.query.output == 'ad') {
         return 'ads'
       }
       else if (this.query.output == 'article') {
         return 'articles'
       }
-      return 'filings'
+      return 'records'
     },
     histogram() {
       return {
