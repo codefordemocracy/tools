@@ -32,7 +32,7 @@ new Vue({
   },
   computed: {
     ratio() {
-      if (_.includes(document.referrer, 'codefordemocracy.org') || _.includes(document.referrer, '127.0.0.1')) {
+      if (_.includes(document.referrer, 'tools.codefordemocracy.org')) {
         return 1
       }
     }

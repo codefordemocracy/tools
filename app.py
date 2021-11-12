@@ -35,7 +35,7 @@ def inject_now():
 #########################################################
 
 def get_mode(request):
-    if request.referrer is not None and ("codefordemocracy.org" in request.referrer or "127.0.0.1" in request.referrer):
+    if request.referrer is not None and "tools.codefordemocracy.org" in request.referrer:
         return "popup"
     return None
 
