@@ -28,14 +28,13 @@ new Vue({
       }
     }
   },
-  created() {
-    var self = this
-    // load data for view workflow
-    if (!_.isNil(this.$route.query.id)) {
+  methods: {
+    loadObject() {
+      var self = this
       axios.post('/api/alert/meta/', {id: this.$route.query.id})
       .then(function(response) {
         self.alert = response.data
-        if (!_.isUndefined(response.data.name)) {
+        if (!_.isUndefined(response.data.name) && _.startsWith(document.title, 'View Alert | ')) {
           document.title = response.data.name + " | " + document.title
         }
         self.loaded = true
@@ -45,5 +44,18 @@ new Vue({
         self.error = true
       })
     }
+  },
+  created() {
+    var self = this
+    // load data for view workflow
+    if (!_.isNil(this.$route.query.id)) {
+      this.loadObject()
+    }
+    this.$store.watch((state) => store.state.auth.profile.email, (newValue, oldValue) => {
+      if (_.isEmpty(self.alert)) {
+        self.loaded = false
+        self.loadObject()
+      }
+    })
   }
 })

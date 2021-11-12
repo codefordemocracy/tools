@@ -54,16 +54,13 @@ new Vue({
       _.delay(function() {
         self.copied = false;
       }, 3000)
-    }
-  },
-  created() {
-    var self = this
-    // load data for view workflow
-    if (!_.isNil(this.$route.query.id)) {
+    },
+    loadObject() {
+      var self = this
       axios.post('/api/list/meta/', this.$route.query)
       .then(function(response) {
         self.list = response.data
-        if (!_.isUndefined(response.data.name)) {
+        if (!_.isUndefined(response.data.name) && _.startsWith(document.title, 'View List | ')) {
           document.title = response.data.name + " | " + document.title
         }
         self.loaded = true
@@ -73,5 +70,18 @@ new Vue({
         self.error = true
       })
     }
+  },
+  created() {
+    var self = this
+    // load data for view workflow
+    if (!_.isNil(this.$route.query.id)) {
+      this.loadObject()
+    }
+    this.$store.watch((state) => store.state.auth.profile.email, (newValue, oldValue) => {
+      if (_.isEmpty(self.list)) {
+        self.loaded = false
+        self.loadObject()
+      }
+    })
   }
 })

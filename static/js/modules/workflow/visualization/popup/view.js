@@ -46,12 +46,9 @@ new Vue({
       } else {
         this.review.downloading = payload
       }
-    }
-  },
-  created() {
-    var self = this
-    // load data for view workflow
-    if (!_.isNil(this.$route.query.id)) {
+    },
+    loadObject() {
+      var self = this
       axios.post('/api/visualization/meta/', {id: this.$route.query.id})
       .then(function(response) {
         self.visualization = response.data
@@ -62,7 +59,7 @@ new Vue({
         .catch(function(err) {
           console.error(err)
         })
-        if (!_.isUndefined(response.data.name)) {
+        if (!_.isUndefined(response.data.name) && _.startsWith(document.title, 'View Visualization | ')) {
           document.title = response.data.name + " | " + document.title
         }
         self.loaded = true
@@ -72,5 +69,18 @@ new Vue({
         self.error = true
       })
     }
+  },
+  created() {
+    var self = this
+    // load data for view workflow
+    if (!_.isNil(this.$route.query.id)) {
+      this.loadObject()
+    }
+    this.$store.watch((state) => store.state.auth.profile.email, (newValue, oldValue) => {
+      if (_.isEmpty(self.visualization)) {
+        self.loaded = false
+        self.loadObject()
+      }
+    })
   }
 })
