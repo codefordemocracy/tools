@@ -45,6 +45,12 @@
     </div>
     <p class="text-info mt-3 text-xs float-right" v-if="store.state.workflow.success">
       Success! [[output.capitalize()]] saved.
+      {% if output == 'list' %}
+      Next, use it to <a href="[[ url_for('route_create_query') ]]" class="underline text-info">create a query</a>.
+      {% endif %}
+      {% if output == 'query' %}
+      Next, use it to <a href="[[ url_for('route_create_visualization') ]]" class="underline text-info">create a visualization</a> or <a href="[[ url_for('route_create_alert') ]]" class="underline text-info">create an alert</a>.
+      {% endif %}
       {% if output == 'alert' %}
       <template v-if="!build.active">Go to <a href="[[ url_for('route_dashboard', tab='alerts') ]]" class="underline text-info">your dashboard</a> to activate this alert.</template>
       {% endif %}
