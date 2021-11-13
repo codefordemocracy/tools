@@ -116,6 +116,10 @@ def route_create_alert():
 def route_view_alert():
     return render_template("workflow/alert/popup/view.html.j2", mode=get_mode(request))
 
+@app.route("/explore/", methods=["GET"])
+def route_explore():
+    return render_template("explore.html.j2")
+
 @app.route("/explore/lists/", methods=["GET"])
 def route_explore_lists():
     return render_template("explore/lists/app.html.j2")

@@ -1,0 +1,30 @@
+{% extends "app.html.j2" %}
+{% block app %}
+
+<div class="bg-light flex flex-col justify-center items-center md:min-h-full">
+  <div class="max-w-6xl my-auto grid grid-cols-1 md:grid-cols-3 gap-5 text-darker p-5">
+    <div class="bg-white border border-secondary p-5">
+      <h2 class="text-2xl font-light text-dark-gray mb-2">Explore Lists</h2>
+      <p class="font-light text-sm leading-relaxed mb-3">Explore collections of entities curated by others that can be cloned and customized</p>
+      <button class="btn btn-sm btn-gray" @click="POPUP('[[ url_for('route_explore_lists') ]]', 'popup-explore-lists-' + _.uniqueId(), 0.95, window)">Launch Mini-Tool &rarr;</button>
+    </div>
+    <div class="bg-white border border-secondary p-5">
+      <h2 class="text-2xl font-light text-dark-gray mb-2">Explore Relationships</h2>
+      <p class="font-light text-sm leading-relaxed mb-3">Explore connections between political entities by building a graph or browsing tabular data</p>
+      <button class="btn btn-sm btn-gray" @click="POPUP('[[ url_for('route_explore_relationships_graph') ]]', 'popup-explore-relationships-' + _.uniqueId(), 0.95, window)">Launch Mini-Tool &rarr;</button>
+    </div>
+    <div class="bg-white border border-secondary p-5">
+      <h2 class="text-2xl font-light text-dark-gray mb-2">Explore Documents</h2>
+      <p class="font-light text-sm leading-relaxed mb-3">Explore news articles, tweets from candidates, or digital political ads over a custom time range</p>
+      <button class="btn btn-sm btn-gray" @click="POPUP('[[ url_for('route_explore_documents') ]]', 'popup-explore-documents-' + _.uniqueId(), 0.95, window)">Launch Mini-Tool &rarr;</button>
+    </div>
+  </div>
+  <p class="text-xs px-5 pb-5 lg:text-center">[[copyright()]]</p>
+</div>
+
+{% endblock %}
+{% block scripts %}
+
+<script src="[[ url_for('static', filename='js/modules/explore.js') ]]"></script>
+
+{% endblock %}
