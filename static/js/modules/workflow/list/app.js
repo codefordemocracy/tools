@@ -92,7 +92,12 @@ new Vue({
       return []
     },
     placeholder() {
-      if (this.list.subtype == 'committee') {
+      if (this.list.subtype == 'candidate') {
+        return {
+          terms: ["Joe Biden ", "Nancy Pelosi ", "Mitch McConnell ", "..."].join('\n'),
+          ids: ["P60012143 ", "H8CA05035 ", "S2KY00012 ", "P80001571 ", "..."].join('\n')
+        }
+      } else if (this.list.subtype == 'committee') {
         return {
           terms: ["Victory Fund ", "Leadership Committee ", "Joint Fundraising ", "..."].join('\n'),
           ids: ["C00000935 ", "C00075820 ", "C00075820 ", "C00042366 ", "C00027466 ", "..."].join('\n')
