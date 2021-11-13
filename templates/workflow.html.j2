@@ -43,7 +43,12 @@
         <button class="btn btn-sm btn-primary" :disabled="store.state.workflow.processing || store.state.workflow.success" @click="submit()" v-else>{{store.state.workflow.processing ? 'Processing...' : '[[action.capitalize() + ' ' + output.capitalize()]]'}}</button>
       </template>
     </div>
-    <p class="text-info mt-3 text-xs float-right" v-if="store.state.workflow.success">Success! [[output.capitalize()]] saved.</p>
+    <p class="text-info mt-3 text-xs float-right" v-if="store.state.workflow.success">
+      Success! [[output.capitalize()]] saved.
+      {% if output == 'alert' %}
+      <template v-if="!build.active">Go to <a href="[[ url_for('route_dashboard', tab='alerts') ]]" class="underline text-info">your dashboard</a> to activate this alert.</template>
+      {% endif %}
+    </p>
     <p class="text-error mt-3 text-xs float-right" v-if="store.state.workflow.error">An error has occurred.</p>
   </div>
   <p class="text-xs pt-5">[[copyright()]]</p>
