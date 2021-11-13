@@ -150,7 +150,7 @@ const resultstable = {
       if (_.isUndefined(this.query.orderby)) {
         this.query.orderdir = undefined
       } else if (_.isNil(this.query.orderdir)) {
-        this.query.orderdir = 'asc'
+        this.query.orderdir = 'desc'
       }
     },
     orderResults() {
