@@ -51,6 +51,19 @@ new Vue({
     }
   },
   computed: {
+    descriptor() {
+      var self = this
+      let obj = {
+        recipe: _.get(this.recipe.selected, 'configurables'),
+        lists: {}
+      }
+      _.forEach(_.keys(this.lists.config), function(s) {
+        if (!_.isNil(self.lists.config[s])) {
+          obj.lists[s] = self.lists.config[s].selected.name
+        }
+      })
+      return obj
+    },
     build() {
       let obj = {
         template: this.recipe.selected.template,
@@ -148,6 +161,20 @@ new Vue({
             }
           }
         }
+      }
+    },
+    descriptor: {
+      deep: true,
+      handler() {
+        var self = this
+        let name = this.descriptor.recipe.replace(/<\/?[^>]+(>|$)/g, 'XXXXX')
+        _.forEach(_.keys(this.descriptor.lists), function(s) {
+          if (!_.isNil(self.descriptor.lists[s])) {
+            name = name.replace('XXXXXXXXXX', self.descriptor.lists[s])
+          }
+        })
+        name = _.upperFirst(name)
+        this.save.name = name
       }
     }
   },

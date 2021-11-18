@@ -41,6 +41,12 @@ new Vue({
     columns() {
       return this.aggregations.settings.columns
     },
+    descriptor() {
+      return {
+        category: this.category,
+        query: _.isUndefined(this.query) ? null : _.get(this.query.selected, 'name')
+      }
+    },
     build() {
       let obj = {
         category: this.category,
@@ -168,6 +174,14 @@ new Vue({
       handler() {
         this.review.datawrapper = null
         this.review.warning = false
+      }
+    },
+    descriptor: {
+      deep: true,
+      handler() {
+        if (!_.isNull(this.descriptor.category) && !_.isNull(this.descriptor.query)) {
+          this.save.name = _.upperFirst(this.descriptor.category + ' of ' + this.descriptor.query)
+        }
       }
     }
   },

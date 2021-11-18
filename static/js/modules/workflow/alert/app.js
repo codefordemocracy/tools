@@ -25,6 +25,12 @@ new Vue({
     }
   },
   computed: {
+    descriptor() {
+      return {
+        event: this.trigger.event,
+        query: _.isUndefined(this.query) ? null : _.get(this.query.selected, 'name')
+      }
+    },
     build() {
       let obj = {
         trigger: this.trigger,
@@ -93,6 +99,17 @@ new Vue({
             if (!_.isEmpty(this.save.name)) {
               store.commit('workflow/complete')
             }
+          }
+        }
+      }
+    },
+    descriptor: {
+      deep: true,
+      handler() {
+        if (!_.isNull(this.descriptor.event) && !_.isNull(this.descriptor.query)) {
+          this.save.name = this.descriptor.query
+          if (this.descriptor.event == 'new_results') {
+            this.save.name = 'New Results for ' + this.save.name
           }
         }
       }
