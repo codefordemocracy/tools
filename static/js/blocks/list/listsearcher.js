@@ -66,6 +66,7 @@ const listsearcher = {
   },
   data() {
     return {
+      preset: null,
       preloaded: {},
       loaded: false,
       error: false,
@@ -78,6 +79,15 @@ const listsearcher = {
       let opts = []
       if (!_.isNull(this.subtype)) {
         opts = this.preloaded[this.subtype]
+        // show the passed in id first
+        if (!_.isNull(this.preset)) {
+          opts = _.concat(_.filter(opts, function(x) {
+            return x.id == self.preset
+          }), _.filter(opts, function(x) {
+            return x.id != self.preset
+          }))
+        }
+        // process filters
         if (this.settings.filters.visibility != 'all') {
           opts = _.filter(opts, {visibility: this.settings.filters.visibility})
         }
@@ -116,6 +126,12 @@ const listsearcher = {
           self.error = true
         })
       }
+    },
+    setPreset() {
+      // if there was an id passed in
+      if (!_.isEmpty(this.settings.selected)) {
+        this.preset = this.settings.selected.id
+      }
     }
   },
   watch: {
@@ -126,6 +142,9 @@ const listsearcher = {
           this.$emit('change', this.settings)
         }
       }
+    },
+    sequence() {
+      this.setPreset()
     }
   },
   created() {
@@ -136,5 +155,6 @@ const listsearcher = {
         self.loadObjects()
       }
     })
+    this.setPreset()
   }
 }

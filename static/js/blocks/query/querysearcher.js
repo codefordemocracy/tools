@@ -70,9 +70,9 @@ const querysearcher = {
       // show the passed in id first
       if (!_.isNull(this.preset)) {
         opts = _.concat(_.filter(this.preloaded, function(x) {
-          return x.id == self.settings.selected.id
+          return x.id == self.preset
         }), _.filter(this.preloaded, function(x) {
-          return x.id != self.settings.selected.id
+          return x.id != self.preset
         }))
       }
       // process filters
