@@ -10,3 +10,12 @@ export GOOGLE_APPLICATION_CREDENTIALS="XXXXXXXXXXXXXXXXX.json"
 export FLASK_ENV=development
 flask run
 ```
+
+## For Windows
+
+```
+pip install -r requirements.txt
+SET GOOGLE_APPLICATION_CREDENTIALS="XXXXXXXXXXXXXXXXX.json"
+SET FLASK_ENV=development
+flask run
+```
