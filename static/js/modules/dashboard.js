@@ -272,8 +272,11 @@ new Vue({
   },
   created() {
     var self = this
-    this.loadObjects()
     this.$store.watch((state) => store.state.auth.profile.email, (newValue, oldValue) => {
+      self.lists = false
+      self.queries = false
+      self.visualizations = false
+      self.alerts = false
       if (!_.isUndefined(newValue)) {
         self.loadObjects()
       }
