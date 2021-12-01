@@ -421,7 +421,10 @@ def route_api_visualization_aggregations_results():
                 elif data["aggregations"]["apply"][col] == "distinct":
                     aggs[col] = "nunique"
                     rename[col] = "count(distinct " + col + ")"
-        df = df.groupby(data["aggregations"]["groupby"], as_index=False).agg(aggs).rename(columns=rename)
+        try:
+            df = df.groupby(data["aggregations"]["groupby"], as_index=False).agg(aggs).rename(columns=rename)
+        except:
+            pass
     pages = []
     pagesize = 20
     for i in range(math.ceil(len(df)/pagesize)):
