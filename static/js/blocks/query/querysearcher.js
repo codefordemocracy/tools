@@ -93,7 +93,7 @@ const querysearcher = {
       // get queries
       axios.post('/api/queries/')
       .then(function(response) {
-        self.preloaded = _.orderBy(response.data, ['visibility', 'featured'], ['desc', 'asc'])
+        self.preloaded = _.orderBy(response.data, ['visibility', 'featured'], ['asc', 'asc'])
         self.loaded = true
         // fill out selected for cloning and editing
         if (!_.isNil(self.settings.selected.id) && _.isNil(self.settings.selected.created_at)) {
