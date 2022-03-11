@@ -23,7 +23,8 @@ new Vue({
       settings: {
         columns: [],
         apply: {},
-        groupby: []
+        groupby: [],
+        geoGroup: {}
       }
     },
     review: {
@@ -64,7 +65,9 @@ new Vue({
       return obj
     },
     buildable() {
-      return _.intersection(store.state.workflow.valid, [1,2,3]).length == 3
+
+        return _.intersection(store.state.workflow.valid, [1,2,3]).length == 3
+
     }
   },
   methods: {
@@ -91,28 +94,34 @@ new Vue({
         endpoint = '/api/visualization/edit/'
       }
       this.$store.dispatch('workflow/submit', {endpoint: endpoint, payload: this.build})
-      // send to datawrapper
+      // send to datawrapper -- this.build.datawrapper is settings in DATAWRAPPER function definition
       DATAWRAPPER(this.build.datawrapper, this.save.name, this.save.description)
     }
   },
   watch: {
     columns() {
-      var self = this
-      _.forEach(_.keys(this.aggregations.settings.apply), function(c) {
-        if (!_.includes(self.aggregations.settings.columns, c)) {
-          // delete the aggregation setting if it's no longer to be aggregated
-          delete self.aggregations.settings.apply[c]
-        }
-      })
-      _.forEach(this.aggregations.settings.columns, function(c) {
-        if (!_.includes(_.keys(self.aggregations.settings.apply), c)) {
-          // set up the aggregation setting if it's just been added
-          Vue.set(self.aggregations.settings.apply, c, self.aggregations.options[c][0])
-        }
-        // remove from groupby
-        self.aggregations.settings.groupby = _.difference(self.aggregations.settings.groupby, [c])
-      })
-    },
+     var self = this
+     _.forEach(_.keys(this.aggregations.settings.apply), function(c) {
+       if (!_.includes(self.aggregations.settings.columns, c)) {
+         // delete the aggregation setting if it's no longer to be aggregated
+         delete self.aggregations.settings.apply[c]
+       }
+     })
+     _.forEach(this.aggregations.settings.columns, function(c) {
+       if (!_.includes(_.keys(self.aggregations.settings.apply), c)) {
+         // set up the aggregation setting if it's just been added
+         Vue.set(self.aggregations.settings.apply, c, self.aggregations.options[c][0])
+       }
+       // remove from groupby
+       self.aggregations.settings.groupby = _.difference(self.aggregations.settings.groupby, [c])
+     })
+   },
+    // _.forEach(this.aggregations.settings.groupby, function(c) {
+    //   if (!_.includes(_.keys(self.aggregations.settings.groupby), c)) {
+    //     // set up the geogroup aggregation
+    //     Vue.set(self.aggregations.settings.geoGroup, c, 'us-counties')
+    //   }
+    // })
     build: {
       deep: true,
       handler() {
@@ -207,6 +216,9 @@ new Vue({
         }
         _.forEach(_.keys(response.data.aggregations.apply), function(c) {
           Vue.set(self.aggregations.settings.apply, c, response.data.aggregations.apply.c)
+        })
+        _.forEach(_.keys(response.data.aggregations.geoGroup), function(c) {
+          Vue.set(self.aggregations.settings.geoGroup, c, response.data.aggregations.geoGroup.c)
         })
         self.aggregations.settings = response.data.aggregations
         self.save.name = response.data.name

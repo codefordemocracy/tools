@@ -425,6 +425,48 @@ def route_api_visualization_aggregations_results():
             df = df.groupby(data["aggregations"]["groupby"], as_index=False).agg(aggs).rename(columns=rename)
         except:
             pass
+
+        # Get FIPS from ZIP
+        def getFIPS(c):
+
+            spread = pd.read_csv(r'geographicData\ZIPtoFIPS.csv')
+            fipsList = []
+
+            for i in range(len(df)):
+                try:
+                    zip = int(df[(str(data["aggregations"]["groupby"][0]))][i])
+                except ValueError:
+                    df.drop([i], inplace=True)
+                    continue
+
+                if (zip < 501 or zip > 99500):
+                    df.drop([i], inplace=True)
+
+                    continue
+
+                row = spread.loc[spread['ZIP'] == int(zip)].STCOUNTYFP.tolist()
+                # if a zip has multiple FIPS codes, just use the first one
+                try:
+                    fips = row[0]
+                except IndexError:
+                    fips = 0
+                fipsList.append(fips)
+
+            return fipsList
+
+        # Get map transformation
+        if len(data["aggregations"]["groupby"]) > 0 and len((data["aggregations"]["geoGroup"])) > 0:
+            aggs = []
+            rename = [];
+
+            v = (list((data["aggregations"]["geoGroup"]).values()))[0]
+
+            if v == 'us-counties':
+
+                df[(str(data["aggregations"]["groupby"][0]))] = getFIPS(df[(data["aggregations"]["groupby"])])
+                df.rename(columns={(str(data["aggregations"]["groupby"][0])): "us-county"}, inplace=True)
+
+
     pages = []
     pagesize = 20
     for i in range(math.ceil(len(df)/pagesize)):
