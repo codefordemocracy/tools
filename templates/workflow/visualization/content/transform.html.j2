@@ -28,9 +28,8 @@
   <div v-if="category=='map'" v-for="col in aggregations.settings.groupby" class="form-group">
     <label class="label">Geographic Boundaries<span class="text-info" v-if="!_.isEmpty(aggregations.settings.columns)">*</span></label>
     <p class="form-text-top">This selection will be used to determine what type of geography the map will display.</p>
-    <multiselect class="text-xs" v-model="aggregations.settings.geoGroup[col]" :options="['us-counties']" :multiple="false"></multiselect>
+    <multiselect class="text-xs" v-model="aggregations.settings.geoGroup[col]" :options="['us-counties', 'us-states']" :multiple="false"></multiselect>
   </div>
-
 
 
   <p class="text-xs text-muted" v-if="!_.isEmpty(aggregations.settings.columns)"><span class="text-info">*</span>This field is required.</p>
