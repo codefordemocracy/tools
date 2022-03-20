@@ -511,6 +511,16 @@ def route_api_visualization_aggregations_results():
     }
     return make_response(json.dumps(obj, default=utilities.convert))
 
+    def filterMapOptions(options):
+
+        mapOptions = []
+
+        for i in len(options):
+            if 'zip_code' in options[i]:
+                mapOptions.append(options[i])
+
+        return mapOptions
+
 #########################################################
 # explore endpoints
 #########################################################

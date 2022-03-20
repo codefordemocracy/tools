@@ -35,7 +35,7 @@ const DATAWRAPPER = function(settings, title, description) {
     if (!_.isNull(description)) {
       settings.description = description
     }
-    
+
 
  // Creating a fake form
     let form = document.createElement('form')
@@ -70,6 +70,7 @@ const COPY = function(payload) {
   document.execCommand('copy')
   document.body.removeChild(el)
 }
+
 
 // Generate sharelink
 const GENSHARELINK = function(route) {

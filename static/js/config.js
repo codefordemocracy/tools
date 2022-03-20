@@ -1,7 +1,7 @@
 /* URLs */
 
 const ROOTURL = 'https://tools.codefordemocracy.org'
-const ACCOUNTURL = 'http://127.0.0.1:3000/'
+const ACCOUNTURL = 'https://account.codefordemocracy.org'
 
 /* Placeholders */
 

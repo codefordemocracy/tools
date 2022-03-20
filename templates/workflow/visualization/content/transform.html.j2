@@ -18,12 +18,14 @@
     <p class="form-text-top">These columns will be used to describe the groups the aggregated values are aggregated across.</p>
     <multiselect class="text-xs" v-model="aggregations.settings.groupby" :options="_.difference(_.keys(this.aggregations.options), this.aggregations.settings.columns)" :multiple="true"></multiselect>
   </div>
-
    <div v-if="category=='map'" class="form-group">
     <label class="label">Group By<span class="text-info" v-if="!_.isEmpty(aggregations.settings.columns)">*</span></label>
-    <p class="form-text-top">These columns will be used to describe the groups the aggregated values are aggregated across; this should be the geographic grouping in the dataset.</p>
-    <multiselect class="text-xs" v-model="aggregations.settings.groupby" :options="_.difference(_.keys(this.aggregations.options), this.aggregations.settings.columns)" :multiple="true"></multiselect>
+    <p class="form-text-top">These columns will be used to describe the groups the aggregated values are aggregated across; this should be the geographic grouping in the dataset (e.g. ZIP codes).</p>
+    <multiselect class="text-xs" v-model="aggregations.settings.groupby" :options="(_.difference(_.keys(this.aggregations.options), this.aggregations.settings.columns)).filter(element => element.includes('zip_code'))" :multiple="true"></multiselect>
   </div>
+
+
+
 
   <div v-if="category=='map'" v-for="col in aggregations.settings.groupby" class="form-group">
     <label class="label">Geographic Boundaries<span class="text-info" v-if="!_.isEmpty(aggregations.settings.columns)">*</span></label>
