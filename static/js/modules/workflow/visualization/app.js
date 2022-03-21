@@ -98,21 +98,21 @@ new Vue({
   watch: {
     columns() {
       var self = this
-     _.forEach(_.keys(this.aggregations.settings.apply), function(c) {
-       if (!_.includes(self.aggregations.settings.columns, c)) {
-         // delete the aggregation setting if it's no longer to be aggregated
-         delete self.aggregations.settings.apply[c]
-       }
-     })
-     _.forEach(this.aggregations.settings.columns, function(c) {
-       if (!_.includes(_.keys(self.aggregations.settings.apply), c)) {
-         // set up the aggregation setting if it's just been added
-         Vue.set(self.aggregations.settings.apply, c, self.aggregations.options[c][0])
-       }
-       // remove from groupby
-       self.aggregations.settings.groupby = _.difference(self.aggregations.settings.groupby, [c])
-     })
-   },
+      _.forEach(_.keys(this.aggregations.settings.apply), function(c) {
+        if (!_.includes(self.aggregations.settings.columns, c)) {
+          // delete the aggregation setting if it's no longer to be aggregated
+          delete self.aggregations.settings.apply[c]
+        }
+      })
+      _.forEach(this.aggregations.settings.columns, function(c) {
+        if (!_.includes(_.keys(self.aggregations.settings.apply), c)) {
+          // set up the aggregation setting if it's just been added
+          Vue.set(self.aggregations.settings.apply, c, self.aggregations.options[c][0])
+        }
+        // remove from groupby
+        self.aggregations.settings.groupby = _.difference(self.aggregations.settings.groupby, [c])
+      })
+    },
     build: {
       deep: true,
       handler() {
