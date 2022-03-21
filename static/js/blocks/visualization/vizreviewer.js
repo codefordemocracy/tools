@@ -88,7 +88,6 @@ const vizreviewer = {
     var self = this
     // get formatted data
     axios.post('/api/visualization/aggregations/results/', {query: this.query, aggregations: this.aggregations})
-
     .then(function(response) {
       self.formatted = response.data
       self.loaded = true
@@ -111,7 +110,6 @@ const vizreviewer = {
         }  else if (self.category == 'map') {
             datawrapper.type = 'd3-maps-choropleth'
             datawrapper.metadata = {"visualize": {"basemap": String(Object.values(self.aggregations.geoGroup))}};
-
           }
         if (self.formatted.count > 0) {
           datawrapper.data += _.join(_.keys(self.formatted.pages[0][0]), ';')
@@ -121,9 +119,7 @@ const vizreviewer = {
             })
           })
         }
-
         self.$emit('datawrapper', datawrapper)
-
       }
     })
     .catch(function(error) {

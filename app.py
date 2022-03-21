@@ -429,7 +429,7 @@ def route_api_visualization_aggregations_results():
         # Get FIPS from ZIP
         def getFIPS(c):
 
-            spread = pd.read_csv(r'geographicData\ZIPtoFIPS.csv')
+            spread = pd.read_csv(r'static\geographicData\ZIPtoFIPS.csv')
             fipsList = []
 
             for i in range(len(df)):
@@ -456,7 +456,7 @@ def route_api_visualization_aggregations_results():
         # Get state from ZIP
         def getState(c):
 
-            spread = pd.read_csv(r'geographicData\ZIPtoState.csv')
+            spread = pd.read_csv(r'static\geographicData\ZIPtoState.csv')
             stateList = []
 
             for i in range(len(df)):
@@ -510,16 +510,6 @@ def route_api_visualization_aggregations_results():
         "pages": pages
     }
     return make_response(json.dumps(obj, default=utilities.convert))
-
-    def filterMapOptions(options):
-
-        mapOptions = []
-
-        for i in len(options):
-            if 'zip_code' in options[i]:
-                mapOptions.append(options[i])
-
-        return mapOptions
 
 #########################################################
 # explore endpoints

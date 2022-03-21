@@ -29,14 +29,11 @@ const POPUP = function(url, name, ratio, main) {
 
 // Send to datawrapper
 const DATAWRAPPER = function(settings, title, description) {
-
   if (!_.isNil(settings)) {
     settings.title = title
     if (!_.isNull(description)) {
       settings.description = description
     }
-
-
  // Creating a fake form
     let form = document.createElement('form')
     form.setAttribute('method', 'post')
@@ -70,7 +67,6 @@ const COPY = function(payload) {
   document.execCommand('copy')
   document.body.removeChild(el)
 }
-
 
 // Generate sharelink
 const GENSHARELINK = function(route) {

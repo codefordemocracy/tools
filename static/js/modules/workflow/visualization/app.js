@@ -65,9 +65,7 @@ new Vue({
       return obj
     },
     buildable() {
-
-        return _.intersection(store.state.workflow.valid, [1,2,3]).length == 3
-
+      return _.intersection(store.state.workflow.valid, [1,2,3]).length == 3
     }
   },
   methods: {
@@ -94,13 +92,12 @@ new Vue({
         endpoint = '/api/visualization/edit/'
       }
       this.$store.dispatch('workflow/submit', {endpoint: endpoint, payload: this.build})
-      // send to datawrapper -- this.build.datawrapper is settings in DATAWRAPPER function definition
       DATAWRAPPER(this.build.datawrapper, this.save.name, this.save.description)
     }
   },
   watch: {
     columns() {
-     var self = this
+      var self = this
      _.forEach(_.keys(this.aggregations.settings.apply), function(c) {
        if (!_.includes(self.aggregations.settings.columns, c)) {
          // delete the aggregation setting if it's no longer to be aggregated
@@ -116,12 +113,6 @@ new Vue({
        self.aggregations.settings.groupby = _.difference(self.aggregations.settings.groupby, [c])
      })
    },
-    // _.forEach(this.aggregations.settings.groupby, function(c) {
-    //   if (!_.includes(_.keys(self.aggregations.settings.groupby), c)) {
-    //     // set up the geogroup aggregation
-    //     Vue.set(self.aggregations.settings.geoGroup, c, 'us-counties')
-    //   }
-    // })
     build: {
       deep: true,
       handler() {
