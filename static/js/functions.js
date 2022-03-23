@@ -34,10 +34,13 @@ const DATAWRAPPER = function(settings, title, description) {
     if (!_.isNull(description)) {
       settings.description = description
     }
+ // Creating a fake form
     let form = document.createElement('form')
     form.setAttribute('method', 'post')
     form.setAttribute('target', '_blank')
     form.setAttribute('action', 'https://app.datawrapper.de/create/')
+    // lodash library for json manipulations
+    // For every key in json (settings), create a new hidden input. Set attribute name to key name and values to JSON values
     _.forEach(_.keys(settings), function(key) {
       let input = document.createElement('input')
       input.setAttribute('type', 'hidden')
@@ -45,6 +48,7 @@ const DATAWRAPPER = function(settings, title, description) {
       input.setAttribute('value', key === 'metadata' ? JSON.stringify(settings[key]) : settings[key])
       form.appendChild(input)
     })
+    // Add form, submit, delete form
     document.body.appendChild(form)
     form.submit()
     document.body.removeChild(form)

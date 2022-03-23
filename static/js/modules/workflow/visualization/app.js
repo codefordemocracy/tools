@@ -23,7 +23,8 @@ new Vue({
       settings: {
         columns: [],
         apply: {},
-        groupby: []
+        groupby: [],
+        geoGroup: {}
       }
     },
     review: {
@@ -91,7 +92,6 @@ new Vue({
         endpoint = '/api/visualization/edit/'
       }
       this.$store.dispatch('workflow/submit', {endpoint: endpoint, payload: this.build})
-      // send to datawrapper
       DATAWRAPPER(this.build.datawrapper, this.save.name, this.save.description)
     }
   },
@@ -207,6 +207,9 @@ new Vue({
         }
         _.forEach(_.keys(response.data.aggregations.apply), function(c) {
           Vue.set(self.aggregations.settings.apply, c, response.data.aggregations.apply.c)
+        })
+        _.forEach(_.keys(response.data.aggregations.geoGroup), function(c) {
+          Vue.set(self.aggregations.settings.geoGroup, c, response.data.aggregations.geoGroup.c)
         })
         self.aggregations.settings = response.data.aggregations
         self.save.name = response.data.name

@@ -425,6 +425,82 @@ def route_api_visualization_aggregations_results():
             df = df.groupby(data["aggregations"]["groupby"], as_index=False).agg(aggs).rename(columns=rename)
         except:
             pass
+
+        # Get FIPS from ZIP
+        def getFIPS(c):
+
+            spread = pd.read_csv(r'static\geographicData\ZIPtoFIPS.csv')
+            fipsList = []
+
+            for i in range(len(df)):
+                try:
+                    zip = int(df[(str(data["aggregations"]["groupby"][0]))][i])
+                except ValueError:
+                    df.drop([i], inplace=True)
+                    continue
+
+                if (zip < 501 or zip > 99500):
+                    df.drop([i], inplace=True)
+                    continue
+
+                row = spread.loc[spread['ZIP'] == int(zip)].STCOUNTYFP.tolist()
+                # if a zip has multiple FIPS codes, just use the first one
+                try:
+                    fips = row[0]
+                except IndexError:
+                    fips = 0
+                fipsList.append(fips)
+
+            return fipsList
+
+        # Get state from ZIP
+        def getState(c):
+
+            spread = pd.read_csv(r'static\geographicData\ZIPtoState.csv')
+            stateList = []
+
+            for i in range(len(df)):
+                try:
+                    zip = int(df[(str(data["aggregations"]["groupby"][0]))][i])
+                except ValueError:
+                    df.drop([i], inplace=True)
+                    continue
+
+
+                if (zip < 501 or zip > 99500):
+                    df.drop([i], inplace=True)
+                    continue
+
+                row = spread.loc[spread['zipcode'] == str(zip)].state_fips.tolist()
+
+                # if a zip has multiple FIPS codes, just use the first one
+                try:
+                    state = row[0]
+                except IndexError:
+                    df.drop([i], inplace=True)
+                    continue
+                stateList.append(state)
+
+            return stateList
+
+        # Get map transformation
+        if len(data["aggregations"]["groupby"]) > 0 and len((data["aggregations"]["geoGroup"])) > 0:
+            aggs = []
+            rename = [];
+
+            v = (list((data["aggregations"]["geoGroup"]).values()))[0]
+
+            if v == 'us-counties':
+
+                df[(str(data["aggregations"]["groupby"][0]))] = getFIPS(df[(data["aggregations"]["groupby"])])
+                df.rename(columns={(str(data["aggregations"]["groupby"][0])): "us-county"}, inplace=True)
+
+            elif v == 'us-states':
+
+                df[(str(data["aggregations"]["groupby"][0]))] = getState(df[(data["aggregations"]["groupby"])])
+                df.rename(columns={(str(data["aggregations"]["groupby"][0])): "us-state"}, inplace=True)
+
+
     pages = []
     pagesize = 20
     for i in range(math.ceil(len(df)/pagesize)):
