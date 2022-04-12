@@ -1,4 +1,5 @@
 .gcloudignore
+*.pyc
 .DS_Store
 __pycache__/
 .pyc
