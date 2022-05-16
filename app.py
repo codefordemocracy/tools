@@ -429,7 +429,7 @@ def route_api_visualization_aggregations_results():
         # Get FIPS from ZIP
         def getFIPS(c):
 
-            spread = pd.read_csv(r'static\geographicData\ZIPtoFIPS.csv')
+            spread = pd.read_csv('static/geo/ZIPtoFIPS.csv')
             fipsList = []
 
             for i in range(len(df)):
@@ -456,7 +456,7 @@ def route_api_visualization_aggregations_results():
         # Get state from ZIP
         def getState(c):
 
-            spread = pd.read_csv(r'static\geographicData\ZIPtoState.csv')
+            spread = pd.read_csv('static/geo/ZIPtoState.csv')
             stateList = []
 
             for i in range(len(df)):
